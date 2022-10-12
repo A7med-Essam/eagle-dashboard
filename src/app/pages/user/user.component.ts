@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
 
@@ -26,6 +27,7 @@ export class UserComponent implements OnInit {
   constructor(
     private _UsersService: UsersService,
     private _FormBuilder: FormBuilder,
+    private _SharedService: SharedService,
     private _ToastrService: ToasterService
   ) {}
 
@@ -54,9 +56,9 @@ export class UserComponent implements OnInit {
         if (res.status == 1) {
           this.getAdmins();
           this._ToastrService.setToaster(res.message, "success", "success");
-          this.fadeOut(this.userForm.nativeElement);
+          this._SharedService.fadeOut(this.adminForm.nativeElement);
           setTimeout(() => {
-            this.fadeIn(this.userTable.nativeElement);
+            this._SharedService.fadeIn(this.userTable.nativeElement);
           }, 800);
         }
       },
@@ -66,9 +68,9 @@ export class UserComponent implements OnInit {
   }
 
   getAdminForm() {
-    this.fadeOut(this.userTable.nativeElement);
+    this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
-      this.fadeIn(this.adminForm.nativeElement);
+      this._SharedService.fadeIn(this.adminForm.nativeElement);
     }, 800);
   }
 
@@ -80,9 +82,9 @@ export class UserComponent implements OnInit {
       if (res.status == 1) {
         this.getAdmins();
         this._ToastrService.setToaster(res.message, "success", "success");
-        this.fadeOut(this.userForm.nativeElement);
+        this._SharedService.fadeOut(this.userForm.nativeElement);
         setTimeout(() => {
-          this.fadeIn(this.userTable.nativeElement);
+          this._SharedService.fadeIn(this.userTable.nativeElement);
         }, 800);
       }
     });
@@ -90,23 +92,9 @@ export class UserComponent implements OnInit {
 
   editAdmin(user) {
     this.setUserForm(user);
-    this.fadeOut(this.userTable.nativeElement);
+    this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
-      this.fadeIn(this.userForm.nativeElement);
-    }, 800);
-  }
-
-  fadeIn(e: HTMLElement) {
-    e.classList.add("fadeIn");
-    e.classList.remove("fadeOut");
-    e.classList.remove("d-none");
-  }
-
-  fadeOut(e: HTMLElement) {
-    e.classList.add("fadeOut");
-    e.classList.remove("fadeIn");
-    setTimeout(() => {
-      e.classList.add("d-none");
+      this._SharedService.fadeIn(this.userForm.nativeElement);
     }, 800);
   }
 

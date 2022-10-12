@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^13.2.6",
-    "@angular/cdk": "^13.2.6",
+    "@angular/cdk": "^13.3.9",
     "@angular/common": "^13.2.6",
     "@angular/compiler": "^13.2.6",
     "@angular/core": "^13.2.6",
@@ -40,6 +40,7 @@
     "jquery": "3.5.1",
     "moment": "2.29.1",
     "ngx-toastr": "14.3.0",
+    "primeng": "^13.4.1",
     "rxjs": "^7.5.5",
     "secure-web-storage": "^1.0.2",
     "zone.js": "~0.11.5"
