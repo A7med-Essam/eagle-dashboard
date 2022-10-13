@@ -8,7 +8,7 @@
             <i class="fa-solid fa-filter"></i>
             Filter
           </button>
-          <button class="btn btn-primary m-1">
+          <button class="btn btn-primary m-1" (click)="exportLeads()">
             <i class="fa-regular fa-file-excel"></i>
             Export
           </button>
@@ -165,7 +165,7 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -176,7 +176,7 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -187,20 +187,20 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Gear Type</label>
                 <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-                  [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
+                  filter="true" [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Grade</label>
-                <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value"
+                <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" filter="true"
                   [(ngModel)]="selectedGrade" formControlName='grade'>
                 </p-dropdown>
               </div>
@@ -209,7 +209,7 @@
               <div class="form-group">
                 <label>Car Model</label>
                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-                  [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
+                  filter="true" [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -265,34 +265,34 @@
               <div class="form-group">
                 <label>Car Name</label>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Car Color</label>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Car Type</label>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
-                  optionValue="value"></p-dropdown>
+                  filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Gear Type</label>
                 <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-                  [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
+                  filter="true" [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Grade</label>
-                <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value"
+                <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" filter="true"
                   [(ngModel)]="selectedGrade" formControlName='grade'>
                 </p-dropdown>
               </div>
@@ -301,7 +301,7 @@
               <div class="form-group">
                 <label>Car Model</label>
                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-                  [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
+                  filter="true" [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -350,7 +350,7 @@
       <div class="col-xl-3 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Car Name</label>
-          <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
+          <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name' filter="true"
             appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
@@ -358,7 +358,7 @@
         <div class="form-group">
           <label>Car Color</label>
           <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-            appendTo="body" optionValue="value"></p-dropdown>
+            filter="true" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
       <div class="col-xl-3 pr-xl-1 col-lg-6">
@@ -387,7 +387,7 @@
         <div class="form-group">
           <label>Car Model</label>
           <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-            appendTo="body" optionValue="value"></p-dropdown>
+            filter="true" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
       <div class="col-xl-3 pr-xl-1 col-lg-6">
@@ -417,7 +417,6 @@
     <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
   </ng-template>
 </p-dialog>
-
 
 <p-dialog header="Car Setting" [(visible)]="addCarNameModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
@@ -466,7 +465,7 @@
 
 
 
-<!-- TODO: Export Complete 0% -->
+<!-- TODO: MODAL EXIT (DISPLAY) -->
 <!-- TODO: Show UI Complete 90% -->
-<!-- TODO: Pagination Complete 95% (missing call function on change) -->
-<!-- TODO: add search in dropdown -->
+<!-- TODO: handle not authorized account -->
+<!-- TODO: replay - assign - replies -->

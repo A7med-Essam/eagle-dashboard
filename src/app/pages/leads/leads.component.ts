@@ -37,10 +37,10 @@ export class LeadsComponent implements OnInit {
   addCarColorModal: boolean = false;
   addCarTypeModal: boolean = false;
 
-  @ViewChild("LeadsTable") LeadsTable;
-  @ViewChild("ShowLead") ShowLead;
-  @ViewChild("CreateForm") CreateForm;
-  @ViewChild("EditForm") EditForm;
+  @ViewChild("LeadsTable") LeadsTable: any;
+  @ViewChild("ShowLead") ShowLead: any;
+  @ViewChild("CreateForm") CreateForm: any;
+  @ViewChild("EditForm") EditForm: any;
 
   leadForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
@@ -94,24 +94,20 @@ export class LeadsComponent implements OnInit {
     this.getCarType();
   }
 
-  getAllLeads() {
-    this._LeadsService.getLeads().subscribe({
+  getAllLeads(page = 1) {
+    this._LeadsService.getLeads(page).subscribe({
       next: (res) => {
         this.leads = res.data.data;
         this.pagination = res.data;
-        // this.pagination.totalPages = Math.ceil(
-        //   this.pagination.total / this.pagination.per_page
-        // );
       },
     });
   }
 
   loadPage(page: number) {
-    // this.getAllLeads();
-    console.log(page);
+    this.getAllLeads(page);
   }
 
-  getLeadById(id) {
+  getLeadById(id: any) {
     [this.currentLead] = this.leads.filter((lead) => lead.id == id);
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
@@ -119,7 +115,7 @@ export class LeadsComponent implements OnInit {
     }, 800);
   }
 
-  deleteLead(id) {
+  deleteLead(id: any) {
     this._LeadsService.deleteLeads(id).subscribe({
       next: (res) => {
         this.getAllLeads();
@@ -131,7 +127,7 @@ export class LeadsComponent implements OnInit {
     });
   }
 
-  createLead(form) {
+  createLead(form: any) {
     this._LeadsService.createLeads(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
@@ -149,7 +145,7 @@ export class LeadsComponent implements OnInit {
     });
   }
 
-  setLeadForm(lead?) {
+  setLeadForm(lead?: any) {
     let km = null;
     if (lead) {
       km = Number(lead.kilometer.slice(0, -1));
@@ -187,7 +183,7 @@ export class LeadsComponent implements OnInit {
   getCarName() {
     this.carName = [{ name: "Select Car Name", value: "" }];
     this._CarService.getCarName().subscribe((res) => {
-      res.data.forEach((e) => {
+      res.data.forEach((e: any) => {
         this.carName.push({ name: e.car_name, value: e.car_name });
       });
     });
@@ -196,7 +192,7 @@ export class LeadsComponent implements OnInit {
   getCarColor() {
     this.carColor = [{ name: "Select Car Color", value: "" }];
     this._CarService.getCarColor().subscribe((res) => {
-      res.data.forEach((e) => {
+      res.data.forEach((e: any) => {
         this.carColor.push({ name: e.car_color, value: e.car_color });
       });
     });
@@ -205,7 +201,7 @@ export class LeadsComponent implements OnInit {
   getCarType() {
     this.carType = [{ name: "Select Car Type", value: "" }];
     this._CarService.getCarType().subscribe((res) => {
-      res.data.forEach((e) => {
+      res.data.forEach((e: any) => {
         this.carType.push({ name: e.car_type, value: e.car_type });
       });
     });
@@ -219,7 +215,7 @@ export class LeadsComponent implements OnInit {
     }, 800);
   }
 
-  editLead(lead) {
+  editLead(lead: any) {
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.EditForm.nativeElement);
@@ -228,7 +224,7 @@ export class LeadsComponent implements OnInit {
     this.currentEditRow = lead;
   }
 
-  updateLead(form) {
+  updateLead(form: any) {
     this.leadForm.addControl(
       "lead_id",
       new FormControl(this.currentEditRow.id, Validators.required)
@@ -254,7 +250,7 @@ export class LeadsComponent implements OnInit {
     this.getAllLeads();
   }
 
-  filterLeads(form) {
+  filterLeads(form: any) {
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
@@ -288,6 +284,16 @@ export class LeadsComponent implements OnInit {
       next: (res) => {
         this.getCarType();
         this.addCarTypeModal = false;
+      },
+    });
+  }
+
+  exportLeads() {
+    this._LeadsService.exportLeads().subscribe({
+      next: (res) => {
+        const link = document.createElement("a");
+        link.href = res.data;
+        link.click();
       },
     });
   }

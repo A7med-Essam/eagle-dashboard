@@ -8,8 +8,8 @@ import { Observable } from "rxjs";
 export class LeadsService {
   constructor(private _ApiService: ApiService) {}
 
-  getLeads(): Observable<any> {
-    return this._ApiService.postReq("leads", "");
+  getLeads(page = 1): Observable<any> {
+    return this._ApiService.postReq(`leads?page=${page}`, "");
   }
 
   getLeadsById(lead_id): Observable<any> {
@@ -42,5 +42,9 @@ export class LeadsService {
 
   filterLeads(filter): Observable<any> {
     return this._ApiService.postReq("leads", filter);
+  }
+
+  exportLeads() {
+    return this._ApiService.postReq("lead/exportLeads", "");
   }
 }

@@ -18,7 +18,9 @@ export class CarService {
   }
 
   deleteCarName(car_name_id): Observable<any> {
-    return this._ApiService.postReq("leads", { car_name_id: car_name_id });
+    return this._ApiService.postReq("deleteCarName", {
+      car_name_id: car_name_id,
+    });
   }
 
   // color
