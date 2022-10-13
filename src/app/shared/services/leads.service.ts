@@ -39,4 +39,8 @@ export class LeadsService {
   getRepliesByLeadsId(lead_id): Observable<any> {
     return this._ApiService.postReq("leads/replies", lead_id);
   }
+
+  filterLeads(filter): Observable<any> {
+    return this._ApiService.postReq("leads", filter);
+  }
 }
