@@ -13,26 +13,26 @@ export const ROUTES: RouteInfo[] = [
   { path: "/leads", title: "leads", icon: "nc-diamond", class: "" },
   { path: "/cars", title: "car settings", icon: "nc-delivery-fast", class: "" },
 
-  {
-    path: "/notifications",
-    title: "Notifications",
-    icon: "nc-bell-55",
-    class: "",
-  },
-  { path: "/table", title: "Table List", icon: "nc-tile-56", class: "" },
-  {
-    path: "/typography",
-    title: "Typography",
-    icon: "nc-caps-small",
-    class: "",
-  },
-  {
-    path: "/upgrade",
-    title: "Upgrade to PRO",
-    icon: "nc-spaceship",
-    class: "active-pro",
-  },
-  { path: "/icons", title: "icons", icon: "nc-pin-3", class: "" },
+  // {
+  //   path: "/notifications",
+  //   title: "Notifications",
+  //   icon: "nc-bell-55",
+  //   class: "",
+  // },
+  // { path: "/table", title: "Table List", icon: "nc-tile-56", class: "" },
+  // {
+  //   path: "/typography",
+  //   title: "Typography",
+  //   icon: "nc-caps-small",
+  //   class: "",
+  // },
+  // {
+  //   path: "/upgrade",
+  //   title: "Upgrade to PRO",
+  //   icon: "nc-spaceship",
+  //   class: "active-pro",
+  // },
+  // { path: "/icons", title: "icons", icon: "nc-pin-3", class: "" },
   // { path: "/maps", title: "Maps", icon: "nc-pin-3", class: "" },
 ];
 

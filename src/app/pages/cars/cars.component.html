@@ -18,9 +18,9 @@
           <tbody class="text-center">
             <tr *ngFor="let car of carName; let i = index">
               <td>{{i+1}}</td>
-              <td>{{car.car_name}}</td>
+              <td>{{car.car_name | uppercase}}</td>
               <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarName(car.id)">Delete</button>
+                <button class="btn btn-danger mx-2" (click)="deleteCarNameConfirm(car.id)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -48,9 +48,9 @@
           <tbody class="text-center">
             <tr *ngFor="let car of carColor; let i = index">
               <td>{{i+1}}</td>
-              <td>{{car.car_color}}</td>
+              <td>{{car.car_color | uppercase}}</td>
               <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarColor(car.id)">Delete</button>
+                <button class="btn btn-danger mx-2" (click)="deleteCarColorConfirm(car.id)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -78,9 +78,9 @@
           <tbody class="text-center">
             <tr *ngFor="let car of carType; let i = index">
               <td>{{i+1}}</td>
-              <td>{{car.car_type}}</td>
+              <td>{{car.car_type | uppercase}}</td>
               <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarType(car.id)">Delete</button>
+                <button class="btn btn-danger mx-2" (click)="deleteCarTypeConfirm(car.id)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -135,3 +135,6 @@
     <button class="btn btn-primary m-1" (click)="addCarType(CarType)">Add</button>
   </ng-template>
 </p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

@@ -5,7 +5,8 @@
         <h4 class="card-title">Users Table</h4>
         <div class="text-center">
           <div class="input-group no-border">
-            <input type="text" value="" placeholder="Search..." class="form-control">
+            <input type="text" value="" placeholder="Search..." class="form-control" #searchInput
+              (keydown)="search(searchInput)">
             <div class="input-group-append">
               <div class="input-group-text">
                 <i class="nc-icon nc-zoom-split"></i>
@@ -38,8 +39,8 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
-                  <button class="btn btn-info mx-2" (click)="editAdmin(user)">edit</button>
-                  <button class="btn btn-danger mx-2" (click)="deleteAdmin(user)">delete</button>
+                  <button class="btn btn-info mx-2" (click)="editAdmin(user)">Edit</button>
+                  <button class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -208,7 +209,8 @@
   </div>
 </div>
 
-
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
 
 <!-- <div class="row animated d-none" #userForm>
   <div class="col-md-4">

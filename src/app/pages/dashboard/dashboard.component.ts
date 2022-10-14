@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
 
           xAxes: [
             {
-              // barPercentage: 1.6,
+              barPercentage: 1.6,
               gridLines: {
                 drawBorder: false,
                 color: "rgba(255,255,255,0.1)",
@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit {
 
           xAxes: [
             {
-              // barPercentage: 1.6,
+              barPercentage: 1.6,
               gridLines: {
                 drawBorder: false,
                 color: "rgba(255,255,255,0.1)",
@@ -220,11 +220,11 @@ export class DashboardComponent implements OnInit {
       },
     };
 
-    // var lineChart = new Chart(speedCanvas, {
-    //   type: "line",
-    //   hover: false,
-    //   data: speedData,
-    //   options: chartOptions,
-    // });
+    var lineChart = new Chart(speedCanvas, {
+      type: "line",
+      // hover: false,
+      data: speedData,
+      // options: chartOptions,
+    });
   }
 }

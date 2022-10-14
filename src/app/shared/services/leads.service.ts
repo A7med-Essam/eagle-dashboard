@@ -32,12 +32,12 @@ export class LeadsService {
     return this._ApiService.postReq("leads/replay", replay);
   }
 
-  assignAdminsByLeadsId(Admins): Observable<any> {
+  assignUsers(Admins): Observable<any> {
     return this._ApiService.postReq("leads/assign", Admins);
   }
 
   getRepliesByLeadsId(lead_id): Observable<any> {
-    return this._ApiService.postReq("leads/replies", lead_id);
+    return this._ApiService.postReq("lead/replies", { lead_id: lead_id });
   }
 
   filterLeads(filter): Observable<any> {

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -9,11 +10,14 @@ import { CarService } from "app/shared/services/car.service";
 import { LeadsService } from "app/shared/services/leads.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
+import { UsersService } from "app/shared/services/users.service";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
   selector: "leads-cmp",
   moduleId: module.id,
   templateUrl: "leads.component.html",
+  providers: [ConfirmationService],
 })
 export class LeadsComponent implements OnInit {
   pagination: any;
@@ -25,6 +29,7 @@ export class LeadsComponent implements OnInit {
   carType: any[] = [];
   carName: any[] = [];
   carColor: any[] = [];
+  allReplies: any[] = [];
   selectedGrade: any;
   selectedCarModel: any;
   selectedGearType: any;
@@ -36,6 +41,9 @@ export class LeadsComponent implements OnInit {
   addCarNameModal: boolean = false;
   addCarColorModal: boolean = false;
   addCarTypeModal: boolean = false;
+  allRepliesModal: boolean = false;
+  addReplayModal: boolean = false;
+  assignModal: boolean = false;
 
   @ViewChild("LeadsTable") LeadsTable: any;
   @ViewChild("ShowLead") ShowLead: any;
@@ -50,6 +58,8 @@ export class LeadsComponent implements OnInit {
     private _SharedService: SharedService,
     private _ToastrService: ToasterService,
     private _CarService: CarService,
+    private _UsersService: UsersService,
+    private _ConfirmationService: ConfirmationService,
     private _FormBuilder: FormBuilder
   ) {
     this.insurance = [
@@ -92,6 +102,8 @@ export class LeadsComponent implements OnInit {
     this.getCarName();
     this.getCarColor();
     this.getCarType();
+    this.getAdmins();
+    this.setAdminForm();
   }
 
   getAllLeads(page = 1) {
@@ -99,6 +111,9 @@ export class LeadsComponent implements OnInit {
       next: (res) => {
         this.leads = res.data.data;
         this.pagination = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }
@@ -182,28 +197,43 @@ export class LeadsComponent implements OnInit {
 
   getCarName() {
     this.carName = [{ name: "Select Car Name", value: "" }];
-    this._CarService.getCarName().subscribe((res) => {
-      res.data.forEach((e: any) => {
-        this.carName.push({ name: e.car_name, value: e.car_name });
-      });
+    this._CarService.getCarName().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.carName.push({ name: e.car_name, value: e.car_name });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
     });
   }
 
   getCarColor() {
     this.carColor = [{ name: "Select Car Color", value: "" }];
-    this._CarService.getCarColor().subscribe((res) => {
-      res.data.forEach((e: any) => {
-        this.carColor.push({ name: e.car_color, value: e.car_color });
-      });
+    this._CarService.getCarColor().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.carColor.push({ name: e.car_color, value: e.car_color });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
     });
   }
 
   getCarType() {
     this.carType = [{ name: "Select Car Type", value: "" }];
-    this._CarService.getCarType().subscribe((res) => {
-      res.data.forEach((e: any) => {
-        this.carType.push({ name: e.car_type, value: e.car_type });
-      });
+    this._CarService.getCarType().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.carType.push({ name: e.car_type, value: e.car_type });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
     });
   }
 
@@ -258,6 +288,8 @@ export class LeadsComponent implements OnInit {
         this.pagination = res.data;
         this.setFilterForm();
       },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -267,6 +299,8 @@ export class LeadsComponent implements OnInit {
         this.getCarName();
         this.addCarNameModal = false;
       },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -276,6 +310,8 @@ export class LeadsComponent implements OnInit {
         this.getCarColor();
         this.addCarColorModal = false;
       },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -285,6 +321,8 @@ export class LeadsComponent implements OnInit {
         this.getCarType();
         this.addCarTypeModal = false;
       },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -294,6 +332,87 @@ export class LeadsComponent implements OnInit {
         const link = document.createElement("a");
         link.href = res.data;
         link.click();
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getAllReplies(id: number) {
+    this.allRepliesModal = true;
+    this._LeadsService.getRepliesByLeadsId(id).subscribe({
+      next: (res) => {
+        this.allReplies = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addReplay(replay: HTMLTextAreaElement) {
+    this._LeadsService
+      .replayLeads({ lead_id: this.currentLead.id, replay: replay.value })
+      .subscribe({
+        next: (res) => {
+          this.addReplayModal = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  assignUsers(users) {
+    this._LeadsService
+      .assignUsers({ lead_id: this.currentLead.id, user_ids: users.user_ids })
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.assignModal = false;
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  users: Array<any> = [];
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe({
+      next: (res) => (this.users = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  AssignForm: FormGroup = new FormGroup({});
+
+  onCheckChange(event, status: string = "edit") {
+    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    if (event.target.checked)
+      formArray.push(new FormControl(event.target.value));
+    else {
+      let i: number = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  setAdminForm() {
+    this.AssignForm = this._FormBuilder.group({
+      user_ids: new FormArray([]),
+    });
+  }
+
+  deleteConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteLead(id);
       },
     });
   }

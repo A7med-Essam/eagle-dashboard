@@ -9,14 +9,18 @@ import {
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
   selector: "user-cmp",
   moduleId: module.id,
   templateUrl: "user.component.html",
+  providers: [ConfirmationService],
 })
 export class UserComponent implements OnInit {
   users: any[];
+  backUpUsers: any;
+
   @ViewChild("adminForm") adminForm;
   @ViewChild("userForm") userForm;
   @ViewChild("userTable") userTable;
@@ -28,6 +32,7 @@ export class UserComponent implements OnInit {
     private _UsersService: UsersService,
     private _FormBuilder: FormBuilder,
     private _SharedService: SharedService,
+    private _ConfirmationService: ConfirmationService,
     private _ToastrService: ToasterService
   ) {}
 
@@ -41,13 +46,19 @@ export class UserComponent implements OnInit {
   getAdmins() {
     this._UsersService.getAdmins().subscribe((res) => {
       this.users = res.data;
+      this.backUpUsers = res.data;
     });
   }
 
   deleteAdmin(user) {
-    this._UsersService
-      .deleteAdmin({ admin_id: user.id })
-      .subscribe((res) => this.getAdmins());
+    this._UsersService.deleteAdmin({ admin_id: user.id }).subscribe({
+      next: (res) => {
+        this.getAdmins();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
   }
 
   createAdmin(admin) {
@@ -63,7 +74,7 @@ export class UserComponent implements OnInit {
         }
       },
       error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "warning", "warning"),
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -78,15 +89,19 @@ export class UserComponent implements OnInit {
     if (!user.value.password) this.editUserForm.removeControl("password");
     if (!user.value.permissions.length)
       this.editUserForm.removeControl("permissions");
-    this._UsersService.updateAdmin(user.value).subscribe((res) => {
-      if (res.status == 1) {
-        this.getAdmins();
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this._SharedService.fadeOut(this.userForm.nativeElement);
-        setTimeout(() => {
-          this._SharedService.fadeIn(this.userTable.nativeElement);
-        }, 800);
-      }
+    this._UsersService.updateAdmin(user.value).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          this.getAdmins();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this._SharedService.fadeOut(this.userForm.nativeElement);
+          setTimeout(() => {
+            this._SharedService.fadeIn(this.userTable.nativeElement);
+          }, 800);
+        }
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
@@ -157,5 +172,27 @@ export class UserComponent implements OnInit {
         i++;
       });
     }
+  }
+
+  deleteConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteAdmin(id);
+      },
+    });
+  }
+
+  search(e: HTMLInputElement) {
+    setTimeout(() => {
+      if (e.value) {
+        const val = e.value.toUpperCase();
+        this.users = this.users.filter((user) => {
+          if (user.name.toUpperCase().includes(val)) return user;
+        });
+      } else {
+        this.users = this.backUpUsers;
+      }
+    }, 1);
   }
 }

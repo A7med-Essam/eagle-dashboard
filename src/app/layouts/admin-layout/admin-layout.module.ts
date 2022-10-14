@@ -18,6 +18,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { DropdownModule } from "primeng/dropdown";
 import { DialogModule } from "primeng/dialog";
 import { CalendarModule } from "primeng/calendar";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { CalendarModule } from "primeng/calendar";
     DropdownModule,
     DialogModule,
     CalendarModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     DashboardComponent,

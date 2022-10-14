@@ -43,7 +43,7 @@
                       class="fa-regular fa-eye"></i></button>
                   <button class="btn btn-info m-1 px-3" (click)="editLead(lead)"><i
                       class="fa-regular fa-pen-to-square"></i></button>
-                  <button class="btn btn-danger m-1 px-3" (click)="deleteLead(lead.id)"><i
+                  <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(lead.id)"><i
                       class="fa-solid fa-trash-can"></i></button>
                 </td>
               </tr>
@@ -61,74 +61,88 @@
 <div class="row animated d-none" #ShowLead>
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header d-flex justify-content-center align-items-center">
-        <i class="nc-icon nc-badge" style="font-size: 25px;margin: 0px 10px;"></i>
-        <h4 class="card-title">
-          Customer Info
-        </h4>
-      </div>
       <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Name</h6> <span>{{currentLead?.customer_name}}</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Mobile</h6> <span>{{currentLead?.customer_mobile}}</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Issue date</h6> <span>{{currentLead?.issue_date}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header d-flex justify-content-center align-items-center">
-        <i class="nc-icon nc-delivery-fast" style="font-size: 25px;margin: 0px 10px;"></i>
-        <h4 class="card-title">
-          Car Info
-        </h4>
-      </div>
-      <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Car Name</h6> <span>{{currentLead?.car_name}}</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Car Color</h6> <span>{{currentLead?.car_color}}</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Car Type</h6> <span>{{currentLead?.car_type}}</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Car Model</h6> <span>{{currentLead?.car_model}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header d-flex justify-content-center align-items-center">
-        <i class="nc-icon nc-alert-circle-i" style="font-size: 25px;margin: 0px 10px;"></i>
-        <h4 class="card-title">
-          General Info
-        </h4>
-      </div>
-      <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Gear Type</h6> <span>{{currentLead?.gear_type}}</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Grade</h6> <span>{{currentLead?.grade}}</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Insurance</h6> <span>{{currentLead?.insurance}}</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between">
-          <h6 class="text-info">Kilometer</h6> <span>{{currentLead?.kilometer}}</span>
+        <div class="col-md-12">
+          <div class="card card-plain">
+            <div class="card-header">
+              <h4 class="card-title">Lead Info</h4>
+              <!-- <p class="card-category">Here is a subtitle for this table</p> -->
+            </div>
+            <div class="card-body">
+              <div class="table-responsive overflow-auto">
+                <table class="table">
+                  <thead class="text-muted">
+                    <th>Title</th>
+                    <th>Description</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>{{currentLead?.customer_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Mobile</td>
+                      <td>{{currentLead?.customer_mobile}}</td>
+                    </tr>
+                    <tr>
+                      <td>Issue date</td>
+                      <td>{{currentLead?.issue_date}}</td>
+                    </tr>
+                    <tr>
+                      <td>Car Name</td>
+                      <td>{{currentLead?.car_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Car Color</td>
+                      <td>{{currentLead?.car_color}}</td>
+                    </tr>
+                    <tr>
+                      <td>Car Type</td>
+                      <td>{{currentLead?.car_type}}</td>
+                    </tr>
+                    <tr>
+                      <td>Car Model</td>
+                      <td>{{currentLead?.car_model}}</td>
+                    </tr>
+                    <tr>
+                      <td>Gear Type</td>
+                      <td>{{currentLead?.gear_type}}</td>
+                    </tr>
+                    <tr>
+                      <td>Grade</td>
+                      <td>{{currentLead?.grade}}</td>
+                    </tr>
+                    <tr>
+                      <td>Insurance</td>
+                      <td>{{currentLead?.insurance}}</td>
+                    </tr>
+                    <tr>
+                      <td>kilometer</td>
+                      <td>{{currentLead?.kilometer}}</td>
+                    </tr>
+                    <tr>
+                      <td>Replies</td>
+                      <td><button class="btn btn-primary d-flex justify-content-center align-items-center"
+                          (click)="getAllReplies(currentLead.id)" style="width: 20px; height: 30px;"><i
+                            class="fa-regular fa-eye"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td>Assign</td>
+                      <td><button class="btn btn-success d-flex justify-content-center align-items-center"
+                          (click)="assignModal = true" style="width: 20px; height: 30px;"><i
+                            class="fa-solid fa-share"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td>Add Replay</td>
+                      <td><button class="btn btn-info d-flex justify-content-center align-items-center"
+                          (click)="addReplayModal = true" style="width: 20px; height: 30px;"><i
+                            class="fa-solid fa-comment"></i></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -463,9 +477,75 @@
   </ng-template>
 </p-dialog>
 
+<p-dialog header="All Replies" [(visible)]="allRepliesModal" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false">
+  <div class="row">
+    <div class="col-12">
+      <div *ngFor="let replay of allReplies">
+        <div *ngFor="let user of users">
+          <div *ngIf="replay.user_id == user.id" class="d-flex my-3 p-2 rounded-lg"
+            style="background-color: rgb(248, 248, 248);">
+            <img src="../../../assets/img/faces/erik-lucatero-1.jpg" class="rounded-circle mr-2"
+              style="width: 45px; height: 45px;" alt="">
+            <div class="p-1 my-1 rounded-lg w-100">
+              <div class="d-flex align-items-center justify-content-between">
+                <h6>
+                  {{user.name}}
+                </h6>
+                <small class="text-muted mx-2">{{replay['created_at'] | date}}</small>
+              </div>
 
+              <div class="text-info">{{replay['replay']}}</div>
+              <!-- <div class="text-right">
+                <small class="text-muted text-right">{{replay['created_at'] | date}}</small>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
 
-<!-- TODO: MODAL EXIT (DISPLAY) -->
-<!-- TODO: Show UI Complete 90% -->
+<p-dialog header="Add Lead Replay" [(visible)]="addReplayModal" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false">
+  <div class="row">
+    <div class="col-12">
+      <textarea #ReplayTextarea class="form-control textarea pl-2"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="addReplay(ReplayTextarea)">Replay</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Assign Users" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+  [resizable]="false">
+  <div class="row">
+    <div class="col-12">
+      <div *ngFor="let user of users">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex align-items-center">
+            <img src="../../../assets/img/faces/clem-onojeghuo-1.jpg" class="rounded-circle"
+              style="width: 40px;height: 40px;" alt="user image">
+            <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
+              <small>{{user.name}}</small>
+            </div>
+          </div>
+          <form [formGroup]='AssignForm' (ngSubmit)='assignUsers(AssignForm.value)' id="AssignUsersForm">
+            <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)">
+          </form>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" form="AssignUsersForm">Confirm</button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+
 <!-- TODO: handle not authorized account -->
-<!-- TODO: replay - assign - replies -->
