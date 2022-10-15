@@ -15,13 +15,15 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./core/interceptor/http.interceptor";
 import { LocationStrategy, PathLocationStrategy } from "@angular/common";
+import { Error404Component } from './layouts/error-layout/error404/error404.component';
+import { Error500Component } from './layouts/error-layout/error500/error500.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminLayoutComponent],
+  declarations: [AppComponent, AdminLayoutComponent, Error404Component, Error500Component],
   imports: [
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {
-      // useHash: true
+      useHash: true,
     }),
     SidebarModule,
     HttpClientModule,

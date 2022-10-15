@@ -1,26 +1,25 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-// import { tap } from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { environment } from "../../../environments/environment";
 // import { ToastrService } from 'ngx-toastr';
-// import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 // import { LocalService } from 'src/app/shared/services/local.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ApiService {
   // Notification:string = 'Notification';
   // PleaseLogin:string = 'Please Login';
   constructor(
-    private http:HttpClient,
+    private http: HttpClient,
     // private ngxService: NgxUiLoaderService,
     private _ToastrService: ToastrService,
-    // private _Router:Router,
-    // private _LocalService:LocalService
-  ) { 
+    private _Router: Router // private _LocalService:LocalService
+  ) {
     // if (this._LocalService.getJsonValue("currentLang") == 'ar') {
     //   this.PleaseLogin = 'برجاء تسجيل الدخول';
     //   this.Notification = 'تنبيه';
@@ -31,12 +30,32 @@ export class ApiService {
     // }
   }
 
-  getReq(url:string, params?:HttpParams):Observable<any>{
-    return this.http.get(environment.BaseUrl + url, { params:params })
+  getReq(url: string, params?: HttpParams): Observable<any> {
+    return this.http.get(environment.BaseUrl + url, { params: params }).pipe(
+      tap({
+        next: () => {},
+        error: (err) => {
+          if (err.status == 500) {
+            this._Router.navigate(["./error"]);
+          }
+        },
+      })
+    );
   }
 
-  postReq(url:string,body:any, params?:HttpParams):Observable<any>{
-    return this.http.post(environment.BaseUrl + url, body, {params: params})
+  postReq(url: string, body: any, params?: HttpParams): Observable<any> {
+    return this.http
+      .post(environment.BaseUrl + url, body, { params: params })
+      .pipe(
+        tap({
+          next: () => {},
+          error: (err) => {
+            if (err.status == 500) {
+              this._Router.navigate(["./error"]);
+            }
+          },
+        })
+      );
   }
 
   // postReq(url:string,body:any, params?:HttpParams):Observable<any>{
@@ -45,7 +64,7 @@ export class ApiService {
   //     tap((res:any)=>{
   //       if (res.status == 1) {
   //         res.message != ""? this._ToastrService.success(res.message,this.Notification,{timeOut: 3000}): false
-  //       } 
+  //       }
   //       else if(res.status == 20){
   //         this._ToastrService.warning(
   //           res.message,this.PleaseLogin,
@@ -65,7 +84,7 @@ export class ApiService {
   //           {
   //             timeOut: 3000,
   //           }
-  //         ); 
+  //         );
   //       }
   //       this.ngxService.stop();
   //     },
@@ -77,7 +96,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         localStorage.clear();
   //         setTimeout(() => {
   //           this._Router.navigate(['./auth/login'])
@@ -93,7 +112,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         setTimeout(() => {
   //           this._Router.navigate(['./home'])
   //         }, 1000);
@@ -109,7 +128,7 @@ export class ApiService {
   //     tap((res:any)=>{
   //       if (res.status == 1) {
   //         res.message != ""? this._ToastrService.success(res.message,this.Notification,{timeOut: 3000}): false
-  //       } 
+  //       }
   //       else if(res.status == 20){
   //         this._ToastrService.warning(
   //           res.message,this.PleaseLogin,
@@ -129,7 +148,7 @@ export class ApiService {
   //           {
   //             timeOut: 3000,
   //           }
-  //         ); 
+  //         );
   //       }
   //       this.ngxService.stop();
   //     },
@@ -141,7 +160,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         localStorage.clear();
   //         setTimeout(() => {
   //           this._Router.navigate(['./auth/login'])
@@ -157,7 +176,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         setTimeout(() => {
   //           this._Router.navigate(['./home'])
   //         }, 1000);
@@ -177,7 +196,7 @@ export class ApiService {
   //     tap((res:any)=>{
   //       if (res.status == 1) {
   //         res.message != ""? this._ToastrService.success(res.message,this.Notification,{timeOut: 3000}): false
-  //       } 
+  //       }
   //       else if(res.status == 20){
   //         this._ToastrService.warning(
   //           res.message,this.PleaseLogin,
@@ -197,7 +216,7 @@ export class ApiService {
   //           {
   //             timeOut: 3000,
   //           }
-  //         ); 
+  //         );
   //       }
   //       this.ngxService.stop();
   //     },
@@ -209,7 +228,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         localStorage.clear();
   //         setTimeout(() => {
   //           this._Router.navigate(['./auth/login'])
@@ -225,7 +244,7 @@ export class ApiService {
   //           {
   //             timeOut: 4000,
   //           }
-  //         ); 
+  //         );
   //         setTimeout(() => {
   //           this._Router.navigate(['./home'])
   //         }, 1000);
@@ -234,5 +253,4 @@ export class ApiService {
   //     })
   //   );
   // }
-
 }

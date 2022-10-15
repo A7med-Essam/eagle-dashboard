@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  BaseUrl : "http://api.eagles-limo.com/api/"
+  BaseUrl: "http://api.eagles-limo.com/api/",
 };

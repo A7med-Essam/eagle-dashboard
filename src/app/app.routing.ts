@@ -2,6 +2,8 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "./core/guards/auth.guard";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+import { Error404Component } from "./layouts/error-layout/error404/error404.component";
+import { Error500Component } from "./layouts/error-layout/error500/error500.component";
 
 export const AppRoutes: Routes = [
   {
@@ -31,7 +33,11 @@ export const AppRoutes: Routes = [
       ),
   },
   {
+    path: "error",
+    component: Error500Component,
+  },
+  {
     path: "**",
-    redirectTo: "dashboard",
+    component: Error404Component,
   },
 ];
