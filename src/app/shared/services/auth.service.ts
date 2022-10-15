@@ -63,4 +63,8 @@ export class AuthService {
   // resetPassword(newPassword:any): Observable<any>{
   //   return this._ApiService.postReq('getResetMail',newPassword);
   // }
+
+  checkToken(token: string): Observable<any> {
+    return this._ApiService.postReq("checkToken", { token: token });
+  }
 }
