@@ -5,10 +5,10 @@
 }
 
 .form-check {
-  padding-left: 0;
-  margin-bottom: .5rem;
+    padding-left: 0;
+    margin-bottom: .5rem;
 
-    .form-check-label{
+    .form-check-label {
         display: inline-block;
         position: relative;
         cursor: pointer;
@@ -35,6 +35,7 @@
         -ms-transition: opacity 0.3s linear;
         transition: opacity 0.3s linear;
     }
+
     .form-check-sign::after {
         font-family: 'FontAwesome';
         content: "\f00c";
@@ -46,8 +47,9 @@
         border: 0;
         background-color: inherit;
     }
-    &.disabled{
-        .form-check-label{
+
+    &.disabled {
+        .form-check-label {
             color: $dark-gray;
             opacity: .5;
             cursor: not-allowed;
@@ -57,38 +59,38 @@
 }
 
 .form-check.disabled .form-check-label,
-.form-check.disabled .form-check-label {
-
-}
+.form-check.disabled .form-check-label {}
 
 .form-check input[type="checkbox"],
-.form-check-radio input[type="radio"]{
+.form-check-radio input[type="radio"] {
     opacity: 0;
     position: absolute;
     visibility: hidden;
 }
-.form-check input[type="checkbox"]:checked + .form-check-sign::after{
+
+.form-check input[type="checkbox"]:checked+.form-check-sign::after {
     opacity: 1;
 }
 
-.form-control input[type="checkbox"]:disabled + .form-check-sign::before,
-.checkbox input[type="checkbox"]:disabled + .form-check-sign::after{
+.form-control input[type="checkbox"]:disabled+.form-check-sign::before,
+.checkbox input[type="checkbox"]:disabled+.form-check-sign::after {
     cursor: not-allowed;
 }
 
-.form-check .form-check-label input[type="checkbox"]:disabled + .form-check-sign,
-.form-check-radio input[type="radio"]:disabled + .form-check-sign{
+.form-check .form-check-label input[type="checkbox"]:disabled+.form-check-sign,
+.form-check-radio input[type="radio"]:disabled+.form-check-sign {
     pointer-events: none !important;
 }
 
-.form-check-radio{
-  margin-left: -3px;
+.form-check-radio {
+    margin-left: -3px;
 
-    .form-check-label{
+    .form-check-label {
         padding-left: 2rem;
     }
-    &.disabled{
-        .form-check-label{
+
+    &.disabled {
+        .form-check-label {
             color: $dark-gray;
             opacity: .5;
             cursor: not-allowed;
@@ -96,7 +98,7 @@
     }
 }
 
-.form-check-radio .form-check-sign::before{
+.form-check-radio .form-check-sign::before {
     font-family: 'FontAwesome';
     content: "\f10c";
     font-size: 22px;
@@ -109,19 +111,19 @@
     top: -5px;
 }
 
-.form-check-label input[type="checkbox"]:checked + .form-check-sign:before{
+.form-check-label input[type="checkbox"]:checked+.form-check-sign:before {
     background-color: #66615B;
 }
 
-.form-check-radio input[type="radio"] + .form-check-sign:after,
+.form-check-radio input[type="radio"]+.form-check-sign:after,
 .form-check-radio input[type="radio"] {
     opacity: 0;
     @include transition-opacity(0.3s, linear);
-    content:" ";
+    content: " ";
     display: block;
 }
 
-.form-check-radio input[type="radio"]:checked + .form-check-sign::after {
+.form-check-radio input[type="radio"]:checked+.form-check-sign::after {
     font-family: 'FontAwesome';
     content: "\f192";
     top: -5px;
@@ -131,12 +133,129 @@
     font-size: 22px;
 }
 
-.form-check-radio input[type="radio"]:checked + .form-check-sign::after{
+.form-check-radio input[type="radio"]:checked+.form-check-sign::after {
     opacity: 1;
 }
 
 
-.form-check-radio input[type="radio"]:disabled + .form-check-sign::before,
-.form-check-radio input[type="radio"]:disabled + .form-check-sign::after {
+.form-check-radio input[type="radio"]:disabled+.form-check-sign::before,
+.form-check-radio input[type="radio"]:disabled+.form-check-sign::after {
     color: $dark-gray;
+}
+
+// ***************************
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+/*
+#################################################
+This is part of the UI framework being developed.
+#################################################
+*/
+//---------
+$gray0: #F6F8FF;
+$gray1: #626981;
+$primary0: #34B5B880;
+$shadowPrimary0: 0px 0px 4px 0px #34B5B870;
+
+$success0: #1a7205;
+$shadowSuccess0: 2px 2px 10px 0px #1a7205;
+
+$default0: #636983;
+$shadowDefault0: 2px 2px 10px 0px #636983;
+
+$warning0: #c81e1e;
+$shadowWarning0: 2px 2px 10px 0px #ff9898;
+
+$dark0: #505050;
+$shadowDark0: 2px 2px 10px 0px #9d9d9d;
+
+@mixin checked($border, $background, $shadow) {
+    border-color: $border;
+    background-color: $background;
+    box-shadow: $shadow;
+}
+
+;
+
+@mixin hover($color) {
+    color: $color;
+}
+
+@mixin checkBoxActive($class, $color, $border, $background, $shadow) {
+    &#{$class}+label:hover {
+        @include hover($color);
+    }
+
+    &#{$class}:checked+label::before {
+        @include checked($color, $border, $shadow);
+    }
+}
+
+$styles: (
+    ".ckb-success"$success0 $success0 $success0 $shadowSuccess0,
+    ".ckb-default"$default0 $default0 $default0 $shadowDefault0,
+    ".ckb-warning"$warning0 $warning0 $warning0 $shadowWarning0,
+    ".ckb-dark"$dark0 $dark0 $dark0 $shadowDark0,
+);
+
+input[type='checkbox'] {
+    &.ckb {
+        z-index: -1;
+        opacity: 0;
+    }
+
+    &.ckb+label {
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+        cursor: pointer;
+        transition: all .3s;
+        color: $gray1;
+
+        &:hover {
+            color: #2c5481;
+        }
+    }
+
+    &.ckb+label::before {
+        transition: all .3s;
+        content: '';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+        flex-grow: 0;
+        border: 1px solid #adb5bd;
+        border-radius: 0.25em;
+        margin-right: 0.5em;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 50% 50%;
+        margin: 0px 5px;
+
+
+    }
+
+
+
+    &.ckb:checked+label::before {
+        transition: all .3s;
+        border-color: $primary0;
+        background-color: $primary0;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+        box-shadow: $shadowPrimary0;
+    }
+
+    @each $class,
+    $color,
+    $border,
+    $backgrund,
+    $shadow in $styles {
+        @include checkBoxActive($class, $color, $border, $backgrund, $shadow);
+    }
+}
+
+input[type=checkbox].ckb:checked+label:before {
+    border: none;
 }

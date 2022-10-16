@@ -527,7 +527,7 @@
   <div class="row">
     <div class="col-12">
       <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignUsers(AssignForm.value)' id="AssignUsersForm">
-        <div *ngFor="let user of users">
+        <div *ngFor="let user of users; let i = index;">
           <div class="d-flex justify-content-between">
             <div class="d-flex align-items-center">
               <img src="../../../assets/img/faces/clem-onojeghuo-1.jpg" class="rounded-circle"
@@ -536,7 +536,10 @@
                 <small>{{user.name}}</small>
               </div>
             </div>
-            <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)">
+            <!-- <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)"> -->
+            <input [id]="'ckb_'+i" class="ckb ckb-primary" type="checkbox" [value]="user.id"
+              (change)="onCheckChange($event)" />
+            <label class="hidden" [for]="'ckb_'+i"></label>
           </div>
           <hr>
         </div>
@@ -553,5 +556,3 @@
 
 
 <!-- BUG:FIX Auto Checked on users permissions checkbox -->
-
-<!-- BUG: FIX SHOW LEADS -->

@@ -95,10 +95,13 @@
                   <div *ngFor="let permission of permissions; let i=index" class="">
                     <div *ngIf="permission.type == 'users'"
                       class="m-3 d-flex justify-content-center align-items-center">
-                      <label>
+                      <!-- <label>
                         <input type="checkbox" [value]="permission.value" (change)="onCheckChange($event)">
                         {{permission.description}}
-                      </label>
+                      </label> -->
+                      <input [id]="'ckb_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
+                        (change)="onCheckChange($event)" />
+                      <label [for]="'ckb_'+i">{{permission.description}}</label>
                     </div>
                   </div>
                 </div>
@@ -110,10 +113,13 @@
                   <div *ngFor="let permission of permissions; let i=index" class="">
                     <div *ngIf="permission.type == 'leads'"
                       class="m-3 d-flex justify-content-center align-items-center">
-                      <label>
+                      <!-- <label>
                         <input type="checkbox" [value]="permission.value" (change)="onCheckChange($event)">
                         {{permission.description}}
-                      </label>
+                      </label> -->
+                      <input [id]="'ckb'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
+                        (change)="onCheckChange($event)" />
+                      <label [for]="'ckb'+i">{{permission.description}}</label>
                     </div>
                   </div>
                 </div>
