@@ -51,11 +51,12 @@
   </div>
 </div>
 
-<div class="row animated d-none" #userForm>
+<div class="row animated d-none" #editForm>
   <div class="col-12">
     <div class="card card-user">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title">Edit User</h5>
+        <button class="btn btn-dark" (click)="backEditBtn()">Back</button>
       </div>
       <div class="card-body">
         <form [formGroup]='editUserForm' (ngSubmit)='updateAdmin(editUserForm)'>
@@ -130,11 +131,12 @@
   </div>
 </div>
 
-<div class="row animated d-none" #adminForm>
+<div class="row animated d-none" #createForm>
   <div class="col-12">
     <div class="card card-user">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title">Create Admin</h5>
+        <button class="btn btn-dark" (click)="backCreateBtn()">Back</button>
       </div>
       <div class="card-body">
         <form [formGroup]='createAdminForm' (ngSubmit)='createAdmin(createAdminForm)'>

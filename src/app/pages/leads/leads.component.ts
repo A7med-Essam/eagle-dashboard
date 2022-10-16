@@ -53,6 +53,9 @@ export class LeadsComponent implements OnInit {
 
   leadForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
+  AssignForm: FormGroup = new FormGroup({});
+
+  users: Array<any> = [];
 
   constructor(
     private _LeadsService: LeadsService,
@@ -107,6 +110,7 @@ export class LeadsComponent implements OnInit {
     this.setAdminForm();
   }
 
+  // Leads Settings
   getAllLeads(page = 1) {
     this._LeadsService.getLeads(page).subscribe({
       next: (res) => {
@@ -123,8 +127,21 @@ export class LeadsComponent implements OnInit {
     this.getAllLeads(page);
   }
 
+  resetFilter() {
+    this.getAllLeads();
+  }
+
   getLeadById(id: any) {
     [this.currentLead] = this.leads.filter((lead) => lead.id == id);
+    this.displayLeadDetails();
+    this._LeadsService.getLeadsById(id).subscribe({
+      next: (res) => {
+        this.currentLead = res.data;
+      },
+    });
+  }
+
+  displayLeadDetails() {
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.ShowLead.nativeElement);
@@ -150,9 +167,7 @@ export class LeadsComponent implements OnInit {
           this.getAllLeads();
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
-          setTimeout(() => {
-            this._SharedService.fadeIn(this.LeadsTable.nativeElement);
-          }, 800);
+          this.fadeInLeadsTable();
         }
       },
       error: (err) => {
@@ -161,6 +176,164 @@ export class LeadsComponent implements OnInit {
     });
   }
 
+  addLead() {
+    this.setLeadForm();
+    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.CreateForm.nativeElement);
+    }, 800);
+  }
+
+  editLead(lead: any) {
+    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.EditForm.nativeElement);
+    }, 800);
+    this.setLeadForm(lead);
+    this.currentEditRow = lead;
+  }
+
+  updateLead(form: any) {
+    this.leadForm.addControl(
+      "lead_id",
+      new FormControl(this.currentEditRow.id, Validators.required)
+    );
+    this._LeadsService.updateLeads(form.value).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          this.getAllLeads();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this._SharedService.fadeOut(this.EditForm.nativeElement);
+          this.fadeInLeadsTable();
+        }
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  filterLeads(form: any) {
+    this._LeadsService.filterLeads(form.value).subscribe({
+      next: (res) => {
+        this.filterModal = false;
+        this.leads = res.data.data;
+        this.pagination = res.data;
+        this.setFilterForm();
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  exportLeads() {
+    this._LeadsService.exportLeads().subscribe({
+      next: (res) => {
+        const link = document.createElement("a");
+        link.href = res.data;
+        link.click();
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getAllReplies(id: number) {
+    this._LeadsService.getRepliesByLeadsId(id).subscribe({
+      next: (res) => {
+        this.allReplies = res.data;
+        this.allRepliesModal = true;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getAssignedUsers() {
+    const usersId =
+      this.AssignUsersForm.nativeElement.querySelectorAll("input");
+    const leadUsers = this.currentLead.lead_users;
+    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    if (leadUsers) {
+      this.assignModal = true;
+      for (let i = 0; i < usersId.length; i++) {
+        for (let j = 0; j < leadUsers.length; j++) {
+          if (Number(usersId[i].value) == leadUsers[j].user_id) {
+            usersId[i].checked = true;
+            formArray.push(new FormControl(usersId[i].value));
+          }
+        }
+      }
+    } else {
+      this._ToastrService.setToaster(
+        "Sorry not have access here",
+        "error",
+        "danger"
+      );
+    }
+  }
+
+  addReplay(replay: HTMLTextAreaElement) {
+    this._LeadsService
+      .replayLeads({ lead_id: this.currentLead.id, replay: replay.value })
+      .subscribe({
+        next: (res) => {
+          this.addReplayModal = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  assignUsers(users) {
+    this._LeadsService
+      .assignUsers({ lead_id: this.currentLead.id, user_ids: users.user_ids })
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.assignModal = false;
+          this.getLeadById(this.currentLead.id);
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe({
+      next: (res) => (this.users = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  onCheckChange(event, status: string = "edit") {
+    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    if (event.target.checked)
+      formArray.push(new FormControl(event.target.value));
+    else {
+      let i: number = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  deleteConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteLead(id);
+      },
+    });
+  }
+
+  // Set Reactive Forms
   setLeadForm(lead?: any) {
     let km = null;
     if (lead) {
@@ -196,6 +369,13 @@ export class LeadsComponent implements OnInit {
     });
   }
 
+  setAdminForm() {
+    this.AssignForm = this._FormBuilder.group({
+      user_ids: new FormArray([]),
+    });
+  }
+
+  // Car Settings
   getCarName() {
     this.carName = [{ name: "Select Car Name", value: "" }];
     this._CarService.getCarName().subscribe({
@@ -238,62 +418,6 @@ export class LeadsComponent implements OnInit {
     });
   }
 
-  addLead() {
-    this.setLeadForm();
-    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
-    setTimeout(() => {
-      this._SharedService.fadeIn(this.CreateForm.nativeElement);
-    }, 800);
-  }
-
-  editLead(lead: any) {
-    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
-    setTimeout(() => {
-      this._SharedService.fadeIn(this.EditForm.nativeElement);
-    }, 800);
-    this.setLeadForm(lead);
-    this.currentEditRow = lead;
-  }
-
-  updateLead(form: any) {
-    this.leadForm.addControl(
-      "lead_id",
-      new FormControl(this.currentEditRow.id, Validators.required)
-    );
-    this._LeadsService.updateLeads(form.value).subscribe({
-      next: (res) => {
-        if (res.status == 1) {
-          this.getAllLeads();
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this._SharedService.fadeOut(this.EditForm.nativeElement);
-          setTimeout(() => {
-            this._SharedService.fadeIn(this.LeadsTable.nativeElement);
-          }, 800);
-        }
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
-
-  resetFilter() {
-    this.getAllLeads();
-  }
-
-  filterLeads(form: any) {
-    this._LeadsService.filterLeads(form.value).subscribe({
-      next: (res) => {
-        this.filterModal = false;
-        this.leads = res.data.data;
-        this.pagination = res.data;
-        this.setFilterForm();
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
-  }
-
   addCarName(car: HTMLInputElement) {
     this._CarService.createCarName(car.value).subscribe({
       next: (res) => {
@@ -327,106 +451,25 @@ export class LeadsComponent implements OnInit {
     });
   }
 
-  exportLeads() {
-    this._LeadsService.exportLeads().subscribe({
-      next: (res) => {
-        const link = document.createElement("a");
-        link.href = res.data;
-        link.click();
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
+  // back buttons
+  backDetailsBtn() {
+    this._SharedService.fadeOut(this.ShowLead.nativeElement);
+    this.fadeInLeadsTable();
   }
 
-  getAllReplies(id: number) {
-    this._LeadsService.getRepliesByLeadsId(id).subscribe({
-      next: (res) => {
-        this.allReplies = res.data;
-        const usersId =
-          this.AssignUsersForm.nativeElement.querySelectorAll("input");
-        for (let i = 0; i < usersId.length; i++) {
-          for (let j = 0; j < res.data.length; j++) {
-            if (Number(usersId[i].value) == res.data[j].user_id) {
-              usersId[i].checked = true;
-              const formArray: FormArray = this.AssignForm.get(
-                "user_ids"
-              ) as FormArray;
-              formArray.push(new FormControl(usersId[i].value));
-            }
-          }
-        }
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
+  backCreateBtn() {
+    this._SharedService.fadeOut(this.CreateForm.nativeElement);
+    this.fadeInLeadsTable();
   }
 
-  addReplay(replay: HTMLTextAreaElement) {
-    this._LeadsService
-      .replayLeads({ lead_id: this.currentLead.id, replay: replay.value })
-      .subscribe({
-        next: (res) => {
-          this.addReplayModal = false;
-          this._ToastrService.setToaster(res.message, "success", "success");
-        },
-        error: (err) =>
-          this._ToastrService.setToaster(err.error.message, "error", "danger"),
-      });
+  backEditBtn() {
+    this._SharedService.fadeOut(this.EditForm.nativeElement);
+    this.fadeInLeadsTable();
   }
 
-  assignUsers(users) {
-    this._LeadsService
-      .assignUsers({ lead_id: this.currentLead.id, user_ids: users.user_ids })
-      .subscribe({
-        next: (res) => {
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this.assignModal = false;
-        },
-        error: (err) =>
-          this._ToastrService.setToaster(err.error.message, "error", "danger"),
-      });
-  }
-
-  users: Array<any> = [];
-  getAdmins() {
-    this._UsersService.getAdmins().subscribe({
-      next: (res) => (this.users = res.data),
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
-  }
-
-  AssignForm: FormGroup = new FormGroup({});
-
-  onCheckChange(event, status: string = "edit") {
-    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
-    if (event.target.checked)
-      formArray.push(new FormControl(event.target.value));
-    else {
-      let i: number = 0;
-      formArray.controls.forEach((ctrl: FormControl) => {
-        if (ctrl.value == event.target.value) {
-          formArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-  }
-
-  setAdminForm() {
-    this.AssignForm = this._FormBuilder.group({
-      user_ids: new FormArray([]),
-    });
-  }
-
-  deleteConfirm(id: any) {
-    this._ConfirmationService.confirm({
-      message: "Are you sure that you want to perform this action?",
-      accept: () => {
-        this.deleteLead(id);
-      },
-    });
+  fadeInLeadsTable() {
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.LeadsTable.nativeElement);
+    }, 800);
   }
 }

@@ -13,7 +13,7 @@ export class LeadsService {
   }
 
   getLeadsById(lead_id): Observable<any> {
-    return this._ApiService.postReq("leads/show", lead_id);
+    return this._ApiService.postReq("leads/show", { lead_id: lead_id });
   }
 
   createLeads(lead): Observable<any> {

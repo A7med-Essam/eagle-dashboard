@@ -39,8 +39,7 @@
                 <td>{{lead.car_name}}</td>
                 <td>{{lead.car_model}}</td>
                 <td>
-                  <button class="btn btn-primary m-1 px-3"
-                    (click)="getLeadById(lead.id);getAllReplies(currentLead.id)"><i
+                  <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
                       class="fa-regular fa-eye"></i></button>
                   <button class="btn btn-info m-1 px-3" (click)="editLead(lead)"><i
                       class="fa-regular fa-pen-to-square"></i></button>
@@ -65,9 +64,10 @@
       <div class="card-body">
         <div class="col-md-12">
           <div class="card card-plain">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
               <h4 class="card-title">Lead Info</h4>
               <!-- <p class="card-category">Here is a subtitle for this table</p> -->
+              <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
             </div>
             <div class="card-body">
               <div class="table-responsive overflow-auto">
@@ -124,13 +124,13 @@
                     <tr>
                       <td>Replies</td>
                       <td><button class="btn btn-primary d-flex justify-content-center align-items-center"
-                          (click)="allRepliesModal = true;" style="width: 20px; height: 30px;"><i
+                          (click)="getAllReplies(currentLead.id);" style="width: 20px; height: 30px;"><i
                             class="fa-regular fa-eye"></i></button></td>
                     </tr>
                     <tr>
                       <td>Assign</td>
                       <td><button class="btn btn-success d-flex justify-content-center align-items-center"
-                          (click)="assignModal = true" style="width: 20px; height: 30px;"><i
+                          (click)="getAssignedUsers();" style="width: 20px; height: 30px;"><i
                             class="fa-solid fa-share"></i></button></td>
                     </tr>
                     <tr>
@@ -153,8 +153,9 @@
 <div class="row animated d-none" #CreateForm>
   <div class="col-12">
     <div class="card card-user">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title">Lead Form</h5>
+        <button class="btn btn-dark" (click)="backCreateBtn()">Back</button>
       </div>
       <div class="card-body">
         <form [formGroup]='leadForm' (ngSubmit)='createLead(leadForm)'>
@@ -257,8 +258,9 @@
 <div class="row animated d-none" #EditForm>
   <div class="col-12">
     <div class="card card-user">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title">Lead Form</h5>
+        <button class="btn btn-dark" (click)="backEditBtn()">Back</button>
       </div>
       <div class="card-body">
         <form [formGroup]='leadForm' (ngSubmit)='updateLead(leadForm)'>
@@ -549,4 +551,7 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
 
-<!-- TODO: handle not authorized account -->
+
+<!-- BUG:FIX Auto Checked on users permissions checkbox -->
+
+<!-- BUG: FIX SHOW LEADS -->

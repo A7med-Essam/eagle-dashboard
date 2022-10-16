@@ -21,8 +21,8 @@ export class UserComponent implements OnInit {
   users: any[];
   backUpUsers: any;
 
-  @ViewChild("adminForm") adminForm;
-  @ViewChild("userForm") userForm;
+  @ViewChild("createForm") createForm;
+  @ViewChild("editForm") editForm;
   @ViewChild("userTable") userTable;
   editUserForm: FormGroup = new FormGroup({});
   createAdminForm: FormGroup = new FormGroup({});
@@ -67,10 +67,8 @@ export class UserComponent implements OnInit {
         if (res.status == 1) {
           this.getAdmins();
           this._ToastrService.setToaster(res.message, "success", "success");
-          this._SharedService.fadeOut(this.adminForm.nativeElement);
-          setTimeout(() => {
-            this._SharedService.fadeIn(this.userTable.nativeElement);
-          }, 800);
+          this._SharedService.fadeOut(this.createForm.nativeElement);
+          this.fadeInUserTable();
         }
       },
       error: (err) =>
@@ -81,7 +79,7 @@ export class UserComponent implements OnInit {
   getAdminForm() {
     this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
-      this._SharedService.fadeIn(this.adminForm.nativeElement);
+      this._SharedService.fadeIn(this.createForm.nativeElement);
     }, 800);
   }
 
@@ -94,10 +92,8 @@ export class UserComponent implements OnInit {
         if (res.status == 1) {
           this.getAdmins();
           this._ToastrService.setToaster(res.message, "success", "success");
-          this._SharedService.fadeOut(this.userForm.nativeElement);
-          setTimeout(() => {
-            this._SharedService.fadeIn(this.userTable.nativeElement);
-          }, 800);
+          this._SharedService.fadeOut(this.editForm.nativeElement);
+          this.fadeInUserTable();
         }
       },
       error: (err) =>
@@ -109,7 +105,7 @@ export class UserComponent implements OnInit {
     this.setUserForm(user);
     this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
-      this._SharedService.fadeIn(this.userForm.nativeElement);
+      this._SharedService.fadeIn(this.editForm.nativeElement);
     }, 800);
   }
 
@@ -138,14 +134,14 @@ export class UserComponent implements OnInit {
       res.data.users.forEach((e) => {
         this.permissions.push({
           description: e,
-          value: `users_${e}`,
+          value: `${e}_users`,
           type: "users",
         });
       });
       res.data.leads.forEach((e) => {
         this.permissions.push({
           description: e,
-          value: `leads_${e}`,
+          value: `${e}_leads`,
           type: "leads",
         });
       });
@@ -194,5 +190,21 @@ export class UserComponent implements OnInit {
         this.users = this.backUpUsers;
       }
     }, 1);
+  }
+
+  backCreateBtn() {
+    this._SharedService.fadeOut(this.createForm.nativeElement);
+    this.fadeInUserTable();
+  }
+
+  backEditBtn() {
+    this._SharedService.fadeOut(this.editForm.nativeElement);
+    this.fadeInUserTable();
+  }
+
+  fadeInUserTable() {
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.userTable.nativeElement);
+    }, 800);
   }
 }
