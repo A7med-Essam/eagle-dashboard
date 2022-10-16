@@ -53,4 +53,36 @@ export class CarService {
       car_type_id: car_type_id,
     });
   }
+
+  // Grade
+
+  getGrade(): Observable<any> {
+    return this._ApiService.postReq("allGrades", "");
+  }
+
+  createGrade(grade): Observable<any> {
+    return this._ApiService.postReq("addGrades", { grade: grade });
+  }
+
+  deleteGrade(grade_id): Observable<any> {
+    return this._ApiService.postReq("deleteGrades", {
+      grade_id: grade_id,
+    });
+  }
+
+  // Insurance
+
+  getInsurance(): Observable<any> {
+    return this._ApiService.postReq("allInsurances", "");
+  }
+
+  createInsurance(status): Observable<any> {
+    return this._ApiService.postReq("addInsurances", { status: status });
+  }
+
+  deleteInsurance(insurance_id): Observable<any> {
+    return this._ApiService.postReq("deleteInsurances", {
+      insurance_id: insurance_id,
+    });
+  }
 }
