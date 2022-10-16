@@ -39,7 +39,8 @@
                 <td>{{lead.car_name}}</td>
                 <td>{{lead.car_model}}</td>
                 <td>
-                  <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id)"><i
+                  <button class="btn btn-primary m-1 px-3"
+                    (click)="getLeadById(lead.id);getAllReplies(currentLead.id)"><i
                       class="fa-regular fa-eye"></i></button>
                   <button class="btn btn-info m-1 px-3" (click)="editLead(lead)"><i
                       class="fa-regular fa-pen-to-square"></i></button>
@@ -123,7 +124,7 @@
                     <tr>
                       <td>Replies</td>
                       <td><button class="btn btn-primary d-flex justify-content-center align-items-center"
-                          (click)="getAllReplies(currentLead.id)" style="width: 20px; height: 30px;"><i
+                          (click)="allRepliesModal = true;" style="width: 20px; height: 30px;"><i
                             class="fa-regular fa-eye"></i></button></td>
                     </tr>
                     <tr>
@@ -523,21 +524,21 @@
   [resizable]="false">
   <div class="row">
     <div class="col-12">
-      <div *ngFor="let user of users">
-        <div class="d-flex justify-content-between">
-          <div class="d-flex align-items-center">
-            <img src="../../../assets/img/faces/clem-onojeghuo-1.jpg" class="rounded-circle"
-              style="width: 40px;height: 40px;" alt="user image">
-            <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
-              <small>{{user.name}}</small>
+      <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignUsers(AssignForm.value)' id="AssignUsersForm">
+        <div *ngFor="let user of users">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center">
+              <img src="../../../assets/img/faces/clem-onojeghuo-1.jpg" class="rounded-circle"
+                style="width: 40px;height: 40px;" alt="user image">
+              <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
+                <small>{{user.name}}</small>
+              </div>
             </div>
-          </div>
-          <form [formGroup]='AssignForm' (ngSubmit)='assignUsers(AssignForm.value)' id="AssignUsersForm">
             <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)">
-          </form>
+          </div>
+          <hr>
         </div>
-        <hr>
-      </div>
+      </form>
     </div>
   </div>
   <ng-template pTemplate="footer">

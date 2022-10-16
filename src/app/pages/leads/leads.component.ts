@@ -49,6 +49,7 @@ export class LeadsComponent implements OnInit {
   @ViewChild("ShowLead") ShowLead: any;
   @ViewChild("CreateForm") CreateForm: any;
   @ViewChild("EditForm") EditForm: any;
+  @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
 
   leadForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
@@ -339,10 +340,22 @@ export class LeadsComponent implements OnInit {
   }
 
   getAllReplies(id: number) {
-    this.allRepliesModal = true;
     this._LeadsService.getRepliesByLeadsId(id).subscribe({
       next: (res) => {
         this.allReplies = res.data;
+        const usersId =
+          this.AssignUsersForm.nativeElement.querySelectorAll("input");
+        for (let i = 0; i < usersId.length; i++) {
+          for (let j = 0; j < res.data.length; j++) {
+            if (Number(usersId[i].value) == res.data[j].user_id) {
+              usersId[i].checked = true;
+              const formArray: FormArray = this.AssignForm.get(
+                "user_ids"
+              ) as FormArray;
+              formArray.push(new FormControl(usersId[i].value));
+            }
+          }
+        }
       },
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
