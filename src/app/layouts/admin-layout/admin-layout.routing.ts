@@ -8,6 +8,7 @@ import { IconsComponent } from "../../pages/icons/icons.component";
 import { CarsComponent } from "../../pages/cars/cars.component";
 import { NotificationsComponent } from "../../pages/notifications/notifications.component";
 import { LeadsComponent } from "../../pages/leads/leads.component";
+import { CommingSoonComponent } from "../comming-soon/comming-soon.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -15,9 +16,8 @@ export const AdminLayoutRoutes: Routes = [
   { path: "leads", component: LeadsComponent },
   { path: "cars", component: CarsComponent },
 
-  // { path: "table", component: TableComponent },
-  // { path: "typography", component: TypographyComponent },
-  // { path: "icons", component: IconsComponent },
-  // { path: "notifications", component: NotificationsComponent },
-  // { path: "upgrade", component: LeadsComponent },
+  { path: "accounting", component: CommingSoonComponent },
+  { path: "policy", component: CommingSoonComponent },
+  { path: "operations", component: CommingSoonComponent },
+  { path: "insurances", component: CommingSoonComponent },
 ];

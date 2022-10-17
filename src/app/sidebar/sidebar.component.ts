@@ -19,21 +19,36 @@ export const ROUTES: RouteInfo[] = [
   //   icon: "nc-bell-55",
   //   class: "",
   // },
-  // { path: "/table", title: "Table List", icon: "nc-tile-56", class: "" },
   // {
   //   path: "/typography",
   //   title: "Typography",
   //   icon: "nc-caps-small",
   //   class: "",
   // },
-  // {
-  //   path: "/upgrade",
-  //   title: "Upgrade to PRO",
-  //   icon: "nc-spaceship",
-  //   class: "active-pro",
-  // },
-  // { path: "/icons", title: "icons", icon: "nc-pin-3", class: "" },
-  // { path: "/maps", title: "Maps", icon: "nc-pin-3", class: "" },
+  {
+    path: "/accounting",
+    title: "Accounting",
+    icon: "nc-money-coins",
+    class: "",
+  },
+  {
+    path: "/policy",
+    title: "Policies",
+    icon: "nc-single-copy-04",
+    class: "",
+  },
+  {
+    path: "/operations",
+    title: "Operations",
+    icon: "nc-atom",
+    class: "",
+  },
+  {
+    path: "/insurances",
+    title: "Insurance Companies",
+    icon: "nc-caps-small",
+    class: "",
+  },
 ];
 
 @Component({

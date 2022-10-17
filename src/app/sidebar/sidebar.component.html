@@ -1,7 +1,6 @@
-
 <div class="sidebar-wrapper">
   <div class="logo">
-    <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+    <a href="" class="simple-text logo-mini">
       <div class="logo-image-small">
         <img src="assets/img/logo.jpg">
       </div>
@@ -10,12 +9,12 @@
       <b>Eagles</b> Limousine
     </a>
   </div>
-    <ul class="nav">
-        <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
-            <a [routerLink]="[menuItem.path]">
-                <i class="nc-icon {{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
-    </ul>
+  <ul class="nav">
+    <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
+      <a [routerLink]="[menuItem.path]">
+        <i class="nc-icon {{menuItem.icon}}"></i>
+        <p>{{menuItem.title}}</p>
+      </a>
+    </li>
+  </ul>
 </div>
