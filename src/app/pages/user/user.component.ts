@@ -18,7 +18,7 @@ import { ConfirmationService } from "primeng/api";
   providers: [ConfirmationService],
 })
 export class UserComponent implements OnInit {
-  users: any[];
+  users: any[] = [];
   backUpUsers: any;
 
   @ViewChild("createForm") createForm;
@@ -27,6 +27,7 @@ export class UserComponent implements OnInit {
   editUserForm: FormGroup = new FormGroup({});
   createAdminForm: FormGroup = new FormGroup({});
   public permissions: Array<any> = [];
+  @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
 
   constructor(
     private _UsersService: UsersService,
@@ -38,8 +39,8 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.getAdmins();
-    this.setUserForm();
-    this.setAdminForm();
+    this.setEditForm();
+    this.setCreateForm();
     this.getPermissions();
   }
 
@@ -85,8 +86,6 @@ export class UserComponent implements OnInit {
 
   updateAdmin(user) {
     if (!user.value.password) this.editUserForm.removeControl("password");
-    if (!user.value.permissions.length)
-      this.editUserForm.removeControl("permissions");
     this._UsersService.updateAdmin(user.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
@@ -102,14 +101,14 @@ export class UserComponent implements OnInit {
   }
 
   editAdmin(user) {
-    this.setUserForm(user);
+    this.setEditForm(user);
     this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.editForm.nativeElement);
     }, 800);
   }
 
-  setUserForm(user?) {
+  setEditForm(user?) {
     this.editUserForm = this._FormBuilder.group({
       admin_id: new FormControl(user?.id, [Validators.required]),
       email: new FormControl(user?.email),
@@ -119,7 +118,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  setAdminForm() {
+  setCreateForm() {
     this.createAdminForm = this._FormBuilder.group({
       name: new FormControl(null),
       email: new FormControl(null),
@@ -206,5 +205,26 @@ export class UserComponent implements OnInit {
     setTimeout(() => {
       this._SharedService.fadeIn(this.userTable.nativeElement);
     }, 800);
+  }
+
+  getAssignedPermisstions() {
+    const PermissionsList = this.editForm.nativeElement.querySelectorAll(
+      "input[type='checkbox']"
+    );
+    const formArray: FormArray = this.editUserForm.get(
+      "permissions"
+    ) as FormArray;
+    const [currentUser] = this.users.filter(
+      (u) => u.id == this.editUserForm.value.admin_id
+    );
+    PermissionsList.forEach((e) => (e.checked = false));
+    for (let i = 0; i < currentUser.my_permissions.length; i++) {
+      for (let j = 0; j < PermissionsList.length; j++) {
+        if (currentUser.my_permissions[i] == PermissionsList[j].value) {
+          PermissionsList[j].checked = true;
+          formArray.push(new FormControl(PermissionsList[j].value));
+        }
+      }
+    }
   }
 }
