@@ -120,11 +120,11 @@ export class UserComponent implements OnInit {
 
   setCreateForm() {
     this.createAdminForm = this._FormBuilder.group({
-      name: new FormControl(null),
-      email: new FormControl(null),
-      password: new FormControl(null),
-      password_confirmation: new FormControl(null),
-      permissions: new FormArray([]),
+      name: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required]),
+      password_confirmation: new FormControl(null, [Validators.required]),
+      permissions: new FormArray([], [Validators.required]),
     });
   }
 

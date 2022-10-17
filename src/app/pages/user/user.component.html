@@ -150,19 +150,34 @@
             <div class="col-md-5 px-3">
               <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control" placeholder="Email" value="aaaaa@sa" formControlName='email'>
+                <input type="email" class="form-control" placeholder="Email" value="test@gmail.com"
+                  formControlName='email'>
+                <div class="text-left mb-2">
+                  <small class="text-danger ms-1" *ngIf="createAdminForm.get('email')?.touched &&
+                  createAdminForm.get('email')?.hasError('email')">This email is not valid!</small>
+                  <small class="text-danger ms-1" *ngIf="createAdminForm.get('email')?.touched &&
+                  createAdminForm.get('email')?.hasError('required')">This field is required!</small>
+                </div>
               </div>
             </div>
             <div class="col-md-5 px-3">
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Username" value="" formControlName='name'>
+                <div class="text-left mb-2">
+                  <small class="text-danger ms-1" *ngIf="createAdminForm.get('name')?.touched &&
+                  createAdminForm.get('name')?.hasError('required')">This field is required!</small>
+                </div>
               </div>
             </div>
             <div class="col-md-5 px-3">
               <div class="form-group">
                 <label for="exampleInputEmail1">Password</label>
                 <input type="password" class="form-control" placeholder="*******" formControlName='password'>
+                <div class="text-left mb-2">
+                  <small class="text-danger ms-1" *ngIf="createAdminForm.get('password')?.touched &&
+                  createAdminForm.get('password')?.hasError('required')">This field is required!</small>
+                </div>
               </div>
             </div>
             <div class="col-md-5 px-3">
@@ -170,6 +185,10 @@
                 <label for="exampleInputEmail1">Confirm Password</label>
                 <input type="password" class="form-control" placeholder="*******"
                   formControlName='password_confirmation'>
+                <div class="text-left mb-2">
+                  <small class="text-danger ms-1" *ngIf="createAdminForm.get('password_confirmation')?.touched &&
+                  createAdminForm.get('password_confirmation')?.hasError('required')">This field is required!</small>
+                </div>
               </div>
             </div>
           </div>
@@ -181,10 +200,6 @@
                   <div *ngFor="let permission of permissions; let i=index" class="">
                     <div *ngIf="permission.type == 'users'"
                       class="m-3 d-flex justify-content-center align-items-center">
-                      <!-- <label>
-                        <input type="checkbox" [value]="permission.value" (change)="onCheckChange($event,'create')">
-                        {{permission.description}}
-                      </label> -->
                       <input [id]="'ckb_1_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
                         (change)="onCheckChange($event,'create')" />
                       <label [for]="'ckb_1_'+i">{{permission.description}}</label>
@@ -199,10 +214,6 @@
                   <div *ngFor="let permission of permissions; let i=index" class="">
                     <div *ngIf="permission.type == 'leads'"
                       class="m-3 d-flex justify-content-center align-items-center">
-                      <!-- <label>
-                        <input type="checkbox" [value]="permission.value" (change)="onCheckChange($event,'create')">
-                        {{permission.description}}
-                      </label> -->
                       <input [id]="'ckb_2_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
                         (change)="onCheckChange($event,'create')" />
                       <label [for]="'ckb_2_'+i">{{permission.description}}</label>
@@ -214,7 +225,8 @@
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button type="submit" class="btn btn-primary btn-round">Create Admin</button>
+              <button type="submit" class="btn btn-primary btn-round" [disabled]="createAdminForm.invalid">Create
+                Admin</button>
             </div>
           </div>
         </form>
