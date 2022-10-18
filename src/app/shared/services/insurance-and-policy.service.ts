@@ -31,4 +31,21 @@ export class InsuranceAndPolicyService {
   getClientInsuranceCompany(): Observable<any> {
     return this._ApiService.postReq(`allClientCompany`, "");
   }
+
+  // policies
+  getPolicies(): Observable<any> {
+    return this._ApiService.postReq(`policies`, "");
+  }
+
+  addPolicy(policy): Observable<any> {
+    return this._ApiService.postReq(`addPolicy`, policy);
+  }
+
+  updatePolicy(policy): Observable<any> {
+    return this._ApiService.postReq(`updatePolicy`, policy);
+  }
+
+  deletePolicy(policy_id): Observable<any> {
+    return this._ApiService.postReq(`deletePolicy`, { policy_id: policy_id });
+  }
 }

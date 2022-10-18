@@ -7,11 +7,11 @@ import { AdminLayoutRoutes } from "./admin-layout.routing";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { UserComponent } from "../../pages/user/user.component";
-import { TableComponent } from "../../pages/table/table.component";
+import { PolicyComponent } from "../../pages/policy/policy.component";
 import { OperationsComponent } from "../../pages/operations/operations.component";
 import { IconsComponent } from "../../pages/icons/icons.component";
 import { CarsComponent } from "../../pages/cars/cars.component";
-import { NotificationsComponent } from "../../pages/notifications/notifications.component";
+import { InsuranceComponent } from "../../pages/insurance/insurance.component";
 import { LeadsComponent } from "../../pages/leads/leads.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -35,12 +35,12 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
   declarations: [
     DashboardComponent,
     UserComponent,
-    TableComponent,
+    PolicyComponent,
     LeadsComponent,
     OperationsComponent,
     IconsComponent,
     CarsComponent,
-    NotificationsComponent,
+    InsuranceComponent,
   ],
 })
 export class AdminLayoutModule {}

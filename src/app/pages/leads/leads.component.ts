@@ -72,11 +72,11 @@ export class LeadsComponent implements OnInit {
     private _InsuranceAndPolicyService: InsuranceAndPolicyService,
     private _FormBuilder: FormBuilder
   ) {
-    this.insurance = [
-      { name: "Select Insurance", value: "" },
-      { name: "Yes", value: "YES" },
-      { name: "No", value: "NO" },
-    ];
+    // this.insurance = [
+    //   { name: "Select Insurance", value: "" },
+    //   { name: "Yes", value: "YES" },
+    //   { name: "No", value: "NO" },
+    // ];
 
     this.gearType = [
       { name: "Select Gear Type", value: "" },
@@ -84,15 +84,15 @@ export class LeadsComponent implements OnInit {
       { name: "Normal", value: "NORMAL" },
     ];
 
-    this.grade = [
-      { name: "Select Grade", value: "" },
-      { name: "Grade 1", value: "1" },
-      { name: "Grade 2", value: "2" },
-      { name: "Grade 3", value: "3" },
-      { name: "Grade 4", value: "4" },
-      { name: "Grade 5", value: "5" },
-      { name: "TOP LINE", value: "TOP LINE" },
-    ];
+    // this.grade = [
+    //   { name: "Select Grade", value: "" },
+    //   { name: "Grade 1", value: "1" },
+    //   { name: "Grade 2", value: "2" },
+    //   { name: "Grade 3", value: "3" },
+    //   { name: "Grade 4", value: "4" },
+    //   { name: "Grade 5", value: "5" },
+    //   { name: "TOP LINE", value: "TOP LINE" },
+    // ];
 
     this.policies = [{ name: "Select Policy", value: "" }];
 
@@ -115,6 +115,8 @@ export class LeadsComponent implements OnInit {
     this.getCarName();
     this.getCarColor();
     this.getCarType();
+    this.getGrade();
+    this.getInsurance();
     this.getAdmins();
     this.setAdminForm();
     this.getInsuranceCompanies();
@@ -441,6 +443,34 @@ export class LeadsComponent implements OnInit {
     });
   }
 
+  getGrade() {
+    this.grade = [{ name: "Select Grade", value: "" }];
+    this._CarService.getGrade().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.grade.push({ name: `Grade ${e.grade}`, value: e.grade_id });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  getInsurance() {
+    this.insurance = [{ name: "Select Insurance", value: "" }];
+    this._CarService.getInsurance().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.insurance.push({ name: e.status, value: e.status });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
   addCarName(car: HTMLInputElement) {
     this._CarService.createCarName(car.value).subscribe({
       next: (res) => {
@@ -518,6 +548,5 @@ export class LeadsComponent implements OnInit {
   }
 }
 
-// TODO: make INSURANCE generic service
-// TODO: make gearType generic service
-// TODO: make Grade generic service
+// TODO: addClientCompany
+// TODO: allClientCompany

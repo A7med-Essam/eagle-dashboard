@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Policies</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="addPolicyModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let policy of policies; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{policy.type}}</td>
+                            <td>
+                                <button class="btn btn-info mx-2" (click)="openUpdatePolicyModal(policy)">Edit</button>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteInsuranceConfirm(policy.id)">Delete</button>
+                                <!-- <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(policy)">Add
+                                    Policy</button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Add Policy" [(visible)]="addPolicyModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='policyForm' (ngSubmit)='addPolicy(policyForm)' id="addForm">
+        <div class="row mx-0">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" class="form-control" placeholder="Enter Policy Type" formControlName='type'>
+                </div>
+            </div>
+            <!-- <div class="col-12">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" class="form-control" placeholder="$00.0" formControlName='price'>
+                </div>
+            </div> -->
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="addForm">Create</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Edit Policy" [(visible)]="editPolicyModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='policyForm' (ngSubmit)='editPolicy(policyForm)' id="editForm">
+        <div class="row mx-0">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" class="form-control" placeholder="Enter Policy Type" formControlName='type'>
+                </div>
+            </div>
+            <!-- <div class="col-12">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" class="form-control" placeholder="$00.0" formControlName='price'>
+                </div>
+            </div> -->
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="editForm">Update</button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
