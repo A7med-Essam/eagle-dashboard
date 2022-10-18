@@ -60,6 +60,22 @@ export class ApiService {
       );
   }
 
+  postReqWithHeader(url: string, body: any, headers): Observable<any> {
+    return this.http
+      .post(environment.BaseUrl + url, body, { headers: headers })
+      .pipe(
+        tap({
+          next: () => {},
+          error: (err) => {
+            console.log(err);
+            if (err.status == 500) {
+              this._Router.navigate(["./dashboard"]);
+            }
+          },
+        })
+      );
+  }
+
   // postReq(url:string,body:any, params?:HttpParams):Observable<any>{
   //   this.ngxService.start();
   //   return this.http.post(environment.BaseUrl + url, body, {params: params}).pipe(

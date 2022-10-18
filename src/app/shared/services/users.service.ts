@@ -1,3 +1,4 @@
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "app/core/services/api.service";
 import { Observable } from "rxjs";
@@ -22,6 +23,11 @@ export class UsersService {
 
   createAdmin(user): Observable<any> {
     return this._ApiService.postReq("adminRegister", user);
+  }
+
+  createSuperAdmin(user): Observable<any> {
+    let headers = new HttpHeaders({ secretKey: "123456" });
+    return this._ApiService.postReqWithHeader("adminRegister", user, headers);
   }
 
   getPermissions(): Observable<any> {

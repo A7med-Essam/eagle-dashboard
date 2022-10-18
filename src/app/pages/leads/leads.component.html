@@ -1,5 +1,5 @@
 <div class="row animated" #LeadsTable>
-  <div class="col-md-12">
+  <div class="col-md-12" *ngIf="read">
     <div class="card">
       <div class="card-header d-flex justify-content-between">
         <h4 class="card-title">Leads Table</h4>
@@ -12,7 +12,7 @@
             <i class="fa-regular fa-file-excel"></i>
             Export
           </button>
-          <button class="btn btn-primary m-1" (click)="addLead()">
+          <button class="btn btn-primary m-1" (click)="addLead()" *ngIf="create">
             <i class="fa-solid fa-plus"></i>
             Add
           </button>
@@ -41,9 +41,9 @@
                 <td>
                   <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
                       class="fa-regular fa-eye"></i></button>
-                  <button class="btn btn-info m-1 px-3" (click)="editLead(lead)"><i
+                  <button class="btn btn-info m-1 px-3" (click)="editLead(lead)" *ngIf="update"><i
                       class="fa-regular fa-pen-to-square"></i></button>
-                  <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(lead.id)"><i
+                  <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(lead.id)" *ngIf="delete"><i
                       class="fa-solid fa-trash-can"></i></button>
                 </td>
               </tr>
@@ -121,7 +121,7 @@
                       <td>kilometer</td>
                       <td>{{currentLead?.kilometer}}</td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="seeReplay">
                       <td>Replies</td>
                       <td><button class="btn btn-primary d-flex justify-content-center align-items-center"
                           (click)="getAllReplies(currentLead.id);" style="width: 20px; height: 30px;"><i
@@ -133,7 +133,7 @@
                           (click)="getAssignedUsers();" style="width: 20px; height: 30px;"><i
                             class="fa-solid fa-share"></i></button></td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="makeReplay">
                       <td>Add Replay</td>
                       <td><button class="btn btn-info d-flex justify-content-center align-items-center"
                           (click)="addReplayModal = true" style="width: 20px; height: 30px;"><i
@@ -170,7 +170,10 @@
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
-                <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'>
+                <!-- <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'> -->
+                <input type="text"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                  class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -295,7 +298,10 @@
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
-                <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'>
+                <!-- <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'> -->
+                <input type="text"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                  class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
             <div class="col-md-6 pr-md-1">

@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CarService } from "app/shared/services/car.service";
+import { GuardService } from "app/shared/services/guard.service";
 import { InsuranceAndPolicyService } from "app/shared/services/insurance-and-policy.service";
 import { LeadsService } from "app/shared/services/leads.service";
 import { SharedService } from "app/shared/services/shared.service";
@@ -71,6 +72,7 @@ export class LeadsComponent implements OnInit {
     private _UsersService: UsersService,
     private _ConfirmationService: ConfirmationService,
     private _InsuranceAndPolicyService: InsuranceAndPolicyService,
+    private _GuardService: GuardService,
     private _FormBuilder: FormBuilder
   ) {
     // this.insurance = [
@@ -121,6 +123,7 @@ export class LeadsComponent implements OnInit {
     this.getAdmins();
     this.setAdminForm();
     this.getInsuranceCompanies();
+    this.setPermissions();
   }
 
   // Leads Settings
@@ -563,5 +566,29 @@ export class LeadsComponent implements OnInit {
         error: (err) =>
           this._ToastrService.setToaster(err.error.message, "error", "danger"),
       });
+  }
+
+  // Permissions
+  read: boolean = true;
+  create: boolean = true;
+  update: boolean = true;
+  delete: boolean = true;
+  makeReplay: boolean = true;
+  seeReplay: boolean = true;
+  setPermissions() {
+    this.read = this._GuardService.hasLeadsPermission_Read();
+    this.create = this._GuardService.hasLeadsPermission_Create();
+    this.update = this._GuardService.hasLeadsPermission_Update();
+    this.delete = this._GuardService.hasLeadsPermission_Delete();
+    this.makeReplay = this._GuardService.hasLeadsPermission_MakeReplay();
+    this.seeReplay = this._GuardService.hasLeadsPermission_SeeReplay();
+    if (this._GuardService.isSuperAdmin()) {
+      this.read = true;
+      this.create = true;
+      this.update = true;
+      this.delete = true;
+      this.makeReplay = true;
+      this.seeReplay = true;
+    }
   }
 }

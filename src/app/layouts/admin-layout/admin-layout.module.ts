@@ -19,6 +19,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { DialogModule } from "primeng/dialog";
 import { CalendarModule } from "primeng/calendar";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { InputSwitchModule } from "primeng/inputswitch";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
     DialogModule,
     CalendarModule,
     ConfirmDialogModule,
+    InputSwitchModule,
   ],
   declarations: [
     DashboardComponent,

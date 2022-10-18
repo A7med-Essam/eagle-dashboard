@@ -29,21 +29,24 @@ export class AuthInterceptor implements HttpInterceptor {
         this.token = "";
       } else {
         this.token = res.token;
-        setTimeout(() => {
-          this._AuthService.checkToken(this.token).subscribe((res) => {
-            if (res.status == 0) {
-              this._ToastrService.setToaster(
-                "Your old session has been expired",
-                "warning",
-                "warning"
-              ),
-                this._AuthService.logOut();
-              this._Router.navigate(["../auth/login"]);
-            }
-          });
-        }, 1);
       }
     });
+
+    if (this.token != "") {
+      setTimeout(() => {
+        this._AuthService.checkToken(this.token).subscribe((res) => {
+          if (res.status == 0) {
+            this._ToastrService.setToaster(
+              "Your old session has been expired",
+              "warning",
+              "warning"
+            ),
+              this._AuthService.logOut();
+            this._Router.navigate(["../auth/login"]);
+          }
+        });
+      }, 500);
+    }
   }
 
   intercept(

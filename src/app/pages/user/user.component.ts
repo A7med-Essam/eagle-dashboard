@@ -6,6 +6,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { AuthService } from "app/shared/services/auth.service";
+import { GuardService } from "app/shared/services/guard.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
@@ -34,14 +36,38 @@ export class UserComponent implements OnInit {
     private _FormBuilder: FormBuilder,
     private _SharedService: SharedService,
     private _ConfirmationService: ConfirmationService,
-    private _ToastrService: ToasterService
+    private _ToastrService: ToasterService,
+    private _AuthService: AuthService,
+    private _GuardService: GuardService
   ) {}
+
+  enableSuperAdmin: boolean = false;
 
   ngOnInit() {
     this.getAdmins();
     this.setEditForm();
     this.setCreateForm();
     this.getPermissions();
+    this.setPermissions();
+  }
+
+  // Permissions
+  read: boolean = true;
+  create: boolean = true;
+  update: boolean = true;
+  delete: boolean = true;
+
+  setPermissions() {
+    this.read = this._GuardService.hasUsersPermission_Read();
+    this.create = this._GuardService.hasUsersPermission_Create();
+    this.update = this._GuardService.hasUsersPermission_Update();
+    this.delete = this._GuardService.hasUsersPermission_Delete();
+    if (this._GuardService.isSuperAdmin()) {
+      this.read = true;
+      this.create = true;
+      this.update = true;
+      this.delete = true;
+    }
   }
 
   getAdmins() {
@@ -63,23 +89,43 @@ export class UserComponent implements OnInit {
   }
 
   createAdmin(admin) {
-    this._UsersService.createAdmin(admin.value).subscribe({
-      next: (res) => {
-        if (res.status == 1) {
-          this.getAdmins();
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this._SharedService.fadeOut(this.createForm.nativeElement);
-          this.fadeInUserTable();
-        }
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(
-          err.error.errors.password.toString().replace(",", "<br />"),
-          "error",
-          "danger"
-        );
-      },
-    });
+    if (this.enableSuperAdmin) {
+      this._UsersService.createSuperAdmin(admin.value).subscribe({
+        next: (res) => {
+          if (res.status == 1) {
+            this.getAdmins();
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this._SharedService.fadeOut(this.createForm.nativeElement);
+            this.fadeInUserTable();
+          }
+        },
+        error: (err) => {
+          this._ToastrService.setToaster(
+            err.error.errors.password.toString().replace(",", "<br />"),
+            "error",
+            "danger"
+          );
+        },
+      });
+    } else {
+      this._UsersService.createAdmin(admin.value).subscribe({
+        next: (res) => {
+          if (res.status == 1) {
+            this.getAdmins();
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this._SharedService.fadeOut(this.createForm.nativeElement);
+            this.fadeInUserTable();
+          }
+        },
+        error: (err) => {
+          this._ToastrService.setToaster(
+            err.error.errors.password.toString().replace(",", "<br />"),
+            "error",
+            "danger"
+          );
+        },
+      });
+    }
   }
 
   getAdminForm() {
@@ -94,6 +140,7 @@ export class UserComponent implements OnInit {
     this._UsersService.updateAdmin(user.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
+          this.setCurrentUser(res.data);
           this.getAdmins();
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.editForm.nativeElement);
@@ -103,6 +150,13 @@ export class UserComponent implements OnInit {
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
+  }
+
+  setCurrentUser(user) {
+    if (this._GuardService.user.id == user.id) {
+      this._AuthService.saveUser(user);
+      this.setPermissions();
+    }
   }
 
   editAdmin(user) {

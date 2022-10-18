@@ -14,7 +14,7 @@ import { AuthGuard } from "app/core/guards/auth.guard";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
-  { path: "users", component: UserComponent },
+  { path: "users", component: UserComponent, canActivate: [SuperAdminGuard] },
   { path: "leads", component: LeadsComponent },
   { path: "cars", component: CarsComponent },
   { path: "operations", component: OperationsComponent },

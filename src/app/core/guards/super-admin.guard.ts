@@ -29,7 +29,7 @@ export class SuperAdminGuard implements CanActivate {
     if (role == "super_admin") {
       return true;
     } else {
-      this._Router.navigate(["/auth/login"]);
+      this._Router.navigate(["./dashboard"]);
       return false;
     }
   }

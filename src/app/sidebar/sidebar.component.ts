@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { GuardService } from "app/shared/services/guard.service";
 
 export interface RouteInfo {
   path: string;
@@ -105,7 +106,17 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   public menuItems: any[];
+  constructor(private _GuardService: GuardService) {}
+
+  isSuperAdmin: boolean = false;
+  hasLeadRead: boolean = false;
   ngOnInit() {
     this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    this.isSuperAdmin = this._GuardService.isSuperAdmin();
+    if (this.isSuperAdmin) {
+      this.hasLeadRead = true;
+    } else {
+      this.hasLeadRead = this._GuardService.hasLeadsPermission_Read();
+    }
   }
 }

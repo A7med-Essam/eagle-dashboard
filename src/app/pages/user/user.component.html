@@ -1,5 +1,5 @@
 <div class="row animated" #userTable>
-  <div class="col-md-12">
+  <div class="col-md-12" *ngIf="read">
     <div class="card">
       <div class="card-header d-flex justify-content-between">
         <h4 class="card-title">Users Table</h4>
@@ -13,7 +13,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary" (click)="getAdminForm()">
+          <button *ngIf="create" class="btn btn-primary" (click)="getAdminForm()">
             <i class="nc-icon nc-simple-add"></i>
             Add New User
           </button>
@@ -39,8 +39,9 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
-                  <button class="btn btn-info mx-2" (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
-                  <button class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
+                  <button *ngIf="update" class="btn btn-info mx-2"
+                    (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
+                  <button *ngIf="delete" class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -145,7 +146,9 @@
         <button class="btn btn-dark" (click)="backCreateBtn()">Back</button>
       </div>
       <div class="card-body">
-        <form [formGroup]='createAdminForm' (ngSubmit)='createAdmin(createAdminForm)'>
+        <label>Enable Super Admin</label> <br>
+        <p-inputSwitch [(ngModel)]="enableSuperAdmin"></p-inputSwitch>
+        <form [formGroup]='createAdminForm' class="mt-4" (ngSubmit)='createAdmin(createAdminForm)'>
           <div class="row">
             <div class="col-md-5 px-3">
               <div class="form-group">
