@@ -48,6 +48,7 @@ export class LeadsComponent implements OnInit {
   addCarTypeModal: boolean = false;
   allRepliesModal: boolean = false;
   addReplayModal: boolean = false;
+  clientInsuranceCompanyModal: boolean = false;
   assignModal: boolean = false;
 
   @ViewChild("LeadsTable") LeadsTable: any;
@@ -177,6 +178,9 @@ export class LeadsComponent implements OnInit {
       ? (form.value.insurance_in_out = "in")
       : (form.value.insurance_in_out = "out");
 
+    if (this.currentClientInsurancePolicy) {
+      form.value.company_policy_id = this.currentClientInsurancePolicy.id;
+    }
     delete this.leadForm.value.insuranceCompany;
 
     this._LeadsService.createLeads(form.value).subscribe({
@@ -186,6 +190,7 @@ export class LeadsComponent implements OnInit {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInLeadsTable();
+          this.currentClientInsurancePolicy = null;
         }
       },
       error: (err) => {
@@ -281,17 +286,13 @@ export class LeadsComponent implements OnInit {
       for (let i = 0; i < usersId.length; i++) {
         for (let j = 0; j < leadUsers.length; j++) {
           if (Number(usersId[i].value) == leadUsers[j].user_id) {
-            usersId[i].checked = true;
-            formArray.push(new FormControl(usersId[i].value));
+            if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
+              usersId[i].checked = true;
+              formArray.push(new FormControl(usersId[i].value));
+            }
           }
         }
       }
-    } else {
-      this._ToastrService.setToaster(
-        "Sorry not have access here",
-        "error",
-        "danger"
-      );
     }
   }
 
@@ -308,9 +309,12 @@ export class LeadsComponent implements OnInit {
       });
   }
 
-  assignUsers(users) {
+  assignUsers(users: FormGroup) {
     this._LeadsService
-      .assignUsers({ lead_id: this.currentLead.id, user_ids: users.user_ids })
+      .assignUsers({
+        lead_id: this.currentLead.id,
+        user_ids: users.value.user_ids,
+      })
       .subscribe({
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
@@ -332,9 +336,9 @@ export class LeadsComponent implements OnInit {
 
   onCheckChange(event, status: string = "edit") {
     const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
-    if (event.target.checked)
+    if (event.target.checked) {
       formArray.push(new FormControl(event.target.value));
-    else {
+    } else {
       let i: number = 0;
       formArray.controls.forEach((ctrl: FormControl) => {
         if (ctrl.value == event.target.value) {
@@ -546,7 +550,18 @@ export class LeadsComponent implements OnInit {
       this.policies.push({ name: e.id, value: e.id });
     });
   }
-}
 
-// TODO: addClientCompany
-// TODO: allClientCompany
+  currentClientInsurancePolicy: any;
+  addClientInsuranceCompany(company: HTMLInputElement) {
+    this._InsuranceAndPolicyService
+      .addClientInsuranceCompany({ name: company.value })
+      .subscribe({
+        next: (res) => {
+          this.clientInsuranceCompanyModal = false;
+          this.currentClientInsurancePolicy = res.data;
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+}

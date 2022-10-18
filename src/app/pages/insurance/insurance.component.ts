@@ -27,9 +27,7 @@ export class InsuranceComponent {
     private _FormBuilder: FormBuilder,
     private _ConfirmationService: ConfirmationService,
     private _InsuranceAndPolicyService: InsuranceAndPolicyService
-  ) {
-    // this.policies = [{ name: "Select Policy", value: "" }];
-  }
+  ) {}
   insuranceModal: boolean = false;
   policyModal: boolean = false;
   editInsuranceModal: boolean = false;
@@ -40,6 +38,7 @@ export class InsuranceComponent {
     this.getInsuranceCompanies();
     this.getPolcies();
     this.setInsuranceCompanyForm();
+    this.getClientInsuranceCompany();
   }
 
   setInsuranceCompanyForm(company?: any) {
@@ -167,5 +166,17 @@ export class InsuranceComponent {
           this._ToastrService.setToaster(err.error.message, "error", "danger");
         },
       });
+  }
+
+  clientInsuranceCompany: any[] = [];
+  getClientInsuranceCompany() {
+    this._InsuranceAndPolicyService.getClientInsuranceCompany().subscribe({
+      next: (res) => {
+        this.clientInsuranceCompany = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
   }
 }

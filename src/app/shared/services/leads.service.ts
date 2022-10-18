@@ -9,7 +9,7 @@ export class LeadsService {
   constructor(private _ApiService: ApiService) {}
 
   getLeads(page = 1): Observable<any> {
-    return this._ApiService.postReq(`leads?page=${page}`, "");
+    return this._ApiService.getReq(`leads?page=${page}`);
   }
 
   getLeadsById(lead_id): Observable<any> {
@@ -41,7 +41,7 @@ export class LeadsService {
   }
 
   filterLeads(filter): Observable<any> {
-    return this._ApiService.postReq("leads", filter);
+    return this._ApiService.getReq("leads", filter);
   }
 
   exportLeads() {

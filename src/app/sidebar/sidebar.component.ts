@@ -8,16 +8,26 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  { path: "/dashboard", title: "Dashboard", icon: "nc-bank", class: "" },
+  {
+    path: "/dashboard",
+    title: "Dashboard",
+    icon: "nc-icon nc-bank",
+    class: "",
+  },
   {
     path: "/accounting",
     title: "Accounting",
-    icon: "nc-money-coins",
+    icon: "nc-icon nc-money-coins",
     class: "",
   },
-  { path: "/users", title: "Users", icon: "nc-single-02", class: "" },
-  { path: "/leads", title: "leads", icon: "nc-diamond", class: "" },
-  { path: "/cars", title: "car settings", icon: "nc-delivery-fast", class: "" },
+  { path: "/users", title: "Users", icon: "nc-icon nc-single-02", class: "" },
+  { path: "/leads", title: "leads", icon: "nc-icon nc-diamond", class: "" },
+  {
+    path: "/cars",
+    title: "car settings",
+    icon: "nc-icon nc-delivery-fast",
+    class: "",
+  },
 
   // {
   //   path: "/notifications",
@@ -34,19 +44,56 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/operations",
     title: "Operations",
-    icon: "nc-atom",
+    icon: "nc-icon nc-atom",
     class: "",
   },
   {
     path: "/insurances",
-    title: "Insurance Companies",
-    icon: "nc-caps-small",
+    title: "Insurance",
+    icon: "nc-icon nc-caps-small",
     class: "",
   },
   {
     path: "/policy",
     title: "Policies",
-    icon: "nc-single-copy-04",
+    icon: "nc-icon nc-single-copy-04",
+    class: "",
+  },
+
+  {
+    path: "/employees",
+    title: "employees",
+    icon: "fa-solid fa-id-card",
+    class: "",
+  },
+  {
+    path: "/customers",
+    title: "customers",
+    icon: "fa-solid fa-user-tie",
+    class: "",
+  },
+  {
+    path: "/car-owners",
+    title: "car-owners",
+    icon: "fa-solid fa-people-group",
+    class: "",
+  },
+  {
+    path: "/our-cars",
+    title: "our-cars",
+    icon: "fa-solid fa-car-side",
+    class: "",
+  },
+  {
+    path: "/sales-report",
+    title: "sales-report",
+    icon: "fa-solid fa-clipboard-list",
+    class: "",
+  },
+  {
+    path: "/operation-report",
+    title: "operation-report",
+    icon: "fa-solid fa-clipboard-list",
     class: "",
   },
 ];

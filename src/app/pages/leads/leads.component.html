@@ -244,7 +244,11 @@
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
-                <label>Insurance Company</label>
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Insurance Company</label>
+                  <small (click)="clientInsuranceCompanyModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                </div>
                 <p-dropdown [options]="insuranceCompanies" optionLabel="name" styleClass="w-100" filter="true"
                   (onChange)="onCompanyChange($event)" formControlName='insuranceCompany'
                   [(ngModel)]="selectedInsuranceCompany" optionValue="policies">
@@ -451,6 +455,21 @@
   </ng-template>
 </p-dialog>
 
+<p-dialog header="Add Client Insurance Company" [(visible)]="clientInsuranceCompanyModal" [modal]="true"
+  [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label>Company Name</label>
+        <input type="text" class="form-control" placeholder="Enter Company Name" #CompanyName>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="addClientInsuranceCompany(CompanyName)">Add</button>
+  </ng-template>
+</p-dialog>
+
 <p-dialog header="Car Setting" [(visible)]="addCarNameModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="row">
@@ -500,26 +519,20 @@
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
-      <div *ngFor="let replay of allReplies">
-        <div *ngFor="let user of users">
-          <div *ngIf="replay.user_id == user.id" class="d-flex my-3 p-2 rounded-lg"
-            style="background-color: rgb(248, 248, 248);">
-            <img src="../../../assets/img/faces/erik-lucatero-1.jpg" class="rounded-circle mr-2"
-              style="width: 45px; height: 45px;" alt="">
-            <div class="p-1 my-1 rounded-lg w-100">
-              <div class="d-flex align-items-center justify-content-between">
-                <h6>
-                  {{user.name}}
-                </h6>
-                <small class="text-muted mx-2">{{replay['created_at'] | date}}</small>
-              </div>
-
-              <div class="text-info">{{replay['replay']}}</div>
-              <!-- <div class="text-right">
-                <small class="text-muted text-right">{{replay['created_at'] | date}}</small>
-              </div> -->
-            </div>
+      <div *ngFor="let replay of allReplies" class="d-flex my-3 p-2 rounded-lg"
+        style="background-color: rgb(248, 248, 248);">
+        <img src="../../../assets/img/default-avatar.png" class="rounded-circle mr-2" style="width: 45px; height: 45px;"
+          alt="">
+        <div class="p-1 my-1 rounded-lg w-100">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6>
+              {{replay.user.name}}
+            </h6>
+            <small class="text-muted mx-2">{{replay['created_at'] | date}}</small>
           </div>
+
+          <div class="text-info">{{replay['replay']}}</div>
+
         </div>
       </div>
     </div>
@@ -542,12 +555,12 @@
   [resizable]="false">
   <div class="row">
     <div class="col-12">
-      <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignUsers(AssignForm.value)' id="AssignUsersForm">
+      <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignUsers(AssignForm)' id="AssignUsersForm">
         <div *ngFor="let user of users; let i = index;">
           <div class="d-flex justify-content-between">
             <div class="d-flex align-items-center">
-              <img src="../../../assets/img/faces/clem-onojeghuo-1.jpg" class="rounded-circle"
-                style="width: 40px;height: 40px;" alt="user image">
+              <img src="../../../assets/img/default-avatar.png" class="rounded-circle" style="width: 40px;height: 40px;"
+                alt="user image">
               <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
                 <small>{{user.name}}</small>
               </div>

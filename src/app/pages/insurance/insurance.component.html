@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row my-3">
     <div class="col-12">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -34,6 +34,31 @@
                                 <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(company)">Add
                                     Policy</button>
                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-3">
+    <div class="col-12">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Client Insurance Companies</span>
+
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let company of clientInsuranceCompany; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{company.name}}</td>
                         </tr>
                     </tbody>
                 </table>
