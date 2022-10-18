@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CarService } from "app/shared/services/car.service";
+import { InsuranceAndPolicyService } from "app/shared/services/insurance-and-policy.service";
 import { LeadsService } from "app/shared/services/leads.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
@@ -30,10 +31,14 @@ export class LeadsComponent implements OnInit {
   carName: any[] = [];
   carColor: any[] = [];
   allReplies: any[] = [];
+  insuranceCompanies: any[] = [];
+  policies: any[] = [];
   selectedGrade: any;
   selectedCarModel: any;
   selectedGearType: any;
   selectedInsurance: any;
+  selectedInsuranceCompany: any;
+  selectedPolicy: any;
   currentLead: any;
   currentEditRow: any;
 
@@ -64,6 +69,7 @@ export class LeadsComponent implements OnInit {
     private _CarService: CarService,
     private _UsersService: UsersService,
     private _ConfirmationService: ConfirmationService,
+    private _InsuranceAndPolicyService: InsuranceAndPolicyService,
     private _FormBuilder: FormBuilder
   ) {
     this.insurance = [
@@ -88,6 +94,8 @@ export class LeadsComponent implements OnInit {
       { name: "TOP LINE", value: "TOP LINE" },
     ];
 
+    this.policies = [{ name: "Select Policy", value: "" }];
+
     const currentYear = new Date().getFullYear() + 1;
     this.carModel.push({ name: "Select Model", value: "" });
     for (let i = 2015; i <= currentYear; i++) {
@@ -95,6 +103,7 @@ export class LeadsComponent implements OnInit {
     }
     this.selectedGrade = this.grade[0];
     this.selectedInsurance = this.insurance[0];
+    this.selectedInsuranceCompany = this.insuranceCompanies[0];
     this.selectedCarModel = this.carModel[0];
     this.selectedGearType = this.gearType[0];
   }
@@ -108,6 +117,7 @@ export class LeadsComponent implements OnInit {
     this.getCarType();
     this.getAdmins();
     this.setAdminForm();
+    this.getInsuranceCompanies();
   }
 
   // Leads Settings
@@ -161,6 +171,12 @@ export class LeadsComponent implements OnInit {
   }
 
   createLead(form: any) {
+    form.value.insuranceCompany
+      ? (form.value.insurance_in_out = "in")
+      : (form.value.insurance_in_out = "out");
+
+    delete this.leadForm.value.insuranceCompany;
+
     this._LeadsService.createLeads(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
@@ -171,7 +187,11 @@ export class LeadsComponent implements OnInit {
         }
       },
       error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
+        this._ToastrService.setToaster(
+          err.error.errors.customer_mobile.toString().replace(",", "<br />"),
+          "error",
+          "danger"
+        );
       },
     });
   }
@@ -350,6 +370,9 @@ export class LeadsComponent implements OnInit {
       grade: new FormControl(lead?.grade),
       kilometer: new FormControl(km),
       insurance: new FormControl(lead?.insurance),
+      insurance_in_out: new FormControl(lead?.insurance_in_out),
+      company_policy_id: new FormControl(lead?.company_policy_id),
+      insuranceCompany: new FormControl(null),
     });
   }
 
@@ -472,4 +495,29 @@ export class LeadsComponent implements OnInit {
       this._SharedService.fadeIn(this.LeadsTable.nativeElement);
     }, 800);
   }
+
+  // Insurance Company - Policy
+  getInsuranceCompanies() {
+    this.insuranceCompanies = [
+      { name: "Select Insurance Company", policies: "" },
+    ];
+    this._InsuranceAndPolicyService.getInsuranceCompanies().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.insuranceCompanies.push(...res.data);
+        });
+      },
+    });
+  }
+
+  onCompanyChange(e) {
+    this.policies = [{ name: "Select Policy", value: null }];
+    e.value.forEach((e: any) => {
+      this.policies.push({ name: e.id, value: e.id });
+    });
+  }
 }
+
+// TODO: make INSURANCE generic service
+// TODO: make gearType generic service
+// TODO: make Grade generic service

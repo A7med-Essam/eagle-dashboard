@@ -9,6 +9,12 @@ export interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
   { path: "/dashboard", title: "Dashboard", icon: "nc-bank", class: "" },
+  {
+    path: "/accounting",
+    title: "Accounting",
+    icon: "nc-money-coins",
+    class: "",
+  },
   { path: "/users", title: "Users", icon: "nc-single-02", class: "" },
   { path: "/leads", title: "leads", icon: "nc-diamond", class: "" },
   { path: "/cars", title: "car settings", icon: "nc-delivery-fast", class: "" },
@@ -26,18 +32,6 @@ export const ROUTES: RouteInfo[] = [
   //   class: "",
   // },
   {
-    path: "/accounting",
-    title: "Accounting",
-    icon: "nc-money-coins",
-    class: "",
-  },
-  {
-    path: "/policy",
-    title: "Policies",
-    icon: "nc-single-copy-04",
-    class: "",
-  },
-  {
     path: "/operations",
     title: "Operations",
     icon: "nc-atom",
@@ -47,6 +41,12 @@ export const ROUTES: RouteInfo[] = [
     path: "/insurances",
     title: "Insurance Companies",
     icon: "nc-caps-small",
+    class: "",
+  },
+  {
+    path: "/policy",
+    title: "Policies",
+    icon: "nc-single-copy-04",
     class: "",
   },
 ];

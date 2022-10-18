@@ -1,49 +1,51 @@
 <div>
-    <div class="login_wrapper">
-      <div class="animate form login_form">
-        <section class="login_content">
-          <form [formGroup]='loginForm' (ngSubmit)='onSubmit(loginForm)'>
-            <h1>Login Form</h1>
-            <div class="my-3">
-              <input type="email" class="form-control m-0" placeholder="Email" required="" formControlName='email'/>
-              <div class="text-left mb-2">
-                <small class="text-danger ms-1" *ngIf="loginForm.get('email')?.touched &&
+  <div class="login_wrapper">
+    <div class="animate form login_form">
+      <section class="login_content">
+        <form [formGroup]='loginForm' (ngSubmit)='onSubmit(loginForm)'>
+          <h1>Login Form</h1>
+          <div class="my-3">
+            <input type="email" class="form-control m-0" placeholder="Email" required="" formControlName='email' />
+            <div class="text-left mb-2">
+              <small class="text-danger ms-1" *ngIf="loginForm.get('email')?.touched &&
                 loginForm.get('email')?.hasError('email')">This email is not valid!</small>
-                <small class="text-danger ms-1" *ngIf="loginForm.get('email')?.touched &&
+              <small class="text-danger ms-1" *ngIf="loginForm.get('email')?.touched &&
                 loginForm.get('email')?.hasError('required')">This field is required!</small>
-              </div>
             </div>
-            <div class="my-3">
-              <input type="password" class="form-control m-0" placeholder="Password" required="" formControlName='password'/>
-              <div class="text-left mb-2">
-                <small class="text-danger ms-1" *ngIf="loginForm.get('password')?.touched &&
+          </div>
+          <div class="my-3">
+            <input type="password" class="form-control m-0" placeholder="Password" required=""
+              formControlName='password' />
+            <div class="text-left mb-2">
+              <small class="text-danger ms-1" *ngIf="loginForm.get('password')?.touched &&
                 loginForm.get('password')?.hasError('required')">This field is required!</small>
-              </div>
             </div>
-            <div class="mb-4">
-              <button [disabled]="loginForm.invalid" class="btn btn-default submit">Log In</button>
-            </div>
-            
+          </div>
+          <div class="mb-4">
+            <button [disabled]="loginForm.invalid" class="btn btn-default submit" #LoginBtn>Log In</button>
+          </div>
+
+          <div class="clearfix"></div>
+          <a class="reset_pass text-muted" href="#">Lost your password?</a>
+
+          <div class="separator">
+            <p class="change_link">New to site?
+              <a routerLink="../register" class="to_register text-danger"> Create Account </a>
+            </p>
+
             <div class="clearfix"></div>
-            <a class="reset_pass text-muted" href="#">Lost your password?</a>
+            <br />
 
-            <div class="separator">
-              <p class="change_link">New to site?
-                <a routerLink="../register" class="to_register text-danger"> Create Account </a>
-              </p>
-
-              <div class="clearfix"></div>
-              <br />
-
-              <div>
-                <h1>
-                    <img src="../../../../assets/img/logo.jpg" style="width: 50px;" alt="">
-                     Eagles Limousine!</h1>
-                <p>©2022 All Rights Reserved. <br> Eagles Limousine! is a Rental Website.</p>
-              </div>
+            <div>
+              <h1>
+                <img src="../../../../assets/img/logo.jpg" style="width: 50px;" alt="">
+                Eagles Limousine!
+              </h1>
+              <p>©2022 All Rights Reserved. <br> Eagles Limousine! is a Rental Website.</p>
             </div>
-          </form>
-        </section>
-      </div>
+          </div>
+        </form>
+      </section>
     </div>
   </div>
+</div>

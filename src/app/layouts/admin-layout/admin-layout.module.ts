@@ -8,7 +8,7 @@ import { AdminLayoutRoutes } from "./admin-layout.routing";
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { UserComponent } from "../../pages/user/user.component";
 import { TableComponent } from "../../pages/table/table.component";
-import { TypographyComponent } from "../../pages/typography/typography.component";
+import { OperationsComponent } from "../../pages/operations/operations.component";
 import { IconsComponent } from "../../pages/icons/icons.component";
 import { CarsComponent } from "../../pages/cars/cars.component";
 import { NotificationsComponent } from "../../pages/notifications/notifications.component";
@@ -37,7 +37,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
     UserComponent,
     TableComponent,
     LeadsComponent,
-    TypographyComponent,
+    OperationsComponent,
     IconsComponent,
     CarsComponent,
     NotificationsComponent,

@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "./core/guards/auth.guard";
+import { SuperAdminGuard } from "./core/guards/super-admin.guard";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { Error404Component } from "./layouts/error-layout/error404/error404.component";

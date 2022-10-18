@@ -72,8 +72,13 @@ export class UserComponent implements OnInit {
           this.fadeInUserTable();
         }
       },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      error: (err) => {
+        this._ToastrService.setToaster(
+          err.error.errors.password.toString().replace(",", "<br />"),
+          "error",
+          "danger"
+        );
+      },
     });
   }
 

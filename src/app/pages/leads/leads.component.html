@@ -242,6 +242,22 @@
                   [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
               </div>
             </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <label>Insurance Company</label>
+                <p-dropdown [options]="insuranceCompanies" optionLabel="name" styleClass="w-100" filter="true"
+                  (onChange)="onCompanyChange($event)" formControlName='insuranceCompany'
+                  [(ngModel)]="selectedInsuranceCompany" optionValue="policies">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <label>Policy</label>
+                <p-dropdown [options]="policies" optionLabel="name" styleClass="w-100"
+                  formControlName='company_policy_id' [(ngModel)]="selectedPolicy" optionValue="value"></p-dropdown>
+              </div>
+            </div>
 
           </div>
           <div class="row">
