@@ -17,7 +17,7 @@ import { AuthInterceptor } from "./core/interceptor/http.interceptor";
 import { LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { Error404Component } from "./layouts/error-layout/error404/error404.component";
 import { Error500Component } from "./layouts/error-layout/error500/error500.component";
-import { CommingSoonComponent } from './layouts/comming-soon/comming-soon.component';
+import { CommingSoonComponent } from "./layouts/comming-soon/comming-soon.component";
 
 @NgModule({
   declarations: [

@@ -1,0 +1,372 @@
+<div class="row animated" #Main>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="card-title">Our Cars Table</h4>
+                <div class="text-center">
+                    <button class="btn btn-primary m-1" (click)="filterModal = true">
+                        <i class="fa-solid fa-filter"></i>
+                        Filter
+                    </button>
+                    <button class="btn btn-primary m-1" (click)="export()">
+                        <i class="fa-regular fa-file-excel"></i>
+                        Export
+                    </button>
+                    <button class="btn btn-primary m-1" (click)="displayCreateForm()">
+                        <i class="fa-solid fa-plus"></i>
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>name</th>
+                            <th>model</th>
+                            <th>grade</th>
+                            <th>color</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let car of ourCars; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{car.name}}</td>
+                                <td>{{car.model}}</td>
+                                <td>{{car.grade}}</td>
+                                <td>{{car.color}}</td>
+                                <td>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getById(car.id);"><i
+                                            class="fa-regular fa-eye"></i></button>
+                                    <button class="btn btn-info m-1 px-3" (click)="displayEditForm(car)"><i
+                                            class="fa-regular fa-pen-to-square"></i></button>
+                                    <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(car.id)"><i
+                                            class="fa-solid fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Our Cars Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Car Name</td>
+                                            <td>{{selectedRow?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Model</td>
+                                            <td>{{selectedRow?.model}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Grade</td>
+                                            <td>{{selectedRow?.grade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Color</td>
+                                            <td>{{selectedRow?.color}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Plate Number</td>
+                                            <td>{{selectedRow?.plate_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Motor Number</td>
+                                            <td>{{selectedRow?.motor_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Chassis Number</td>
+                                            <td>{{selectedRow?.chassis_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car License</td>
+                                            <td>{{selectedRow?.license_end | date}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #CreateForm>
+    <div class="col-12">
+        <div class="card card-user">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title">Create Form</h5>
+                <button class="btn btn-dark" (click)="backCreateBtn()">Back</button>
+            </div>
+            <div class="card-body">
+                <form [formGroup]='ourCarsForm' (ngSubmit)='createRow(ourCarsForm)'>
+                    <div class="row">
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Car Name"
+                                    formControlName='name'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Color</label>
+                                <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
+                                    formControlName='color' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Grade</label>
+                                <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='grade'>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Model</label>
+                                <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
+                                    formControlName='model' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Plate Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="4" class="form-control" formControlName='plate_no'
+                                    placeholder="Enter Car Plate Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Motor Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='motor_no'
+                                    placeholder="Enter Car Motor Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Chassis Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="4" class="form-control" formControlName='chassis_no'
+                                    placeholder="Enter Car Chassis Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>License End</label>
+                                <br>
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #EditForm>
+    <div class="col-12">
+        <div class="card card-user">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title">Edit Form</h5>
+                <button class="btn btn-dark" (click)="backEditBtn()">Back</button>
+            </div>
+            <div class="card-body">
+                <form [formGroup]='ourCarsForm' (ngSubmit)='editRow(ourCarsForm)'>
+                    <div class="row">
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Car Name"
+                                    formControlName='name'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Color</label>
+                                <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
+                                    formControlName='color' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Grade</label>
+                                <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='grade'>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Model</label>
+                                <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
+                                    formControlName='model' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Plate Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="4" class="form-control" formControlName='plate_no'
+                                    placeholder="Enter Car Plate Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Motor Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='motor_no'
+                                    placeholder="Enter Car Motor Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Chassis Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="4" class="form-control" formControlName='chassis_no'
+                                    placeholder="Enter Car Chassis Number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>License End</label>
+                                <br>
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Our Cars Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+        <div class="row">
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Car Name" formControlName='name'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Color</label>
+                    <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='color'
+                        filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Grade</label>
+                    <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='grade'>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='model'
+                        filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Plate Number</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="4" class="form-control" formControlName='plate_no'
+                        placeholder="Enter Car Plate Number">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Motor Number</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="14" class="form-control" formControlName='motor_no'
+                        placeholder="Enter Car Motor Number">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Chassis Number</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="4" class="form-control" formControlName='chassis_no'
+                        placeholder="Enter Car Chassis Number">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>License End</label>
+                    <br>
+                    <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                    </p-calendar>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

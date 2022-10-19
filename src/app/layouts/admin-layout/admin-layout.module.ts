@@ -20,6 +20,10 @@ import { DialogModule } from "primeng/dialog";
 import { CalendarModule } from "primeng/calendar";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { InputSwitchModule } from "primeng/inputswitch";
+import { OurCarsComponent } from "app/pages/our-cars/our-cars.component";
+import { CarOwnersComponent } from "app/pages/car-owners/car-owners.component";
+import { CustomersComponent } from "app/pages/customers/customers.component";
+import { EmployeesComponent } from "app/pages/employees/employees.component";
 
 @NgModule({
   imports: [
@@ -43,6 +47,10 @@ import { InputSwitchModule } from "primeng/inputswitch";
     IconsComponent,
     CarsComponent,
     InsuranceComponent,
+    EmployeesComponent,
+    CustomersComponent,
+    CarOwnersComponent,
+    OurCarsComponent,
   ],
 })
 export class AdminLayoutModule {}

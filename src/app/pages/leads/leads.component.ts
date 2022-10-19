@@ -455,7 +455,7 @@ export class LeadsComponent implements OnInit {
     this._CarService.getGrade().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.grade.push({ name: `Grade ${e.grade}`, value: e.grade_id });
+          this.grade.push({ name: `Grade ${e.grade}`, value: e.id });
         });
       },
       error: (err) => {
