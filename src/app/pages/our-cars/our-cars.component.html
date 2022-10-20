@@ -133,6 +133,11 @@
                                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
                                     formControlName='name' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
+                                                ourCarsForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -141,6 +146,11 @@
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
                                     formControlName='color' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('color')?.touched &&
+                                                ourCarsForm.get('color')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -149,6 +159,11 @@
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
                                     optionValue="value" appendTo="body" formControlName='grade'>
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('grade')?.touched &&
+                                                ourCarsForm.get('grade')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -157,6 +172,11 @@
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
                                     formControlName='model' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('model')?.touched &&
+                                                ourCarsForm.get('model')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -164,6 +184,11 @@
                                 <label>Plate Number</label>
                                 <input type="text" class="form-control" placeholder="Enter Car Plate Number"
                                     formControlName='plate_no'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('plate_no')?.touched &&
+                                                    ourCarsForm.get('plate_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -173,6 +198,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='motor_no'
                                     placeholder="Enter Car Motor Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('motor_no')?.touched &&
+                                                    ourCarsForm.get('motor_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -181,6 +211,11 @@
                                 <br>
                                 <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
+                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -190,12 +225,18 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='chassis_no'
                                     placeholder="Enter Car Chassis Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('chassis_no')?.touched &&
+                                                    ourCarsForm.get('chassis_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Create</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="ourCarsForm.invalid">Create</button>
                         </div>
                     </div>
                 </form>
@@ -220,6 +261,11 @@
                                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
                                     formControlName='name' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
+                                                ourCarsForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -228,6 +274,11 @@
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
                                     formControlName='color' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('color')?.touched &&
+                                                ourCarsForm.get('color')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -236,6 +287,11 @@
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
                                     optionValue="value" appendTo="body" formControlName='grade'>
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('grade')?.touched &&
+                                                ourCarsForm.get('grade')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -244,6 +300,11 @@
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
                                     formControlName='model' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('model')?.touched &&
+                                                ourCarsForm.get('model')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -251,6 +312,11 @@
                                 <label>Plate Number</label>
                                 <input type="text" class="form-control" placeholder="Enter Car Plate Number"
                                     formControlName='plate_no'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('plate_no')?.touched &&
+                                                    ourCarsForm.get('plate_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -260,6 +326,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='motor_no'
                                     placeholder="Enter Car Motor Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('motor_no')?.touched &&
+                                                    ourCarsForm.get('motor_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -268,6 +339,11 @@
                                 <br>
                                 <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
+                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -277,12 +353,18 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='chassis_no'
                                     placeholder="Enter Car Chassis Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('chassis_no')?.touched &&
+                                                    ourCarsForm.get('chassis_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Update</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="ourCarsForm.invalid">Update</button>
                         </div>
                     </div>
                 </form>

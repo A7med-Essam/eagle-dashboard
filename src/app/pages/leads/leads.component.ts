@@ -84,7 +84,7 @@ export class LeadsComponent implements OnInit {
     this.gearType = [
       { name: "Select Gear Type", value: "" },
       { name: "Automatic", value: "AUTOMATIC" },
-      { name: "Normal", value: "NORMAL" },
+      { name: "Manual", value: "MANUAL" },
     ];
 
     // this.grade = [
@@ -134,7 +134,12 @@ export class LeadsComponent implements OnInit {
         this.pagination = res.data;
       },
       error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
+        this._ToastrService.setToaster(
+          "You don't have permission to access this page",
+          "error",
+          "danger"
+        );
       },
     });
   }
@@ -550,7 +555,7 @@ export class LeadsComponent implements OnInit {
   onCompanyChange(e) {
     this.policies = [{ name: "Select Policy", value: null }];
     e.value.forEach((e: any) => {
-      this.policies.push({ name: e.id, value: e.id });
+      this.policies.push({ name: e.policy.type, value: e.id });
     });
   }
 

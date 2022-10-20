@@ -19,7 +19,15 @@ import { ConfirmationService } from "primeng/api";
 export class EmployeesComponent implements OnInit {
   pagination: any;
   employees: any[] = [];
-  gender: any;
+  jobTitle: any[] = [];
+  status: any[] = [];
+  religion: any[] = [];
+  gender: any[] = [];
+  nationality: any[] = [];
+  militaryStatus: any[] = [];
+  maritalStatus: any[] = [];
+  contract: any[] = [];
+
   filterModal: boolean = false;
   selectedRow: any;
   currentEditRow: any;
@@ -43,6 +51,59 @@ export class EmployeesComponent implements OnInit {
       { name: "Select your gender", value: "" },
       { name: "Male", value: "male" },
       { name: "Female", value: "female" },
+    ];
+
+    this.contract = [
+      { name: "Select contract", value: "" },
+      { name: "Limited", value: "limited" },
+      { name: "Un Limited", value: "un limited" },
+    ];
+
+    this.militaryStatus = [
+      { name: "Select military status", value: "" },
+      { name: "Exempted", value: "Exempted" },
+      { name: "Fulfiled", value: "Fulfiled" },
+      { name: "Postponed", value: "Postponed" },
+    ];
+
+    this.status = [
+      { name: "Select status", value: "" },
+      { name: "Active", value: "ACTIVE" },
+      { name: "Deactive", value: "DEACTIVE" },
+    ];
+
+    this.religion = [
+      { name: "Select your religion", value: "" },
+      { name: "MUSLIM", value: "MUSLIM" },
+      { name: "CHRISTIAN", value: "CHRISTIAN" },
+    ];
+
+    this.nationality = [
+      { name: "Select your nationality", value: "" },
+      { name: "EGYPTIAN", value: "EGYPTIAN" },
+      { name: "SAUDI", value: "SAUDI" },
+      { name: "HINDI", value: "HINDI" },
+      { name: "YAMNI", value: "YAMNI" },
+      { name: "PAKISTANI", value: "PAKISTANI" },
+    ];
+
+    this.maritalStatus = [
+      { name: "Select marital status", value: "" },
+      { name: "SINGLE", value: "SINGLE" },
+      { name: "MARRIED", value: "MARRIED" },
+    ];
+
+    this.jobTitle = [
+      { name: "Select your job title", value: "" },
+      { name: "Sales", value: "Sales" },
+      { name: "Operation", value: "Operation" },
+      { name: "Accounting", value: "Accounting" },
+      { name: "Assistant Account", value: "Assistant Account" },
+      { name: "Assistant Sales", value: "Assistant Sales" },
+      { name: "Assistant Operation", value: "Assistant Operation" },
+      { name: "Assistant CEO", value: "Assistant CEO" },
+      { name: "Housekeeping", value: "Housekeeping" },
+      { name: "newcomer", value: "newcomer" },
     ];
   }
 
@@ -132,25 +193,28 @@ export class EmployeesComponent implements OnInit {
   setEmployeesForm(emp?: any) {
     let date = emp ? new Date(emp?.dof) : null;
     this.employeesForm = this._FormBuilder.group({
-      name: new FormControl(emp?.name),
-      job_title: new FormControl(emp?.job_title),
-      mobile: new FormControl(emp?.mobile),
-      nid: new FormControl(emp?.nid),
-      dof: new FormControl(date),
-      contract: new FormControl(emp?.contract),
-      status: new FormControl(emp?.status),
-      join: new FormControl(emp?.join),
-      annual: new FormControl(emp?.annual),
-      end: new FormControl(emp?.end),
-      email: new FormControl(emp?.email),
-      passport: new FormControl(emp?.passport),
-      religion: new FormControl(emp?.religion),
-      gender: new FormControl(emp?.gender),
-      nationality: new FormControl(emp?.nationality),
-      address: new FormControl(emp?.address),
-      military: new FormControl(emp?.military),
-      marital: new FormControl(emp?.marital),
-      no_kids: new FormControl(emp?.no_kids),
+      name: new FormControl(emp?.name, [Validators.required]),
+      job_title: new FormControl(emp?.job_title, [Validators.required]),
+      mobile: new FormControl(emp?.mobile, [Validators.required]),
+      nid: new FormControl(emp?.nid, [Validators.required]),
+      dof: new FormControl(date, [Validators.required]),
+      contract: new FormControl(emp?.contract, [Validators.required]),
+      status: new FormControl(emp?.status, [Validators.required]),
+      join: new FormControl(emp?.join, [Validators.required]),
+      annual: new FormControl(emp?.annual, [Validators.required]),
+      end: new FormControl(emp?.end, [Validators.required]),
+      email: new FormControl(emp?.email, [
+        Validators.required,
+        Validators.email,
+      ]),
+      passport: new FormControl(emp?.passport, [Validators.required]),
+      religion: new FormControl(emp?.religion, [Validators.required]),
+      gender: new FormControl(emp?.gender, [Validators.required]),
+      nationality: new FormControl(emp?.nationality, [Validators.required]),
+      address: new FormControl(emp?.address, [Validators.required]),
+      military: new FormControl(emp?.military, [Validators.required]),
+      marital: new FormControl(emp?.marital, [Validators.required]),
+      no_kids: new FormControl(emp?.no_kids, [Validators.required]),
     });
   }
 

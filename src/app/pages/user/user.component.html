@@ -60,6 +60,8 @@
         <button class="btn btn-dark" (click)="backEditBtn()">Back</button>
       </div>
       <div class="card-body">
+        <label>Enable Super Admin</label> <br>
+        <p-inputSwitch [(ngModel)]="enableSuperAdmin"></p-inputSwitch>
         <form [formGroup]='editUserForm' (ngSubmit)='updateAdmin(editUserForm)'>
           <div class="row">
             <div class="col-md-4 pr-md-1 d-none">

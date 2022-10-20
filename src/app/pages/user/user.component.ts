@@ -137,19 +137,35 @@ export class UserComponent implements OnInit {
 
   updateAdmin(user) {
     if (!user.value.password) this.editUserForm.removeControl("password");
-    this._UsersService.updateAdmin(user.value).subscribe({
-      next: (res) => {
-        if (res.status == 1) {
-          this.setCurrentUser(res.data);
-          this.getAdmins();
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this._SharedService.fadeOut(this.editForm.nativeElement);
-          this.fadeInUserTable();
-        }
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
+    if (this.enableSuperAdmin) {
+      this._UsersService.updateSuperAdmin(user.value).subscribe({
+        next: (res) => {
+          if (res.status == 1) {
+            this.setCurrentUser(res.data);
+            this.getAdmins();
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this._SharedService.fadeOut(this.editForm.nativeElement);
+            this.fadeInUserTable();
+          }
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+    } else {
+      this._UsersService.updateAdmin(user.value).subscribe({
+        next: (res) => {
+          if (res.status == 1) {
+            this.setCurrentUser(res.data);
+            this.getAdmins();
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this._SharedService.fadeOut(this.editForm.nativeElement);
+            this.fadeInUserTable();
+          }
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+    }
   }
 
   setCurrentUser(user) {

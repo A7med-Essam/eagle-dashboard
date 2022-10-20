@@ -123,10 +123,10 @@ export class CarOwnersComponent implements OnInit {
   // Set Reactive Forms
   setCarsForm(car?: any) {
     this.carsForm = this._FormBuilder.group({
-      name: new FormControl(car?.name),
-      mobile: new FormControl(car?.mobile),
-      address: new FormControl(car?.address),
-      nid: new FormControl(car?.nid),
+      name: new FormControl(car?.name, [Validators.required]),
+      mobile: new FormControl(car?.mobile, [Validators.required]),
+      address: new FormControl(car?.address, [Validators.required]),
+      nid: new FormControl(car?.nid, [Validators.required]),
     });
   }
 

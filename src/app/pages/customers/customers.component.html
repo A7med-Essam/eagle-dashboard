@@ -114,6 +114,11 @@
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Enter your name"
                                     formControlName='name'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('name')?.touched &&
+                                            customerForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -123,6 +128,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="11" class="form-control" formControlName='mobile'
                                     placeholder="Enter Mobile Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('mobile')?.touched &&
+                                            customerForm.get('mobile')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -130,6 +140,11 @@
                                 <label>Address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('address')?.touched &&
+                                            customerForm.get('address')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -139,12 +154,18 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="14" class="form-control" formControlName='nid'
                                     placeholder="Enter National ID">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('nid')?.touched &&
+                                            customerForm.get('nid')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Create</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="customerForm.invalid">Create</button>
                         </div>
                     </div>
                 </form>
@@ -168,6 +189,11 @@
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Enter your name"
                                     formControlName='name'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('name')?.touched &&
+                                            customerForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -177,6 +203,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="11" class="form-control" formControlName='mobile'
                                     placeholder="Enter Mobile Number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('mobile')?.touched &&
+                                            customerForm.get('mobile')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -184,6 +215,11 @@
                                 <label>Address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('address')?.touched &&
+                                            customerForm.get('address')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -193,12 +229,18 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="14" class="form-control" formControlName='nid'
                                     placeholder="Enter National ID">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="customerForm.get('nid')?.touched &&
+                                            customerForm.get('nid')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Update</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="customerForm.invalid">Update</button>
                         </div>
                     </div>
                 </form>

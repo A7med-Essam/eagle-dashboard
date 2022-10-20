@@ -30,6 +30,11 @@ export class UsersService {
     return this._ApiService.postReqWithHeader("register", user, headers);
   }
 
+  updateSuperAdmin(user): Observable<any> {
+    let headers = new HttpHeaders({ secretKey: "123456" });
+    return this._ApiService.postReqWithHeader("updateAdmin", user, headers);
+  }
+
   getPermissions(): Observable<any> {
     return this._ApiService.postReq("permissions", "");
   }

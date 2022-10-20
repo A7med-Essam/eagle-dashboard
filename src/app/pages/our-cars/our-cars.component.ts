@@ -145,15 +145,16 @@ export class OurCarsComponent implements OnInit {
   // Set Reactive Forms
   setOurCarsForm(car?: any) {
     let date = car ? new Date(car?.license_end) : null;
+    let grade = car ? Number(car?.grade) : null;
     this.ourCarsForm = this._FormBuilder.group({
-      name: new FormControl(car?.name),
-      model: new FormControl(car?.model),
-      grade: new FormControl(Number(car?.grade)),
-      color: new FormControl(car?.color),
-      plate_no: new FormControl(car?.plate_no),
-      motor_no: new FormControl(car?.motor_no),
-      chassis_no: new FormControl(car?.chassis_no),
-      license_end: new FormControl(date),
+      name: new FormControl(car?.name, [Validators.required]),
+      model: new FormControl(car?.model, [Validators.required]),
+      grade: new FormControl(grade, [Validators.required]),
+      color: new FormControl(car?.color, [Validators.required]),
+      plate_no: new FormControl(car?.plate_no, [Validators.required]),
+      motor_no: new FormControl(car?.motor_no, [Validators.required]),
+      chassis_no: new FormControl(car?.chassis_no, [Validators.required]),
+      license_end: new FormControl(date, [Validators.required]),
     });
   }
 

@@ -123,10 +123,10 @@ export class CustomersComponent implements OnInit {
   // Set Reactive Forms
   setCustomerForm(customer?: any) {
     this.customerForm = this._FormBuilder.group({
-      name: new FormControl(customer?.name),
-      mobile: new FormControl(customer?.mobile),
-      address: new FormControl(customer?.address),
-      nid: new FormControl(customer?.nid),
+      name: new FormControl(customer?.name, [Validators.required]),
+      mobile: new FormControl(customer?.mobile, [Validators.required]),
+      address: new FormControl(customer?.address, [Validators.required]),
+      nid: new FormControl(customer?.nid, [Validators.required]),
     });
   }
 

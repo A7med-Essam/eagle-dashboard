@@ -176,6 +176,11 @@
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Enter Employee Name"
                                     formControlName='name'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('name')?.touched &&
+                                        employeesForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -185,6 +190,10 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="14" class="form-control" formControlName='nid'
                                     placeholder="Enter your national id">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('nid')?.touched &&
+                                        employeesForm.get('nid')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -194,6 +203,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="11" class="form-control" formControlName='mobile'
                                     placeholder="Enter mobile">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('mobile')?.touched &&
+                                        employeesForm.get('mobile')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -202,6 +216,10 @@
                                 <br>
                                 <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dof')?.touched &&
+                                    employeesForm.get('dof')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -210,33 +228,59 @@
                                 <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
                                     appendTo="body" formControlName='gender'>
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('gender')?.touched &&
+                                    employeesForm.get('gender')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>job title</label>
-                                <input type="text" class="form-control" placeholder="Enter your job title"
-                                    formControlName='job_title'>
+                                <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='job_title'>
+                                </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('job_title')?.touched &&
+                                        employeesForm.get('job_title')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>contract</label>
-                                <input type="text" class="form-control" placeholder="Enter contract"
-                                    formControlName='contract'>
+                                <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='contract'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('contract')?.touched &&
+                                        employeesForm.get('contract')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>status</label>
-                                <input type="text" class="form-control" placeholder="Enter status"
-                                    formControlName='status'>
+                                <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
+                                    appendTo="body" formControlName='status'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('status')?.touched &&
+                                        employeesForm.get('status')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>join</label>
-                                <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                                <br>
+                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('join')?.touched &&
+                                    employeesForm.get('join')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -244,12 +288,23 @@
                                 <label>annual</label>
                                 <input type="text" class="form-control" placeholder="Enter annual"
                                     formControlName='annual'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('annual')?.touched &&
+                                        employeesForm.get('annual')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>end</label>
-                                <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                                <br>
+                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('end')?.touched &&
+                                    employeesForm.get('end')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -257,6 +312,13 @@
                                 <label>email</label>
                                 <input type="text" class="form-control" placeholder="Enter your email"
                                     formControlName='email'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('email')?.touched &&
+                                        employeesForm.get('email')?.hasError('email')">This email is not valid!</small>
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('email')?.touched &&
+                                        employeesForm.get('email')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -264,20 +326,35 @@
                                 <label>passport</label>
                                 <input type="text" class="form-control" placeholder="Enter your passport"
                                     formControlName='passport'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('passport')?.touched &&
+                                        employeesForm.get('passport')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>religion</label>
-                                <input type="text" class="form-control" placeholder="Enter religion"
-                                    formControlName='religion'>
+                                <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='religion'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('religion')?.touched &&
+                                        employeesForm.get('religion')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>nationality</label>
-                                <input type="text" class="form-control" placeholder="Enter your nationality"
-                                    formControlName='nationality'>
+                                <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='nationality'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('nationality')?.touched &&
+                                        employeesForm.get('nationality')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -285,33 +362,56 @@
                                 <label>address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('address')?.touched &&
+                                        employeesForm.get('address')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>military</label>
-                                <input type="text" class="form-control" placeholder="Enter your military status"
-                                    formControlName='military'>
+                                <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='military'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('military')?.touched &&
+                                        employeesForm.get('military')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>marital</label>
-                                <input type="text" class="form-control" placeholder="Enter your marital"
-                                    formControlName='marital'>
+                                <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='marital'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('marital')?.touched &&
+                                        employeesForm.get('marital')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>kids</label>
-                                <input type="text" class="form-control" placeholder="Enter your kids number"
-                                    formControlName='no_kids'>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="2" class="form-control" formControlName='no_kids'
+                                    placeholder="Enter your kids number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('no_kids')?.touched &&
+                                        employeesForm.get('no_kids')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Create</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="employeesForm.invalid">Create</button>
                         </div>
                     </div>
                 </form>
@@ -335,6 +435,11 @@
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Enter Employee Name"
                                     formControlName='name'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('name')?.touched &&
+                                        employeesForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -344,6 +449,10 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="14" class="form-control" formControlName='nid'
                                     placeholder="Enter your national id">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('nid')?.touched &&
+                                        employeesForm.get('nid')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -353,6 +462,11 @@
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="11" class="form-control" formControlName='mobile'
                                     placeholder="Enter mobile">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('mobile')?.touched &&
+                                        employeesForm.get('mobile')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -361,6 +475,10 @@
                                 <br>
                                 <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dof')?.touched &&
+                                    employeesForm.get('dof')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -369,33 +487,59 @@
                                 <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
                                     appendTo="body" formControlName='gender'>
                                 </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('gender')?.touched &&
+                                    employeesForm.get('gender')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>job title</label>
-                                <input type="text" class="form-control" placeholder="Enter your job title"
-                                    formControlName='job_title'>
+                                <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='job_title'>
+                                </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('job_title')?.touched &&
+                                        employeesForm.get('job_title')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>contract</label>
-                                <input type="text" class="form-control" placeholder="Enter contract"
-                                    formControlName='contract'>
+                                <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='contract'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('contract')?.touched &&
+                                        employeesForm.get('contract')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>status</label>
-                                <input type="text" class="form-control" placeholder="Enter status"
-                                    formControlName='status'>
+                                <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
+                                    appendTo="body" formControlName='status'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('status')?.touched &&
+                                        employeesForm.get('status')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>join</label>
-                                <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                                <br>
+                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('join')?.touched &&
+                                    employeesForm.get('join')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -403,12 +547,23 @@
                                 <label>annual</label>
                                 <input type="text" class="form-control" placeholder="Enter annual"
                                     formControlName='annual'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('annual')?.touched &&
+                                        employeesForm.get('annual')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>end</label>
-                                <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                                <br>
+                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('end')?.touched &&
+                                    employeesForm.get('end')?.hasError('required')">This field is required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -416,6 +571,13 @@
                                 <label>email</label>
                                 <input type="text" class="form-control" placeholder="Enter your email"
                                     formControlName='email'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('email')?.touched &&
+                                        employeesForm.get('email')?.hasError('email')">This email is not valid!</small>
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('email')?.touched &&
+                                        employeesForm.get('email')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -423,20 +585,35 @@
                                 <label>passport</label>
                                 <input type="text" class="form-control" placeholder="Enter your passport"
                                     formControlName='passport'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('passport')?.touched &&
+                                        employeesForm.get('passport')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>religion</label>
-                                <input type="text" class="form-control" placeholder="Enter religion"
-                                    formControlName='religion'>
+                                <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='religion'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('religion')?.touched &&
+                                        employeesForm.get('religion')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>nationality</label>
-                                <input type="text" class="form-control" placeholder="Enter your nationality"
-                                    formControlName='nationality'>
+                                <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='nationality'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('nationality')?.touched &&
+                                        employeesForm.get('nationality')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -444,33 +621,56 @@
                                 <label>address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('address')?.touched &&
+                                        employeesForm.get('address')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>military</label>
-                                <input type="text" class="form-control" placeholder="Enter your military status"
-                                    formControlName='military'>
+                                <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='military'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('military')?.touched &&
+                                        employeesForm.get('military')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>marital</label>
-                                <input type="text" class="form-control" placeholder="Enter your marital"
-                                    formControlName='marital'>
+                                <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100"
+                                    optionValue="value" appendTo="body" formControlName='marital'></p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('marital')?.touched &&
+                                        employeesForm.get('marital')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>kids</label>
-                                <input type="text" class="form-control" placeholder="Enter your kids number"
-                                    formControlName='no_kids'>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="2" class="form-control" formControlName='no_kids'
+                                    placeholder="Enter your kids number">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('no_kids')?.touched &&
+                                        employeesForm.get('no_kids')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
-                            <button type="submit" class="btn btn-primary btn-round">Update</button>
+                            <button type="submit" class="btn btn-primary btn-round"
+                                [disabled]="employeesForm.invalid">Update</button>
                         </div>
                     </div>
                 </form>
@@ -524,26 +724,31 @@
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>job title</label>
-                    <input type="text" class="form-control" placeholder="Enter your job title"
-                        formControlName='job_title'>
+                    <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='job_title'>
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>contract</label>
-                    <input type="text" class="form-control" placeholder="Enter contract" formControlName='contract'>
+                    <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='contract'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>status</label>
-                    <input type="text" class="form-control" placeholder="Enter status" formControlName='status'>
+                    <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='status'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>join</label>
-                    <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                    <br>
+                    <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                    </p-calendar>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -555,7 +760,9 @@
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>end</label>
-                    <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                    <br>
+                    <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                    </p-calendar>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -574,14 +781,15 @@
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>religion</label>
-                    <input type="text" class="form-control" placeholder="Enter religion" formControlName='religion'>
+                    <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='religion'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>nationality</label>
-                    <input type="text" class="form-control" placeholder="Enter your nationality"
-                        formControlName='nationality'>
+                    <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='nationality'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -593,21 +801,24 @@
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>military</label>
-                    <input type="text" class="form-control" placeholder="Enter your military status"
-                        formControlName='military'>
+                    <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='military'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>marital</label>
-                    <input type="text" class="form-control" placeholder="Enter your marital" formControlName='marital'>
+                    <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='marital'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>kids</label>
-                    <input type="text" class="form-control" placeholder="Enter your kids number"
-                        formControlName='no_kids'>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="2" class="form-control" formControlName='no_kids'
+                        placeholder="Enter your kids number">
                 </div>
             </div>
         </div>
