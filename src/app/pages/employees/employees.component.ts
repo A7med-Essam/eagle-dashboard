@@ -192,6 +192,8 @@ export class EmployeesComponent implements OnInit {
   // Set Reactive Forms
   setEmployeesForm(emp?: any) {
     let date = emp ? new Date(emp?.dof) : null;
+    let joinDate = emp ? new Date(emp?.join) : null;
+    let endDate = emp ? new Date(emp?.end) : null;
     this.employeesForm = this._FormBuilder.group({
       name: new FormControl(emp?.name, [Validators.required]),
       job_title: new FormControl(emp?.job_title, [Validators.required]),
@@ -200,9 +202,9 @@ export class EmployeesComponent implements OnInit {
       dof: new FormControl(date, [Validators.required]),
       contract: new FormControl(emp?.contract, [Validators.required]),
       status: new FormControl(emp?.status, [Validators.required]),
-      join: new FormControl(emp?.join, [Validators.required]),
+      join: new FormControl(joinDate, [Validators.required]),
       annual: new FormControl(emp?.annual, [Validators.required]),
-      end: new FormControl(emp?.end, [Validators.required]),
+      end: new FormControl(endDate, [Validators.required]),
       email: new FormControl(emp?.email, [
         Validators.required,
         Validators.email,
