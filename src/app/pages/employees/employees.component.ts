@@ -222,7 +222,7 @@ export class EmployeesComponent implements OnInit {
     this.filterForm = this._FormBuilder.group({
       name: new FormControl(null),
       job_title: new FormControl(null),
-      mobile: new FormControl(Number(null)),
+      mobile: new FormControl(null),
       nid: new FormControl(null),
       dof: new FormControl(null),
       contract: new FormControl(null),
