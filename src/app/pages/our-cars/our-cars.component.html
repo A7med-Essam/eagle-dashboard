@@ -129,9 +129,10 @@
                     <div class="row">
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Car Name"
-                                    formControlName='name'>
+                                <label>Car Name</label>
+                                <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
+                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -161,10 +162,8 @@
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Plate Number</label>
-                                <input type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="4" class="form-control" formControlName='plate_no'
-                                    placeholder="Enter Car Plate Number">
+                                <input type="text" class="form-control" placeholder="Enter Car Plate Number"
+                                    formControlName='plate_no'>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -172,17 +171,8 @@
                                 <label>Motor Number</label>
                                 <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="14" class="form-control" formControlName='motor_no'
+                                    maxLength="15" class="form-control" formControlName='motor_no'
                                     placeholder="Enter Car Motor Number">
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <label>Chassis Number</label>
-                                <input type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="4" class="form-control" formControlName='chassis_no'
-                                    placeholder="Enter Car Chassis Number">
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -191,6 +181,15 @@
                                 <br>
                                 <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Chassis Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="15" class="form-control" formControlName='chassis_no'
+                                    placeholder="Enter Car Chassis Number">
                             </div>
                         </div>
                     </div>
@@ -217,9 +216,10 @@
                     <div class="row">
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Car Name"
-                                    formControlName='name'>
+                                <label>Car Name</label>
+                                <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
+                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -249,10 +249,8 @@
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Plate Number</label>
-                                <input type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="4" class="form-control" formControlName='plate_no'
-                                    placeholder="Enter Car Plate Number">
+                                <input type="text" class="form-control" placeholder="Enter Car Plate Number"
+                                    formControlName='plate_no'>
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -260,17 +258,8 @@
                                 <label>Motor Number</label>
                                 <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="14" class="form-control" formControlName='motor_no'
+                                    maxLength="15" class="form-control" formControlName='motor_no'
                                     placeholder="Enter Car Motor Number">
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <label>Chassis Number</label>
-                                <input type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="4" class="form-control" formControlName='chassis_no'
-                                    placeholder="Enter Car Chassis Number">
                             </div>
                         </div>
                         <div class="col-md-6 pr-md-1">
@@ -279,6 +268,15 @@
                                 <br>
                                 <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
                                 </p-calendar>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Chassis Number</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="15" class="form-control" formControlName='chassis_no'
+                                    placeholder="Enter Car Chassis Number">
                             </div>
                         </div>
                     </div>
@@ -299,15 +297,18 @@
         <div class="row">
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" placeholder="Enter Car Name" formControlName='name'>
+                    <label>Car Name</label>
+                    <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='name'
+                        filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>Car Color</label>
                     <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='color'
-                        filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                        filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -322,16 +323,15 @@
                 <div class="form-group">
                     <label>Car Model</label>
                     <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='model'
-                        filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                        filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>Plate Number</label>
-                    <input type="text"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        maxLength="4" class="form-control" formControlName='plate_no'
-                        placeholder="Enter Car Plate Number">
+                    <input type="text" class="form-control" placeholder="Enter Car Plate Number"
+                        formControlName='plate_no'>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -339,17 +339,8 @@
                     <label>Motor Number</label>
                     <input type="text"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        maxLength="14" class="form-control" formControlName='motor_no'
+                        maxLength="15" class="form-control" formControlName='motor_no'
                         placeholder="Enter Car Motor Number">
-                </div>
-            </div>
-            <div class="col-md-6 pr-md-1">
-                <div class="form-group">
-                    <label>Chassis Number</label>
-                    <input type="text"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                        maxLength="4" class="form-control" formControlName='chassis_no'
-                        placeholder="Enter Car Chassis Number">
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -358,6 +349,15 @@
                     <br>
                     <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
                     </p-calendar>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Chassis Number</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="15" class="form-control" formControlName='chassis_no'
+                        placeholder="Enter Car Chassis Number">
                 </div>
             </div>
         </div>

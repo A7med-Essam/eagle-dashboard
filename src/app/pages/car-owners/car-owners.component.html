@@ -84,6 +84,10 @@
                                             <td>Owner Address</td>
                                             <td>{{selectedRow?.address}}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Owner National Id</td>
+                                            <td>{{selectedRow?.nid}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -130,9 +134,11 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>Nid</label>
-                                <input type="text" class="form-control" placeholder="Enter your nid"
-                                    formControlName='nid'>
+                                <label>National ID</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='nid'
+                                    placeholder="Enter National ID">
                             </div>
                         </div>
                     </div>
@@ -182,9 +188,11 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>Nid</label>
-                                <input type="text" class="form-control" placeholder="Enter your nid"
-                                    formControlName='nid'>
+                                <label>National ID</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='nid'
+                                    placeholder="Enter National ID">
                             </div>
                         </div>
                     </div>
@@ -225,8 +233,10 @@
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>Nid</label>
-                    <input type="text" class="form-control" placeholder="Enter your nid" formControlName='nid'>
+                    <label>National ID</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="14" class="form-control" formControlName='nid' placeholder="Enter National ID">
                 </div>
             </div>
         </div>

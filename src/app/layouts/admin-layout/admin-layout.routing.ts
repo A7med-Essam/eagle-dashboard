@@ -13,6 +13,8 @@ import { SuperAdminGuard } from "app/core/guards/super-admin.guard";
 import { AuthGuard } from "app/core/guards/auth.guard";
 import { OurCarsComponent } from "app/pages/our-cars/our-cars.component";
 import { CarOwnersComponent } from "app/pages/car-owners/car-owners.component";
+import { EmployeesComponent } from "app/pages/employees/employees.component";
+import { CustomersComponent } from "app/pages/customers/customers.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -22,12 +24,28 @@ export const AdminLayoutRoutes: Routes = [
   { path: "operations", component: OperationsComponent },
   { path: "policy", component: PolicyComponent },
   { path: "insurances", component: InsuranceComponent },
-  { path: "our-cars", component: OurCarsComponent },
-  { path: "car-owners", component: CarOwnersComponent },
+  {
+    path: "our-cars",
+    component: OurCarsComponent,
+    canActivate: [SuperAdminGuard],
+  },
+  {
+    path: "car-owners",
+    component: CarOwnersComponent,
+    canActivate: [SuperAdminGuard],
+  },
+  {
+    path: "employees",
+    component: EmployeesComponent,
+    canActivate: [SuperAdminGuard],
+  },
+  {
+    path: "customers",
+    component: CustomersComponent,
+    canActivate: [SuperAdminGuard],
+  },
 
   { path: "accounting", component: CommingSoonComponent },
-  { path: "employees", component: CommingSoonComponent },
-  { path: "customers", component: CommingSoonComponent },
   { path: "sales-report", component: CommingSoonComponent },
   { path: "operation-report", component: CommingSoonComponent },
 ];

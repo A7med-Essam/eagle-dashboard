@@ -1,1 +1,622 @@
-<p>employees works!</p>
+<div class="row animated" #Main>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="card-title">Our Employees Table</h4>
+                <div class="text-center">
+                    <button class="btn btn-primary m-1" (click)="filterModal = true">
+                        <i class="fa-solid fa-filter"></i>
+                        Filter
+                    </button>
+                    <button class="btn btn-primary m-1" (click)="export()">
+                        <i class="fa-regular fa-file-excel"></i>
+                        Export
+                    </button>
+                    <button class="btn btn-primary m-1" (click)="displayCreateForm()">
+                        <i class="fa-solid fa-plus"></i>
+                        Add
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Job Title</th>
+                            <th>Mobile</th>
+                            <th>Contract</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let emp of employees; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{emp.name}}</td>
+                                <td>{{emp.job_title}}</td>
+                                <td>{{emp.mobile}}</td>
+                                <td>{{emp.contract}}</td>
+                                <td>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getById(emp.id);"><i
+                                            class="fa-regular fa-eye"></i></button>
+                                    <button class="btn btn-info m-1 px-3" (click)="displayEditForm(emp)"><i
+                                            class="fa-regular fa-pen-to-square"></i></button>
+                                    <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(emp.id)"><i
+                                            class="fa-solid fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Our Employees Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Employee Name</td>
+                                            <td>{{selectedRow?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee job title</td>
+                                            <td>{{selectedRow?.job_title}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee mobile</td>
+                                            <td>{{selectedRow?.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee National ID</td>
+                                            <td>{{selectedRow?.nid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee dof</td>
+                                            <td>{{selectedRow?.dof}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee contract</td>
+                                            <td>{{selectedRow?.contract}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee status</td>
+                                            <td>{{selectedRow?.status}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee join</td>
+                                            <td>{{selectedRow?.join}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee annual</td>
+                                            <td>{{selectedRow?.annual}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee end</td>
+                                            <td>{{selectedRow?.end}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee email</td>
+                                            <td>{{selectedRow?.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee passport</td>
+                                            <td>{{selectedRow?.passport}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee religion</td>
+                                            <td>{{selectedRow?.religion}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee gender</td>
+                                            <td>{{selectedRow?.gender}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee nationality</td>
+                                            <td>{{selectedRow?.nationality}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee address</td>
+                                            <td>{{selectedRow?.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee military</td>
+                                            <td>{{selectedRow?.military}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee marital</td>
+                                            <td>{{selectedRow?.marital}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee kids</td>
+                                            <td>{{selectedRow?.no_kids}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #CreateForm>
+    <div class="col-12">
+        <div class="card card-user">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title">Create Form</h5>
+                <button class="btn btn-dark" (click)="backCreateBtn()">Back</button>
+            </div>
+            <div class="card-body">
+                <form [formGroup]='employeesForm' (ngSubmit)='createRow(employeesForm)'>
+                    <div class="row">
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Employee Name"
+                                    formControlName='name'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>National ID</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='nid'
+                                    placeholder="Enter your national id">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Mobile</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="11" class="form-control" formControlName='mobile'
+                                    placeholder="Enter mobile">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>dof</label>
+                                <br>
+                                <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
+                                    appendTo="body" formControlName='gender'>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>job title</label>
+                                <input type="text" class="form-control" placeholder="Enter your job title"
+                                    formControlName='job_title'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>contract</label>
+                                <input type="text" class="form-control" placeholder="Enter contract"
+                                    formControlName='contract'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>status</label>
+                                <input type="text" class="form-control" placeholder="Enter status"
+                                    formControlName='status'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>join</label>
+                                <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>annual</label>
+                                <input type="text" class="form-control" placeholder="Enter annual"
+                                    formControlName='annual'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>end</label>
+                                <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>email</label>
+                                <input type="text" class="form-control" placeholder="Enter your email"
+                                    formControlName='email'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>passport</label>
+                                <input type="text" class="form-control" placeholder="Enter your passport"
+                                    formControlName='passport'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>religion</label>
+                                <input type="text" class="form-control" placeholder="Enter religion"
+                                    formControlName='religion'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>nationality</label>
+                                <input type="text" class="form-control" placeholder="Enter your nationality"
+                                    formControlName='nationality'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>address</label>
+                                <input type="text" class="form-control" placeholder="Enter your address"
+                                    formControlName='address'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>military</label>
+                                <input type="text" class="form-control" placeholder="Enter your military status"
+                                    formControlName='military'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>marital</label>
+                                <input type="text" class="form-control" placeholder="Enter your marital"
+                                    formControlName='marital'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>kids</label>
+                                <input type="text" class="form-control" placeholder="Enter your kids number"
+                                    formControlName='no_kids'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #EditForm>
+    <div class="col-12">
+        <div class="card card-user">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title">Edit Form</h5>
+                <button class="btn btn-dark" (click)="backEditBtn()">Back</button>
+            </div>
+            <div class="card-body">
+                <form [formGroup]='employeesForm' (ngSubmit)='editRow(employeesForm)'>
+                    <div class="row">
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Employee Name"
+                                    formControlName='name'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>National ID</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="14" class="form-control" formControlName='nid'
+                                    placeholder="Enter your national id">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Mobile</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="11" class="form-control" formControlName='mobile'
+                                    placeholder="Enter mobile">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>dof</label>
+                                <br>
+                                <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
+                                    appendTo="body" formControlName='gender'>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>job title</label>
+                                <input type="text" class="form-control" placeholder="Enter your job title"
+                                    formControlName='job_title'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>contract</label>
+                                <input type="text" class="form-control" placeholder="Enter contract"
+                                    formControlName='contract'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>status</label>
+                                <input type="text" class="form-control" placeholder="Enter status"
+                                    formControlName='status'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>join</label>
+                                <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>annual</label>
+                                <input type="text" class="form-control" placeholder="Enter annual"
+                                    formControlName='annual'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>end</label>
+                                <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>email</label>
+                                <input type="text" class="form-control" placeholder="Enter your email"
+                                    formControlName='email'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>passport</label>
+                                <input type="text" class="form-control" placeholder="Enter your passport"
+                                    formControlName='passport'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>religion</label>
+                                <input type="text" class="form-control" placeholder="Enter religion"
+                                    formControlName='religion'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>nationality</label>
+                                <input type="text" class="form-control" placeholder="Enter your nationality"
+                                    formControlName='nationality'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>address</label>
+                                <input type="text" class="form-control" placeholder="Enter your address"
+                                    formControlName='address'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>military</label>
+                                <input type="text" class="form-control" placeholder="Enter your military status"
+                                    formControlName='military'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>marital</label>
+                                <input type="text" class="form-control" placeholder="Enter your marital"
+                                    formControlName='marital'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>kids</label>
+                                <input type="text" class="form-control" placeholder="Enter your kids number"
+                                    formControlName='no_kids'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="update ml-auto mr-auto">
+                            <button type="submit" class="btn btn-primary btn-round">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Employees Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+        <div class="row">
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Employee Name" formControlName='name'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>National ID</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="14" class="form-control" formControlName='nid' placeholder="Enter your national id">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="11" class="form-control" formControlName='mobile' placeholder="Enter mobile">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>dof</label>
+                    <br>
+                    <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" formControlName='gender'>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>job title</label>
+                    <input type="text" class="form-control" placeholder="Enter your job title"
+                        formControlName='job_title'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>contract</label>
+                    <input type="text" class="form-control" placeholder="Enter contract" formControlName='contract'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>status</label>
+                    <input type="text" class="form-control" placeholder="Enter status" formControlName='status'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>join</label>
+                    <input type="text" class="form-control" placeholder="Enter join" formControlName='join'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>annual</label>
+                    <input type="text" class="form-control" placeholder="Enter annual" formControlName='annual'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>end</label>
+                    <input type="text" class="form-control" placeholder="Enter end" formControlName='end'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>email</label>
+                    <input type="text" class="form-control" placeholder="Enter your email" formControlName='email'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>passport</label>
+                    <input type="text" class="form-control" placeholder="Enter your passport"
+                        formControlName='passport'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>religion</label>
+                    <input type="text" class="form-control" placeholder="Enter religion" formControlName='religion'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>nationality</label>
+                    <input type="text" class="form-control" placeholder="Enter your nationality"
+                        formControlName='nationality'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>address</label>
+                    <input type="text" class="form-control" placeholder="Enter your address" formControlName='address'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>military</label>
+                    <input type="text" class="form-control" placeholder="Enter your military status"
+                        formControlName='military'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>marital</label>
+                    <input type="text" class="form-control" placeholder="Enter your marital" formControlName='marital'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>kids</label>
+                    <input type="text" class="form-control" placeholder="Enter your kids number"
+                        formControlName='no_kids'>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

@@ -6,7 +6,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { CarOwnerService } from "app/shared/services/car-owner.service";
-import { CarService } from "app/shared/services/car.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { ConfirmationService } from "primeng/api";
@@ -20,9 +19,6 @@ import { ConfirmationService } from "primeng/api";
 export class CarOwnersComponent implements OnInit {
   pagination: any;
   cars: any[] = [];
-  carGrade: any[] = [];
-  carColor: any[] = [];
-  carModel: any[] = [];
   filterModal: boolean = false;
   selectedRow: any;
   currentEditRow: any;
@@ -40,15 +36,8 @@ export class CarOwnersComponent implements OnInit {
     private _SharedService: SharedService,
     private _ToastrService: ToasterService,
     private _ConfirmationService: ConfirmationService,
-    private _CarService: CarService,
     private _FormBuilder: FormBuilder
-  ) {
-    const currentYear = new Date().getFullYear() + 1;
-    this.carModel.push({ name: "Select Model", value: "" });
-    for (let i = 2015; i <= currentYear; i++) {
-      this.carModel.push({ name: `Model ${i}`, value: i });
-    }
-  }
+  ) {}
 
   ngOnInit() {
     this.getCars();

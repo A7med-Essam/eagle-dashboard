@@ -20,8 +20,8 @@ export class EmployeeService {
     return this._ApiService.postReq("employees/update", employee);
   }
 
-  deleteEmployees(cid): Observable<any> {
-    return this._ApiService.postReq("employees/delete", { cid: cid });
+  deleteEmployees(eid): Observable<any> {
+    return this._ApiService.postReq("employees/delete", { eid: eid });
   }
 
   filterEmployees(filter): Observable<any> {

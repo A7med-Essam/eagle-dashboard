@@ -27,7 +27,7 @@ export class UsersService {
 
   createSuperAdmin(user): Observable<any> {
     let headers = new HttpHeaders({ secretKey: "123456" });
-    return this._ApiService.postReqWithHeader("adminRegister", user, headers);
+    return this._ApiService.postReqWithHeader("register", user, headers);
   }
 
   getPermissions(): Observable<any> {

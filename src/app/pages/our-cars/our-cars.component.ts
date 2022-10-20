@@ -22,6 +22,7 @@ export class OurCarsComponent implements OnInit {
   ourCars: any[] = [];
   carGrade: any[] = [];
   carColor: any[] = [];
+  carName: any[] = [];
   carModel: any[] = [];
   filterModal: boolean = false;
   selectedRow: any;
@@ -56,6 +57,7 @@ export class OurCarsComponent implements OnInit {
     this.setFilterForm();
     this.getCarColor();
     this.getCarGrade();
+    this.getCarName();
   }
 
   // Curd Settings
@@ -270,6 +272,20 @@ export class OurCarsComponent implements OnInit {
         res.data.forEach((e: any) => {
           this.carGrade.push({ name: `Grade ${e.grade}`, value: e.id });
         });
+      },
+    });
+  }
+
+  getCarName() {
+    this.carName = [{ name: "Select Car Name", value: "" }];
+    this._CarService.getCarName().subscribe({
+      next: (res) => {
+        res.data.forEach((e: any) => {
+          this.carName.push({ name: e.car_name, value: e.car_name });
+        });
+      },
+      error: (err) => {
+        // this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }
