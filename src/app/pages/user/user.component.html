@@ -39,6 +39,8 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
+                  <button *ngIf="update" class="btn btn-success mx-2"
+                    (click)="upgradeToSuperAdmin(user)">Promote</button>
                   <button *ngIf="update" class="btn btn-info mx-2"
                     (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
                   <button *ngIf="delete" class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
@@ -342,7 +344,7 @@
   <div class="col-12">
     <div class="card card-user">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title">Create Admin</h5>
+        <h5 class="card-title">Create Super Admin</h5>
         <button class="btn btn-dark" (click)="backCreateBtn2()">Back</button>
       </div>
       <div class="card-body">
