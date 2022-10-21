@@ -131,7 +131,8 @@
                             <div class="form-group">
                                 <label>Car Name</label>
                                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
-                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Name" formControlName='name' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
@@ -144,7 +145,8 @@
                             <div class="form-group">
                                 <label>Car Color</label>
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
-                                    formControlName='color' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Color" formControlName='color' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('color')?.touched &&
@@ -157,7 +159,8 @@
                             <div class="form-group">
                                 <label>Grade</label>
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='grade'>
+                                    placeholder="Select Car Grade" optionValue="value" appendTo="body"
+                                    formControlName='grade'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('grade')?.touched &&
@@ -170,7 +173,8 @@
                             <div class="form-group">
                                 <label>Car Model</label>
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
-                                    formControlName='model' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Model" formControlName='model' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('model')?.touched &&
@@ -209,7 +213,8 @@
                             <div class="form-group">
                                 <label>License End</label>
                                 <br>
-                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select License End Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
@@ -259,7 +264,8 @@
                             <div class="form-group">
                                 <label>Car Name</label>
                                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
-                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Name" formControlName='name' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
@@ -272,7 +278,8 @@
                             <div class="form-group">
                                 <label>Car Color</label>
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
-                                    formControlName='color' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Color" formControlName='color' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('color')?.touched &&
@@ -285,7 +292,8 @@
                             <div class="form-group">
                                 <label>Grade</label>
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='grade'>
+                                    placeholder="Select Car Grade" optionValue="value" appendTo="body"
+                                    formControlName='grade'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('grade')?.touched &&
@@ -298,7 +306,8 @@
                             <div class="form-group">
                                 <label>Car Model</label>
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
-                                    formControlName='model' filter="true" appendTo="body" optionValue="value">
+                                    placeholder="Select Car Model" formControlName='model' filter="true" appendTo="body"
+                                    optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('model')?.touched &&
@@ -337,7 +346,8 @@
                             <div class="form-group">
                                 <label>License End</label>
                                 <br>
-                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select License End Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
@@ -381,7 +391,7 @@
                 <div class="form-group">
                     <label>Car Name</label>
                     <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='name'
-                        filter="true" appendTo="body" optionValue="value">
+                        placeholder="Select Car Name" filter="true" appendTo="body" optionValue="value">
                     </p-dropdown>
                 </div>
             </div>
@@ -389,7 +399,7 @@
                 <div class="form-group">
                     <label>Car Color</label>
                     <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='color'
-                        filter="true" appendTo="body" optionValue="value">
+                        placeholder="Select Car Color" filter="true" appendTo="body" optionValue="value">
                     </p-dropdown>
                 </div>
             </div>
@@ -397,7 +407,7 @@
                 <div class="form-group">
                     <label>Grade</label>
                     <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='grade'>
+                        placeholder="Select Car Grade" appendTo="body" formControlName='grade'>
                     </p-dropdown>
                 </div>
             </div>
@@ -405,7 +415,7 @@
                 <div class="form-group">
                     <label>Car Model</label>
                     <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='model'
-                        filter="true" appendTo="body" optionValue="value">
+                        placeholder="Select Car Model" filter="true" appendTo="body" optionValue="value">
                     </p-dropdown>
                 </div>
             </div>
@@ -429,7 +439,8 @@
                 <div class="form-group">
                     <label>License End</label>
                     <br>
-                    <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}">
+                    <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
+                        placeholder="Select License End Date">
                     </p-calendar>
                 </div>
             </div>

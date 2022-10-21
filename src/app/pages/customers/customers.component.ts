@@ -49,7 +49,7 @@ export class CustomersComponent implements OnInit {
   getCustomers(page = 1) {
     this._CustomerService.getCustomers(page).subscribe({
       next: (res) => {
-        this.customers = res.data;
+        this.customers = res.data.data;
         this.pagination = res.data;
       },
       error: (err) => {
@@ -191,7 +191,7 @@ export class CustomersComponent implements OnInit {
     this._CustomerService.filterCustomers(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
-        this.customers = res.data;
+        this.customers = res.data.data;
         this.pagination = res.data;
         this.setFilterForm();
       },
@@ -217,8 +217,8 @@ export class CustomersComponent implements OnInit {
         link.href = res.data;
         link.click();
       },
-      // error: (err) =>
-      //   this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 }

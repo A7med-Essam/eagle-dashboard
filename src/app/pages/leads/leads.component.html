@@ -170,7 +170,6 @@
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
-                <!-- <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'> -->
                 <input type="text"
                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
@@ -184,7 +183,7 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Name" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -195,7 +194,7 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Color" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -206,21 +205,22 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Type" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Gear Type</label>
                 <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-                  filter="true" [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
+                  placeholder="Select Gear Type" filter="true" [(ngModel)]="selectedGearType" optionValue="value">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Grade</label>
                 <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" filter="true"
-                  [(ngModel)]="selectedGrade" formControlName='grade'>
+                  placeholder="Select Grade" [(ngModel)]="selectedGrade" formControlName='grade'>
                 </p-dropdown>
               </div>
             </div>
@@ -228,7 +228,8 @@
               <div class="form-group">
                 <label>Car Model</label>
                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-                  filter="true" [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Model" filter="true" [(ngModel)]="selectedCarModel" optionValue="value">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -242,7 +243,7 @@
               <div class="form-group">
                 <label>Insurance</label>
                 <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
-                  [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
+                  placeholder="Select Insurance" [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -254,14 +255,14 @@
                 </div>
                 <p-dropdown [options]="insuranceCompanies" optionLabel="name" styleClass="w-100" filter="true"
                   (onChange)="onCompanyChange($event)" formControlName='insuranceCompany'
-                  [(ngModel)]="selectedInsuranceCompany" optionValue="policies">
+                  placeholder="Select Insurance Company" [(ngModel)]="selectedInsuranceCompany" optionValue="policies">
                 </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Policy</label>
-                <p-dropdown [options]="policies" optionLabel="name" styleClass="w-100"
+                <p-dropdown [options]="policies" optionLabel="name" styleClass="w-100" placeholder="Select Policy"
                   formControlName='company_policy_id' [(ngModel)]="selectedPolicy" optionValue="value"></p-dropdown>
               </div>
             </div>
@@ -298,7 +299,6 @@
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
-                <!-- <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'> -->
                 <input type="text"
                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
@@ -306,37 +306,50 @@
             </div>
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
-                <label>Car Name</label>
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Car Name</label>
+                  <small (click)="addCarNameModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Name" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
-                <label>Car Color</label>
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Car Color</label>
+                  <small (click)="addCarColorModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                </div>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Color" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
-                <label>Car Type</label>
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Car Type</label>
+                  <small (click)="addCarTypeModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                </div>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
-                  filter="true" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Type" filter="true" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Gear Type</label>
                 <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-                  filter="true" [(ngModel)]="selectedGearType" optionValue="value"></p-dropdown>
+                  placeholder="Select Gear Type" filter="true" [(ngModel)]="selectedGearType" optionValue="value">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Grade</label>
                 <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" filter="true"
-                  [(ngModel)]="selectedGrade" formControlName='grade'>
+                  placeholder="Select Grade" [(ngModel)]="selectedGrade" formControlName='grade'>
                 </p-dropdown>
               </div>
             </div>
@@ -344,7 +357,8 @@
               <div class="form-group">
                 <label>Car Model</label>
                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-                  filter="true" [(ngModel)]="selectedCarModel" optionValue="value"></p-dropdown>
+                  placeholder="Select Car Model" filter="true" [(ngModel)]="selectedCarModel" optionValue="value">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -358,7 +372,27 @@
               <div class="form-group">
                 <label>Insurance</label>
                 <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
-                  [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
+                  placeholder="Select Insurance" [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Insurance Company</label>
+                  <small (click)="clientInsuranceCompanyModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                </div>
+                <p-dropdown [options]="insuranceCompanies" optionLabel="name" styleClass="w-100" filter="true"
+                  (onChange)="onCompanyChange($event)" formControlName='insuranceCompany'
+                  placeholder="Select Insurance Company" [(ngModel)]="selectedInsuranceCompany" optionValue="policies">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <label>Policy</label>
+                <p-dropdown [options]="policies" optionLabel="name" styleClass="w-100" placeholder="Select Policy"
+                  formControlName='company_policy_id' [(ngModel)]="selectedPolicy" optionValue="value"></p-dropdown>
               </div>
             </div>
 
@@ -378,79 +412,80 @@
   [resizable]="false">
   <form [formGroup]='filterForm' (ngSubmit)='filterLeads(filterForm)' id="filterForm">
     <div class="row">
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Customer Name</label>
           <input type="text" class="form-control" placeholder="Enter Customer Name" formControlName='customer_name'>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Customer Mobile</label>
           <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Car Name</label>
           <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name' filter="true"
-            appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Car Name" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Car Color</label>
           <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
-            filter="true" appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Car Color" filter="true" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Car Type</label>
           <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
-            appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Car Type" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Gear Type</label>
           <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-            appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Gear Type" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Grade</label>
           <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" appendTo="body"
-            formControlName='grade'>
+            placeholder="Select Grade" formControlName='grade'>
           </p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Car Model</label>
           <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-            filter="true" appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Car Model" filter="true" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Kilometer</label>
           <input type="number" class="form-control" placeholder="Km" formControlName='kilometer' maxlength="100000">
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Insurance</label>
           <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
-            appendTo="body" optionValue="value"></p-dropdown>
+            placeholder="Select Insurance" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
-      <div class="col-xl-3 pr-xl-1 col-lg-6">
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Issue Date</label>
           <br>
-          <p-calendar formControlName="issue_date" appendTo="body"></p-calendar>
+          <p-calendar formControlName="issue_date" appendTo="body" placeholder="Select Issue Date"
+            [style]="{'width':'100%'}"></p-calendar>
         </div>
       </div>
     </div>

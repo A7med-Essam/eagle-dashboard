@@ -13,6 +13,10 @@ export class UsersService {
     return this._ApiService.postReq("admins", "");
   }
 
+  getSuperAdmins(): Observable<any> {
+    return this._ApiService.postReq("superAdmins", "");
+  }
+
   updateAdmin(user): Observable<any> {
     return this._ApiService.postReq("updateAdmin", user);
   }

@@ -4,6 +4,10 @@
             <div class="card-header d-flex justify-content-between">
                 <h4 class="card-title">Our Employees Table</h4>
                 <div class="text-center">
+                    <button class="btn btn-primary m-1" (click)="displaySettings()">
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </button>
                     <button class="btn btn-primary m-1" (click)="filterModal = true">
                         <i class="fa-solid fa-filter"></i>
                         Filter
@@ -91,8 +95,8 @@
                                             <td>{{selectedRow?.nid}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Employee dof</td>
-                                            <td>{{selectedRow?.dof}}</td>
+                                            <td>Employee Date Of Birth</td>
+                                            <td>{{selectedRow?.dob}}</td>
                                         </tr>
                                         <tr>
                                             <td>Employee contract</td>
@@ -212,13 +216,14 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>dof</label>
+                                <label>Date Of Birth</label>
                                 <br>
-                                <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="dob" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select D.O.B">
                                 </p-calendar>
                                 <div class="text-left mb-2">
-                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dof')?.touched &&
-                                    employeesForm.get('dof')?.hasError('required')">This field is required!</small>
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dob')?.touched &&
+                                    employeesForm.get('dob')?.hasError('required')">This field is required!</small>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +231,7 @@
                             <div class="form-group">
                                 <label>Gender</label>
                                 <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
-                                    appendTo="body" formControlName='gender'>
+                                    placeholder="Select Gender" appendTo="body" formControlName='gender'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('gender')?.touched &&
@@ -236,9 +241,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>job title</label>
-                                <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='job_title'>
+                                <label>Job title</label>
+                                <p-dropdown [options]="jobTitles" optionLabel="job_title" styleClass="w-100"
+                                    placeholder="Select Job Title" optionValue="job_title" appendTo="body"
+                                    formControlName='job_title'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('job_title')?.touched &&
@@ -249,9 +255,11 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>contract</label>
-                                <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='contract'></p-dropdown>
+                                <label>Contract</label>
+                                <p-dropdown [options]="contractStatus" optionLabel="contract" styleClass="w-100"
+                                    placeholder="Select Contract" optionValue="contract" appendTo="body"
+                                    formControlName='contract'>
+                                </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('contract')?.touched &&
                                         employeesForm.get('contract')?.hasError('required')">This field is
@@ -261,9 +269,9 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>status</label>
+                                <label>Status</label>
                                 <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
-                                    appendTo="body" formControlName='status'></p-dropdown>
+                                    placeholder="Select Status" appendTo="body" formControlName='status'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('status')?.touched &&
                                         employeesForm.get('status')?.hasError('required')">This field is
@@ -273,9 +281,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>join</label>
+                                <label>Join</label>
                                 <br>
-                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select Join Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('join')?.touched &&
@@ -285,7 +294,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>annual</label>
+                                <label>Annual</label>
                                 <input type="text" class="form-control" placeholder="Enter annual"
                                     formControlName='annual'>
                                 <div class="text-left mb-2">
@@ -297,9 +306,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>end</label>
+                                <label>End</label>
                                 <br>
-                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select End Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('end')?.touched &&
@@ -309,7 +319,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>email</label>
+                                <label>Email</label>
                                 <input type="text" class="form-control" placeholder="Enter your email"
                                     formControlName='email'>
                                 <div class="text-left mb-2">
@@ -323,7 +333,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>passport</label>
+                                <label>Passport</label>
                                 <input type="text" class="form-control" placeholder="Enter your passport"
                                     formControlName='passport'>
                                 <div class="text-left mb-2">
@@ -335,9 +345,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>religion</label>
-                                <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='religion'></p-dropdown>
+                                <label>Religion</label>
+                                <p-dropdown [options]="religionStatus" optionLabel="religion" styleClass="w-100"
+                                    placeholder="Select Religion" optionValue="religion" appendTo="body"
+                                    formControlName='religion'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('religion')?.touched &&
                                         employeesForm.get('religion')?.hasError('required')">This field is
@@ -347,9 +358,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>nationality</label>
-                                <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='nationality'></p-dropdown>
+                                <label>Nationality</label>
+                                <p-dropdown [options]="nationalityStatus" optionLabel="nationality" styleClass="w-100"
+                                    placeholder="Select Nationality" optionValue="nationality" appendTo="body"
+                                    formControlName='nationality'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('nationality')?.touched &&
                                         employeesForm.get('nationality')?.hasError('required')">This field is
@@ -359,7 +371,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>address</label>
+                                <label>Address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
                                 <div class="text-left mb-2">
@@ -371,9 +383,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>military</label>
-                                <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='military'></p-dropdown>
+                                <label>Military</label>
+                                <p-dropdown [options]="militaryStatus" optionLabel="military" styleClass="w-100"
+                                    placeholder="Select Military" optionValue="military" appendTo="body"
+                                    formControlName='military'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('military')?.touched &&
                                         employeesForm.get('military')?.hasError('required')">This field is
@@ -383,9 +396,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>marital</label>
-                                <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='marital'></p-dropdown>
+                                <label>Marital</label>
+                                <p-dropdown [options]="maritalStatus" optionLabel="marital" styleClass="w-100"
+                                    placeholder="Select Marital" optionValue="marital" appendTo="body"
+                                    formControlName='marital'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('marital')?.touched &&
                                         employeesForm.get('marital')?.hasError('required')">This field is
@@ -395,7 +409,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>kids</label>
+                                <label>Kids</label>
                                 <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="2" class="form-control" formControlName='no_kids'
@@ -471,13 +485,14 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>dof</label>
+                                <label>Date Of Birth</label>
                                 <br>
-                                <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="dob" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select D.O.B">
                                 </p-calendar>
                                 <div class="text-left mb-2">
-                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dof')?.touched &&
-                                    employeesForm.get('dof')?.hasError('required')">This field is required!</small>
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('dob')?.touched &&
+                                    employeesForm.get('dob')?.hasError('required')">This field is required!</small>
                                 </div>
                             </div>
                         </div>
@@ -485,7 +500,7 @@
                             <div class="form-group">
                                 <label>Gender</label>
                                 <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
-                                    appendTo="body" formControlName='gender'>
+                                    placeholder="Select Gender" appendTo="body" formControlName='gender'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('gender')?.touched &&
@@ -495,9 +510,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>job title</label>
-                                <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='job_title'>
+                                <label>Job title</label>
+                                <p-dropdown [options]="jobTitles" optionLabel="job_title" styleClass="w-100"
+                                    placeholder="Select Job Title" optionValue="job_title" appendTo="body"
+                                    formControlName='job_title'>
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('job_title')?.touched &&
@@ -508,9 +524,11 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>contract</label>
-                                <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='contract'></p-dropdown>
+                                <label>Contract</label>
+                                <p-dropdown [options]="contractStatus" optionLabel="contract" styleClass="w-100"
+                                    placeholder="Select Contract" optionValue="contract" appendTo="body"
+                                    formControlName='contract'>
+                                </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('contract')?.touched &&
                                         employeesForm.get('contract')?.hasError('required')">This field is
@@ -520,9 +538,9 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>status</label>
+                                <label>Status</label>
                                 <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
-                                    appendTo="body" formControlName='status'></p-dropdown>
+                                    placeholder="Select Status" appendTo="body" formControlName='status'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('status')?.touched &&
                                         employeesForm.get('status')?.hasError('required')">This field is
@@ -532,9 +550,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>join</label>
+                                <label>Join</label>
                                 <br>
-                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select Join Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('join')?.touched &&
@@ -544,7 +563,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>annual</label>
+                                <label>Annual</label>
                                 <input type="text" class="form-control" placeholder="Enter annual"
                                     formControlName='annual'>
                                 <div class="text-left mb-2">
@@ -556,9 +575,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>end</label>
+                                <label>End</label>
                                 <br>
-                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                                <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select End Date">
                                 </p-calendar>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('end')?.touched &&
@@ -568,7 +588,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>email</label>
+                                <label>Email</label>
                                 <input type="text" class="form-control" placeholder="Enter your email"
                                     formControlName='email'>
                                 <div class="text-left mb-2">
@@ -582,7 +602,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>passport</label>
+                                <label>Passport</label>
                                 <input type="text" class="form-control" placeholder="Enter your passport"
                                     formControlName='passport'>
                                 <div class="text-left mb-2">
@@ -594,9 +614,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>religion</label>
-                                <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='religion'></p-dropdown>
+                                <label>Religion</label>
+                                <p-dropdown [options]="religionStatus" optionLabel="religion" styleClass="w-100"
+                                    placeholder="Select Religion" optionValue="religion" appendTo="body"
+                                    formControlName='religion'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('religion')?.touched &&
                                         employeesForm.get('religion')?.hasError('required')">This field is
@@ -606,9 +627,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>nationality</label>
-                                <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='nationality'></p-dropdown>
+                                <label>Nationality</label>
+                                <p-dropdown [options]="nationalityStatus" optionLabel="nationality" styleClass="w-100"
+                                    placeholder="Select Nationality" optionValue="nationality" appendTo="body"
+                                    formControlName='nationality'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('nationality')?.touched &&
                                         employeesForm.get('nationality')?.hasError('required')">This field is
@@ -618,7 +640,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>address</label>
+                                <label>Address</label>
                                 <input type="text" class="form-control" placeholder="Enter your address"
                                     formControlName='address'>
                                 <div class="text-left mb-2">
@@ -630,9 +652,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>military</label>
-                                <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='military'></p-dropdown>
+                                <label>Military</label>
+                                <p-dropdown [options]="militaryStatus" optionLabel="military" styleClass="w-100"
+                                    placeholder="Select Military" optionValue="military" appendTo="body"
+                                    formControlName='military'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('military')?.touched &&
                                         employeesForm.get('military')?.hasError('required')">This field is
@@ -642,9 +665,10 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>marital</label>
-                                <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100"
-                                    optionValue="value" appendTo="body" formControlName='marital'></p-dropdown>
+                                <label>Marital</label>
+                                <p-dropdown [options]="maritalStatus" optionLabel="marital" styleClass="w-100"
+                                    placeholder="Select Marital" optionValue="marital" appendTo="body"
+                                    formControlName='marital'></p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('marital')?.touched &&
                                         employeesForm.get('marital')?.hasError('required')">This field is
@@ -654,7 +678,7 @@
                         </div>
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
-                                <label>kids</label>
+                                <label>Kids</label>
                                 <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="2" class="form-control" formControlName='no_kids'
@@ -707,9 +731,10 @@
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>dof</label>
+                    <label>Date Of Birth</label>
                     <br>
-                    <p-calendar formControlName="dof" appendTo="body" [style]="{'width':'100%'}">
+                    <p-calendar formControlName="dob" appendTo="body" [style]="{'width':'100%'}"
+                        placeholder="Select D.O.B">
                     </p-calendar>
                 </div>
             </div>
@@ -717,104 +742,112 @@
                 <div class="form-group">
                     <label>Gender</label>
                     <p-dropdown [options]="gender" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='gender'>
+                        placeholder="Select Gender" appendTo="body" formControlName='gender'>
                     </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>job title</label>
-                    <p-dropdown [options]="jobTitle" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='job_title'>
+                    <label>Job title</label>
+                    <p-dropdown [options]="jobTitles" optionLabel="job_title" styleClass="w-100"
+                        placeholder="Select Job Title" optionValue="job_title" appendTo="body"
+                        formControlName='job_title'>
                     </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>contract</label>
-                    <p-dropdown [options]="contract" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='contract'></p-dropdown>
+                    <label>Contract</label>
+                    <p-dropdown [options]="contractStatus" optionLabel="contract" styleClass="w-100"
+                        placeholder="Select Contract" optionValue="contract" appendTo="body" formControlName='contract'>
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>status</label>
+                    <label>Status</label>
                     <p-dropdown [options]="status" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='status'></p-dropdown>
+                        placeholder="Select Status" appendTo="body" formControlName='status'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>join</label>
+                    <label>Join</label>
                     <br>
-                    <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}">
+                    <p-calendar formControlName="join" appendTo="body" [style]="{'width':'100%'}"
+                        placeholder="Select Join Date">
                     </p-calendar>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>annual</label>
+                    <label>Annual</label>
                     <input type="text" class="form-control" placeholder="Enter annual" formControlName='annual'>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>end</label>
+                    <label>End</label>
                     <br>
-                    <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}">
+                    <p-calendar formControlName="end" appendTo="body" [style]="{'width':'100%'}"
+                        placeholder="Select End Date">
                     </p-calendar>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>email</label>
+                    <label>Email</label>
                     <input type="text" class="form-control" placeholder="Enter your email" formControlName='email'>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>passport</label>
+                    <label>Passport</label>
                     <input type="text" class="form-control" placeholder="Enter your passport"
                         formControlName='passport'>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>religion</label>
-                    <p-dropdown [options]="religion" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='religion'></p-dropdown>
+                    <label>Religion</label>
+                    <p-dropdown [options]="religionStatus" optionLabel="religion" styleClass="w-100"
+                        placeholder="Select Religion" optionValue="religion" appendTo="body" formControlName='religion'>
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>nationality</label>
-                    <p-dropdown [options]="nationality" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='nationality'></p-dropdown>
+                    <label>Nationality</label>
+                    <p-dropdown [options]="nationalityStatus" optionLabel="nationality" styleClass="w-100"
+                        placeholder="Select Nationality" optionValue="nationality" appendTo="body"
+                        formControlName='nationality'></p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>address</label>
+                    <label>Address</label>
                     <input type="text" class="form-control" placeholder="Enter your address" formControlName='address'>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>military</label>
-                    <p-dropdown [options]="militaryStatus" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='military'></p-dropdown>
+                    <label>Military</label>
+                    <p-dropdown [options]="militaryStatus" optionLabel="military" styleClass="w-100"
+                        placeholder="Select Military" optionValue="military" appendTo="body" formControlName='military'>
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>marital</label>
-                    <p-dropdown [options]="maritalStatus" optionLabel="name" styleClass="w-100" optionValue="value"
-                        appendTo="body" formControlName='marital'></p-dropdown>
+                    <label>Marital</label>
+                    <p-dropdown [options]="maritalStatus" optionLabel="marital" styleClass="w-100"
+                        placeholder="Select Marital" optionValue="marital" appendTo="body" formControlName='marital'>
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
-                    <label>kids</label>
+                    <label>Kids</label>
                     <input type="text"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                         maxLength="2" class="form-control" formControlName='no_kids'
@@ -831,3 +864,296 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
+
+
+<!-- Emp Settings -->
+
+<div class="row animated d-none" #Settings>
+
+    <div class="col-12">
+        <div class="">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="m-0">Employees Settings</h4>
+                <button class="btn btn-secondary" (click)="backSettingBtn()">
+                    Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Job Titles</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="jobTitleModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of jobTitles; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.job_title | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteJobTitlesConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Militaries</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="militaryModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of militaryStatus; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.military | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteMilitariesConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Nationalities</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="nationalityModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of nationalityStatus; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.nationality | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteNationalitiesConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Religions</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="religionModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of religionStatus; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.religion | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteReligionsConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Contracts</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="contractModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of contractStatus; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.contract | uppercase }}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteContractsConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 my-2">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Maritals</span>
+
+                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="maritalModal = true">
+                    <small><b>Add</b></small>
+                </button>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let data of maritalStatus; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.marital | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2"
+                                    (click)="deleteMaritalsConfirm(data.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Employee Setting" [(visible)]="contractModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Contract</label>
+                <input type="text" class="form-control" placeholder="Enter Contract" #contract>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addContracts(contract)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Employee Setting" [(visible)]="jobTitleModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" class="form-control" placeholder="Enter Job Title" #jobTitle>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addJobTitles(jobTitle)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Employee Setting" [(visible)]="maritalModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Marital</label>
+                <input type="text" class="form-control" placeholder="Enter Marital" #marital>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addMaritals(marital)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Employee Setting" [(visible)]="militaryModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Military</label>
+                <input type="text" class="form-control" placeholder="Enter Military" #military>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addMilitaries(military)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Employee Setting" [(visible)]="nationalityModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Nationality</label>
+                <input type="text" class="form-control" placeholder="Enter Nationality" #nationality>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addNationalities(nationality)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Employee Setting" [(visible)]="religionModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Religion</label>
+                <input type="text" class="form-control" placeholder="Enter Religion" #religion>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="addReligions(religion)">Add</button>
+    </ng-template>
+</p-dialog>

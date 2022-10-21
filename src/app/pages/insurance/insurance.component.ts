@@ -102,7 +102,6 @@ export class InsuranceComponent {
   }
 
   getPolcies() {
-    this.policies = [{ name: "Select Policy", value: "" }];
     this._InsuranceAndPolicyService.getPolicies().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {

@@ -45,7 +45,6 @@ export class OurCarsComponent implements OnInit {
     private _FormBuilder: FormBuilder
   ) {
     const currentYear = new Date().getFullYear() + 1;
-    this.carModel.push({ name: "Select Model", value: "" });
     for (let i = 2015; i <= currentYear; i++) {
       this.carModel.push({ name: `Model ${i}`, value: `${i}` });
     }
@@ -64,9 +63,8 @@ export class OurCarsComponent implements OnInit {
   getOurCars(page = 1) {
     this._OurCarService.getOurCars(page).subscribe({
       next: (res) => {
-        this.ourCars = res.data;
+        this.ourCars = res.data.data;
         this.pagination = res.data;
-        // console.log(this.ourCars);
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
@@ -223,7 +221,7 @@ export class OurCarsComponent implements OnInit {
     this._OurCarService.filterOurCars(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
-        this.ourCars = res.data;
+        this.ourCars = res.data.data;
         this.pagination = res.data;
         this.setFilterForm();
       },
@@ -249,14 +247,13 @@ export class OurCarsComponent implements OnInit {
         link.href = res.data;
         link.click();
       },
-      // error: (err) =>
-      //   this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
   // Car Settings
   getCarColor() {
-    this.carColor = [{ name: "Select Car Color", value: "" }];
     this._CarService.getCarColor().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -267,7 +264,6 @@ export class OurCarsComponent implements OnInit {
   }
 
   getCarGrade() {
-    this.carGrade = [{ name: "Select Grade", value: "" }];
     this._CarService.getGrade().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -278,15 +274,11 @@ export class OurCarsComponent implements OnInit {
   }
 
   getCarName() {
-    this.carName = [{ name: "Select Car Name", value: "" }];
     this._CarService.getCarName().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
           this.carName.push({ name: e.car_name, value: e.car_name });
         });
-      },
-      error: (err) => {
-        // this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }

@@ -75,34 +75,14 @@ export class LeadsComponent implements OnInit {
     private _GuardService: GuardService,
     private _FormBuilder: FormBuilder
   ) {
-    // this.insurance = [
-    //   { name: "Select Insurance", value: "" },
-    //   { name: "Yes", value: "YES" },
-    //   { name: "No", value: "NO" },
-    // ];
-
     this.gearType = [
-      { name: "Select Gear Type", value: "" },
       { name: "Automatic", value: "AUTOMATIC" },
       { name: "Manual", value: "MANUAL" },
     ];
 
-    // this.grade = [
-    //   { name: "Select Grade", value: "" },
-    //   { name: "Grade 1", value: "1" },
-    //   { name: "Grade 2", value: "2" },
-    //   { name: "Grade 3", value: "3" },
-    //   { name: "Grade 4", value: "4" },
-    //   { name: "Grade 5", value: "5" },
-    //   { name: "TOP LINE", value: "TOP LINE" },
-    // ];
-
-    this.policies = [{ name: "Select Policy", value: "" }];
-
     const currentYear = new Date().getFullYear() + 1;
-    this.carModel.push({ name: "Select Model", value: "" });
     for (let i = 2015; i <= currentYear; i++) {
-      this.carModel.push({ name: `Model ${i}`, value: i });
+      this.carModel.push({ name: `Model ${i}`, value: `${i}` });
     }
     this.selectedGrade = this.grade[0];
     this.selectedInsurance = this.insurance[0];
@@ -134,7 +114,6 @@ export class LeadsComponent implements OnInit {
         this.pagination = res.data;
       },
       error: (err) => {
-        // this._ToastrService.setToaster(err.error.message, "error", "danger");
         this._ToastrService.setToaster(
           "You don't have permission to access this page",
           "error",
@@ -386,7 +365,7 @@ export class LeadsComponent implements OnInit {
       insurance: new FormControl(lead?.insurance),
       insurance_in_out: new FormControl(lead?.insurance_in_out),
       company_policy_id: new FormControl(lead?.company_policy_id),
-      insuranceCompany: new FormControl(null),
+      insuranceCompany: new FormControl(lead?.insuranceCompany),
     });
   }
 
@@ -414,7 +393,7 @@ export class LeadsComponent implements OnInit {
 
   // Car Settings
   getCarName() {
-    this.carName = [{ name: "Select Car Name", value: "" }];
+    // this.carName = [{ name: "Select Car Name", value: "" }];
     this._CarService.getCarName().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -428,7 +407,7 @@ export class LeadsComponent implements OnInit {
   }
 
   getCarColor() {
-    this.carColor = [{ name: "Select Car Color", value: "" }];
+    // this.carColor = [{ name: "Select Car Color", value: "" }];
     this._CarService.getCarColor().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -442,7 +421,7 @@ export class LeadsComponent implements OnInit {
   }
 
   getCarType() {
-    this.carType = [{ name: "Select Car Type", value: "" }];
+    // this.carType = [{ name: "Select Car Type", value: "" }];
     this._CarService.getCarType().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -456,11 +435,11 @@ export class LeadsComponent implements OnInit {
   }
 
   getGrade() {
-    this.grade = [{ name: "Select Grade", value: "" }];
+    // this.grade = [{ name: "Select Grade", value: "" }];
     this._CarService.getGrade().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.grade.push({ name: `Grade ${e.grade}`, value: e.id });
+          this.grade.push({ name: `Grade ${e.grade}`, value: e.grade });
         });
       },
       error: (err) => {
@@ -470,7 +449,7 @@ export class LeadsComponent implements OnInit {
   }
 
   getInsurance() {
-    this.insurance = [{ name: "Select Insurance", value: "" }];
+    // this.insurance = [{ name: "Select Insurance", value: "" }];
     this._CarService.getInsurance().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
@@ -541,7 +520,7 @@ export class LeadsComponent implements OnInit {
   // Insurance Company - Policy
   getInsuranceCompanies() {
     this.insuranceCompanies = [
-      { name: "Select Insurance Company", policies: "" },
+      // { name: "Select Insurance Company", policies: "" },
     ];
     this._InsuranceAndPolicyService.getInsuranceCompanies().subscribe({
       next: (res) => {
@@ -553,7 +532,7 @@ export class LeadsComponent implements OnInit {
   }
 
   onCompanyChange(e) {
-    this.policies = [{ name: "Select Policy", value: null }];
+    // this.policies = [{ name: "Select Policy", value: null }];
     e.value.forEach((e: any) => {
       this.policies.push({ name: e.policy.type, value: e.id });
     });

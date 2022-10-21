@@ -49,7 +49,7 @@ export class CarOwnersComponent implements OnInit {
   getCars(page = 1) {
     this._CarOwnerService.getOwners(page).subscribe({
       next: (res) => {
-        this.cars = res.data;
+        this.cars = res.data.data;
         this.pagination = res.data;
       },
       error: (err) => {
@@ -191,7 +191,7 @@ export class CarOwnersComponent implements OnInit {
     this._CarOwnerService.filterOwners(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
-        this.cars = res.data;
+        this.cars = res.data.data;
         this.pagination = res.data;
         this.setFilterForm();
       },
@@ -217,8 +217,8 @@ export class CarOwnersComponent implements OnInit {
         link.href = res.data;
         link.click();
       },
-      // error: (err) =>
-      //   this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 }

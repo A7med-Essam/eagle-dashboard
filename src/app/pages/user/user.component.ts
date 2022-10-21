@@ -21,6 +21,7 @@ import { ConfirmationService } from "primeng/api";
 })
 export class UserComponent implements OnInit {
   users: any[] = [];
+  superAdmins: any[] = [];
   backUpUsers: any;
 
   @ViewChild("createForm") createForm;
@@ -45,6 +46,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.getAdmins();
+    this.getSuperAdmins();
     this.setEditForm();
     this.setCreateForm();
     this.getPermissions();
@@ -77,6 +79,12 @@ export class UserComponent implements OnInit {
     });
   }
 
+  getSuperAdmins() {
+    this._UsersService.getSuperAdmins().subscribe((res) => {
+      this.superAdmins = res.data;
+    });
+  }
+
   deleteAdmin(user) {
     this._UsersService.deleteAdmin({ admin_id: user.id }).subscribe({
       next: (res) => {
@@ -94,6 +102,7 @@ export class UserComponent implements OnInit {
         next: (res) => {
           if (res.status == 1) {
             this.getAdmins();
+            this.getSuperAdmins();
             this._ToastrService.setToaster(res.message, "success", "success");
             this._SharedService.fadeOut(this.createForm.nativeElement);
             this.fadeInUserTable();
@@ -111,6 +120,7 @@ export class UserComponent implements OnInit {
       this._UsersService.createAdmin(admin.value).subscribe({
         next: (res) => {
           if (res.status == 1) {
+            this.getSuperAdmins();
             this.getAdmins();
             this._ToastrService.setToaster(res.message, "success", "success");
             this._SharedService.fadeOut(this.createForm.nativeElement);
@@ -142,6 +152,7 @@ export class UserComponent implements OnInit {
         next: (res) => {
           if (res.status == 1) {
             this.setCurrentUser(res.data);
+            this.getSuperAdmins();
             this.getAdmins();
             this._ToastrService.setToaster(res.message, "success", "success");
             this._SharedService.fadeOut(this.editForm.nativeElement);
@@ -156,6 +167,7 @@ export class UserComponent implements OnInit {
         next: (res) => {
           if (res.status == 1) {
             this.setCurrentUser(res.data);
+            this.getSuperAdmins();
             this.getAdmins();
             this._ToastrService.setToaster(res.message, "success", "success");
             this._SharedService.fadeOut(this.editForm.nativeElement);

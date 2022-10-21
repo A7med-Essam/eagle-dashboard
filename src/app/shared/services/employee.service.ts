@@ -43,4 +43,101 @@ export class EmployeeService {
   trashedEmployees(): Observable<any> {
     return this._ApiService.postReq("employees/trashed", "");
   }
+
+  /////////////  ********** Employees Settings *********** ///////////////
+  // Contracts
+  getContracts(): Observable<any> {
+    return this._ApiService.postReq("contracts", "");
+  }
+
+  createContracts(contract): Observable<any> {
+    return this._ApiService.postReq("contracts/create", { contract: contract });
+  }
+
+  deleteContracts(contract_id): Observable<any> {
+    return this._ApiService.postReq("contracts/delete", {
+      contract_id: contract_id,
+    });
+  }
+
+  // Job Titles
+  getjobTitles(): Observable<any> {
+    return this._ApiService.postReq("job_titles", "");
+  }
+
+  createjobTitles(job_title): Observable<any> {
+    return this._ApiService.postReq("job_titles/create", {
+      job_title: job_title,
+    });
+  }
+
+  deletejobTitles(job_title_id): Observable<any> {
+    return this._ApiService.postReq("job_titles/delete", {
+      job_title_id: job_title_id,
+    });
+  }
+
+  // Maritals
+  getMaritals(): Observable<any> {
+    return this._ApiService.postReq("maritals", "");
+  }
+
+  createMaritals(marital): Observable<any> {
+    return this._ApiService.postReq("maritals/create", { marital: marital });
+  }
+
+  deleteMaritals(marital_id): Observable<any> {
+    return this._ApiService.postReq("maritals/delete", {
+      marital_id: marital_id,
+    });
+  }
+
+  // Militaries
+  getMilitaries(): Observable<any> {
+    return this._ApiService.postReq("militaries", "");
+  }
+
+  createMilitaries(military): Observable<any> {
+    return this._ApiService.postReq("militaries/create", {
+      military: military,
+    });
+  }
+
+  deleteMilitaries(military_id): Observable<any> {
+    return this._ApiService.postReq("militaries/delete", {
+      military_id: military_id,
+    });
+  }
+
+  // Nationalities
+  getNationalities(): Observable<any> {
+    return this._ApiService.postReq("nationalities", "");
+  }
+
+  createNationalities(nationality): Observable<any> {
+    return this._ApiService.postReq("nationalities/create", {
+      nationality: nationality,
+    });
+  }
+
+  deleteNationalities(nationality_id): Observable<any> {
+    return this._ApiService.postReq("nationalities/delete", {
+      nationality_id: nationality_id,
+    });
+  }
+
+  // Religions
+  getReligions(): Observable<any> {
+    return this._ApiService.postReq("religions", "");
+  }
+
+  createReligions(religion): Observable<any> {
+    return this._ApiService.postReq("religions/create", { religion: religion });
+  }
+
+  deleteReligions(religion_id): Observable<any> {
+    return this._ApiService.postReq("religions/delete", {
+      religion_id: religion_id,
+    });
+  }
 }

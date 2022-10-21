@@ -19,14 +19,21 @@ import { ConfirmationService } from "primeng/api";
 export class EmployeesComponent implements OnInit {
   pagination: any;
   employees: any[] = [];
-  jobTitle: any[] = [];
+  jobTitles: any[] = [];
   status: any[] = [];
-  religion: any[] = [];
+  religionStatus: any[] = [];
   gender: any[] = [];
-  nationality: any[] = [];
+  nationalityStatus: any[] = [];
   militaryStatus: any[] = [];
   maritalStatus: any[] = [];
-  contract: any[] = [];
+  contractStatus: any[] = [];
+
+  contractModal: boolean = false;
+  jobTitleModal: boolean = false;
+  maritalModal: boolean = false;
+  militaryModal: boolean = false;
+  nationalityModal: boolean = false;
+  religionModal: boolean = false;
 
   filterModal: boolean = false;
   selectedRow: any;
@@ -36,6 +43,7 @@ export class EmployeesComponent implements OnInit {
   @ViewChild("Show") Show: any;
   @ViewChild("CreateForm") CreateForm: any;
   @ViewChild("EditForm") EditForm: any;
+  @ViewChild("Settings") Settings: any;
 
   employeesForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
@@ -48,62 +56,13 @@ export class EmployeesComponent implements OnInit {
     private _FormBuilder: FormBuilder
   ) {
     this.gender = [
-      { name: "Select your gender", value: "" },
       { name: "Male", value: "male" },
       { name: "Female", value: "female" },
     ];
 
-    this.contract = [
-      { name: "Select contract", value: "" },
-      { name: "Limited", value: "limited" },
-      { name: "Un Limited", value: "un limited" },
-    ];
-
-    this.militaryStatus = [
-      { name: "Select military status", value: "" },
-      { name: "Exempted", value: "Exempted" },
-      { name: "Fulfiled", value: "Fulfiled" },
-      { name: "Postponed", value: "Postponed" },
-    ];
-
     this.status = [
-      { name: "Select status", value: "" },
       { name: "Active", value: "ACTIVE" },
       { name: "Deactive", value: "DEACTIVE" },
-    ];
-
-    this.religion = [
-      { name: "Select your religion", value: "" },
-      { name: "MUSLIM", value: "MUSLIM" },
-      { name: "CHRISTIAN", value: "CHRISTIAN" },
-    ];
-
-    this.nationality = [
-      { name: "Select your nationality", value: "" },
-      { name: "EGYPTIAN", value: "EGYPTIAN" },
-      { name: "SAUDI", value: "SAUDI" },
-      { name: "HINDI", value: "HINDI" },
-      { name: "YAMNI", value: "YAMNI" },
-      { name: "PAKISTANI", value: "PAKISTANI" },
-    ];
-
-    this.maritalStatus = [
-      { name: "Select marital status", value: "" },
-      { name: "SINGLE", value: "SINGLE" },
-      { name: "MARRIED", value: "MARRIED" },
-    ];
-
-    this.jobTitle = [
-      { name: "Select your job title", value: "" },
-      { name: "Sales", value: "Sales" },
-      { name: "Operation", value: "Operation" },
-      { name: "Accounting", value: "Accounting" },
-      { name: "Assistant Account", value: "Assistant Account" },
-      { name: "Assistant Sales", value: "Assistant Sales" },
-      { name: "Assistant Operation", value: "Assistant Operation" },
-      { name: "Assistant CEO", value: "Assistant CEO" },
-      { name: "Housekeeping", value: "Housekeeping" },
-      { name: "newcomer", value: "newcomer" },
     ];
   }
 
@@ -111,13 +70,14 @@ export class EmployeesComponent implements OnInit {
     this.getEmployees();
     this.setEmployeesForm();
     this.setFilterForm();
+    this.callSettings();
   }
 
   // Curd Settings
   getEmployees(page = 1) {
     this._EmployeeService.getEmployees(page).subscribe({
       next: (res) => {
-        this.employees = res.data;
+        this.employees = res.data.data;
         this.pagination = res.data;
       },
       error: (err) => {
@@ -191,7 +151,7 @@ export class EmployeesComponent implements OnInit {
 
   // Set Reactive Forms
   setEmployeesForm(emp?: any) {
-    let date = emp ? new Date(emp?.dof) : null;
+    let date = emp ? new Date(emp?.dob) : null;
     let joinDate = emp ? new Date(emp?.join) : null;
     let endDate = emp ? new Date(emp?.end) : null;
     this.employeesForm = this._FormBuilder.group({
@@ -199,7 +159,7 @@ export class EmployeesComponent implements OnInit {
       job_title: new FormControl(emp?.job_title, [Validators.required]),
       mobile: new FormControl(emp?.mobile, [Validators.required]),
       nid: new FormControl(emp?.nid, [Validators.required]),
-      dof: new FormControl(date, [Validators.required]),
+      dob: new FormControl(date, [Validators.required]),
       contract: new FormControl(emp?.contract, [Validators.required]),
       status: new FormControl(emp?.status, [Validators.required]),
       join: new FormControl(joinDate, [Validators.required]),
@@ -226,7 +186,7 @@ export class EmployeesComponent implements OnInit {
       job_title: new FormControl(null),
       mobile: new FormControl(null),
       nid: new FormControl(null),
-      dof: new FormControl(null),
+      dob: new FormControl(null),
       contract: new FormControl(null),
       status: new FormControl(null),
       join: new FormControl(null),
@@ -257,6 +217,11 @@ export class EmployeesComponent implements OnInit {
 
   backEditBtn() {
     this._SharedService.fadeOut(this.EditForm.nativeElement);
+    this.fadeInEmployeesTable();
+  }
+
+  backSettingBtn() {
+    this._SharedService.fadeOut(this.Settings.nativeElement);
     this.fadeInEmployeesTable();
   }
 
@@ -291,12 +256,19 @@ export class EmployeesComponent implements OnInit {
     }, 800);
   }
 
+  displaySettings() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Settings.nativeElement);
+    }, 800);
+  }
+
   // Filter
   filter(form: any) {
     this._EmployeeService.filterEmployees(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
-        this.employees = res.data;
+        this.employees = res.data.data;
         this.pagination = res.data;
         this.setFilterForm();
       },
@@ -322,8 +294,281 @@ export class EmployeesComponent implements OnInit {
         link.href = res.data;
         link.click();
       },
-      // error: (err) =>
-      //   this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  // Employees Settings
+
+  callSettings() {
+    this.getContracts();
+    this.getMaritals();
+    this.getMilitaries();
+    this.getJobTitles();
+    this.getNationalities();
+    this.getReligions();
+  }
+
+  // Show
+  getContracts() {
+    this._EmployeeService.getContracts().subscribe({
+      next: (res) => {
+        this.contractStatus = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getJobTitles() {
+    this._EmployeeService.getjobTitles().subscribe({
+      next: (res) => {
+        this.jobTitles = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getMaritals() {
+    this._EmployeeService.getMaritals().subscribe({
+      next: (res) => {
+        this.maritalStatus = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getMilitaries() {
+    this._EmployeeService.getMilitaries().subscribe({
+      next: (res) => {
+        this.militaryStatus = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getNationalities() {
+    this._EmployeeService.getNationalities().subscribe({
+      next: (res) => {
+        this.nationalityStatus = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getReligions() {
+    this._EmployeeService.getReligions().subscribe({
+      next: (res) => {
+        this.religionStatus = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  // Delete
+  deleteContracts(id: number) {
+    this._EmployeeService.deleteContracts(id).subscribe({
+      next: (res) => {
+        this.getContracts();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteJobTitles(id: number) {
+    this._EmployeeService.deletejobTitles(id).subscribe({
+      next: (res) => {
+        this.getJobTitles();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteMaritals(id: number) {
+    this._EmployeeService.deleteMaritals(id).subscribe({
+      next: (res) => {
+        this.getMaritals();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteMilitaries(id: number) {
+    this._EmployeeService.deleteMilitaries(id).subscribe({
+      next: (res) => {
+        this.getMilitaries();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteNationalities(id: number) {
+    this._EmployeeService.deleteNationalities(id).subscribe({
+      next: (res) => {
+        this.getNationalities();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteReligions(id: number) {
+    this._EmployeeService.deleteReligions(id).subscribe({
+      next: (res) => {
+        this.getReligions();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  // Create
+  addContracts(data: HTMLInputElement) {
+    this._EmployeeService.createContracts(data.value).subscribe({
+      next: (res) => {
+        this.getContracts();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.contractModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addJobTitles(data: HTMLInputElement) {
+    this._EmployeeService.createjobTitles(data.value).subscribe({
+      next: (res) => {
+        this.getJobTitles();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.jobTitleModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addMaritals(data: HTMLInputElement) {
+    this._EmployeeService.createMaritals(data.value).subscribe({
+      next: (res) => {
+        this.getMaritals();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.maritalModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addMilitaries(data: HTMLInputElement) {
+    this._EmployeeService.createMilitaries(data.value).subscribe({
+      next: (res) => {
+        this.getMilitaries();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.militaryModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addNationalities(data: HTMLInputElement) {
+    this._EmployeeService.createNationalities(data.value).subscribe({
+      next: (res) => {
+        this.getNationalities();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.nationalityModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  addReligions(data: HTMLInputElement) {
+    this._EmployeeService.createReligions(data.value).subscribe({
+      next: (res) => {
+        this.getReligions();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.religionModal = false;
+        data.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  // Delete Confirmation
+  deleteContractsConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteContracts(id);
+      },
+    });
+  }
+
+  deleteJobTitlesConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteJobTitles(id);
+      },
+    });
+  }
+
+  deleteMaritalsConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteMaritals(id);
+      },
+    });
+  }
+
+  deleteMilitariesConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteMilitaries(id);
+      },
+    });
+  }
+
+  deleteNationalitiesConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteNationalities(id);
+      },
+    });
+  }
+
+  deleteReligionsConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteReligions(id);
+      },
     });
   }
 }

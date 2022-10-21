@@ -49,6 +49,55 @@
         </div>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <h4 class="card-title">Super Admins Table</h4>
+        <div class="text-center">
+          <!-- <div class="input-group no-border">
+            <input type="text" value="" placeholder="Search..." class="form-control" #searchInput
+              (keydown)="search(searchInput)">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="nc-icon nc-zoom-split"></i>
+              </div>
+            </div>
+          </div> -->
+          <!-- <button *ngIf="create" class="btn btn-primary" (click)="getAdminForm()">
+            <i class="nc-icon nc-simple-add"></i>
+            Add New User
+          </button> -->
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive overflow-auto">
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Image</th>
+              <!-- <th>Action</th> -->
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let user of superAdmins; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.my_role}}</td>
+                <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
+                    style="width: 50px;height: 50px;" alt=""></td>
+                <!-- <td>
+                  <button *ngIf="update" class="btn btn-info mx-2"
+                    (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
+                  <button *ngIf="delete" class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
