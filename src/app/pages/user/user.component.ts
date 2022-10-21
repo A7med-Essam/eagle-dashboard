@@ -23,9 +23,11 @@ export class UserComponent implements OnInit {
   users: any[] = [];
   superAdmins: any[] = [];
   backUpUsers: any;
-
+  backUpSuperAdmins: any;
   @ViewChild("createForm") createForm;
+  @ViewChild("createForm2") createForm2;
   @ViewChild("editForm") editForm;
+  @ViewChild("editForm2") editForm2;
   @ViewChild("userTable") userTable;
   editUserForm: FormGroup = new FormGroup({});
   createAdminForm: FormGroup = new FormGroup({});
@@ -42,7 +44,7 @@ export class UserComponent implements OnInit {
     private _GuardService: GuardService
   ) {}
 
-  enableSuperAdmin: boolean = false;
+  // enableSuperAdmin: boolean = false;
 
   ngOnInit() {
     this.getAdmins();
@@ -82,6 +84,7 @@ export class UserComponent implements OnInit {
   getSuperAdmins() {
     this._UsersService.getSuperAdmins().subscribe((res) => {
       this.superAdmins = res.data;
+      this.backUpSuperAdmins = res.data;
     });
   }
 
@@ -89,6 +92,7 @@ export class UserComponent implements OnInit {
     this._UsersService.deleteAdmin({ admin_id: user.id }).subscribe({
       next: (res) => {
         this.getAdmins();
+        this.getSuperAdmins();
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -97,87 +101,97 @@ export class UserComponent implements OnInit {
   }
 
   createAdmin(admin) {
-    if (this.enableSuperAdmin) {
-      this._UsersService.createSuperAdmin(admin.value).subscribe({
-        next: (res) => {
-          if (res.status == 1) {
-            this.getAdmins();
-            this.getSuperAdmins();
-            this._ToastrService.setToaster(res.message, "success", "success");
-            this._SharedService.fadeOut(this.createForm.nativeElement);
-            this.fadeInUserTable();
-          }
-        },
-        error: (err) => {
-          this._ToastrService.setToaster(
-            err.error.errors.password.toString().replace(",", "<br />"),
-            "error",
-            "danger"
-          );
-        },
-      });
-    } else {
-      this._UsersService.createAdmin(admin.value).subscribe({
-        next: (res) => {
-          if (res.status == 1) {
-            this.getSuperAdmins();
-            this.getAdmins();
-            this._ToastrService.setToaster(res.message, "success", "success");
-            this._SharedService.fadeOut(this.createForm.nativeElement);
-            this.fadeInUserTable();
-          }
-        },
-        error: (err) => {
-          this._ToastrService.setToaster(
-            err.error.errors.password.toString().replace(",", "<br />"),
-            "error",
-            "danger"
-          );
-        },
-      });
-    }
+    // if (this.enableSuperAdmin) {
+    //   this._UsersService.createSuperAdmin(admin.value).subscribe({
+    //     next: (res) => {
+    //       if (res.status == 1) {
+    //         this.getAdmins();
+    //         this.getSuperAdmins();
+    //         this._ToastrService.setToaster(res.message, "success", "success");
+    //         this._SharedService.fadeOut(this.createForm.nativeElement);
+    //         this.fadeInUserTable();
+    //       }
+    //     },
+    //     error: (err) => {
+    //       this._ToastrService.setToaster(
+    //         "error",
+    //         "danger"
+    //       );
+    //     },
+    //   });
+    // } else {
+    this._UsersService.createAdmin(admin.value).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          // this.getSuperAdmins();
+          this.getAdmins();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this._SharedService.fadeOut(this.createForm.nativeElement);
+          this.fadeInUserTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+    // }
+  }
+
+  createSuperAdmin(admin) {
+    this._UsersService.createSuperAdmin(admin.value).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          this.getSuperAdmins();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this._SharedService.fadeOut(this.createForm2.nativeElement);
+          this.fadeInUserTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
   }
 
   getAdminForm() {
+    this.setCreateForm();
     this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.createForm.nativeElement);
     }, 800);
   }
 
+  displaySuperAdminForm() {
+    this.setCreateSuperAdminForm();
+    this._SharedService.fadeOut(this.userTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.createForm2.nativeElement);
+    }, 800);
+  }
+
   updateAdmin(user) {
     if (!user.value.password) this.editUserForm.removeControl("password");
-    if (this.enableSuperAdmin) {
-      this._UsersService.updateSuperAdmin(user.value).subscribe({
-        next: (res) => {
-          if (res.status == 1) {
-            this.setCurrentUser(res.data);
-            this.getSuperAdmins();
-            this.getAdmins();
-            this._ToastrService.setToaster(res.message, "success", "success");
-            this._SharedService.fadeOut(this.editForm.nativeElement);
-            this.fadeInUserTable();
-          }
-        },
-        error: (err) =>
-          this._ToastrService.setToaster(err.error.message, "error", "danger"),
-      });
-    } else {
-      this._UsersService.updateAdmin(user.value).subscribe({
-        next: (res) => {
-          if (res.status == 1) {
-            this.setCurrentUser(res.data);
-            this.getSuperAdmins();
-            this.getAdmins();
-            this._ToastrService.setToaster(res.message, "success", "success");
-            this._SharedService.fadeOut(this.editForm.nativeElement);
-            this.fadeInUserTable();
-          }
-        },
-        error: (err) =>
-          this._ToastrService.setToaster(err.error.message, "error", "danger"),
-      });
-    }
+    this._UsersService.updateAdmin(user.value).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          this.setCurrentUser(res.data);
+          this.getSuperAdmins();
+          this.getAdmins();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this._SharedService.fadeOut(this.editForm.nativeElement);
+          this._SharedService.fadeOut(this.editForm2.nativeElement);
+          this.fadeInUserTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
   }
 
   setCurrentUser(user) {
@@ -192,6 +206,14 @@ export class UserComponent implements OnInit {
     this._SharedService.fadeOut(this.userTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.editForm.nativeElement);
+    }, 800);
+  }
+
+  displayEditSuperAdmin(user) {
+    this.setEditSuperAdminForm(user);
+    this._SharedService.fadeOut(this.userTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.editForm2.nativeElement);
     }, 800);
   }
 
@@ -212,6 +234,24 @@ export class UserComponent implements OnInit {
       password: new FormControl(null, [Validators.required]),
       password_confirmation: new FormControl(null, [Validators.required]),
       permissions: new FormArray([], [Validators.required]),
+    });
+  }
+
+  setCreateSuperAdminForm() {
+    this.createAdminForm = this._FormBuilder.group({
+      name: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required]),
+      password_confirmation: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  setEditSuperAdminForm(user?) {
+    this.editUserForm = this._FormBuilder.group({
+      admin_id: new FormControl(user?.id, [Validators.required]),
+      email: new FormControl(user?.email),
+      name: new FormControl(user?.name),
+      password: new FormControl(null),
     });
   }
 
@@ -278,13 +318,36 @@ export class UserComponent implements OnInit {
     }, 1);
   }
 
+  search2(e: HTMLInputElement) {
+    setTimeout(() => {
+      if (e.value) {
+        const val = e.value.toUpperCase();
+        this.superAdmins = this.superAdmins.filter((user) => {
+          if (user.name.toUpperCase().includes(val)) return user;
+        });
+      } else {
+        this.superAdmins = this.backUpSuperAdmins;
+      }
+    }, 1);
+  }
+
   backCreateBtn() {
     this._SharedService.fadeOut(this.createForm.nativeElement);
     this.fadeInUserTable();
   }
 
+  backCreateBtn2() {
+    this._SharedService.fadeOut(this.createForm2.nativeElement);
+    this.fadeInUserTable();
+  }
+
   backEditBtn() {
     this._SharedService.fadeOut(this.editForm.nativeElement);
+    this.fadeInUserTable();
+  }
+
+  backEditBtn2() {
+    this._SharedService.fadeOut(this.editForm2.nativeElement);
     this.fadeInUserTable();
   }
 

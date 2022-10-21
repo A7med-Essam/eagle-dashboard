@@ -181,11 +181,7 @@ export class LeadsComponent implements OnInit {
         }
       },
       error: (err) => {
-        this._ToastrService.setToaster(
-          err.error.errors.customer_mobile.toString().replace(",", "<br />"),
-          "error",
-          "danger"
-        );
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }
