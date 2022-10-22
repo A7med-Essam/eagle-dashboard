@@ -224,6 +224,15 @@ export class LeadsComponent implements OnInit {
   }
 
   filterLeads(form: any) {
+    form.patchValue({
+      issue_date: form.value.issue_date
+        .toLocaleString("en-us", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    });
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
