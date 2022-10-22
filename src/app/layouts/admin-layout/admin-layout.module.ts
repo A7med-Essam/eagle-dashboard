@@ -9,7 +9,7 @@ import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { UserComponent } from "../../pages/user/user.component";
 import { PolicyComponent } from "../../pages/policy/policy.component";
 import { OperationsComponent } from "../../pages/operations/operations.component";
-import { IconsComponent } from "../../pages/icons/icons.component";
+import { SalesReportComponent } from "../../pages/sales-report/sales-report.component";
 import { CarsComponent } from "../../pages/cars/cars.component";
 import { InsuranceComponent } from "../../pages/insurance/insurance.component";
 import { LeadsComponent } from "../../pages/leads/leads.component";
@@ -44,7 +44,7 @@ import { EmployeesComponent } from "app/pages/employees/employees.component";
     PolicyComponent,
     LeadsComponent,
     OperationsComponent,
-    IconsComponent,
+    SalesReportComponent,
     CarsComponent,
     InsuranceComponent,
     EmployeesComponent,

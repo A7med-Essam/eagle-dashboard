@@ -224,15 +224,29 @@ export class LeadsComponent implements OnInit {
   }
 
   filterLeads(form: any) {
-    form.patchValue({
-      issue_date: form.value.issue_date
-        .toLocaleString("en-us", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        })
-        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
-    });
+    if (!form.value.issue_date) delete form.value.issue_date;
+    else {
+      form.patchValue({
+        issue_date: form.value.issue_date
+          .toLocaleString("en-us", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+      });
+    }
+    if (!form.value.customer_name) delete form.value.customer_name;
+    if (!form.value.customer_mobile) delete form.value.customer_mobile;
+    if (!form.value.car_name) delete form.value.car_name;
+    if (!form.value.car_color) delete form.value.car_color;
+    if (!form.value.car_type) delete form.value.car_type;
+    if (!form.value.gear_type) delete form.value.gear_type;
+    if (!form.value.car_model) delete form.value.car_model;
+    if (!form.value.grade) delete form.value.grade;
+    if (!form.value.kilometer) delete form.value.kilometer;
+    if (!form.value.insurance) delete form.value.insurance;
+
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
