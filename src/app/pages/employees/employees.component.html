@@ -154,6 +154,14 @@
                                             <td>Employee kids</td>
                                             <td>{{selectedRow?.no_kids}}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Employee Salary</td>
+                                            <td>{{selectedRow?.salary}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employee Qualification</td>
+                                            <td>{{selectedRow?.qualification}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -417,6 +425,32 @@
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="employeesForm.get('no_kids')?.touched &&
                                         employeesForm.get('no_kids')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Salary</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="8" class="form-control" formControlName='salary'
+                                    placeholder="Enter your salary">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('salary')?.touched &&
+                                        employeesForm.get('salary')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Qualification</label>
+                                <input type="text" class="form-control" placeholder="Enter your qualification"
+                                    formControlName='qualification'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('qualification')?.touched &&
+                                        employeesForm.get('qualification')?.hasError('required')">This field is
                                         required!</small>
                                 </div>
                             </div>
@@ -690,6 +724,32 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Salary</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="8" class="form-control" formControlName='salary'
+                                    placeholder="Enter your salary">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('salary')?.touched &&
+                                        employeesForm.get('salary')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Qualification</label>
+                                <input type="text" class="form-control" placeholder="Enter your qualification"
+                                    formControlName='qualification'>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="employeesForm.get('qualification')?.touched &&
+                                        employeesForm.get('qualification')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
@@ -852,6 +912,21 @@
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                         maxLength="2" class="form-control" formControlName='no_kids'
                         placeholder="Enter your kids number">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='salary' placeholder="Enter your salary">
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Qualification</label>
+                    <input type="text" class="form-control" placeholder="Enter your qualification"
+                        formControlName='qualification'>
                 </div>
             </div>
         </div>

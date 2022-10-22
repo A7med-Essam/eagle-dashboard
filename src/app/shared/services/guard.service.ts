@@ -28,7 +28,7 @@ export class GuardService {
   }
 
   isSuperAdmin() {
-    return this.user.role == "super_admin" ? true : false;
+    return this.user?.role == "super_admin" ? true : false;
   }
 
   // Users Permissions

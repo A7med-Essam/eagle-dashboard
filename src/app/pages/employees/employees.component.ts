@@ -174,6 +174,8 @@ export class EmployeesComponent implements OnInit {
       military: new FormControl(emp?.military),
       marital: new FormControl(emp?.marital),
       no_kids: new FormControl(emp?.no_kids),
+      salary: new FormControl(emp?.salary),
+      qualification: new FormControl(emp?.qualification),
     });
   }
 
@@ -198,6 +200,8 @@ export class EmployeesComponent implements OnInit {
       military: new FormControl(null),
       marital: new FormControl(null),
       no_kids: new FormControl(null),
+      salary: new FormControl(null),
+      qualification: new FormControl(null),
     });
   }
 

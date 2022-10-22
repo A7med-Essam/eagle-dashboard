@@ -228,10 +228,12 @@
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Chassis Number</label>
-                                <input type="text"
+                                <!-- <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='chassis_no'
-                                    placeholder="Enter Car Chassis Number">
+                                    placeholder="Enter Car Chassis Number"> -->
+                                <input type="text" class="form-control" placeholder="Enter Car Chassis Number"
+                                    formControlName='chassis_no'>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('chassis_no')?.touched &&
                                                     ourCarsForm.get('chassis_no')?.hasError('required')">This field is
@@ -363,10 +365,12 @@
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Chassis Number</label>
-                                <input type="text"
+                                <!-- <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="15" class="form-control" formControlName='chassis_no'
-                                    placeholder="Enter Car Chassis Number">
+                                    placeholder="Enter Car Chassis Number"> -->
+                                <input type="text" class="form-control" placeholder="Enter Car Chassis Number"
+                                    formControlName='chassis_no'>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('chassis_no')?.touched &&
                                                     ourCarsForm.get('chassis_no')?.hasError('required')">This field is
@@ -453,10 +457,12 @@
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">
                     <label>Chassis Number</label>
-                    <input type="text"
+                    <!-- <input type="text"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                         maxLength="15" class="form-control" formControlName='chassis_no'
-                        placeholder="Enter Car Chassis Number">
+                        placeholder="Enter Car Chassis Number"> -->
+                    <input type="text" class="form-control" placeholder="Enter Car Chassis Number"
+                        formControlName='chassis_no'>
                 </div>
             </div>
         </div>
