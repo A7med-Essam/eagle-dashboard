@@ -39,7 +39,7 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
-                  <button *ngIf="update" class="btn btn-success mx-2"
+                  <button *ngIf="isSuperAdmin" class="btn btn-success mx-2"
                     (click)="upgradeToSuperAdmin(user)">Promote</button>
                   <button *ngIf="update" class="btn btn-info mx-2"
                     (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" *ngIf="isSuperAdmin">
       <div class="card-header d-flex justify-content-between">
         <h4 class="card-title">Super Admins Table</h4>
         <div class="text-center">

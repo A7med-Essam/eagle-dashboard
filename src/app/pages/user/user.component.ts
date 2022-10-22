@@ -60,7 +60,7 @@ export class UserComponent implements OnInit {
   create: boolean = true;
   update: boolean = true;
   delete: boolean = true;
-
+  isSuperAdmin: boolean = false;
   setPermissions() {
     this.read = this._GuardService.hasUsersPermission_Read();
     this.create = this._GuardService.hasUsersPermission_Create();
@@ -71,6 +71,7 @@ export class UserComponent implements OnInit {
       this.create = true;
       this.update = true;
       this.delete = true;
+      this.isSuperAdmin = true;
     }
   }
 
