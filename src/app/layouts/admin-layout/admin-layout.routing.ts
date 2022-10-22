@@ -14,6 +14,7 @@ import { CarOwnersComponent } from "app/pages/car-owners/car-owners.component";
 import { EmployeesComponent } from "app/pages/employees/employees.component";
 import { CustomersComponent } from "app/pages/customers/customers.component";
 import { PermissionGuard } from "app/core/guards/permission.guard";
+import { SalesReportComponent } from "app/pages/sales-report/sales-report.component";
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -72,8 +73,12 @@ export const AdminLayoutRoutes: Routes = [
     component: CustomersComponent,
     canActivate: [SuperAdminGuard],
   },
+  {
+    path: "sales-report",
+    component: SalesReportComponent,
+    canActivate: [SuperAdminGuard],
+  },
 
   { path: "accounting", component: CommingSoonComponent },
-  { path: "sales-report", component: CommingSoonComponent },
   { path: "operation-report", component: CommingSoonComponent },
 ];
