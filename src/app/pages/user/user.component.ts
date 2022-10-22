@@ -379,21 +379,27 @@ export class UserComponent implements OnInit {
   }
 
   upgradeToSuperAdmin(admin) {
-    const superAdmin = {
-      email: admin.email,
-      name: admin.name,
-      password: "123123123",
-      password_confirmation: "123123123",
-    };
-    this.deleteAdmin(admin);
-    this._UsersService.createSuperAdmin(superAdmin).subscribe({
+    this._UsersService.promoteAdmin(admin.id).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this._ToastrService.setToaster(
-            "Admin Promoted Successfully",
-            "success",
-            "success"
-          );
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.getAdmins();
+          this.getSuperAdmins();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  downgradeSuperAdmin(admin) {
+    this._UsersService.unPromoteAdmin(admin.id).subscribe({
+      next: (res) => {
+        if (res.status == 1) {
+          this._ToastrService.setToaster(res.message, "success", "success");
           this.getAdmins();
           this.getSuperAdmins();
         } else {

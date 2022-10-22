@@ -151,32 +151,29 @@ export class EmployeesComponent implements OnInit {
 
   // Set Reactive Forms
   setEmployeesForm(emp?: any) {
-    let date = emp ? new Date(emp?.dob) : null;
-    let joinDate = emp ? new Date(emp?.join) : null;
-    let endDate = emp ? new Date(emp?.end) : null;
+    let date = emp?.dob ? new Date(emp?.dob) : null;
+    let joinDate = emp?.join ? new Date(emp?.join) : null;
+    let endDate = emp?.end ? new Date(emp?.end) : null;
     this.employeesForm = this._FormBuilder.group({
-      name: new FormControl(emp?.name, [Validators.required]),
-      job_title: new FormControl(emp?.job_title, [Validators.required]),
+      name: new FormControl(emp?.name),
+      job_title: new FormControl(emp?.job_title),
       mobile: new FormControl(emp?.mobile, [Validators.required]),
-      nid: new FormControl(emp?.nid, [Validators.required]),
-      dob: new FormControl(date, [Validators.required]),
-      contract: new FormControl(emp?.contract, [Validators.required]),
-      status: new FormControl(emp?.status, [Validators.required]),
-      join: new FormControl(joinDate, [Validators.required]),
-      annual: new FormControl(emp?.annual, [Validators.required]),
-      end: new FormControl(endDate, [Validators.required]),
-      email: new FormControl(emp?.email, [
-        Validators.required,
-        Validators.email,
-      ]),
-      passport: new FormControl(emp?.passport, [Validators.required]),
-      religion: new FormControl(emp?.religion, [Validators.required]),
-      gender: new FormControl(emp?.gender, [Validators.required]),
-      nationality: new FormControl(emp?.nationality, [Validators.required]),
-      address: new FormControl(emp?.address, [Validators.required]),
-      military: new FormControl(emp?.military, [Validators.required]),
-      marital: new FormControl(emp?.marital, [Validators.required]),
-      no_kids: new FormControl(emp?.no_kids, [Validators.required]),
+      nid: new FormControl(emp?.nid),
+      dob: new FormControl(date),
+      contract: new FormControl(emp?.contract),
+      status: new FormControl(emp?.status),
+      join: new FormControl(joinDate),
+      annual: new FormControl(emp?.annual),
+      end: new FormControl(endDate),
+      email: new FormControl(emp?.email),
+      passport: new FormControl(emp?.passport),
+      religion: new FormControl(emp?.religion),
+      gender: new FormControl(emp?.gender),
+      nationality: new FormControl(emp?.nationality),
+      address: new FormControl(emp?.address),
+      military: new FormControl(emp?.military),
+      marital: new FormControl(emp?.marital),
+      no_kids: new FormControl(emp?.no_kids),
     });
   }
 

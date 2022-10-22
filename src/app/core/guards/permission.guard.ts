@@ -7,14 +7,16 @@ import {
   UrlTree,
 } from "@angular/router";
 import { AuthService } from "app/shared/services/auth.service";
+import { GuardService } from "app/shared/services/guard.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class SuperAdminGuard implements CanActivate {
+export class PermissionGuard implements CanActivate {
   constructor(
+    private _GuardService: GuardService,
     private _AuthService: AuthService,
     private _Router: Router,
     private _ToasterService: ToasterService
@@ -27,20 +29,21 @@ export class SuperAdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    // return true;
     let role: string = "";
     this._AuthService.currentUser.subscribe((res: any) => {
-      role = res.role;
+      role = res?.role;
     });
-    if (role == "super_admin") {
+    if (role == "super_admin") return true;
+    if (this._GuardService.getPermissionStatus(route.data.permission[0]))
       return true;
-    } else {
-      this._Router.navigate(["./dashboard"]);
-      this._ToasterService.setToaster(
-        "You don't have permission to access this page",
-        "warning",
-        "warning"
-      );
-      return false;
-    }
+
+    this._Router.navigate(["./dashboard"]);
+    this._ToasterService.setToaster(
+      "You don't have permission to access this page",
+      "warning",
+      "warning"
+    );
+    return false;
   }
 }

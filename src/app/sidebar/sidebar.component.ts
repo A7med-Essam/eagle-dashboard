@@ -110,13 +110,16 @@ export class SidebarComponent implements OnInit {
 
   isSuperAdmin: boolean = false;
   hasLeadRead: boolean = false;
+  hasUserRead: boolean = false;
   ngOnInit() {
     this.menuItems = ROUTES.filter((menuItem) => menuItem);
     this.isSuperAdmin = this._GuardService.isSuperAdmin();
     if (this.isSuperAdmin) {
       this.hasLeadRead = true;
+      this.hasUserRead = true;
     } else {
       this.hasLeadRead = this._GuardService.hasLeadsPermission_Read();
+      this.hasUserRead = this._GuardService.hasUsersPermission_Read();
     }
   }
 }

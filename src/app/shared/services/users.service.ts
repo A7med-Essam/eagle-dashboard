@@ -37,4 +37,14 @@ export class UsersService {
   getPermissions(): Observable<any> {
     return this._ApiService.postReq("permissions", "");
   }
+
+  promoteAdmin(admin_id): Observable<any> {
+    return this._ApiService.postReq("upgradeAdmin", { admin_id: admin_id });
+  }
+
+  unPromoteAdmin(super_admin_id): Observable<any> {
+    return this._ApiService.postReq("downgradeAdmin", {
+      super_admin_id: super_admin_id,
+    });
+  }
 }

@@ -345,7 +345,7 @@ export class LeadsComponent implements OnInit {
   // Set Reactive Forms
   setLeadForm(lead?: any) {
     let km = null;
-    if (lead) {
+    if (lead?.km) {
       km = Number(lead.kilometer.slice(0, -1));
     }
     this.leadForm = this._FormBuilder.group({
