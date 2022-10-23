@@ -34,13 +34,13 @@ export class AuthService {
 
   saveUser(user: any) {
     let userData: any = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token: user.access_token,
-      image: user.image,
-      role: user.my_role,
-      permissions: user.my_permissions,
+      id: user?.id,
+      name: user?.name,
+      email: user?.email,
+      token: user?.access_token,
+      image: user?.image,
+      role: user?.my_role,
+      permissions: user?.my_permissions,
     };
     this._LocalService.setJsonValue("userInfo", userData);
     this.currentUser.next(userData);

@@ -13,11 +13,14 @@
     <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
       <a [routerLink]="[menuItem.path]" *ngIf="
          menuItem.title == 'Users'? hasUserRead:true &&
-         menuItem.title == 'Users'? isSuperAdmin:true &&
          menuItem.title == 'leads'? hasLeadRead:true &&
          menuItem.title == 'employees'? isSuperAdmin:true &&
          menuItem.title == 'customers'? isSuperAdmin:true &&
+         menuItem.title == 'Accounting'? isSuperAdmin:true &&
+         menuItem.title == 'Operations'? isSuperAdmin:true &&
          menuItem.title == 'our-cars'? isSuperAdmin:true &&
+         menuItem.title == 'sales-report'? isSuperAdmin:true &&
+         menuItem.title == 'operation-report'? isSuperAdmin:true &&
          menuItem.title == 'car-owners'? isSuperAdmin:true">
 
         <i class=" {{menuItem.icon}}"></i>

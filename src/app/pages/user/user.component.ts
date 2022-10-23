@@ -66,13 +66,16 @@ export class UserComponent implements OnInit {
     this.create = this._GuardService.hasUsersPermission_Create();
     this.update = this._GuardService.hasUsersPermission_Update();
     this.delete = this._GuardService.hasUsersPermission_Delete();
-    if (this._GuardService.isSuperAdmin()) {
-      this.read = true;
-      this.create = true;
-      this.update = true;
-      this.delete = true;
-      this.isSuperAdmin = true;
-    }
+    
+    this.isSuperAdmin = this._GuardService.isSuperAdmin();
+
+    // if (this._GuardService.isSuperAdmin()) {
+    //   this.read = true;
+    //   this.create = true;
+    //   this.update = true;
+    //   this.delete = true;
+    //   this.isSuperAdmin = true;
+    // }
   }
 
   getAdmins() {
@@ -369,9 +372,9 @@ export class UserComponent implements OnInit {
       (u) => u.id == this.editUserForm.value.admin_id
     );
     PermissionsList.forEach((e) => (e.checked = false));
-    for (let i = 0; i < currentUser.my_permissions.length; i++) {
+    for (let i = 0; i < currentUser?.my_permissions.length; i++) {
       for (let j = 0; j < PermissionsList.length; j++) {
-        if (currentUser.my_permissions[i] == PermissionsList[j].value) {
+        if (currentUser?.my_permissions[i] == PermissionsList[j].value) {
           PermissionsList[j].checked = true;
           formArray.push(new FormControl(PermissionsList[j].value));
         }

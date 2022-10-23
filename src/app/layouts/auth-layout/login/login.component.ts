@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
         if (res.status == 1) {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._AuthService.saveUser(res.data);
+          location.reload();
           this._Router.navigate(["/dashboard"]);
         } else {
           this._ToastrService.setToaster(res.message, "warning", "danger");

@@ -19,10 +19,14 @@ export class GuardService {
   getPermissionStatus(permission: string) {
     this.getUser();
     let status;
-    if (this.user.permissions.length > 0) {
-      this.user.permissions.includes(permission)
-        ? (status = true)
-        : (status = false);
+    if (!this.isSuperAdmin()) {
+      if (this.user.permissions.length > 0) {
+        this.user.permissions.includes(permission)
+          ? (status = true)
+          : (status = false);
+      }
+    } else {
+      status = true;
     }
     return status;
   }

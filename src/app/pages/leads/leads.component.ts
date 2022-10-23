@@ -572,12 +572,12 @@ export class LeadsComponent implements OnInit {
   }
 
   // Permissions
-  read: boolean = true;
-  create: boolean = true;
-  update: boolean = true;
-  delete: boolean = true;
-  makeReplay: boolean = true;
-  seeReplay: boolean = true;
+  read: boolean = false;
+  create: boolean = false;
+  update: boolean = false;
+  delete: boolean = false;
+  makeReplay: boolean = false;
+  seeReplay: boolean = false;
   setPermissions() {
     this.read = this._GuardService.hasLeadsPermission_Read();
     this.create = this._GuardService.hasLeadsPermission_Create();
@@ -585,13 +585,13 @@ export class LeadsComponent implements OnInit {
     this.delete = this._GuardService.hasLeadsPermission_Delete();
     this.makeReplay = this._GuardService.hasLeadsPermission_MakeReplay();
     this.seeReplay = this._GuardService.hasLeadsPermission_SeeReplay();
-    if (this._GuardService.isSuperAdmin()) {
-      this.read = true;
-      this.create = true;
-      this.update = true;
-      this.delete = true;
-      this.makeReplay = true;
-      this.seeReplay = true;
-    }
+    // if (this._GuardService.isSuperAdmin()) {
+    //   this.read = true;
+    //   this.create = true;
+    //   this.update = true;
+    //   this.delete = true;
+    //   this.makeReplay = true;
+    //   this.seeReplay = true;
+    // }
   }
 }
