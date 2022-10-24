@@ -13,7 +13,7 @@ export class SalesReportService {
   }
 
   exportReports(): Observable<any> {
-    return this._ApiService.postReq(`lead/salesReport/export`, "");
+    return this._ApiService.postReq(`lead/exportSalesReport`, "");
   }
 
   filterSalesReport(filter): Observable<any> {
