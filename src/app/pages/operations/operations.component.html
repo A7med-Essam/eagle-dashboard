@@ -1,26 +1,53 @@
-<!-- <div class="row animated" #LeadsTable>
+<div class="row animated" #Main>
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">Assign Insurances</h4>
+                <h4 class="card-title">Operation Report Table</h4>
+                <div class="text-center">
+                    <!-- <button class="btn btn-primary m-1" (click)="filterModal = true">
+                        <i class="fa-solid fa-filter"></i>
+                        Filter
+                    </button> -->
+                    <button class="btn btn-primary" style="padding: 6px 12px;" (click)="createModal = true">
+                        <small><b>Add</b></small>
+                    </button>
+                    <!-- <button class="btn btn-primary m-1" (click)="export()">
+                        <i class="fa-regular fa-file-excel"></i>
+                        Export
+                    </button> -->
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive overflow-auto">
                     <table class="table">
                         <thead class="text-secondary text-center">
                             <th>#</th>
+                            <th>Issue Date</th>
                             <th>Customer Name</th>
-                            <th>Insurance</th>
-                            <th>Assign</th>
+                            <th>Owner Name</th>
+                            <th>Car Name</th>
+                            <th>Action</th>
                         </thead>
                         <tbody class="text-center">
-                            <tr *ngFor="let lead of leads; let i = index">
+                            <tr *ngFor="let report of reports; let i = index">
                                 <td>{{i+1}}</td>
-                                <td>{{lead.customer_name}}</td>
-                                <td>{{lead.insurance}}</td>
+                                <td>{{report.created_at | date}}</td>
+                                <td>{{report.customer.name}}</td>
+                                <td>{{report.owner.name}}</td>
+                                <td>{{report.our_car.name}}</td>
                                 <td>
-                                    <button class="btn btn-info m-1 px-3">
-                                        <i class="fa-solid fa-link"></i>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getById(report.id);">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+
+                                    <button class="btn btn-info m-1 px-3" (click)="displayAssignContract(report.id);">
+                                        <!-- <i class="fa-solid fa-reply"></i> -->
+                                        Assign
+                                    </button>
+
+                                    <button class="btn btn-secondary m-1 px-3" (click)="displayLogContract(report.id);">
+                                        <!-- <i class="fa-solid fa-thumbtack"></i> -->
+                                        Log Contract
                                     </button>
                                 </td>
                             </tr>
@@ -33,117 +60,278 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
-<!-- <div class="row">
+<div class="row animated d-none" #Show>
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">Users Table</h4>
-                <div class="text-center">
-                    <div class="input-group no-border">
-                        <input type="text" value="" placeholder="Search..." class="form-control">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <i class="nc-icon nc-zoom-split"></i>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Contract Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Issue Date</td>
+                                            <td>{{selectedRow?.created_at | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer Name</td>
+                                            <td>{{selectedRow?.customer?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer Mobile</td>
+                                            <td>{{selectedRow?.customer?.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer Address</td>
+                                            <td>{{selectedRow?.customer?.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer National Id</td>
+                                            <td>{{selectedRow?.customer?.nid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Name</td>
+                                            <td>{{selectedRow?.our_car?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car color</td>
+                                            <td>{{selectedRow?.our_car?.color}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car model</td>
+                                            <td>{{selectedRow?.our_car?.model}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car motor_no</td>
+                                            <td>{{selectedRow?.our_car?.motor_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car plate_no</td>
+                                            <td>{{selectedRow?.our_car?.plate_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car chassis_no</td>
+                                            <td>{{selectedRow?.our_car?.chassis_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car grade</td>
+                                            <td>{{selectedRow?.our_car?.grade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car license end</td>
+                                            <td>{{selectedRow?.our_car?.license_end | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Owner Name</td>
+                                            <td>{{selectedRow?.owner?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Owner mobile</td>
+                                            <td>{{selectedRow?.owner?.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Owner address</td>
+                                            <td>{{selectedRow?.owner?.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Owner National Id</td>
+                                            <td>{{selectedRow?.owner?.nid}}</td>
+                                        </tr>
+                                        <!-- <tr *ngFor="let log of selectedRow.logs; let i = index">
+                                            <td>Log #{{i}}</td>
+                                            <td>{{log.kilometer_in}}</td>
+                                            <td>{{log.kilometer_out}}</td>
+                                            <td>{{log.lang}}</td>
+                                            <td>{{log.lat}}</td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive overflow-auto">
+                                <table class="table text-center">
+                                    <thead class="text-muted">
+                                        <th>#</th>
+                                        <th>Kilometer in</th>
+                                        <th>Kilometer out</th>
+                                        <th>Longitude Coordinates</th>
+                                        <th>Latitude Coordinates</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let log of selectedRow.logs; let i = index">
+                                            <td>{{i}}</td>
+                                            <td>{{log.kilometer_in}}</td>
+                                            <td>{{log.kilometer_out}}</td>
+                                            <td>{{log.lang}}</td>
+                                            <td>{{log.lat}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary">
-                        <i class="nc-icon nc-simple-add"></i>
-                        Add New User
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive overflow-auto">
-                    <table class="table">
-                        <thead class="text-secondary text-center">
-                            <th>#</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>Image</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <td>1</td>
-                                <td>Maya</td>
-                                <td>Alelyan</td>
-                                <td>maya@eagles-lmo.com</td>
-                                <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
-                                        style="width: 50px;height: 50px;" alt=""></td>
-                                <td>
-                                    <button class="btn btn-info mx-2"> edit</button>
-                                    <button class="btn btn-danger mx-2"> delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Nesma</td>
-                                <td>Mohamed</td>
-                                <td>Nesma@eagles-limo.com</td>
-                                <td><img src="../../../assets/img/logo-small.png" class="img-fluid rounded-circle"
-                                        style="width: 50px;height: 50px;" alt=""></td>
-                                <td>
-                                    <button class="btn btn-info mx-2"> edit</button>
-                                    <button class="btn btn-danger mx-2"> delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Ahmed</td>
-                                <td>Awad</td>
-                                <td>Nea@eagles-limo.com</td>
-                                <td><img src="../../../assets/img/mike.jpg" class="img-fluid rounded-circle"
-                                        style="width: 50px;height: 50px;" alt=""></td>
-                                <td>
-                                    <button class="btn btn-info mx-2"> edit</button>
-                                    <button class="btn btn-danger mx-2"> delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
     </div>
-</div>  -->
+</div>
+
+<!-- <p-dialog header="Customer Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Issue Date</label>
+                    <br>
+                    <p-calendar formControlName="created_at" appendTo="body" [style]="{'width':'100%'}"
+                        selectionMode="range" placeholder="Select Date">
+                    </p-calendar>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog> -->
 
 
-
-<!-- <p-dialog header="Assign Leads" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
-    [resizable]="false">
+<p-dialog header="Assign Contract" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
     <div class="row">
         <div class="col-12">
-            <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignLeads(AssignForm.value)'
-                id="AssignUsersForm">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Insurance Company</label>
-                            <input type="number" class="form-control" placeholder="+02"
-                                formControlName='InsuranceCompany'>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Policy</label>
-                            <input type="number" class="form-control" placeholder="" formControlName='Policy'>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Car Price</label>
-                            <input type="number" class="form-control" placeholder="$00.0" formControlName='CarPrice'>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <div class="form-group">
+                <label>User</label>
+                <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" placeholder="Select Users"
+                    #SelectedUser appendTo="body" optionValue="value"></p-dropdown>
+            </div>
         </div>
     </div>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" form="AssignUsersForm">Confirm</button>
+        <button class="btn btn-primary m-1" (click)="assignContract(SelectedUser)">Apply</button>
     </ng-template>
-</p-dialog> -->
+</p-dialog>
+
+<p-dialog header="Log Contract" [(visible)]="logModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='logForm' (ngSubmit)='logContract(logForm)' id="logForm">
+        <div class="row">
+            <!-- <div class="col-12 d-none">
+                <div class="form-group">
+                    <input type="text" formControlName="operation_contract_id" value="currentContract">
+                </div>
+            </div> -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label>User</label>
+                    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" placeholder="Select Users"
+                        formControlName="user_id" appendTo="body" optionValue="id"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Latitude Coordinates</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="30" class="form-control" formControlName='lat'
+                        placeholder="Enter latitude coordinates">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="logForm.get('lat')?.touched &&
+                            logForm.get('lat')?.hasError('required')">This field is required!
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Longitude Coordinates</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="30" class="form-control" formControlName='lang'
+                        placeholder="Enter longitude coordinates">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="logForm.get('lang')?.touched &&
+                            logForm.get('lang')?.hasError('required')">This field is required!
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Kilometer in</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="30" class="form-control" formControlName='kilometer_in'
+                        placeholder="Enter kilometer">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="logForm.get('kilometer_in')?.touched &&
+                            logForm.get('kilometer_in')?.hasError('required')">This field is required!
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Kilometer out</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="30" class="form-control" formControlName='kilometer_out'
+                        placeholder="Enter kilometer">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="logForm.get('kilometer_out')?.touched &&
+                            logForm.get('kilometer_out')?.hasError('required')">This field is required!
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="logForm" [disabled]="logForm.invalid">Apply</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Create Contract" [(visible)]="createModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='createForm' (ngSubmit)='createContract(createForm)' id="createForm">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Car</label>
+                    <p-dropdown [options]="cars" optionLabel="name" styleClass="w-100" placeholder="Select Car"
+                        formControlName="car_id" appendTo="body" optionValue="id"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Owner</label>
+                    <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100" placeholder="Select Owner"
+                        formControlName="owner_id" appendTo="body" optionValue="id"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Customer</label>
+                    <p-dropdown [options]="customers" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Customer" formControlName="customer_id" appendTo="body" optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="createForm" [disabled]="createForm.invalid">Apply</button>
+    </ng-template>
+</p-dialog>

@@ -43,7 +43,7 @@ export const AdminLayoutRoutes: Routes = [
   },
   {
     path: "operations",
-    component: CommingSoonComponent,
+    component: OperationsComponent,
     canActivate: [SuperAdminGuard],
   },
   {

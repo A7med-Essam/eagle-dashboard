@@ -43,4 +43,8 @@ export class CustomerService {
   trashedCustomers(): Observable<any> {
     return this._ApiService.postReq("customers/trashed", "");
   }
+
+  getCustomersWithoutPagination(): Observable<any> {
+    return this._ApiService.postReq(`customers`, { withoutPagination: "true" });
+  }
 }

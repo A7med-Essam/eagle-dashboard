@@ -94,6 +94,18 @@ export class SalesReportComponent {
         })
         .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
     });
+    // form.patchValue({
+    //   created_at: form.value.created_at.map((range: Date) => {
+    //     range
+    //       .toLocaleString("en-us", {
+    //         year: "numeric",
+    //         month: "2-digit",
+    //         day: "2-digit",
+    //       })
+    //       .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2");
+    //   }),
+    // });
+
     this._SalesReportService.filterSalesReport(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;

@@ -1,9 +1,17 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { InsuranceAndPolicyService } from "app/shared/services/insurance-and-policy.service";
-import { LeadsService } from "app/shared/services/leads.service";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { CarOwnerService } from "app/shared/services/car-owner.service";
+import { CustomerService } from "app/shared/services/customer.service";
+import { OperationService } from "app/shared/services/operation.service";
+import { OurCarService } from "app/shared/services/our-car.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
+import { UsersService } from "app/shared/services/users.service";
 
 @Component({
   selector: "operations-cmp",
@@ -11,76 +19,250 @@ import { ToasterService } from "app/shared/services/toaster.service";
   templateUrl: "operations.component.html",
 })
 export class OperationsComponent implements OnInit {
-  // leads: any[] = [];
-  // AssignForm: FormGroup = new FormGroup({});
-  // assignModal: boolean = false;
-  // pagination: any;
-  // @ViewChild("LeadsTable") LeadsTable: any;
-  // insuranceCompanies: any;
-  constructor() // private _LeadsService: LeadsService,
-  // private _ToastrService: ToasterService,
-  // private _SharedService: SharedService,
-  // private _InsuranceAndPolicyService: InsuranceAndPolicyService,
-  // private _FormBuilder: FormBuilder
-  {}
+  pagination: any;
+  selectedRow: any;
+  users: any[] = [];
+  reports: any[] = [];
+  cars: any[] = [];
+  owners: any[] = [];
+  customers: any[] = [];
+  currentContract;
+
+  assignModal: boolean = false;
+  logModal: boolean = false;
+  createModal: boolean = false;
+
+  @ViewChild("Main") Main: any;
+  @ViewChild("Show") Show: any;
+
+  // filterModal: boolean = false;
+  // filterForm: FormGroup = new FormGroup({});
+  logForm: FormGroup = new FormGroup({});
+  createForm: FormGroup = new FormGroup({});
+
+  constructor(
+    private _OperationService: OperationService,
+    private _SharedService: SharedService,
+    private _UsersService: UsersService,
+    private _ToastrService: ToasterService,
+    private _CarOwnerService: CarOwnerService,
+    private _CustomerService: CustomerService,
+    private _OurCarService: OurCarService,
+    private _FormBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
-    // this.getAllLeads();
-    // this.getInsuranceCompanies();
-    // this.setAssignForm();
+    this.getOperationContracts();
+    this.getAdmins();
+    this.setLogForm();
+    this.setCreateForm();
+    this.getCustomers();
+    this.getOurCars();
+    this.getOwners();
+    // this.setFilterForm();
   }
 
-  // getAllLeads(page = 1) {
-  //   this._LeadsService.getLeads(page).subscribe({
-  //     next: (res) => {
-  //       this.leads = res.data.data;
-  //       this.pagination = res.data;
-  //     },
-  //     error: (err) => {
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
-  //     },
-  //   });
-  // }
+  getOperationContracts(page = 1) {
+    this._OperationService.getOperationContracts(page).subscribe({
+      next: (res) => {
+        this.reports = res.data.data;
+        this.pagination = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
 
-  // loadPage(page: number) {
-  //   this.getAllLeads(page);
-  // }
+  getById(id: any) {
+    [this.selectedRow] = this.reports.filter((c) => c.id == id);
+    this.displayDetails();
+  }
 
-  // fadeInLeadsTable() {
-  //   setTimeout(() => {
-  //     this._SharedService.fadeIn(this.LeadsTable.nativeElement);
-  //   }, 800);
-  // }
+  // Set Reactive Forms
+  setFilterForm() {
+    // this.filterForm = this._FormBuilder.group({
+    //   created_at: new FormControl(null),
+    // });
+  }
 
-  // fadeOutLeadsTable() {
-  //   this._SharedService.fadeOut(this.LeadsTable.nativeElement);
-  // }
+  // back buttons
+  backDetailsBtn() {
+    this._SharedService.fadeOut(this.Show.nativeElement);
+    this.fadeInTable();
+  }
 
-  // getInsuranceCompanies() {
-  //   this._InsuranceAndPolicyService.getInsuranceCompanies().subscribe({
-  //     next: (res) => {
-  //       this.insuranceCompanies = res.data;
-  //       console.log(res);
-  //     },
-  //   });
-  // }
+  fadeInTable() {
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Main.nativeElement);
+    }, 800);
+  }
 
-  // assignLeads(insuranceInfo) {
-  //   this._InsuranceAndPolicyService.assignLeads(insuranceInfo).subscribe({
-  //     next: (res) => {
-  //       this._ToastrService.setToaster(res.message, "success", "success");
-  //       this.assignModal = false;
-  //     },
-  //     error: (err) =>
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
-  //   });
-  // }
+  // display animation
+  displayDetails() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
+  }
 
-  // setAssignForm() {
-  //   this.AssignForm = this._FormBuilder.group({
-  //     InsuranceCompany: new FormControl(null),
-  //     Policy: new FormControl(null),
-  //     CarPrice: new FormControl(null),
-  //   });
-  // }
+  // Filter
+  filter(form: any) {
+    // form.patchValue({
+    //   created_at: form.value.created_at
+    //     .toLocaleString("en-us", {
+    //       year: "numeric",
+    //       month: "2-digit",
+    //       day: "2-digit",
+    //     })
+    //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    // });
+    // this._OperationService.filterSalesReport(form.value).subscribe({
+    //   next: (res) => {
+    //     this.filterModal = false;
+    //     this.reports = res.data.data;
+    //     this.pagination = res.data;
+    //     this.setFilterForm();
+    //   },
+    //   error: (err) =>
+    //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    // });
+  }
+
+  resetFilter() {
+    // this.getOperationContracts();
+  }
+
+  // Pagination
+  loadPage(page: number) {
+    this.getOperationContracts(page);
+  }
+
+  // Export
+  export() {
+    // this._OperationService.exportReports().subscribe({
+    //   next: (res) => {
+    //     const link = document.createElement("a");
+    //     link.href = res.data;
+    //     link.click();
+    //   },
+    //   error: (err) =>
+    //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    // });
+  }
+
+  // ************************************************ NEW ************************************************
+
+  assignContract(userId) {
+    const contract = {
+      user_id: userId.selectedOption.id,
+      operation_contract_id: this.currentContract,
+    };
+    this._OperationService.assignContract(contract).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.getOperationContracts();
+        this.assignModal = false;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  displayAssignContract(id) {
+    this.currentContract = id;
+    this.assignModal = true;
+  }
+
+  displayLogContract(id) {
+    this.setLogForm(id);
+    this.logModal = true;
+  }
+
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe((res) => {
+      this.users = res.data;
+    });
+  }
+
+  // Log Contract methods
+  setLogForm(id?) {
+    this.logForm = this._FormBuilder.group({
+      operation_contract_id: new FormControl(id, [Validators.required]),
+      user_id: new FormControl(null, [Validators.required]),
+      lat: new FormControl(null, [Validators.required]),
+      lang: new FormControl(null, [Validators.required]),
+      kilometer_in: new FormControl(null, [Validators.required]),
+      kilometer_out: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  logContract(contract) {
+    this._OperationService.logContract(contract.value).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.getOperationContracts();
+        this.logModal = false;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  // create Contract methods
+  setCreateForm() {
+    this.createForm = this._FormBuilder.group({
+      car_id: new FormControl(null, [Validators.required]),
+      owner_id: new FormControl(null, [Validators.required]),
+      customer_id: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  createContract(form) {
+    this._OperationService.createContract(form.value).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.getOperationContracts();
+        this.createModal = false;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  getOwners() {
+    this._CarOwnerService.getOwnersWithoutPagination().subscribe({
+      next: (res) => {
+        this.owners = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  getCustomers() {
+    this._CustomerService.getCustomersWithoutPagination().subscribe({
+      next: (res) => {
+        this.customers = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  getOurCars() {
+    this._OurCarService.getOurCarsWithoutPagination().subscribe({
+      next: (res) => {
+        this.cars = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
 }

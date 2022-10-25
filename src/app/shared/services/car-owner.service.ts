@@ -43,4 +43,8 @@ export class CarOwnerService {
   trashedOwners(): Observable<any> {
     return this._ApiService.postReq("owners/trashed", "");
   }
+
+  getOwnersWithoutPagination(): Observable<any> {
+    return this._ApiService.postReq(`owners`, { withoutPagination: "true" });
+  }
 }
