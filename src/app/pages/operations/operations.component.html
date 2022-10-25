@@ -8,9 +8,9 @@
                         <i class="fa-solid fa-filter"></i>
                         Filter
                     </button> -->
-                    <button class="btn btn-primary" style="padding: 6px 12px;" (click)="createModal = true">
+                    <!-- <button class="btn btn-primary" style="padding: 6px 12px;" (click)="createModal = true">
                         <small><b>Add</b></small>
-                    </button>
+                    </button> -->
                     <!-- <button class="btn btn-primary m-1" (click)="export()">
                         <i class="fa-regular fa-file-excel"></i>
                         Export
@@ -40,12 +40,11 @@
                                         <i class="fa-regular fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-info m-1 px-3" (click)="displayAssignContract(report.id);">
-                                        <!-- <i class="fa-solid fa-reply"></i> -->
+                                    <!-- <button class="btn btn-info m-1 px-3" (click)="displayAssignContract(report.id);">
                                         Assign
-                                    </button>
+                                    </button> -->
 
-                                    <button class="btn btn-secondary m-1 px-3" (click)="displayLogContract(report.id);">
+                                    <button class="btn btn-secondary m-1 px-3" (click)="displayLogContract(report);">
                                         <!-- <i class="fa-solid fa-thumbtack"></i> -->
                                         Log Contract
                                     </button>
@@ -208,7 +207,7 @@
 </p-dialog> -->
 
 
-<p-dialog header="Assign Contract" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Assign Contract" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <div class="row">
         <div class="col-12">
@@ -222,7 +221,7 @@
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" (click)="assignContract(SelectedUser)">Apply</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog header="Log Contract" [(visible)]="logModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
     [resizable]="false">
@@ -233,13 +232,13 @@
                     <input type="text" formControlName="operation_contract_id" value="currentContract">
                 </div>
             </div> -->
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <div class="form-group">
                     <label>User</label>
                     <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" placeholder="Select Users"
                         formControlName="user_id" appendTo="body" optionValue="id"></p-dropdown>
                 </div>
-            </div>
+            </div> -->
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Latitude Coordinates</label>
@@ -303,7 +302,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Create Contract" [(visible)]="createModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Create Contract" [(visible)]="createModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <form [formGroup]='createForm' (ngSubmit)='createContract(createForm)' id="createForm">
         <div class="row">
@@ -334,4 +333,4 @@
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" form="createForm" [disabled]="createForm.invalid">Apply</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->

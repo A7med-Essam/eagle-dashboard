@@ -1,14 +1,19 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { CarOwnerService } from "app/shared/services/car-owner.service";
 import { CarService } from "app/shared/services/car.service";
+import { CustomerService } from "app/shared/services/customer.service";
+import { OperationService } from "app/shared/services/operation.service";
 import { OurCarService } from "app/shared/services/our-car.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
+import { UsersService } from "app/shared/services/users.service";
 import { ConfirmationService } from "primeng/api";
 
 @Component({
@@ -42,6 +47,10 @@ export class OurCarsComponent implements OnInit {
     private _ToastrService: ToasterService,
     private _ConfirmationService: ConfirmationService,
     private _CarService: CarService,
+    private _OperationService: OperationService,
+    private _CustomerService: CustomerService,
+    private _CarOwnerService: CarOwnerService,
+    private _UsersService: UsersService,
     private _FormBuilder: FormBuilder
   ) {
     const currentYear = new Date().getFullYear() + 1;
@@ -57,6 +66,9 @@ export class OurCarsComponent implements OnInit {
     this.getCarColor();
     this.getCarGrade();
     this.getCarName();
+    this.getOwners();
+    this.getCustomers();
+    // this.getAdmins();
   }
 
   // Curd Settings
@@ -75,11 +87,6 @@ export class OurCarsComponent implements OnInit {
   getById(id: any) {
     [this.selectedRow] = this.ourCars.filter((car) => car.id == id);
     this.displayDetails();
-    // this._OurCarService.getourCarsById(id).subscribe({
-    //   next: (res) => {
-    //     this.currentLead = res.data;
-    //   },
-    // });
   }
 
   createRow(form: any) {
@@ -153,6 +160,8 @@ export class OurCarsComponent implements OnInit {
       motor_no: new FormControl(car?.motor_no, [Validators.required]),
       chassis_no: new FormControl(car?.chassis_no, [Validators.required]),
       license_end: new FormControl(date, [Validators.required]),
+      owner_id: new FormControl(car?.owner_id, [Validators.required]),
+      customer_id: new FormControl(car?.customer_id, [Validators.required]),
     });
   }
 
@@ -279,6 +288,110 @@ export class OurCarsComponent implements OnInit {
         res.data.forEach((e: any) => {
           this.carName.push({ name: e.car_name, value: e.car_name });
         });
+      },
+    });
+  }
+
+  // ****************************************************************************
+  // AssignForm: FormGroup = new FormGroup({});
+  // assignModal: boolean = false;
+  // @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
+
+  // setAdminForm() {
+  //   this.AssignForm = this._FormBuilder.group({
+  //     user_ids: new FormArray([]),
+  //   });
+  // }
+
+  // getAssignedUsers() {
+  //   const usersId =
+  //     this.AssignUsersForm.nativeElement.querySelectorAll("input");
+  //   const leadUsers = this.currentLead.lead_users;
+  //   const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+  //   if (leadUsers) {
+  //     this.assignModal = true;
+  //     for (let i = 0; i < usersId.length; i++) {
+  //       for (let j = 0; j < leadUsers.length; j++) {
+  //         if (Number(usersId[i].value) == leadUsers[j].user_id) {
+  //           if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
+  //             usersId[i].checked = true;
+  //             formArray.push(new FormControl(usersId[i].value));
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  // assignUsers(users: FormGroup) {
+  //   this._OperationService.assignContract({
+  //       lead_id: this.currentLead.id,
+  //       user_ids: users.value.user_ids,
+  //     })
+  //     .subscribe({
+  //       next: (res) => {
+  //         this._ToastrService.setToaster(res.message, "success", "success");
+  //         this.assignModal = false;
+  //         this.getLeadById(this.currentLead.id);
+  //       },
+  //       error: (err) =>
+  //         this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //     });
+  // }
+
+  // users: Array<any> = [];
+
+  // getAdmins() {
+  //   this._UsersService.getAdmins().subscribe({
+  //     next: (res) => (this.users = res.data),
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
+
+  // ****************************************************************************
+  owners: any[] = [];
+  customers: any[] = [];
+  // createForm: FormGroup = new FormGroup({});
+  // setCreateForm() {
+  //   this.createForm = this._FormBuilder.group({
+  //     car_id: new FormControl(null, [Validators.required]),
+  //     owner_id: new FormControl(null, [Validators.required]),
+  //     customer_id: new FormControl(null, [Validators.required]),
+  //   });
+  // }
+
+  // createContract(form) {
+  //   this._OperationService.createContract(form.value).subscribe({
+  //     next: (res) => {
+  //       this._ToastrService.setToaster(res.message, "success", "success");
+  //       // this.getOperationContracts();
+  //       // this.createModal = false;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
+
+  getOwners() {
+    this._CarOwnerService.getOwnersWithoutPagination().subscribe({
+      next: (res) => {
+        this.owners = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
+
+  getCustomers() {
+    this._CustomerService.getCustomersWithoutPagination().subscribe({
+      next: (res) => {
+        this.customers = res.data;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }

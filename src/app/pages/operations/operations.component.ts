@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { CarOwnerService } from "app/shared/services/car-owner.service";
 import { CustomerService } from "app/shared/services/customer.service";
+import { LocalService } from "app/shared/services/local.service";
 import { OperationService } from "app/shared/services/operation.service";
 import { OurCarService } from "app/shared/services/our-car.service";
 import { SharedService } from "app/shared/services/shared.service";
@@ -48,17 +49,18 @@ export class OperationsComponent implements OnInit {
     private _CarOwnerService: CarOwnerService,
     private _CustomerService: CustomerService,
     private _OurCarService: OurCarService,
+    private _LocalService: LocalService,
     private _FormBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
     this.getOperationContracts();
-    this.getAdmins();
+    // this.getAdmins();
     this.setLogForm();
-    this.setCreateForm();
-    this.getCustomers();
-    this.getOurCars();
-    this.getOwners();
+    // this.setCreateForm();
+    // this.getCustomers();
+    // this.getOurCars();
+    // this.getOwners();
     // this.setFilterForm();
   }
 
@@ -80,11 +82,11 @@ export class OperationsComponent implements OnInit {
   }
 
   // Set Reactive Forms
-  setFilterForm() {
-    // this.filterForm = this._FormBuilder.group({
-    //   created_at: new FormControl(null),
-    // });
-  }
+  // setFilterForm() {
+  // this.filterForm = this._FormBuilder.group({
+  //   created_at: new FormControl(null),
+  // });
+  // }
 
   // back buttons
   backDetailsBtn() {
@@ -107,31 +109,31 @@ export class OperationsComponent implements OnInit {
   }
 
   // Filter
-  filter(form: any) {
-    // form.patchValue({
-    //   created_at: form.value.created_at
-    //     .toLocaleString("en-us", {
-    //       year: "numeric",
-    //       month: "2-digit",
-    //       day: "2-digit",
-    //     })
-    //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
-    // });
-    // this._OperationService.filterSalesReport(form.value).subscribe({
-    //   next: (res) => {
-    //     this.filterModal = false;
-    //     this.reports = res.data.data;
-    //     this.pagination = res.data;
-    //     this.setFilterForm();
-    //   },
-    //   error: (err) =>
-    //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    // });
-  }
+  // filter(form: any) {
+  // form.patchValue({
+  //   created_at: form.value.created_at
+  //     .toLocaleString("en-us", {
+  //       year: "numeric",
+  //       month: "2-digit",
+  //       day: "2-digit",
+  //     })
+  //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+  // });
+  // this._OperationService.filterSalesReport(form.value).subscribe({
+  //   next: (res) => {
+  //     this.filterModal = false;
+  //     this.reports = res.data.data;
+  //     this.pagination = res.data;
+  //     this.setFilterForm();
+  //   },
+  //   error: (err) =>
+  //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  // });
+  // }
 
-  resetFilter() {
-    // this.getOperationContracts();
-  }
+  // resetFilter() {
+  // this.getOperationContracts();
+  // }
 
   // Pagination
   loadPage(page: number) {
@@ -139,61 +141,66 @@ export class OperationsComponent implements OnInit {
   }
 
   // Export
-  export() {
-    // this._OperationService.exportReports().subscribe({
-    //   next: (res) => {
-    //     const link = document.createElement("a");
-    //     link.href = res.data;
-    //     link.click();
-    //   },
-    //   error: (err) =>
-    //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    // });
-  }
+  // export() {
+  // this._OperationService.exportReports().subscribe({
+  //   next: (res) => {
+  //     const link = document.createElement("a");
+  //     link.href = res.data;
+  //     link.click();
+  //   },
+  //   error: (err) =>
+  //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  // });
+  // }
 
   // ************************************************ NEW ************************************************
 
-  assignContract(userId) {
-    const contract = {
-      user_id: userId.selectedOption.id,
-      operation_contract_id: this.currentContract,
-    };
-    this._OperationService.assignContract(contract).subscribe({
-      next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this.getOperationContracts();
-        this.assignModal = false;
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
+  // assignContract(userId) {
+  //   const contract = {
+  //     user_id: userId.selectedOption.id,
+  //     operation_contract_id: this.currentContract,
+  //   };
+  //   this._OperationService.assignContract(contract).subscribe({
+  //     next: (res) => {
+  //       this._ToastrService.setToaster(res.message, "success", "success");
+  //       this.getOperationContracts();
+  //       this.assignModal = false;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
 
-  displayAssignContract(id) {
-    this.currentContract = id;
-    this.assignModal = true;
-  }
+  // displayAssignContract(id) {
+  //   this.currentContract = id;
+  //   this.assignModal = true;
+  // }
 
-  displayLogContract(id) {
-    this.setLogForm(id);
+  displayLogContract(contract) {
+    if (contract?.logs.length) this.logForm.controls["kilometer_in"].disable();
+    else this.logForm.controls["kilometer_in"].enable();
+    this.setLogForm(contract.id, contract?.logs.at(-1)?.kilometer_out);
     this.logModal = true;
   }
 
-  getAdmins() {
-    this._UsersService.getAdmins().subscribe((res) => {
-      this.users = res.data;
-    });
-  }
+  // getAdmins() {
+  //   this._UsersService.getAdmins().subscribe((res) => {
+  //     this.users = res.data;
+  //   });
+  // }
 
   // Log Contract methods
-  setLogForm(id?) {
+
+  setLogForm(id?, kilometer_in?) {
     this.logForm = this._FormBuilder.group({
       operation_contract_id: new FormControl(id, [Validators.required]),
-      user_id: new FormControl(null, [Validators.required]),
+      user_id: new FormControl(this._LocalService.getJsonValue("userInfo").id, [
+        Validators.required,
+      ]),
       lat: new FormControl(null, [Validators.required]),
       lang: new FormControl(null, [Validators.required]),
-      kilometer_in: new FormControl(null, [Validators.required]),
+      kilometer_in: new FormControl(kilometer_in, [Validators.required]),
       kilometer_out: new FormControl(null, [Validators.required]),
     });
   }
@@ -212,57 +219,57 @@ export class OperationsComponent implements OnInit {
   }
 
   // create Contract methods
-  setCreateForm() {
-    this.createForm = this._FormBuilder.group({
-      car_id: new FormControl(null, [Validators.required]),
-      owner_id: new FormControl(null, [Validators.required]),
-      customer_id: new FormControl(null, [Validators.required]),
-    });
-  }
+  // setCreateForm() {
+  //   this.createForm = this._FormBuilder.group({
+  //     car_id: new FormControl(null, [Validators.required]),
+  //     owner_id: new FormControl(null, [Validators.required]),
+  //     customer_id: new FormControl(null, [Validators.required]),
+  //   });
+  // }
 
-  createContract(form) {
-    this._OperationService.createContract(form.value).subscribe({
-      next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this.getOperationContracts();
-        this.createModal = false;
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
+  // createContract(form) {
+  //   this._OperationService.createContract(form.value).subscribe({
+  //     next: (res) => {
+  //       this._ToastrService.setToaster(res.message, "success", "success");
+  //       this.getOperationContracts();
+  //       this.createModal = false;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
 
-  getOwners() {
-    this._CarOwnerService.getOwnersWithoutPagination().subscribe({
-      next: (res) => {
-        this.owners = res.data;
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
+  // getOwners() {
+  //   this._CarOwnerService.getOwnersWithoutPagination().subscribe({
+  //     next: (res) => {
+  //       this.owners = res.data;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
 
-  getCustomers() {
-    this._CustomerService.getCustomersWithoutPagination().subscribe({
-      next: (res) => {
-        this.customers = res.data;
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
+  // getCustomers() {
+  //   this._CustomerService.getCustomersWithoutPagination().subscribe({
+  //     next: (res) => {
+  //       this.customers = res.data;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
 
-  getOurCars() {
-    this._OurCarService.getOurCarsWithoutPagination().subscribe({
-      next: (res) => {
-        this.cars = res.data;
-      },
-      error: (err) => {
-        this._ToastrService.setToaster(err.error.message, "error", "danger");
-      },
-    });
-  }
+  // getOurCars() {
+  //   this._OurCarService.getOurCarsWithoutPagination().subscribe({
+  //     next: (res) => {
+  //       this.cars = res.data;
+  //     },
+  //     error: (err) => {
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  //     },
+  //   });
+  // }
 }

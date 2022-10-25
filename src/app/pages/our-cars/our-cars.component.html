@@ -106,6 +106,16 @@
                                             <td>Car License</td>
                                             <td>{{selectedRow?.license_end | date}}</td>
                                         </tr>
+                                        <!-- <tr>
+                                            <td>Assign</td>
+                                            <td>
+                                                <button
+                                                    class="btn btn-success d-flex justify-content-center align-items-center"
+                                                    (click)="getAssignedUsers();" style="width: 20px; height: 30px;">
+                                                    <i class="fa-solid fa-share"></i>
+                                                </button>
+                                            </td>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -239,6 +249,23 @@
                                                     ourCarsForm.get('chassis_no')?.hasError('required')">This field is
                                         required!</small>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Owner</label>
+                                <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100"
+                                    placeholder="Select Owner" formControlName="owner_id" appendTo="body"
+                                    optionValue="id"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Customer</label>
+                                <p-dropdown [options]="customers" optionLabel="name" styleClass="w-100"
+                                    placeholder="Select Customer" formControlName="customer_id" appendTo="body"
+                                    optionValue="id">
+                                </p-dropdown>
                             </div>
                         </div>
                     </div>
@@ -475,3 +502,31 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
+
+<!-- <p-dialog header="Assign Users" [(visible)]="assignModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]='AssignForm' #AssignUsersForm (ngSubmit)='assignUsers(AssignForm)' id="AssignUsersForm">
+                <div *ngFor="let user of users; let i = index;">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <img src="../../../assets/img/default-avatar.png" class="rounded-circle"
+                                style="width: 40px;height: 40px;" alt="user image">
+                            <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
+                                <small>{{user.name}}</small>
+                            </div>
+                        </div>
+                        <input [id]="'ckb_'+i" class="ckb ckb-primary" type="checkbox" [value]="user.id"
+                            (change)="onCheckChange($event)" />
+                        <label class="hidden" [for]="'ckb_'+i"></label>
+                    </div>
+                    <hr>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="AssignUsersForm">Confirm</button>
+    </ng-template>
+</p-dialog> -->
