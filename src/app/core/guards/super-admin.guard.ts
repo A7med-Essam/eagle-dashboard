@@ -29,7 +29,7 @@ export class SuperAdminGuard implements CanActivate {
     | UrlTree {
     let role: string = "";
     this._AuthService.currentUser.subscribe((res: any) => {
-      role = res.role;
+      role = res?.role;
     });
     if (role == "super_admin") {
       return true;

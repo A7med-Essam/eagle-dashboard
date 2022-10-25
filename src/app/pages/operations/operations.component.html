@@ -158,7 +158,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="table-responsive overflow-auto">
+                            <div class="table-responsive overflow-auto" *ngIf="selectedRow?.logs.length != 0">
                                 <table class="table text-center">
                                     <thead class="text-muted">
                                         <th>#</th>
@@ -168,7 +168,7 @@
                                         <th>Latitude Coordinates</th>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let log of selectedRow.logs; let i = index">
+                                        <tr *ngFor="let log of selectedRow?.logs; let i = index">
                                             <td>{{i}}</td>
                                             <td>{{log.kilometer_in}}</td>
                                             <td>{{log.kilometer_out}}</td>
