@@ -178,6 +178,8 @@ export class LeadsComponent implements OnInit {
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInLeadsTable();
           this.currentClientInsurancePolicy = null;
+          // Assign clear form
+          this.AssignForm.reset(this.AssignForm.value);
         }
       },
       error: (err) => {
@@ -283,6 +285,7 @@ export class LeadsComponent implements OnInit {
   }
 
   getAssignedUsers() {
+    this.resetAssignForm();
     const usersId =
       this.AssignUsersForm.nativeElement.querySelectorAll("input");
     const leadUsers = this.currentLead.lead_users;
@@ -302,6 +305,13 @@ export class LeadsComponent implements OnInit {
     }
   }
 
+  resetAssignForm() {
+    this.AssignForm.reset();
+    this.AssignUsersForm.nativeElement
+      .querySelectorAll("input")
+      .forEach((u) => (u.checked = false));
+  }
+
   addReplay(replay: HTMLTextAreaElement) {
     this._LeadsService
       .replayLeads({ lead_id: this.currentLead.id, replay: replay.value })
@@ -319,7 +329,7 @@ export class LeadsComponent implements OnInit {
     this._LeadsService
       .assignUsers({
         lead_id: this.currentLead.id,
-        user_ids: users.value.user_ids,
+        user_ids: users.value.user_ids.filter(Number),
       })
       .subscribe({
         next: (res) => {
