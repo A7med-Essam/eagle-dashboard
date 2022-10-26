@@ -1,0 +1,223 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Car Prices Table</span>
+
+                <div>
+                    <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="filterModal = true">
+                        <small><b>Filter</b></small>
+                    </button>
+
+                    <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addModal = true">
+                        <small><b>Add</b></small>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body ">
+                <table class="table">
+                    <thead class="text-secondary text-center">
+                        <th>#</th>
+                        <th>Issue Date</th>
+                        <th>Car Name</th>
+                        <th>Car Model</th>
+                        <th>Car Grade</th>
+                        <th>Car Gear</th>
+                        <th>Bad Price</th>
+                        <th>Good Price</th>
+                        <th>zero_min</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let car of carPrice; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{car.created_at | date}}</td>
+                            <td>{{car.car_name}}</td>
+                            <td>{{car.car_model}}</td>
+                            <td>{{car.car_grade}}</td>
+                            <td>{{car.car_gear}}</td>
+                            <td>{{car.bad_min}}</td>
+                            <td>{{car.good_min}}</td>
+                            <td>{{car.zero_min}}</td>
+                            <td>
+                                <button class="btn btn-info mx-2" (click)="openUpdateModal(car)">Edit</button>
+                                <button class="btn btn-danger mx-2" (click)="deleteConfirm(car.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Add Car Price" [(visible)]="addModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='carPriceForm' (ngSubmit)='addCarPrice(carPriceForm)' id="addForm">
+        <div class="row mx-0">
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Name</label>
+                    <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" placeholder="Select Car Name"
+                        formControlName='car_name' filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_name')?.touched &&
+                                    carPriceForm.get('car_name')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Grade</label>
+                    <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Grade" optionValue="value" appendTo="body" formControlName='car_grade'>
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_grade')?.touched &&
+                                    carPriceForm.get('car_grade')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Model" formControlName='car_model' filter="true" appendTo="body"
+                        optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_model')?.touched &&
+                                    carPriceForm.get('car_model')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Gear</label>
+                    <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" placeholder="Select Car Gear"
+                        formControlName='car_gear' filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_gear')?.touched &&
+                                    carPriceForm.get('car_gear')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="addForm">Create</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Edit Car Price" [(visible)]="editModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='carPriceForm' (ngSubmit)='editCarPrice(carPriceForm)' id="editForm">
+        <div class="row mx-0">
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Name</label>
+                    <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" placeholder="Select Car Name"
+                        formControlName='car_name' filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_name')?.touched &&
+                                    carPriceForm.get('car_name')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Grade</label>
+                    <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Grade" optionValue="value" appendTo="body" formControlName='car_grade'>
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_grade')?.touched &&
+                                    carPriceForm.get('car_grade')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Model" formControlName='car_model' filter="true" appendTo="body"
+                        optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_model')?.touched &&
+                                    carPriceForm.get('car_model')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Gear</label>
+                    <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" placeholder="Select Car Gear"
+                        formControlName='car_gear' filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_gear')?.touched &&
+                                    carPriceForm.get('car_gear')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="editForm">Update</button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+
+<p-dialog header="Lead Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='filterForm' (ngSubmit)='filterCarPrice(filterForm)' id="filterForm">
+        <div class="row mx-0">
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Name</label>
+                    <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" placeholder="Select Car Name"
+                        formControlName='car_name' filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Grade</label>
+                    <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Grade" optionValue="value" appendTo="body" formControlName='car_grade'>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
+                        placeholder="Select Car Model" formControlName='car_model' filter="true" appendTo="body"
+                        optionValue="value">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog>

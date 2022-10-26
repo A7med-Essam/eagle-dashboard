@@ -24,6 +24,7 @@ import { OurCarsComponent } from "app/pages/our-cars/our-cars.component";
 import { CarOwnersComponent } from "app/pages/car-owners/car-owners.component";
 import { CustomersComponent } from "app/pages/customers/customers.component";
 import { EmployeesComponent } from "app/pages/employees/employees.component";
+import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { EmployeesComponent } from "app/pages/employees/employees.component";
     CustomersComponent,
     CarOwnersComponent,
     OurCarsComponent,
+    CarPriceComponent,
   ],
 })
 export class AdminLayoutModule {}

@@ -43,6 +43,12 @@ export const ROUTES: RouteInfo[] = [
   //   class: "",
   // },
   {
+    path: "/car-price",
+    title: "car-price",
+    icon: "fa-solid fa-file-invoice-dollar",
+    class: "",
+  },
+  {
     path: "/operations",
     title: "Operations",
     icon: "nc-icon nc-atom",

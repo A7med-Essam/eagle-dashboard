@@ -273,7 +273,7 @@
                 <div class="form-group">
                     <label>Area</label>
                     <p-dropdown [options]="area" optionLabel="name" styleClass="w-100" placeholder="Select Users"
-                        formControlName="area_id" appendTo="body" optionValue="id"></p-dropdown>
+                        formControlName="area" appendTo="body" optionValue="name"></p-dropdown>
                 </div>
             </div>
             <!-- <div class="col-lg-6">
@@ -405,6 +405,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <ngb-pagination [collectionSize]="pagination2?.total" [page]="pagination2?.current_page"
+                    (pageChange)="loadPage2($event)" [pageSize]="pagination2?.per_page">
+                </ngb-pagination>
             </div>
         </div>
     </div>

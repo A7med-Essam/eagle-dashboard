@@ -25,8 +25,8 @@ export class OperationService {
   }
 
   // Area settings
-  getArea(): Observable<any> {
-    return this._ApiService.postReq(`areas`, "");
+  getArea(page = 1): Observable<any> {
+    return this._ApiService.postReq(`areas?page=${page}`, "");
   }
 
   createArea(name): Observable<any> {
@@ -34,6 +34,6 @@ export class OperationService {
   }
 
   deleteArea(area_id): Observable<any> {
-    return this._ApiService.postReq(`areas/create`, { area_id: area_id });
+    return this._ApiService.postReq(`areas/delete`, { area_id: area_id });
   }
 }

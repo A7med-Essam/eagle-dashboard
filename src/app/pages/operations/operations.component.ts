@@ -21,6 +21,7 @@ import { UsersService } from "app/shared/services/users.service";
 })
 export class OperationsComponent implements OnInit {
   pagination: any;
+  pagination2: any;
   selectedRow: any;
   users: any[] = [];
   reports: any[] = [];
@@ -147,6 +148,10 @@ export class OperationsComponent implements OnInit {
     this.getOperationContracts(page);
   }
 
+  loadPage2(page: number) {
+    this.getArea(page);
+  }
+
   // Export
   // export() {
   // this._OperationService.exportReports().subscribe({
@@ -207,7 +212,7 @@ export class OperationsComponent implements OnInit {
       ]),
       // lat: new FormControl(null, [Validators.required]),
       // lang: new FormControl(null, [Validators.required]),
-      area_id: new FormControl(null, [Validators.required]),
+      area: new FormControl(null, [Validators.required]),
       kilometer_in: new FormControl(kilometer_in, [Validators.required]),
       kilometer_out: new FormControl(null, [Validators.required]),
     });
@@ -311,9 +316,12 @@ export class OperationsComponent implements OnInit {
   }
 
   area: any[] = [];
-  getArea() {
-    this._OperationService.getArea().subscribe({
-      next: (res) => (this.area = res.data),
+  getArea(page = 1) {
+    this._OperationService.getArea(page).subscribe({
+      next: (res) => {
+        this.area = res.data.data;
+        this.pagination2 = res.data;
+      },
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
