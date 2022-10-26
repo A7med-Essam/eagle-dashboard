@@ -165,6 +165,7 @@
                                         <th>Kilometer out</th>
                                         <th>Longitude Coordinates</th>
                                         <th>Latitude Coordinates</th>
+                                        <th>Admin Logged</th>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let log of selectedRow?.logs; let i = index">
@@ -173,6 +174,7 @@
                                             <td>{{log.kilometer_out}}</td>
                                             <td>{{log.lang}}</td>
                                             <td>{{log.lat}}</td>
+                                            <td>{{log.user.name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -7,6 +7,7 @@ import { environment } from "../../../environments/environment";
 // import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
 // import { LocalService } from 'src/app/shared/services/local.service';
+import { NgxUiLoaderService } from "ngx-ui-loader";
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +18,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     // private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private _ToastrService: ToastrService,
     private _Router: Router // private _LocalService:LocalService
   ) {
@@ -31,6 +33,7 @@ export class ApiService {
   }
 
   getReq(url: string, params?: HttpParams): Observable<any> {
+    this.ngxService.start();
     return this.http.get(environment.BaseUrl + url, { params: params }).pipe(
       tap({
         next: () => {},
@@ -39,12 +42,17 @@ export class ApiService {
           if (err.status == 500) {
             this._Router.navigate(["./dashboard"]);
           }
+          this.ngxService.stop();
+        },
+        complete: () => {
+          this.ngxService.stop();
         },
       })
     );
   }
 
   postReq(url: string, body: any, params?: HttpParams): Observable<any> {
+    this.ngxService.start();
     return this.http
       .post(environment.BaseUrl + url, body, { params: params })
       .pipe(
@@ -55,12 +63,17 @@ export class ApiService {
             if (err.status == 500) {
               this._Router.navigate(["./dashboard"]);
             }
+            this.ngxService.stop();
+          },
+          complete: () => {
+            this.ngxService.stop();
           },
         })
       );
   }
 
   postReqWithHeader(url: string, body: any, headers): Observable<any> {
+    this.ngxService.start();
     return this.http
       .post(environment.BaseUrl + url, body, { headers: headers })
       .pipe(
@@ -71,6 +84,10 @@ export class ApiService {
             if (err.status == 500) {
               this._Router.navigate(["./dashboard"]);
             }
+            this.ngxService.stop();
+          },
+          complete: () => {
+            this.ngxService.stop();
           },
         })
       );
