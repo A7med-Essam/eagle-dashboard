@@ -145,7 +145,7 @@
 
 <p-dialog header="Customer Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
-    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+    <!-- <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
@@ -154,6 +154,92 @@
                     <p-calendar formControlName="created_at" appendTo="body" [style]="{'width':'100%'}"
                         selectionMode="range" placeholder="Select Date">
                     </p-calendar>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template> -->
+    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+        <div class="row">
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Customer Name"
+                        formControlName='customer_name'>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Customer Mobile</label>
+                    <input type="number" class="form-control" placeholder="+02" formControlName='customer_mobile'>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Car Name</label>
+                    <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
+                        filter="true" placeholder="Select Car Name" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Car Color</label>
+                    <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
+                        placeholder="Select Car Color" filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Car Type</label>
+                    <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
+                        placeholder="Select Car Type" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Gear Type</label>
+                    <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
+                        placeholder="Select Gear Type" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Grade</label>
+                    <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value"
+                        appendTo="body" placeholder="Select Grade" formControlName='grade'>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
+                        placeholder="Select Car Model" filter="true" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Kilometer</label>
+                    <input type="number" class="form-control" placeholder="Km" formControlName='kilometer'
+                        maxlength="100000">
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Insurance</label>
+                    <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
+                        placeholder="Select Insurance" appendTo="body" optionValue="value"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-xl-4 pr-xl-1 col-lg-6">
+                <div class="form-group">
+                    <label>Issue Date</label>
+                    <br>
+                    <p-calendar formControlName="issue_date" appendTo="body" placeholder="Select Issue Date"
+                        selectionMode="range" [style]="{'width':'100%'}"></p-calendar>
                 </div>
             </div>
         </div>

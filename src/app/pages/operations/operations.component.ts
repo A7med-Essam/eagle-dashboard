@@ -35,6 +35,7 @@ export class OperationsComponent implements OnInit {
 
   @ViewChild("Main") Main: any;
   @ViewChild("Show") Show: any;
+  @ViewChild("Show2") Show2: any;
 
   // filterModal: boolean = false;
   // filterForm: FormGroup = new FormGroup({});
@@ -57,6 +58,7 @@ export class OperationsComponent implements OnInit {
     this.getOperationContracts();
     // this.getAdmins();
     this.setLogForm();
+    this.getArea();
     // this.setCreateForm();
     // this.getCustomers();
     // this.getOurCars();
@@ -91,6 +93,11 @@ export class OperationsComponent implements OnInit {
   // back buttons
   backDetailsBtn() {
     this._SharedService.fadeOut(this.Show.nativeElement);
+    this.fadeInTable();
+  }
+
+  backDetailsBtn2() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
     this.fadeInTable();
   }
 
@@ -198,8 +205,9 @@ export class OperationsComponent implements OnInit {
       user_id: new FormControl(this._LocalService.getJsonValue("userInfo").id, [
         Validators.required,
       ]),
-      lat: new FormControl(null, [Validators.required]),
-      lang: new FormControl(null, [Validators.required]),
+      // lat: new FormControl(null, [Validators.required]),
+      // lang: new FormControl(null, [Validators.required]),
+      area_id: new FormControl(null, [Validators.required]),
       kilometer_in: new FormControl(kilometer_in, [Validators.required]),
       kilometer_out: new FormControl(null, [Validators.required]),
     });
@@ -272,4 +280,67 @@ export class OperationsComponent implements OnInit {
   //     },
   //   });
   // }
+
+  @ViewChild("Settings") Settings: any;
+
+  displaySettings() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Settings.nativeElement);
+    }, 800);
+  }
+
+  backSettingBtn() {
+    this._SharedService.fadeOut(this.Settings.nativeElement);
+    this.fadeInTable();
+  }
+
+  areaModal: boolean = false;
+
+  addArea(area: HTMLInputElement) {
+    this._OperationService.createArea(area.value).subscribe({
+      next: (res) => {
+        this.getArea();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.areaModal = false;
+        area.value = "";
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  area: any[] = [];
+  getArea() {
+    this._OperationService.getArea().subscribe({
+      next: (res) => (this.area = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteArea(id) {
+    this._OperationService.deleteArea(id).subscribe({
+      next: (res) => {
+        this.getArea();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  displayCarInfo() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
+  }
+
+  displayActionInfo() {
+    this._SharedService.fadeOut(this.Show.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show2.nativeElement);
+    }, 800);
+  }
 }

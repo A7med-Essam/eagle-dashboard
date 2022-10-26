@@ -23,4 +23,17 @@ export class OperationService {
   logContract(contract): Observable<any> {
     return this._ApiService.postReq(`logContract`, contract);
   }
+
+  // Area settings
+  getArea(): Observable<any> {
+    return this._ApiService.postReq(`areas`, "");
+  }
+
+  createArea(name): Observable<any> {
+    return this._ApiService.postReq(`areas/create`, { name: name });
+  }
+
+  deleteArea(area_id): Observable<any> {
+    return this._ApiService.postReq(`areas/create`, { area_id: area_id });
+  }
 }
