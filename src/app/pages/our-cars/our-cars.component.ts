@@ -32,9 +32,11 @@ export class OurCarsComponent implements OnInit {
   filterModal: boolean = false;
   selectedRow: any;
   currentEditRow: any;
+  contractStatus: any[] = [];
 
   @ViewChild("Main") Main: any;
   @ViewChild("Show") Show: any;
+  @ViewChild("Show2") Show2: any;
   @ViewChild("CreateForm") CreateForm: any;
   @ViewChild("EditForm") EditForm: any;
 
@@ -57,6 +59,11 @@ export class OurCarsComponent implements OnInit {
     for (let i = 2015; i <= currentYear; i++) {
       this.carModel.push({ name: `Model ${i}`, value: `${i}` });
     }
+    this.contractStatus = [
+      { name: "Rented", value: "Rented" },
+      { name: "Completed", value: "completed" },
+      { name: "In Garage", value: "inGarage" },
+    ];
   }
 
   ngOnInit() {
@@ -68,7 +75,9 @@ export class OurCarsComponent implements OnInit {
     this.getCarName();
     this.getOwners();
     this.getCustomers();
-    // this.getAdmins();
+    this.getAdmins();
+    this.setAdminForm();
+    this.setCreateContractForm();
   }
 
   // Curd Settings
@@ -161,7 +170,7 @@ export class OurCarsComponent implements OnInit {
       chassis_no: new FormControl(car?.chassis_no, [Validators.required]),
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
-      customer_id: new FormControl(car?.customer_id, [Validators.required]),
+      // customer_id: new FormControl(car?.customer_id, [Validators.required]),
     });
   }
 
@@ -276,7 +285,7 @@ export class OurCarsComponent implements OnInit {
     this._CarService.getGrade().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.carGrade.push({ name: `Grade ${e.grade}`, value: e.id });
+          this.carGrade.push({ name: `Grade ${e.grade}`, value: e.grade });
         });
       },
     });
@@ -293,86 +302,134 @@ export class OurCarsComponent implements OnInit {
   }
 
   // ****************************************************************************
-  // AssignForm: FormGroup = new FormGroup({});
-  // assignModal: boolean = false;
-  // @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
+  AssignForm: FormGroup = new FormGroup({});
+  assignModal: boolean = false;
+  @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
 
-  // setAdminForm() {
-  //   this.AssignForm = this._FormBuilder.group({
-  //     user_ids: new FormArray([]),
-  //   });
-  // }
+  setAdminForm() {
+    this.AssignForm = this._FormBuilder.group({
+      user_ids: new FormArray([]),
+    });
+  }
 
-  // getAssignedUsers() {
-  //   const usersId =
-  //     this.AssignUsersForm.nativeElement.querySelectorAll("input");
-  //   const leadUsers = this.currentLead.lead_users;
-  //   const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
-  //   if (leadUsers) {
-  //     this.assignModal = true;
-  //     for (let i = 0; i < usersId.length; i++) {
-  //       for (let j = 0; j < leadUsers.length; j++) {
-  //         if (Number(usersId[i].value) == leadUsers[j].user_id) {
-  //           if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
-  //             usersId[i].checked = true;
-  //             formArray.push(new FormControl(usersId[i].value));
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  getAssignedUsers() {
+    // this.resetAssignForm();
+    // const usersId =
+    //   this.AssignUsersForm.nativeElement.querySelectorAll("input");
+    // const leadUsers = this.selectedRow.contracts[0];
+    // const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    // if (leadUsers) {
+    // this.assignModal = true;
+    //   for (let i = 0; i < usersId.length; i++) {
+    //     for (let j = 0; j < leadUsers.length; j++) {
+    //       if (Number(usersId[i].value) == leadUsers[j].user_id) {
+    //         if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
+    //           usersId[i].checked = true;
+    //           formArray.push(new FormControl(usersId[i].value));
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  }
 
-  // assignUsers(users: FormGroup) {
-  //   this._OperationService.assignContract({
-  //       lead_id: this.currentLead.id,
-  //       user_ids: users.value.user_ids,
-  //     })
-  //     .subscribe({
-  //       next: (res) => {
-  //         this._ToastrService.setToaster(res.message, "success", "success");
-  //         this.assignModal = false;
-  //         this.getLeadById(this.currentLead.id);
-  //       },
-  //       error: (err) =>
-  //         this._ToastrService.setToaster(err.error.message, "error", "danger"),
-  //     });
-  // }
+  assignUsers(users: FormGroup) {
+    this._OperationService
+      .assignContract({
+        operation_contract_id: this.selectedRow.contracts[0].id,
+        user_ids: users.value.user_ids,
+      })
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.assignModal = false;
+          this.getById(this.currentEditRow.id);
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
 
-  // users: Array<any> = [];
+  users: Array<any> = [];
 
-  // getAdmins() {
-  //   this._UsersService.getAdmins().subscribe({
-  //     next: (res) => (this.users = res.data),
-  //     error: (err) =>
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
-  //   });
-  // }
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe({
+      next: (res) => (this.users = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  onCheckChange(event, status: string = "edit") {
+    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    if (event.target.checked) {
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      let i: number = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  resetAssignForm() {
+    this.AssignForm.reset();
+    this.AssignUsersForm.nativeElement
+      .querySelectorAll("input")
+      .forEach((u) => (u.checked = false));
+  }
 
   // ****************************************************************************
   owners: any[] = [];
   customers: any[] = [];
-  // createForm: FormGroup = new FormGroup({});
-  // setCreateForm() {
-  //   this.createForm = this._FormBuilder.group({
-  //     car_id: new FormControl(null, [Validators.required]),
-  //     owner_id: new FormControl(null, [Validators.required]),
-  //     customer_id: new FormControl(null, [Validators.required]),
-  //   });
-  // }
+  createContractForm: FormGroup = new FormGroup({});
+  createContractModal: boolean = false;
 
-  // createContract(form) {
-  //   this._OperationService.createContract(form.value).subscribe({
-  //     next: (res) => {
-  //       this._ToastrService.setToaster(res.message, "success", "success");
-  //       // this.getOperationContracts();
-  //       // this.createModal = false;
-  //     },
-  //     error: (err) => {
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
-  //     },
-  //   });
-  // }
+  setCreateContractForm() {
+    this.createContractForm = this._FormBuilder.group({
+      car_id: new FormControl(this.selectedRow?.id, [Validators.required]),
+      customer_id: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      fromDate: new FormControl(null, [Validators.required]),
+      toDate: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  createContract(form) {
+    form.patchValue({
+      fromDate: form.value.fromDate
+        .toLocaleString("en-us", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    });
+
+    form.patchValue({
+      toDate: form.value.toDate
+        .toLocaleString("en-us", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    });
+    this._OperationService.createContract(form.value).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        // this.getOperationContracts();
+        this.createContractModal = false;
+      },
+      error: (err) => {
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
+      },
+    });
+  }
 
   getOwners() {
     this._CarOwnerService.getOwnersWithoutPagination().subscribe({
@@ -394,5 +451,24 @@ export class OurCarsComponent implements OnInit {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
+  }
+
+  displayCarInfo() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
+  }
+
+  backDetailsBtn2() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
+    this.fadeInOurCarsTable();
+  }
+
+  displayContractInfo() {
+    this._SharedService.fadeOut(this.Show.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show2.nativeElement);
+    }, 800);
   }
 }

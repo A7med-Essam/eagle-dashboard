@@ -143,8 +143,8 @@
     </div>
 </div>
 
-<p-dialog header="Customer Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
+<p-dialog header="Filter Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
     <!-- <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
         <div class="row">
             <div class="col-12">
@@ -238,8 +238,9 @@
                 <div class="form-group">
                     <label>Issue Date</label>
                     <br>
-                    <p-calendar formControlName="issue_date" appendTo="body" placeholder="Select Issue Date"
-                        selectionMode="range" [style]="{'width':'100%'}"></p-calendar>
+                    <p-calendar formControlName="created_at" appendTo="body" placeholder="Select Issue Date"
+                        (onSelect)="onSelect()" #calendar [(ngModel)]="rangeDates" selectionMode="range"
+                        [style]="{'width':'100%'}"></p-calendar>
                 </div>
             </div>
         </div>
@@ -251,11 +252,11 @@
 </p-dialog>
 
 
-<!-- TODO: Car price -->
-<!-- TODO: Lead Filter Car price -->
-<!-- TODO: our cars -->
 <!-- TODO: permissions -->
-<!-- TODO: sales report filter -->
 <!-- TODO: add permissions in user components -->
 <!-- TODO: fix permission view in sidebar -->
 <!-- TODO: add permission tabs in add new admin -->
+
+<!-- TODO: display cars with completed contract & display cars with rented contracts & in garage 
+(Filter With Contract Status)
+-->

@@ -183,7 +183,8 @@
                       class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  placeholder="Select Car Name" filter="true" optionValue="value"></p-dropdown>
+                  (onChange)="onChange($event)" placeholder="Select Car Name" filter="true" optionValue="value">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -220,7 +221,8 @@
               <div class="form-group">
                 <label>Grade</label>
                 <p-dropdown [options]="grade" optionLabel="name" styleClass="w-100" optionValue="value" filter="true"
-                  placeholder="Select Grade" [(ngModel)]="selectedGrade" formControlName='grade'>
+                  (onChange)="onChange($event)" placeholder="Select Grade" [(ngModel)]="selectedGrade"
+                  formControlName='grade'>
                 </p-dropdown>
               </div>
             </div>
@@ -228,7 +230,8 @@
               <div class="form-group">
                 <label>Car Model</label>
                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100" formControlName='car_model'
-                  placeholder="Select Car Model" filter="true" [(ngModel)]="selectedCarModel" optionValue="value">
+                  (onChange)="onChange($event)" placeholder="Select Car Model" filter="true"
+                  [(ngModel)]="selectedCarModel" optionValue="value">
                 </p-dropdown>
               </div>
             </div>

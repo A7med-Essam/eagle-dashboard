@@ -128,8 +128,8 @@ export class SalesReportComponent {
       grade: new FormControl(null),
       kilometer: new FormControl(null),
       insurance: new FormControl(null),
-      issue_date: new FormControl([]),
-      // issue_date: new FormArray([]),
+      created_at: new FormControl(null),
+      issue_date_between: new FormControl(null),
     });
   }
 
@@ -173,23 +173,11 @@ export class SalesReportComponent {
 
   filter(form: any) {
     let issue_dates = [];
-    if (!form.value.issue_date) delete form.value.issue_date;
-    else {
-      if (form.value.issue_date[1]) {
-        for (let i = 0; i < form.value.issue_date.length; i++) {
-          issue_dates.push(
-            form.value.issue_date[i]
-              .toLocaleString("en-us", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })
-              .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
-          );
-        }
-      } else {
-        issue_dates.push(
-          form.value.issue_date
+    let issue_date_between = [];
+    if (form.value.created_at && form.value.created_at[1]) {
+      for (let i = 0; i < form.value.created_at.length; i++) {
+        issue_date_between.push(
+          form.value.created_at[i]
             .toLocaleString("en-us", {
               year: "numeric",
               month: "2-digit",
@@ -197,12 +185,27 @@ export class SalesReportComponent {
             })
             .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
         );
-        issue_dates = issue_dates[0].slice(0, -1);
       }
+    } else {
+      issue_dates.push(
+        form.value.created_at
+          .toLocaleString("en-us", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+      );
+      issue_dates = issue_dates[0].slice(0, -1);
     }
     form.patchValue({
-      issue_date: issue_dates,
+      created_at: issue_dates,
+      issue_date_between: issue_date_between,
     });
+    if (!form.value.created_at || !form.value.created_at.length)
+      delete form.value.created_at;
+    if (!form.value.issue_date_between.length)
+      delete form.value.issue_date_between;
     if (!form.value.customer_name) delete form.value.customer_name;
     if (!form.value.customer_mobile) delete form.value.customer_mobile;
     if (!form.value.car_name) delete form.value.car_name;
@@ -213,17 +216,31 @@ export class SalesReportComponent {
     if (!form.value.grade) delete form.value.grade;
     if (!form.value.kilometer) delete form.value.kilometer;
     if (!form.value.insurance) delete form.value.insurance;
+
     this._SalesReportService.filterSalesReport(form.value).subscribe({
       next: (res) => {
+        form.patchValue({
+          created_at: null,
+        });
         this.filterModal = false;
         this.reports = res.data.data;
         this.pagination = res.data;
+
         this.setFilterForm();
       },
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
+  rangeDates: any;
+  @ViewChild("calendar") private calendar: any;
+  onSelect() {
+    if (this.rangeDates[1]) {
+      // If second date is selected
+      this.calendar.overlayVisible = false;
+    }
+  }
+
   gearType: any[] = [];
   carModel: any[] = [];
 

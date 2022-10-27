@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { CarPriceService } from "app/shared/services/car-price.service";
 import { CarService } from "app/shared/services/car.service";
 import { GuardService } from "app/shared/services/guard.service";
 import { InsuranceAndPolicyService } from "app/shared/services/insurance-and-policy.service";
@@ -73,6 +74,7 @@ export class LeadsComponent implements OnInit {
     private _ConfirmationService: ConfirmationService,
     private _InsuranceAndPolicyService: InsuranceAndPolicyService,
     private _GuardService: GuardService,
+    private _CarPriceService: CarPriceService,
     private _FormBuilder: FormBuilder
   ) {
     this.gearType = [
@@ -603,5 +605,30 @@ export class LeadsComponent implements OnInit {
     //   this.makeReplay = true;
     //   this.seeReplay = true;
     // }
+  }
+
+  onChange(event) {
+    if (
+      this.leadForm.value.car_name &&
+      this.leadForm.value.grade &&
+      this.leadForm.value.car_model
+    ) {
+      const car = {
+        car_name: this.leadForm.value.car_name,
+        car_model: this.leadForm.value.car_model,
+        car_grade: this.leadForm.value.grade,
+        // car_gear: this.leadForm.value.gear_type,
+      };
+      this._CarPriceService.filterCarPrice(car).subscribe({
+        next: (res) => {
+          const message = `
+          <small>Good Price ${res.data.data[0].good_min}</small> -
+          <small>Bad Price ${res.data.data[0].bad_min}</small> -
+          <small>Zero min ${res.data.data[0].zero_min}</small>
+          `;
+          this._ToastrService.setToaster(message, "info", "primary");
+        },
+      });
+    }
   }
 }

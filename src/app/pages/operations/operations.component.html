@@ -34,10 +34,10 @@
                         <tbody class="text-center">
                             <tr *ngFor="let report of reports; let i = index">
                                 <td>{{i+1}}</td>
-                                <td>{{report.created_at | date}}</td>
-                                <td>{{report.customer.name}}</td>
-                                <td>{{report.owner.name}}</td>
-                                <td>{{report.our_car.name}}</td>
+                                <td>{{report?.created_at | date}}</td>
+                                <td>{{report?.customer?.name}}</td>
+                                <td>{{report?.owner?.name}}</td>
+                                <td>{{report?.car?.name}}</td>
                                 <td>
                                     <button class="btn btn-primary m-1 px-3" (click)="getById(report.id);">
                                         <i class="fa-regular fa-eye"></i>
@@ -108,35 +108,35 @@
                                         </tr>
                                         <tr>
                                             <td>Car Name</td>
-                                            <td>{{selectedRow?.our_car?.name}}</td>
+                                            <td>{{selectedRow?.car?.name}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car color</td>
-                                            <td>{{selectedRow?.our_car?.color}}</td>
+                                            <td>{{selectedRow?.car?.color}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car model</td>
-                                            <td>{{selectedRow?.our_car?.model}}</td>
+                                            <td>{{selectedRow?.car?.model}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car motor_no</td>
-                                            <td>{{selectedRow?.our_car?.motor_no}}</td>
+                                            <td>{{selectedRow?.car?.motor_no}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car plate_no</td>
-                                            <td>{{selectedRow?.our_car?.plate_no}}</td>
+                                            <td>{{selectedRow?.car?.plate_no}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car chassis_no</td>
-                                            <td>{{selectedRow?.our_car?.chassis_no}}</td>
+                                            <td>{{selectedRow?.car?.chassis_no}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car grade</td>
-                                            <td>{{selectedRow?.our_car?.grade}}</td>
+                                            <td>{{selectedRow?.car?.grade}}</td>
                                         </tr>
                                         <tr>
                                             <td>Car license end</td>
-                                            <td>{{selectedRow?.our_car?.license_end | date}}</td>
+                                            <td>{{selectedRow?.car?.license_end | date}}</td>
                                         </tr>
                                         <tr>
                                             <td>Owner Name</td>
