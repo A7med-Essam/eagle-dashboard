@@ -313,37 +313,41 @@ export class OurCarsComponent implements OnInit {
   }
 
   getAssignedUsers() {
-    // this.resetAssignForm();
-    // const usersId =
-    //   this.AssignUsersForm.nativeElement.querySelectorAll("input");
-    // const leadUsers = this.selectedRow.contracts[0];
-    // const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
-    // if (leadUsers) {
-    // this.assignModal = true;
-    //   for (let i = 0; i < usersId.length; i++) {
-    //     for (let j = 0; j < leadUsers.length; j++) {
-    //       if (Number(usersId[i].value) == leadUsers[j].user_id) {
-    //         if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
-    //           usersId[i].checked = true;
-    //           formArray.push(new FormControl(usersId[i].value));
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    this.resetAssignForm();
+    const usersId =
+      this.AssignUsersForm.nativeElement.querySelectorAll("input");
+    const leadUsers = this.selectedRow.contracts[0].assign;
+    const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
+    if (leadUsers) {
+      this.assignModal = true;
+      for (let i = 0; i < usersId.length; i++) {
+        for (let j = 0; j < leadUsers.length; j++) {
+          if (Number(usersId[i].value) == Number(leadUsers[j].user_id)) {
+            if (!formArray.value.includes(leadUsers[j].user_id.toString())) {
+              usersId[i].checked = true;
+              formArray.push(new FormControl(usersId[i].value));
+            }
+          }
+        }
+      }
+    }
   }
 
   assignUsers(users: FormGroup) {
     this._OperationService
       .assignContract({
-        operation_contract_id: this.selectedRow.contracts[0].id,
+        operation_contract_id: this.selectedRow?.contracts[0].id,
         user_ids: users.value.user_ids,
       })
       .subscribe({
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
-          this.assignModal = false;
-          this.getById(this.currentEditRow.id);
+          this._OurCarService.getOurCars(1).subscribe((res) => {
+            this.assignModal = false;
+            this.ourCars = res.data.data;
+            this.pagination = res.data;
+            this.getById(this.selectedRow.id);
+          });
         },
         error: (err) =>
           this._ToastrService.setToaster(err.error.message, "error", "danger"),
@@ -422,8 +426,12 @@ export class OurCarsComponent implements OnInit {
     this._OperationService.createContract(form.value).subscribe({
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
-        // this.getOperationContracts();
-        this.createContractModal = false;
+        this._OurCarService.getOurCars(1).subscribe((res) => {
+          this.createContractModal = false;
+          this.ourCars = res.data.data;
+          this.pagination = res.data;
+          this.getById(this.selectedRow.id);
+        });
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
