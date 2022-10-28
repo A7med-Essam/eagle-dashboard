@@ -437,6 +437,13 @@ export class OurCarsComponent implements OnInit {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
+
+    // form.patchValue({
+    //   toDate: form.value.toDate
+    //     .toLocaleString("en-GB", { timeZone: "UTC" })
+    //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    // });
+    // console.log(form);
   }
 
   getOwners() {

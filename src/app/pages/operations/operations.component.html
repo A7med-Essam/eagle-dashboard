@@ -36,7 +36,7 @@
                                 <td>{{i+1}}</td>
                                 <td>{{report?.created_at | date}}</td>
                                 <td>{{report?.customer?.name}}</td>
-                                <td>{{report?.owner?.name}}</td>
+                                <td>{{report?.car?.owner?.name}}</td>
                                 <td>{{report?.car?.name}}</td>
                                 <td>
                                     <button class="btn btn-primary m-1 px-3" (click)="getById(report.id);">
@@ -140,19 +140,19 @@
                                         </tr>
                                         <tr>
                                             <td>Owner Name</td>
-                                            <td>{{selectedRow?.owner?.name}}</td>
+                                            <td>{{selectedRow?.car?.owner?.name}}</td>
                                         </tr>
                                         <tr>
                                             <td>Owner mobile</td>
-                                            <td>{{selectedRow?.owner?.mobile}}</td>
+                                            <td>{{selectedRow?.car?.owner?.mobile}}</td>
                                         </tr>
                                         <tr>
                                             <td>Owner address</td>
-                                            <td>{{selectedRow?.owner?.address}}</td>
+                                            <td>{{selectedRow?.car?.owner?.address}}</td>
                                         </tr>
                                         <tr>
                                             <td>Owner National Id</td>
-                                            <td>{{selectedRow?.owner?.nid}}</td>
+                                            <td>{{selectedRow?.car?.owner?.nid}}</td>
                                         </tr>
                                         <!-- <tr *ngFor="let log of selectedRow.logs; let i = index">
                                             <td>Log #{{i}}</td>
@@ -271,8 +271,12 @@
             </div> -->
             <div class="col-12">
                 <div class="form-group">
-                    <label>Area</label>
-                    <p-dropdown [options]="area" optionLabel="name" styleClass="w-100" placeholder="Select Users"
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label>Area</label>
+                        <small (click)="areaModal = true"><i
+                                class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                    </div>
+                    <p-dropdown [options]="area" optionLabel="name" styleClass="w-100" placeholder="Select Area"
                         formControlName="area" appendTo="body" optionValue="name"></p-dropdown>
                 </div>
             </div>
