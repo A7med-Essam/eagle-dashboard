@@ -237,12 +237,29 @@
             <div class="col-12">
                 <div class="form-group">
                     <label>Agent</label>
-                    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='name'
-                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="name">
+                    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='admin_id'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
                     </p-dropdown>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date From</label>
+                    <br>
+                    <p-calendar formControlName="from" appendTo="body" placeholder="Select Issue Date"
+                        [style]="{'width':'100%'}"></p-calendar>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date To</label>
+                    <br>
+                    <p-calendar formControlName="to" appendTo="body" placeholder="Select Issue Date"
+                        [style]="{'width':'100%'}"></p-calendar>
+                </div>
+            </div>
+
+            <!-- <div class="col-12">
                 <div class="form-group">
                     <label>Issue Date</label>
                     <br>
@@ -250,7 +267,7 @@
                         (onSelect)="onSelect()" #calendar [(ngModel)]="rangeDates" selectionMode="range"
                         [style]="{'width':'100%'}"></p-calendar>
                 </div>
-            </div>
+            </div> -->
         </div>
     </form>
     <ng-template pTemplate="footer">

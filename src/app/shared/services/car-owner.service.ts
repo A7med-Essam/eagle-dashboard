@@ -29,7 +29,7 @@ export class CarOwnerService {
   }
 
   exportOwners(): Observable<any> {
-    return this._ApiService.postReq("owners/exportOwners", "");
+    return this._ApiService.postReq("owners/export", "");
   }
 
   restoreOwners(): Observable<any> {

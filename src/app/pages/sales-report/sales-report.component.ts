@@ -131,9 +131,11 @@ export class SalesReportComponent {
       // grade: new FormControl(null),
       // kilometer: new FormControl(null),
       // insurance: new FormControl(null),
-      name: new FormControl(null),
-      created_at: new FormControl(null),
-      issue_date_between: new FormControl(null),
+      admin_id: new FormControl(null),
+      from: new FormControl(null),
+      to: new FormControl(null),
+      // created_at: new FormControl(null),
+      // issue_date_between: new FormControl(null),
     });
   }
 
@@ -175,78 +177,118 @@ export class SalesReportComponent {
   //   });
   // }
 
+  // filter(form: any) {
+  //   let issue_dates = [];
+  //   let issue_date_between = [];
+  //   if (form.value.created_at) {
+  //     if (form.value.created_at[1]) {
+  //       for (let i = 0; i < form.value.created_at.length; i++) {
+  //         issue_date_between.push(
+  //           form.value.created_at[i]
+  //             .toLocaleString("en-us", {
+  //               year: "numeric",
+  //               month: "2-digit",
+  //               day: "2-digit",
+  //             })
+  //             .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+  //         );
+  //       }
+  //     } else {
+  //       issue_dates.push(
+  //         form.value.created_at
+  //           .toLocaleString("en-us", {
+  //             year: "numeric",
+  //             month: "2-digit",
+  //             day: "2-digit",
+  //           })
+  //           .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+  //       );
+  //       issue_dates = issue_dates[0].slice(0, -1);
+  //     }
+  //   }
+  //   form.patchValue({
+  //     created_at: issue_dates,
+  //     issue_date_between: issue_date_between,
+  //   });
+  //   if (!form.value.created_at || !form.value.created_at.length)
+  //     delete form.value.created_at;
+  //   if (!form.value.issue_date_between.length)
+  //     delete form.value.issue_date_between;
+  //   // if (!form.value.customer_name) delete form.value.customer_name;
+  //   // if (!form.value.customer_mobile) delete form.value.customer_mobile;
+  //   // if (!form.value.car_name) delete form.value.car_name;
+  //   // if (!form.value.car_color) delete form.value.car_color;
+  //   // if (!form.value.car_type) delete form.value.car_type;
+  //   // if (!form.value.gear_type) delete form.value.gear_type;
+  //   // if (!form.value.car_model) delete form.value.car_model;
+  //   // if (!form.value.grade) delete form.value.grade;
+  //   // if (!form.value.kilometer) delete form.value.kilometer;
+  //   // if (!form.value.insurance) delete form.value.insurance;
+  //   if (!form.value.name) delete form.value.name;
+
+  //   this._SalesReportService.filterSalesReport(form.value).subscribe({
+  //     next: (res) => {
+  //       form.patchValue({
+  //         created_at: null,
+  //       });
+  //       this.filterModal = false;
+  //       this.reports = res.data.data;
+  //       this.pagination = res.data;
+
+  //       this.setFilterForm();
+  //     },
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
+
   filter(form: any) {
-    let issue_dates = [];
-    let issue_date_between = [];
-    if (form.value.created_at) {
-      if (form.value.created_at[1]) {
-        for (let i = 0; i < form.value.created_at.length; i++) {
-          issue_date_between.push(
-            form.value.created_at[i]
-              .toLocaleString("en-us", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })
-              .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
-          );
-        }
+    if (!form.value.from) delete form.value.from;
+    if (!form.value.to) delete form.value.to;
+    if (form.value.from) {
+      let fromDate = new Date(form.value.from);
+      fromDate.setHours(fromDate.getHours() + 2);
+
+      form.patchValue({
+        from: fromDate.toISOString().split("T")[0],
+      });
+      if (!form.value.to) {
+        let toDate = new Date();
+        toDate.setHours(toDate.getHours() + 2);
+        form.patchValue({
+          to: toDate.toISOString().split("T")[0],
+        });
       } else {
-        issue_dates.push(
-          form.value.created_at
-            .toLocaleString("en-us", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            })
-            .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
-        );
-        issue_dates = issue_dates[0].slice(0, -1);
+        let toDate = new Date(form.value.to);
+        toDate.setHours(toDate.getHours() + 2);
+
+        form.patchValue({
+          to: toDate.toISOString().split("T")[0],
+        });
       }
     }
-    form.patchValue({
-      created_at: issue_dates,
-      issue_date_between: issue_date_between,
-    });
-    if (!form.value.created_at || !form.value.created_at.length)
-      delete form.value.created_at;
-    if (!form.value.issue_date_between.length)
-      delete form.value.issue_date_between;
-    // if (!form.value.customer_name) delete form.value.customer_name;
-    // if (!form.value.customer_mobile) delete form.value.customer_mobile;
-    // if (!form.value.car_name) delete form.value.car_name;
-    // if (!form.value.car_color) delete form.value.car_color;
-    // if (!form.value.car_type) delete form.value.car_type;
-    // if (!form.value.gear_type) delete form.value.gear_type;
-    // if (!form.value.car_model) delete form.value.car_model;
-    // if (!form.value.grade) delete form.value.grade;
-    // if (!form.value.kilometer) delete form.value.kilometer;
-    // if (!form.value.insurance) delete form.value.insurance;
-    if (!form.value.name) delete form.value.name;
-
+    if (!form.value.admin_id) delete form.value.admin_id;
+    console.log(form.value);
     this._SalesReportService.filterSalesReport(form.value).subscribe({
       next: (res) => {
-        form.patchValue({
-          created_at: null,
-        });
         this.filterModal = false;
         this.reports = res.data.data;
         this.pagination = res.data;
-
         this.setFilterForm();
       },
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
-  rangeDates: any;
-  @ViewChild("calendar") private calendar: any;
-  onSelect() {
-    if (this.rangeDates[1]) {
-      // If second date is selected
-      this.calendar.overlayVisible = false;
-    }
-  }
+
+  // rangeDates: any;
+  // @ViewChild("calendar") private calendar: any;
+  // onSelect() {
+  //   if (this.rangeDates[1]) {
+  //     // If second date is selected
+  //     this.calendar.overlayVisible = false;
+  //   }
+  // }
 
   gearType: any[] = [];
   carModel: any[] = [];
