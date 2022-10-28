@@ -23,9 +23,9 @@
                         <th>Car Model</th>
                         <th>Car Grade</th>
                         <th>Car Gear</th>
-                        <th>Bad Price</th>
-                        <th>Good Price</th>
-                        <th>zero_min</th>
+                        <th>Less than 50k</th>
+                        <th>Less than 100k</th>
+                        <th>More than 100k</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-center">
@@ -36,9 +36,9 @@
                             <td>{{car.car_model}}</td>
                             <td>{{car.car_grade}}</td>
                             <td>{{car.car_gear}}</td>
+                            <td>{{car.zero_min}}</td>
                             <td>{{car.bad_min}}</td>
                             <td>{{car.good_min}}</td>
-                            <td>{{car.zero_min}}</td>
                             <td>
                                 <button class="btn btn-info mx-2" (click)="openUpdateModal(car)">Edit</button>
                                 <button class="btn btn-danger mx-2" (click)="deleteConfirm(car.id)">Delete</button>
