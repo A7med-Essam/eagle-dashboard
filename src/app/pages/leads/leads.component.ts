@@ -611,21 +611,29 @@ export class LeadsComponent implements OnInit {
     if (
       this.leadForm.value.car_name &&
       this.leadForm.value.grade &&
-      this.leadForm.value.car_model
+      this.leadForm.value.car_model &&
+      this.leadForm.value.gear_type &&
+      this.leadForm.value.kilometer
     ) {
       const car = {
         car_name: this.leadForm.value.car_name,
         car_model: this.leadForm.value.car_model,
         car_grade: this.leadForm.value.grade,
-        // car_gear: this.leadForm.value.gear_type,
+        car_gear: this.leadForm.value.gear_type,
       };
       this._CarPriceService.filterCarPrice(car).subscribe({
         next: (res) => {
-          const message = `
-          <small>Good Price ${res.data.data[0].good_min}</small> -
-          <small>Bad Price ${res.data.data[0].bad_min}</small> -
-          <small>Zero min ${res.data.data[0].zero_min}</small>
-          `;
+          let message: string = "";
+          if (this.leadForm.value.kilometer <= "50000") {
+            message = `<small>Car Price ${res.data.data[0].zero_min}</small> `;
+          } else if (
+            this.leadForm.value.kilometer <= "100000" &&
+            this.leadForm.value.kilometer > "50000"
+          ) {
+            message = `<small>Car Price ${res.data.data[0].bad_min}</small> `;
+          } else if (this.leadForm.value.kilometer > "100000") {
+            message = `<small>Car Price ${res.data.data[0].good_min}</small> `;
+          }
           this._ToastrService.setToaster(message, "info", "primary");
         },
       });

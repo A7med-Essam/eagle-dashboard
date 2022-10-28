@@ -107,6 +107,10 @@
                                             <td>{{selectedRow?.chassis_no}}</td>
                                         </tr>
                                         <tr>
+                                            <td>Car Kilometer</td>
+                                            <td>{{selectedRow?.kilometer}}</td>
+                                        </tr>
+                                        <tr>
                                             <td>Car License</td>
                                             <td>{{selectedRow?.license_end | date}}</td>
                                         </tr>
@@ -184,6 +188,7 @@
                                 <table class="table text-center">
                                     <thead class="text-muted">
                                         <th>#</th>
+                                        <th>Contract Create At</th>
                                         <th>status</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
@@ -195,9 +200,10 @@
                                     <tbody>
                                         <tr *ngFor="let contract of selectedRow?.contracts; let i = index">
                                             <td>{{i + 1}}</td>
+                                            <td>{{contract?.created_at | date: 'dd/MM/yyyy hh:mm a'}}</td>
                                             <td>{{contract?.status}}</td>
-                                            <td>{{contract?.fromDate | date}}</td>
-                                            <td>{{contract?.toDate | date}}</td>
+                                            <td>{{contract?.fromDate | date: 'dd/MM/yyyy hh:mm a'}}</td>
+                                            <td>{{contract?.toDate | date: 'dd/MM/yyyy hh:mm a'}}</td>
                                             <td>{{contract?.customer.name}}</td>
                                             <td>{{contract?.customer.mobile}}</td>
                                         </tr>
@@ -332,6 +338,20 @@
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('chassis_no')?.touched &&
                                                     ourCarsForm.get('chassis_no')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Kilometer</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="8" class="form-control" formControlName='kilometer'
+                                    placeholder="Enter Car Kilometer">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('kilometer')?.touched &&
+                                                    ourCarsForm.get('kilometer')?.hasError('required')">This field is
                                         required!</small>
                                 </div>
                             </div>
@@ -583,6 +603,15 @@
                         placeholder="Enter Car Chassis Number"> -->
                     <input type="text" class="form-control" placeholder="Enter Car Chassis Number"
                         formControlName='chassis_no'>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Car Kilometer</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='kilometer'
+                        placeholder="Enter Car Kilometer">
                 </div>
             </div>
         </div>

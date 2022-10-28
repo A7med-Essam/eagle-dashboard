@@ -67,13 +67,13 @@ export class CarPriceComponent implements OnInit {
   setCarPriceForm(car?: any) {
     let grade = car ? Number(car?.car_grade) : null;
     this.carPriceForm = this._FormBuilder.group({
-      car_name: new FormControl(car?.car_name),
-      car_model: new FormControl(car?.car_model),
-      car_grade: new FormControl(grade),
-      car_gear: new FormControl(car?.car_gear),
-      zero_min: new FormControl(0),
-      good_min: new FormControl(0),
-      bad_min: new FormControl(0),
+      car_name: new FormControl(car?.car_name, [Validators.required]),
+      car_model: new FormControl(car?.car_model, [Validators.required]),
+      car_grade: new FormControl(grade, [Validators.required]),
+      car_gear: new FormControl(car?.car_gear, [Validators.required]),
+      zero_min: new FormControl(car?.zero_min, [Validators.required]),
+      bad_min: new FormControl(car?.bad_min, [Validators.required]),
+      good_min: new FormControl(car?.good_min, [Validators.required]),
     });
   }
 
@@ -112,6 +112,7 @@ export class CarPriceComponent implements OnInit {
         this.addModal = false;
         this.getCarPrice();
         this.setCarPriceForm();
+        this.carPriceForm.reset();
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
@@ -130,6 +131,7 @@ export class CarPriceComponent implements OnInit {
         this.editModal = false;
         this.getCarPrice();
         this.setCarPriceForm();
+        this.carPriceForm.reset();
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
@@ -189,5 +191,10 @@ export class CarPriceComponent implements OnInit {
 
   resetFilter() {
     this.getCarPrice();
+  }
+
+  displayAddModal() {
+    this.addModal = true;
+    this.carPriceForm.reset();
   }
 }

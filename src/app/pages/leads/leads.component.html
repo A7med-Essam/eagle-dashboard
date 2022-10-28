@@ -213,7 +213,8 @@
               <div class="form-group">
                 <label>Gear Type</label>
                 <p-dropdown [options]="gearType" optionLabel="name" styleClass="w-100" formControlName='gear_type'
-                  placeholder="Select Gear Type" filter="true" [(ngModel)]="selectedGearType" optionValue="value">
+                  (onChange)="onChange($event)" placeholder="Select Gear Type" filter="true"
+                  [(ngModel)]="selectedGearType" optionValue="value">
                 </p-dropdown>
               </div>
             </div>

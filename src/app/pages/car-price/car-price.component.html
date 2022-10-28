@@ -9,7 +9,7 @@
                         <small><b>Filter</b></small>
                     </button>
 
-                    <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addModal = true">
+                    <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="displayAddModal();">
                         <small><b>Add</b></small>
                     </button>
                 </div>
@@ -111,6 +111,45 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Less than 50k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='zero_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('zero_min')?.touched &&
+                                    carPriceForm.get('zero_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Less than 100k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='bad_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('bad_min')?.touched &&
+                                    carPriceForm.get('bad_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>More than 100k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='good_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('good_min')?.touched &&
+                                    carPriceForm.get('good_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
     <ng-template pTemplate="footer">
@@ -175,6 +214,45 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Less than 50k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='zero_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('zero_min')?.touched &&
+                                    carPriceForm.get('zero_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>Less than 100k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='bad_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('bad_min')?.touched &&
+                                    carPriceForm.get('bad_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <label>More than 100k</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        class="form-control" formControlName='good_min' placeholder="enter car price">
+                    <div class="text-left mb-2">
+                        <small class="text-danger ms-1" *ngIf="carPriceForm.get('good_min')?.touched &&
+                                    carPriceForm.get('good_min')?.hasError('required')">This field is
+                            required!</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
     <ng-template pTemplate="footer">
@@ -185,8 +263,8 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
 
-<p-dialog header="Lead Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
-    [resizable]="false">
+<p-dialog header="Car Price Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
     <form [formGroup]='filterForm' (ngSubmit)='filterCarPrice(filterForm)' id="filterForm">
         <div class="row mx-0">
             <div class="col-md-6 pr-md-1">

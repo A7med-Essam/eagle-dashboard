@@ -99,7 +99,6 @@ export class OurCarsComponent implements OnInit {
   }
 
   createRow(form: any) {
-    console.log(form);
     this._OurCarService.createOurCars(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
@@ -170,6 +169,7 @@ export class OurCarsComponent implements OnInit {
       chassis_no: new FormControl(car?.chassis_no, [Validators.required]),
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
+      kilometer: new FormControl(car?.kilometer, [Validators.required]),
       // customer_id: new FormControl(car?.customer_id, [Validators.required]),
     });
   }
@@ -184,6 +184,7 @@ export class OurCarsComponent implements OnInit {
       motor_no: new FormControl(null),
       chassis_no: new FormControl(null),
       license_end: new FormControl(null),
+      kilometer: new FormControl(null),
     });
   }
 
@@ -404,25 +405,52 @@ export class OurCarsComponent implements OnInit {
   }
 
   createContract(form) {
+    // form.patchValue({
+    //   fromDate: form.value.fromDate
+    //     .toLocaleString("en-us", {
+    //       year: "numeric",
+    //       month: "2-digit",
+    //       day: "2-digit",
+    //     })
+    //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    // });
+
+    // form.patchValue({
+    //   toDate: form.value.toDate
+    //     .toLocaleString("en-us", {
+    //       year: "numeric",
+    //       month: "2-digit",
+    //       day: "2-digit",
+    //     })
+    //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+    // });
+
+    let toDate = new Date(form.value.toDate);
+    toDate.setHours(toDate.getHours() + 2);
+
+    let fromDate = new Date(form.value.fromDate);
+    fromDate.setHours(fromDate.getHours() + 2);
+
     form.patchValue({
-      fromDate: form.value.fromDate
-        .toLocaleString("en-us", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        })
-        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+      toDate: toDate.toJSON().split(".")[0].split("T").join(" "),
+      // .toLocaleString("ar", { timeZone: "Egypt/Cairo" }),
+      // .toISOString()
+      // .match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)[0],
+      // .toLocaleString("en-GB", { timeZone: "UTC" })
+      // .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+      // .replace(",", ""),
     });
 
     form.patchValue({
-      toDate: form.value.toDate
-        .toLocaleString("en-us", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        })
-        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
+      fromDate: fromDate.toJSON().split(".")[0].split("T").join(" "),
+      // .toLocaleString("ar", { timeZone: "Egypt/Cairo" }),
+      // .toISOString()
+      // .match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)[0],
+      // .toLocaleString("en-GB", { timeZone: "UTC" })
+      // .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+      // .replace(",", ""),
     });
+
     this._OperationService.createContract(form.value).subscribe({
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
