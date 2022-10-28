@@ -164,7 +164,7 @@
     </ng-template> -->
     <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
         <div class="row">
-            <div class="col-xl-4 pr-xl-1 col-lg-6">
+            <!-- <div class="col-xl-4 pr-xl-1 col-lg-6">
                 <div class="form-group">
                     <label>Customer Name</label>
                     <input type="text" class="form-control" placeholder="Enter Customer Name"
@@ -233,8 +233,16 @@
                     <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
                         placeholder="Select Insurance" appendTo="body" optionValue="value"></p-dropdown>
                 </div>
+            </div> -->
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Agent</label>
+                    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='name'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="name">
+                    </p-dropdown>
+                </div>
             </div>
-            <div class="col-xl-4 pr-xl-1 col-lg-6">
+            <div class="col-12">
                 <div class="form-group">
                     <label>Issue Date</label>
                     <br>

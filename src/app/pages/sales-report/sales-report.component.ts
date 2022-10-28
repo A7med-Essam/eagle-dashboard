@@ -10,6 +10,7 @@ import { CarService } from "app/shared/services/car.service";
 import { SalesReportService } from "app/shared/services/sales-report.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
+import { UsersService } from "app/shared/services/users.service";
 import { ConfirmationService } from "primeng/api";
 
 @Component({
@@ -32,6 +33,7 @@ export class SalesReportComponent {
     private _SalesReportService: SalesReportService,
     private _SharedService: SharedService,
     private _ToastrService: ToasterService,
+    private _UsersService: UsersService,
     private _CarService: CarService,
     private _FormBuilder: FormBuilder
   ) {
@@ -54,6 +56,7 @@ export class SalesReportComponent {
     this.getCarType();
     this.getGrade();
     this.getInsurance();
+    this.getAdmins();
   }
 
   // Curd Settings
@@ -118,16 +121,17 @@ export class SalesReportComponent {
     //   created_at: new FormControl(null),
     // });
     this.filterForm = this._FormBuilder.group({
-      customer_name: new FormControl(null),
-      customer_mobile: new FormControl(null),
-      car_name: new FormControl(null),
-      car_color: new FormControl(null),
-      car_type: new FormControl(null),
-      gear_type: new FormControl(null),
-      car_model: new FormControl(null),
-      grade: new FormControl(null),
-      kilometer: new FormControl(null),
-      insurance: new FormControl(null),
+      // customer_name: new FormControl(null),
+      // customer_mobile: new FormControl(null),
+      // car_name: new FormControl(null),
+      // car_color: new FormControl(null),
+      // car_type: new FormControl(null),
+      // gear_type: new FormControl(null),
+      // car_model: new FormControl(null),
+      // grade: new FormControl(null),
+      // kilometer: new FormControl(null),
+      // insurance: new FormControl(null),
+      name: new FormControl(null),
       created_at: new FormControl(null),
       issue_date_between: new FormControl(null),
     });
@@ -174,10 +178,22 @@ export class SalesReportComponent {
   filter(form: any) {
     let issue_dates = [];
     let issue_date_between = [];
-    if (form.value.created_at && form.value.created_at[1]) {
-      for (let i = 0; i < form.value.created_at.length; i++) {
-        issue_date_between.push(
-          form.value.created_at[i]
+    if (form.value.created_at) {
+      if (form.value.created_at[1]) {
+        for (let i = 0; i < form.value.created_at.length; i++) {
+          issue_date_between.push(
+            form.value.created_at[i]
+              .toLocaleString("en-us", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+          );
+        }
+      } else {
+        issue_dates.push(
+          form.value.created_at
             .toLocaleString("en-us", {
               year: "numeric",
               month: "2-digit",
@@ -185,18 +201,8 @@ export class SalesReportComponent {
             })
             .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
         );
+        issue_dates = issue_dates[0].slice(0, -1);
       }
-    } else {
-      issue_dates.push(
-        form.value.created_at
-          .toLocaleString("en-us", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-          .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
-      );
-      issue_dates = issue_dates[0].slice(0, -1);
     }
     form.patchValue({
       created_at: issue_dates,
@@ -206,16 +212,17 @@ export class SalesReportComponent {
       delete form.value.created_at;
     if (!form.value.issue_date_between.length)
       delete form.value.issue_date_between;
-    if (!form.value.customer_name) delete form.value.customer_name;
-    if (!form.value.customer_mobile) delete form.value.customer_mobile;
-    if (!form.value.car_name) delete form.value.car_name;
-    if (!form.value.car_color) delete form.value.car_color;
-    if (!form.value.car_type) delete form.value.car_type;
-    if (!form.value.gear_type) delete form.value.gear_type;
-    if (!form.value.car_model) delete form.value.car_model;
-    if (!form.value.grade) delete form.value.grade;
-    if (!form.value.kilometer) delete form.value.kilometer;
-    if (!form.value.insurance) delete form.value.insurance;
+    // if (!form.value.customer_name) delete form.value.customer_name;
+    // if (!form.value.customer_mobile) delete form.value.customer_mobile;
+    // if (!form.value.car_name) delete form.value.car_name;
+    // if (!form.value.car_color) delete form.value.car_color;
+    // if (!form.value.car_type) delete form.value.car_type;
+    // if (!form.value.gear_type) delete form.value.gear_type;
+    // if (!form.value.car_model) delete form.value.car_model;
+    // if (!form.value.grade) delete form.value.grade;
+    // if (!form.value.kilometer) delete form.value.kilometer;
+    // if (!form.value.insurance) delete form.value.insurance;
+    if (!form.value.name) delete form.value.name;
 
     this._SalesReportService.filterSalesReport(form.value).subscribe({
       next: (res) => {
@@ -318,6 +325,16 @@ export class SalesReportComponent {
       error: (err) => {
         // this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
+    });
+  }
+
+  users: Array<any> = [];
+
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe({
+      next: (res) => (this.users = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 }
