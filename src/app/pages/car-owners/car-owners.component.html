@@ -263,6 +263,33 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
+                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit1 [auto]="true"
+                                    (uploadHandler)="uploadImage($event,uploadedImage_edit1,'front')"
+                                    chooseLabel="Upload National ID Front (Image)">
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
+                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit2 [auto]="true"
+                                    (uploadHandler)="uploadImage($event,uploadedImage_edit2,'back')"
+                                    chooseLabel="Upload National ID Back (Image)">
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-1">
+                            <div class="form-group">
+                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
+                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit3 [auto]="true"
+                                    (uploadHandler)="uploadImage($event,uploadedImage_edit3,'contract')"
+                                    chooseLabel="Upload Contract (Image)">
+                                </p-fileUpload>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">

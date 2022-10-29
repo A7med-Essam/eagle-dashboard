@@ -66,17 +66,12 @@ export class CarOwnersComponent implements OnInit {
   @ViewChild("uploadedImage1") uploadedImage1: any;
   @ViewChild("uploadedImage2") uploadedImage2: any;
   @ViewChild("uploadedImage3") uploadedImage3: any;
+  @ViewChild("uploadedImage_edit1") uploadedImage_edit1: any;
+  @ViewChild("uploadedImage_edit2") uploadedImage_edit2: any;
+  @ViewChild("uploadedImage_edit3") uploadedImage_edit3: any;
 
   createRow(form: any) {
-    const formData: FormData = new FormData();
-    formData.append("address", form.value.address);
-    formData.append("meta_image", form.value.meta_image);
-    formData.append("mobile", form.value.mobile);
-    formData.append("name", form.value.name);
-    formData.append("national_back_image", form.value.national_back_image);
-    formData.append("national_front_image", form.value.national_front_image);
-    formData.append("nid", form.value.nid);
-    this._CarOwnerService.createOwners(formData).subscribe({
+    this._CarOwnerService.createOwners(this.getFormData(form)).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getCars();
@@ -92,10 +87,26 @@ export class CarOwnersComponent implements OnInit {
     });
   }
 
+  getFormData(form) {
+    const formData: FormData = new FormData();
+    formData.append("address", form.value.address);
+    formData.append("meta_image", form.value.meta_image);
+    formData.append("mobile", form.value.mobile);
+    formData.append("name", form.value.name);
+    formData.append("national_back_image", form.value.national_back_image);
+    formData.append("national_front_image", form.value.national_front_image);
+    formData.append("nid", form.value.nid);
+    return formData;
+  }
+
   resetUploadedFiles() {
     this.uploadedImage1._files = [];
     this.uploadedImage2._files = [];
     this.uploadedImage3._files = [];
+    this.uploadedImage_edit1._files = [];
+    this.uploadedImage_edit2._files = [];
+    this.uploadedImage_edit3._files = [];
+
     this.uploadedImage1.el.nativeElement?.children[0].classList.remove(
       "active"
     );
@@ -105,6 +116,16 @@ export class CarOwnersComponent implements OnInit {
     this.uploadedImage3.el.nativeElement?.children[0].classList.remove(
       "active"
     );
+
+    this.uploadedImage_edit1.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
+    this.uploadedImage_edit2.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
+    this.uploadedImage_edit3.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
   }
 
   editRow(form: any) {
@@ -112,7 +133,16 @@ export class CarOwnersComponent implements OnInit {
       "cid",
       new FormControl(this.currentEditRow.id, Validators.required)
     );
-    this._CarOwnerService.updateOwners(form.value).subscribe({
+    const formData: FormData = new FormData();
+    formData.append("address", form.value.address);
+    formData.append("meta_image", form.value.meta_image);
+    formData.append("mobile", form.value.mobile);
+    formData.append("name", form.value.name);
+    formData.append("national_back_image", form.value.national_back_image);
+    formData.append("national_front_image", form.value.national_front_image);
+    formData.append("nid", form.value.nid);
+    formData.append("cid", this.currentEditRow.id);
+    this._CarOwnerService.updateOwners(formData).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getCars();
@@ -185,6 +215,7 @@ export class CarOwnersComponent implements OnInit {
   backEditBtn() {
     this._SharedService.fadeOut(this.EditForm.nativeElement);
     this.fadeInCarsTable();
+    this.resetUploadedFiles();
   }
 
   fadeInCarsTable() {
