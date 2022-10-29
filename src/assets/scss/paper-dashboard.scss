@@ -81,3 +81,22 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #8e8e8e;
 }
+
+.p-fileupload .p-button {
+    background: #A8E5E7 !important;
+    border: 1px solid #A8E5E7 !important;
+    width: 100%;
+}
+
+.p-fileupload :hover {
+    background: #34B5B8 !important;
+}
+
+.p-fileupload.active .p-button {
+    background: #34B5B8 !important;
+}
+
+.p-fileupload .p-button-label,
+.p-fileupload .p-button-icon {
+    background: transparent !important;
+}

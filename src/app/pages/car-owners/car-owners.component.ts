@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -63,20 +63,48 @@ export class CarOwnersComponent implements OnInit {
     this.displayDetails();
   }
 
+  @ViewChild("uploadedImage1") uploadedImage1: any;
+  @ViewChild("uploadedImage2") uploadedImage2: any;
+  @ViewChild("uploadedImage3") uploadedImage3: any;
+
   createRow(form: any) {
-    this._CarOwnerService.createOwners(form.value).subscribe({
+    const formData: FormData = new FormData();
+    formData.append("address", form.value.address);
+    formData.append("meta_image", form.value.meta_image);
+    formData.append("mobile", form.value.mobile);
+    formData.append("name", form.value.name);
+    formData.append("national_back_image", form.value.national_back_image);
+    formData.append("national_front_image", form.value.national_front_image);
+    formData.append("nid", form.value.nid);
+    this._CarOwnerService.createOwners(formData).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getCars();
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInCarsTable();
+          this.resetUploadedFiles();
         }
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
+  }
+
+  resetUploadedFiles() {
+    this.uploadedImage1._files = [];
+    this.uploadedImage2._files = [];
+    this.uploadedImage3._files = [];
+    this.uploadedImage1.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
+    this.uploadedImage2.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
+    this.uploadedImage3.el.nativeElement?.children[0].classList.remove(
+      "active"
+    );
   }
 
   editRow(form: any) {
@@ -127,6 +155,9 @@ export class CarOwnersComponent implements OnInit {
       mobile: new FormControl(car?.mobile, [Validators.required]),
       address: new FormControl(car?.address, [Validators.required]),
       nid: new FormControl(car?.nid, [Validators.required]),
+      national_front_image: new FormControl(null),
+      national_back_image: new FormControl(null),
+      meta_image: new FormControl(null),
     });
   }
 
@@ -148,6 +179,7 @@ export class CarOwnersComponent implements OnInit {
   backCreateBtn() {
     this._SharedService.fadeOut(this.CreateForm.nativeElement);
     this.fadeInCarsTable();
+    this.resetUploadedFiles();
   }
 
   backEditBtn() {
@@ -220,5 +252,36 @@ export class CarOwnersComponent implements OnInit {
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
+  }
+
+  uploadImage(event, element, status: string = "contract") {
+    element.el.nativeElement?.children[0].classList.add("active");
+    let uploadedFile;
+    for (let file of event?.files) {
+      // uploadedFile = file.objectURL.changingThisBreaksApplicationSecurity;
+      uploadedFile = file;
+    }
+
+    // delete uploadedFile.objectURL;
+    // console.log(uploadedFile);
+
+    // const formData: FormData = new FormData();
+
+    if (status == "front") {
+      // formData.append("national_front_image", uploadedFile, uploadedFile.name);
+      this.carsForm.patchValue({
+        national_front_image: uploadedFile,
+      });
+    } else if (status == "back") {
+      // formData.append("national_back_image", uploadedFile, uploadedFile.name);
+      this.carsForm.patchValue({
+        national_back_image: uploadedFile,
+      });
+    } else {
+      // formData.append("meta_image", uploadedFile, uploadedFile.name);
+      this.carsForm.patchValue({
+        meta_image: uploadedFile,
+      });
+    }
   }
 }

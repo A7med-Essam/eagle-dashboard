@@ -25,6 +25,7 @@ import { CarOwnersComponent } from "app/pages/car-owners/car-owners.component";
 import { CustomersComponent } from "app/pages/customers/customers.component";
 import { EmployeesComponent } from "app/pages/employees/employees.component";
 import { CarPriceComponent } from "app/pages/car-price/car-price.component";
+import { FileUploadModule } from "primeng/fileupload";
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { CarPriceComponent } from "app/pages/car-price/car-price.component";
     CalendarModule,
     ConfirmDialogModule,
     InputSwitchModule,
+    FileUploadModule,
   ],
   declarations: [
     DashboardComponent,
