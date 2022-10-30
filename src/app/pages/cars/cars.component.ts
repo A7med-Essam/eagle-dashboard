@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CarService } from "app/shared/services/car.service";
+import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { ConfirmationService } from "primeng/api";
 
@@ -11,6 +12,7 @@ import { ConfirmationService } from "primeng/api";
 })
 export class CarsComponent implements OnInit {
   carName: any[] = [];
+  carSub: any[] = [];
   carColor: any[] = [];
   carType: any[] = [];
   carGrade: any[] = [];
@@ -19,9 +21,11 @@ export class CarsComponent implements OnInit {
   constructor(
     private _ToastrService: ToasterService,
     private _ConfirmationService: ConfirmationService,
+    private _SharedService: SharedService,
     private _CarService: CarService
   ) {}
   addCarNameModal: boolean = false;
+  addCarSubModal: boolean = false;
   addCarColorModal: boolean = false;
   addCarTypeModal: boolean = false;
   gradeModal: boolean = false;
@@ -29,16 +33,25 @@ export class CarsComponent implements OnInit {
 
   ngOnInit() {
     this.getCarName();
-    this.getCarColor();
-    this.getCarType();
-    this.getGrade();
-    this.getInsurance();
+    // this.getCarSub();
+    // this.getCarColor();
+    // this.getCarType();
+    // this.getGrade();
+    // this.getInsurance();
   }
 
   // Show
   getCarName() {
     this._CarService.getCarName().subscribe({
       next: (res) => (this.carName = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  getCarSub(car_name_id) {
+    this._CarService.getCarSub(car_name_id).subscribe({
+      next: (res) => (this.carSub = res.data),
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
@@ -82,6 +95,17 @@ export class CarsComponent implements OnInit {
     this._CarService.deleteCarName(id).subscribe({
       next: (res) => {
         this.getCarName();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  deleteCarSub(id: number) {
+    this._CarService.deleteCarSub(id).subscribe({
+      next: (res) => {
+        this.getCarSub(this.currentSubType);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -148,6 +172,21 @@ export class CarsComponent implements OnInit {
     });
   }
 
+  addCarSub(sub: HTMLInputElement) {
+    this._CarService
+      .createCarSub({ car_name_id: this.currentSubType, car_model: sub.value })
+      .subscribe({
+        next: (res) => {
+          this.getCarSub(this.currentSubType);
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.addCarSubModal = false;
+          sub.value = "";
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
   addCarColor(car: HTMLInputElement) {
     this._CarService.createCarColor(car.value).subscribe({
       next: (res) => {
@@ -210,6 +249,15 @@ export class CarsComponent implements OnInit {
     });
   }
 
+  deleteCarSubConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteCarSub(id);
+      },
+    });
+  }
+
   deleteCarColorConfirm(id: any) {
     this._ConfirmationService.confirm({
       message: "Are you sure that you want to perform this action?",
@@ -244,5 +292,87 @@ export class CarsComponent implements OnInit {
         this.deleteInsurance(id);
       },
     });
+  }
+
+  // Displays
+  @ViewChild("Cars") Cars: any;
+  @ViewChild("Colors") Colors: any;
+  @ViewChild("Types") Types: any;
+  @ViewChild("SubTypes") SubTypes: any;
+  @ViewChild("Grades") Grades: any;
+  @ViewChild("Insurances") Insurances: any;
+
+  displayCars() {
+    this.getCarName();
+    this._SharedService.fadeOut(this.Colors.nativeElement);
+    this._SharedService.fadeOut(this.Types.nativeElement);
+    this._SharedService.fadeOut(this.SubTypes.nativeElement);
+    this._SharedService.fadeOut(this.Grades.nativeElement);
+    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Cars.nativeElement);
+    }, 800);
+  }
+
+  displayColors() {
+    this.getCarColor();
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.Types.nativeElement);
+    this._SharedService.fadeOut(this.SubTypes.nativeElement);
+    this._SharedService.fadeOut(this.Grades.nativeElement);
+    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Colors.nativeElement);
+    }, 800);
+  }
+
+  currentSubType: number = 0;
+  displaySubTypes(id) {
+    this.currentSubType = id;
+    this.getCarSub(id);
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.Types.nativeElement);
+    this._SharedService.fadeOut(this.Colors.nativeElement);
+    this._SharedService.fadeOut(this.Grades.nativeElement);
+    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.SubTypes.nativeElement);
+    }, 800);
+  }
+
+  displayTypes() {
+    this.getCarType();
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.SubTypes.nativeElement);
+    this._SharedService.fadeOut(this.Colors.nativeElement);
+    this._SharedService.fadeOut(this.Grades.nativeElement);
+    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Types.nativeElement);
+    }, 800);
+  }
+
+  displayInsurances() {
+    this.getInsurance();
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.SubTypes.nativeElement);
+    this._SharedService.fadeOut(this.Colors.nativeElement);
+    this._SharedService.fadeOut(this.Grades.nativeElement);
+    this._SharedService.fadeOut(this.Types.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Insurances.nativeElement);
+    }, 800);
+  }
+
+  displayGrades() {
+    this.getGrade();
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.SubTypes.nativeElement);
+    this._SharedService.fadeOut(this.Colors.nativeElement);
+    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    this._SharedService.fadeOut(this.Types.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Grades.nativeElement);
+    }, 800);
   }
 }

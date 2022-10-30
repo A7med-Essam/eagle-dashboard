@@ -112,10 +112,10 @@ export class OurCarsComponent implements OnInit {
     formData.append("kilometer", form.value.kilometer);
     // formData.append("car_images", form.value.car_images);
     // formData.append("car_files", form.value.car_files);
-    form.value.car_images.forEach((e) => {
+    form.value.car_images?.forEach((e) => {
       formData.append("car_images", e);
     });
-    form.value.car_files.forEach((e) => {
+    form.value.car_files?.forEach((e) => {
       formData.append("car_files", e);
     });
     this._OurCarService.createOurCars(formData).subscribe({
@@ -550,6 +550,7 @@ export class OurCarsComponent implements OnInit {
       this.ourCarsForm.patchValue({
         car_images: uploadedFile,
       });
+      this.ourCarsForm.get("car_images").updateValueAndValidity();
     } else {
       this.ourCarsForm.patchValue({
         car_files: uploadedFile,
@@ -566,6 +567,6 @@ export class OurCarsComponent implements OnInit {
       element.clear();
     }, 800);
 
-    // console.log(uploadedFile);
+    console.log(uploadedFile);
   }
 }

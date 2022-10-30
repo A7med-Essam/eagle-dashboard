@@ -85,4 +85,19 @@ export class CarService {
       insurance_id: insurance_id,
     });
   }
+
+  // Sub Name
+  getCarSub(car_name_id): Observable<any> {
+    return this._ApiService.postReq("carSubType", { car_name_id: car_name_id });
+  }
+
+  createCarSub(car): Observable<any> {
+    return this._ApiService.postReq("addSubCar", car);
+  }
+
+  deleteCarSub(car_sub_id): Observable<any> {
+    return this._ApiService.postReq("deleteSubCar", {
+      car_sub_id: car_sub_id,
+    });
+  }
 }

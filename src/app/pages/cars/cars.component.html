@@ -1,12 +1,26 @@
-<div class="row">
-  <div class="col-xl-4 col-lg-6 my-2">
+<div class="row mx-0 animated" #Cars>
+  <div class="col-12">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <span>Car Name</span>
+        <span>Cars</span>
 
-        <button class="btn btn-primary" style="padding: 6px 12px;" (click)="addCarNameModal = true">
-          <small><b>Add</b></small>
-        </button>
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarNameModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
       </div>
       <div class="card-body ">
         <table class="table">
@@ -20,6 +34,7 @@
               <td>{{i+1}}</td>
               <td>{{car.car_name | uppercase}}</td>
               <td>
+                <button class="btn btn-info mx-2" (click)="displaySubTypes(car.id)">Sub Type</button>
                 <button class="btn btn-danger mx-2" (click)="deleteCarNameConfirm(car.id)">Delete</button>
               </td>
             </tr>
@@ -28,15 +43,88 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="col-xl-4 col-lg-6 my-2">
+<div class="row mx-0 animated d-none" #SubTypes>
+  <div class="col-12">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Car Sub Type</span>
+
+        <!-- <button class="btn btn-dark" style="padding: 6px 12px;" (click)="addCarSubModal = true">
+          <small><b>Add</b></small>
+        </button> -->
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarSubModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
+      </div>
+      <div class="card-body ">
+        <table class="table">
+          <thead class="text-secondary text-center">
+            <th>#</th>
+            <th>Name</th>
+            <th>Action</th>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let car of carSub; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{car.car_model | uppercase}}</td>
+              <td>
+                <button class="btn btn-danger mx-2" (click)="deleteCarSubConfirm(car.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mx-0 animated d-none" #Colors>
+  <div class="col-12">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
         <span>Car Color</span>
 
-        <button class="btn btn-primary" style="padding: 6px 12px;" (click)="addCarColorModal = true">
+        <!-- <button class="btn btn-dark" style="padding: 6px 12px;" (click)="addCarColorModal = true">
           <small><b>Add</b></small>
-        </button>
+        </button> -->
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarColorModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
       </div>
       <div class="card-body ">
         <table class="table">
@@ -58,15 +146,35 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="col-xl-4 col-lg-6 my-2">
+<div class="row mx-0 animated d-none" #Grades>
+  <div class="col-12">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
         <span>Car Grade</span>
 
-        <button class="btn btn-primary" style="padding: 6px 12px;" (click)="gradeModal = true">
+        <!-- <button class="btn btn-dark" style="padding: 6px 12px;" (click)="gradeModal = true">
           <small><b>Add</b></small>
-        </button>
+        </button> -->
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="gradeModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
       </div>
       <div class="card-body ">
         <table class="table">
@@ -88,15 +196,35 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="col-xl-4 col-lg-6 my-2">
+<div class="row mx-0 animated d-none" #Types>
+  <div class="col-12">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
         <span>Car Type</span>
 
-        <button class="btn btn-primary" style="padding: 6px 12px;" (click)="addCarTypeModal = true">
+        <!-- <button class="btn btn-dark" style="padding: 6px 12px;" (click)="addCarTypeModal = true">
           <small><b>Add</b></small>
-        </button>
+        </button> -->
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarTypeModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
       </div>
       <div class="card-body ">
         <table class="table">
@@ -118,15 +246,35 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="col-xl-4 col-lg-6 my-2">
+<div class="row mx-0 animated d-none" #Insurances>
+  <div class="col-12">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center">
         <span>Car Insurance</span>
 
-        <button class="btn btn-primary" style="padding: 6px 12px;" (click)="insuranceModal = true">
+        <!-- <button class="btn btn-dark" style="padding: 6px 12px;" (click)="insuranceModal = true">
           <small><b>Add</b></small>
-        </button>
+        </button> -->
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="insuranceModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
       </div>
       <div class="card-body ">
         <table class="table">
@@ -163,6 +311,29 @@
   </div>
   <ng-template pTemplate="footer">
     <button class="btn btn-primary m-1" (click)="addCarName(CarName)">Add</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Car Setting" [(visible)]="addCarSubModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+  [resizable]="false">
+  <div class="row">
+    <!-- <div class="col-12">
+      <div class="form-group">
+        <label>Car Name</label>
+        <p-dropdown [options]="carName" optionLabel="car_name" styleClass="w-100" #CarId placeholder="Select Car Name"
+          filter="true" appendTo="body" optionValue="id">
+        </p-dropdown>
+      </div>
+    </div> -->
+    <div class="col-12">
+      <div class="form-group">
+        <label>Car Sub Type</label>
+        <input type="text" class="form-control" placeholder="Enter Car Sub Type" #CarSub>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="addCarSub(CarSub)">Add</button>
   </ng-template>
 </p-dialog>
 

@@ -62,7 +62,7 @@ export const AdminLayoutRoutes: Routes = [
     canActivate: [SuperAdminGuard],
   },
   {
-    path: "car-owners",
+    path: "owners",
     component: CarOwnersComponent,
     canActivate: [SuperAdminGuard],
   },

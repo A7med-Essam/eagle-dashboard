@@ -57,6 +57,7 @@ export class CarMaintenanceComponent implements OnInit {
     this.maintenanceForm = this._FormBuilder.group({
       name: new FormControl(data?.name),
       mobile: new FormControl(data?.mobile),
+      phone: new FormControl(data?.phone),
       address: new FormControl(data?.address),
     });
   }
