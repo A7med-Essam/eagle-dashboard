@@ -36,7 +36,7 @@
                 <td>{{lead.issue_date}}</td>
                 <td>{{lead.customer_name}}</td>
                 <td>{{lead.customer_mobile}}</td>
-                <td>{{lead.car_name}}</td>
+                <td>{{lead.car_with_type_name}}</td>
                 <td>{{lead.car_model}}</td>
                 <td>
                   <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
@@ -90,8 +90,12 @@
                       <td>{{currentLead?.issue_date}}</td>
                     </tr>
                     <tr>
-                      <td>Car Name</td>
+                      <td>Car Name (OLD)</td>
                       <td>{{currentLead?.car_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Car Name (NEW)</td>
+                      <td>{{currentLead?.car_with_type_name}}</td>
                     </tr>
                     <tr>
                       <td>Car Color</td>
@@ -179,11 +183,22 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Name</label>
-                  <small (click)="addCarNameModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
+                  <!-- <small (click)="addCarNameModal = true"><i
+                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small> -->
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  (onChange)="onChange($event)" placeholder="Select Car Name" filter="true" optionValue="value">
+                  #SelectedCar (onChange)="onChange($event);getCarSub(SelectedCar.selectedOption.id)"
+                  placeholder="Select Car Name" filter="true" optionValue="value">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Car SubType</label>
+                </div>
+                <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                  formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true" optionValue="id">
                 </p-dropdown>
               </div>
             </div>
@@ -191,8 +206,6 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Color</label>
-                  <small (click)="addCarColorModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
                   placeholder="Select Car Color" filter="true" optionValue="value"></p-dropdown>
@@ -202,8 +215,6 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Type</label>
-                  <small (click)="addCarTypeModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
                   placeholder="Select Car Type" filter="true" optionValue="value"></p-dropdown>
@@ -312,19 +323,26 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Name</label>
-                  <small (click)="addCarNameModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
-                  placeholder="Select Car Name" filter="true" optionValue="value"></p-dropdown>
+                  #SelectedCar2 (onChange)="getCarSub(SelectedCar2.selectedOption.id)" placeholder="Select Car Name"
+                  filter="true" optionValue="value"></p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Car SubType</label>
+                </div>
+                <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                  formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true" optionValue="id">
+                </p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Color</label>
-                  <small (click)="addCarColorModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100" formControlName='car_color'
                   placeholder="Select Car Color" filter="true" optionValue="value"></p-dropdown>
@@ -334,8 +352,6 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Type</label>
-                  <small (click)="addCarTypeModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small>
                 </div>
                 <p-dropdown [options]="carType" optionLabel="name" styleClass="w-100" formControlName='car_type'
                   placeholder="Select Car Type" filter="true" optionValue="value"></p-dropdown>
@@ -515,7 +531,7 @@
   </ng-template>
 </p-dialog>
 
-<p-dialog header="Car Setting" [(visible)]="addCarNameModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Car Setting" [(visible)]="addCarNameModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
@@ -528,9 +544,9 @@
   <ng-template pTemplate="footer">
     <button class="btn btn-primary m-1" (click)="addCarName(CarName)">Add</button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
-<p-dialog header="Car Setting" [(visible)]="addCarColorModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Car Setting" [(visible)]="addCarColorModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
@@ -543,9 +559,9 @@
   <ng-template pTemplate="footer">
     <button class="btn btn-primary m-1" (click)="addCarColor(CarColor)">Add</button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
-<p-dialog header="Car Setting" [(visible)]="addCarTypeModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Car Setting" [(visible)]="addCarTypeModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
@@ -558,7 +574,7 @@
   <ng-template pTemplate="footer">
     <button class="btn btn-primary m-1" (click)="addCarType(CarType)">Add</button>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog header="All Replies" [(visible)]="allRepliesModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">

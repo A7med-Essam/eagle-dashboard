@@ -228,12 +228,12 @@
             <div class="card-body">
                 <form [formGroup]='ourCarsForm' (ngSubmit)='createRow(ourCarsForm)'>
                     <div class="row">
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Car Name</label>
-                                <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
-                                    placeholder="Select Car Name" formControlName='name' filter="true" appendTo="body"
-                                    optionValue="value">
+                                <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" #SelectedCar
+                                    (onChange)="getCarSub(SelectedCar.selectedOption.id)" placeholder="Select Car Name"
+                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
                                 </p-dropdown>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
@@ -242,7 +242,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <label>Car SubType</label>
+                                </div>
+                                <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                                    formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
+                                    optionValue="id">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Car Color</label>
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
@@ -256,7 +267,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Grade</label>
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
@@ -270,7 +281,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Car Model</label>
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
@@ -284,7 +295,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Owner</label>
+                                <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100"
+                                    placeholder="Select Owner" formControlName="owner_id" appendTo="body"
+                                    optionValue="id"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Kilometer</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="8" class="form-control" formControlName='kilometer'
+                                    placeholder="Enter Car Kilometer">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('kilometer')?.touched &&
+                                                    ourCarsForm.get('kilometer')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Plate Number</label>
                                 <input type="text" class="form-control" placeholder="Enter Car Plate Number"
@@ -296,7 +329,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Motor Number</label>
                                 <!-- <input type="text"
@@ -312,21 +345,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <label>License End</label>
-                                <br>
-                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
-                                    placeholder="Select License End Date">
-                                </p-calendar>
-                                <div class="text-left mb-2">
-                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
-                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
-                                        required!</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Chassis Number</label>
                                 <!-- <input type="text"
@@ -342,29 +361,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
-                                <label>Car Kilometer</label>
-                                <input type="text"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                    maxLength="8" class="form-control" formControlName='kilometer'
-                                    placeholder="Enter Car Kilometer">
+                                <label>License End</label>
+                                <br>
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select License End Date">
+                                </p-calendar>
                                 <div class="text-left mb-2">
-                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('kilometer')?.touched &&
-                                                    ourCarsForm.get('kilometer')?.hasError('required')">This field is
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
+                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
                                         required!</small>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <label>Owner</label>
-                                <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100"
-                                    placeholder="Select Owner" formControlName="owner_id" appendTo="body"
-                                    optionValue="id"></p-dropdown>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
+                        <!-- <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Upload Car Files</label>
                                 <p-fileUpload #form1 customUpload="true" multiple="multiple"
@@ -379,7 +390,7 @@
                                     (uploadHandler)="uploadProccess($event, form2,'car_images')">
                                 </p-fileUpload>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
@@ -403,7 +414,7 @@
             <div class="card-body">
                 <form [formGroup]='ourCarsForm' (ngSubmit)='editRow(ourCarsForm)'>
                     <div class="row">
-                        <div class="col-md-6 pr-md-1">
+                        <!-- <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>Car Name</label>
                                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100"
@@ -416,8 +427,33 @@
                                         required!</small>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Car Name</label>
+                                <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" #SelectedCar2
+                                    (onChange)="getCarSub(SelectedCar2.selectedOption.id)" placeholder="Select Car Name"
+                                    formControlName='name' filter="true" appendTo="body" optionValue="value">
+                                </p-dropdown>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('name')?.touched &&
+                                                ourCarsForm.get('name')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <label>Car SubType</label>
+                                </div>
+                                <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                                    formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
+                                    optionValue="id">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Car Color</label>
                                 <p-dropdown [options]="carColor" optionLabel="name" styleClass="w-100"
@@ -431,7 +467,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Grade</label>
                                 <p-dropdown [options]="carGrade" optionLabel="name" styleClass="w-100"
@@ -445,7 +481,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Car Model</label>
                                 <p-dropdown [options]="carModel" optionLabel="name" styleClass="w-100"
@@ -459,7 +495,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Owner</label>
+                                <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100"
+                                    placeholder="Select Owner" formControlName="owner_id" appendTo="body"
+                                    optionValue="id"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Plate Number</label>
                                 <input type="text" class="form-control" placeholder="Enter Car Plate Number"
@@ -471,7 +515,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Motor Number</label>
                                 <!-- <input type="text"
@@ -487,21 +531,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <label>License End</label>
-                                <br>
-                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
-                                    placeholder="Select License End Date">
-                                </p-calendar>
-                                <div class="text-left mb-2">
-                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
-                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
-                                        required!</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
+
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
                                 <label>Chassis Number</label>
                                 <!-- <input type="text"
@@ -517,12 +548,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <div class="col-md-3 pr-md-1">
                             <div class="form-group">
-                                <label>Owner</label>
-                                <p-dropdown [options]="owners" optionLabel="name" styleClass="w-100"
-                                    placeholder="Select Owner" formControlName="owner_id" appendTo="body"
-                                    optionValue="id"></p-dropdown>
+                                <label>License End</label>
+                                <br>
+                                <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select License End Date">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
+                                                ourCarsForm.get('license_end')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
                             </div>
                         </div>
                     </div>

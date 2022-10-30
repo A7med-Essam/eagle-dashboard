@@ -99,26 +99,29 @@ export class OurCarsComponent implements OnInit {
   }
 
   createRow(form: any) {
-    const formData: FormData = new FormData();
-    formData.append("name", form.value.name);
-    formData.append("model", form.value.model);
-    formData.append("grade", form.value.grade);
-    formData.append("color", form.value.color);
-    formData.append("plate_no", form.value.plate_no);
-    formData.append("motor_no", form.value.motor_no);
-    formData.append("chassis_no", form.value.chassis_no);
-    formData.append("license_end", form.value.license_end);
-    formData.append("owner_id", form.value.owner_id);
-    formData.append("kilometer", form.value.kilometer);
+    // const formData: FormData = new FormData();
+    // formData.append("name", form.value.name);
+    // formData.append("model", form.value.model);
+    // formData.append("grade", form.value.grade);
+    // formData.append("color", form.value.color);
+    // formData.append("plate_no", form.value.plate_no);
+    // formData.append("motor_no", form.value.motor_no);
+    // formData.append("chassis_no", form.value.chassis_no);
+    // formData.append("license_end", form.value.license_end);
+    // formData.append("owner_id", form.value.owner_id);
+    // formData.append("kilometer", form.value.kilometer);
     // formData.append("car_images", form.value.car_images);
     // formData.append("car_files", form.value.car_files);
-    form.value.car_images?.forEach((e) => {
-      formData.append("car_images", e);
+    // form.value.car_images?.forEach((e) => {
+    //   formData.append("car_images", e);
+    // });
+    // form.value.car_files?.forEach((e) => {
+    //   formData.append("car_files", e);
+    // });
+    this.ourCarsForm.patchValue({
+      car_subtype_id: form?.value?.car_subtype_id?.toString(),
     });
-    form.value.car_files?.forEach((e) => {
-      formData.append("car_files", e);
-    });
-    this._OurCarService.createOurCars(formData).subscribe({
+    this._OurCarService.createOurCars(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getOurCars();
@@ -189,8 +192,9 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
       kilometer: new FormControl(car?.kilometer, [Validators.required]),
-      car_images: new FormControl(null),
-      car_files: new FormControl(null),
+      // car_images: new FormControl(null),
+      // car_files: new FormControl(null),
+      car_subtype_id: new FormControl(car?.sub_car?.id, [Validators.required]),
     });
   }
 
@@ -240,6 +244,15 @@ export class OurCarsComponent implements OnInit {
   }
 
   displayEditForm(car: any) {
+    if (car.sub_car) {
+      this.getCarSub(car.sub_car.car_name_id);
+    }
+    // else {
+    //   const [id] = this.carName.filter((c) => {
+    //     c.name == car.name ? c.id : 0;
+    //   });
+    //   console.log(id);
+    // }
     this._SharedService.fadeOut(this.Main.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.EditForm.nativeElement);
@@ -316,7 +329,7 @@ export class OurCarsComponent implements OnInit {
     this._CarService.getCarName().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.carName.push({ name: e.car_name, value: e.car_name });
+          this.carName.push({ name: e.car_name, value: e.car_name, id: e.id });
         });
       },
     });
@@ -568,5 +581,14 @@ export class OurCarsComponent implements OnInit {
     }, 800);
 
     console.log(uploadedFile);
+  }
+
+  carSub: any[] = [];
+  getCarSub(car) {
+    this._CarService.getCarSub(car).subscribe({
+      next: (res) => (this.carSub = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
   }
 }

@@ -199,6 +199,7 @@ export class LeadsComponent implements OnInit {
   }
 
   editLead(lead: any) {
+    this.getCarSub(lead?.car_type_details?.car_name_id);
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.EditForm.nativeElement);
@@ -394,6 +395,7 @@ export class LeadsComponent implements OnInit {
       grade: new FormControl(lead?.grade),
       kilometer: new FormControl(km),
       insurance: new FormControl(lead?.insurance),
+      car_subtype_id: new FormControl(lead?.car_type_details?.id),
       insurance_in_out: new FormControl(lead?.insurance_in_out),
       company_policy_id: new FormControl(lead?.company_policy_id),
       insuranceCompany: new FormControl(lead?.insuranceCompany),
@@ -428,7 +430,7 @@ export class LeadsComponent implements OnInit {
     this._CarService.getCarName().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.carName.push({ name: e.car_name, value: e.car_name });
+          this.carName.push({ name: e.car_name, value: e.car_name, id: e.id });
         });
       },
       error: (err) => {
@@ -493,38 +495,47 @@ export class LeadsComponent implements OnInit {
     });
   }
 
-  addCarName(car: HTMLInputElement) {
-    this._CarService.createCarName(car.value).subscribe({
-      next: (res) => {
-        this.getCarName();
-        this.addCarNameModal = false;
-      },
+  // addCarName(car: HTMLInputElement) {
+  //   this._CarService.createCarName(car.value).subscribe({
+  //     next: (res) => {
+  //       this.getCarName();
+  //       this.addCarNameModal = false;
+  //     },
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
+
+  carSub: any[] = [];
+  getCarSub(car) {
+    this._CarService.getCarSub(car).subscribe({
+      next: (res) => (this.carSub = res.data),
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
-  addCarColor(car: HTMLInputElement) {
-    this._CarService.createCarColor(car.value).subscribe({
-      next: (res) => {
-        this.getCarColor();
-        this.addCarColorModal = false;
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
-  }
+  // addCarColor(car: HTMLInputElement) {
+  //   this._CarService.createCarColor(car.value).subscribe({
+  //     next: (res) => {
+  //       this.getCarColor();
+  //       this.addCarColorModal = false;
+  //     },
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
 
-  addCarType(car: HTMLInputElement) {
-    this._CarService.createCarType(car.value).subscribe({
-      next: (res) => {
-        this.getCarType();
-        this.addCarTypeModal = false;
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
-  }
+  // addCarType(car: HTMLInputElement) {
+  //   this._CarService.createCarType(car.value).subscribe({
+  //     next: (res) => {
+  //       this.getCarType();
+  //       this.addCarTypeModal = false;
+  //     },
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
 
   // back buttons
   backDetailsBtn() {
