@@ -26,6 +26,7 @@ import { CustomersComponent } from "app/pages/customers/customers.component";
 import { EmployeesComponent } from "app/pages/employees/employees.component";
 import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 import { FileUploadModule } from "primeng/fileupload";
+import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { FileUploadModule } from "primeng/fileupload";
     CarOwnersComponent,
     OurCarsComponent,
     CarPriceComponent,
+    CarMaintenanceComponent
   ],
 })
 export class AdminLayoutModule {}

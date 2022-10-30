@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <!-- <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
                                     [showUploadButton]="true" [auto]="true" #uploadedImage1 [auto]="true"
@@ -185,6 +185,23 @@
                                     [showUploadButton]="true" [auto]="true" #uploadedImage3 [auto]="true"
                                     (uploadHandler)="uploadImage($event,uploadedImage3,'contract')"
                                     chooseLabel="Upload Contract (Image)">
+                                </p-fileUpload>
+                            </div>
+                        </div> -->
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Upload National Id (Front & Back) - Upload Contract</label>
+                                <!-- <p-fileUpload (onUpload)="onUpload($event)" multiple="multiple" accept="image/*"
+                                    customUpload="true" maxFileSize="1000000">
+                                    <ng-template pTemplate="content">
+                                        <ul *ngIf="uploadedFiles.length">
+                                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
+                                            </li>
+                                        </ul>
+                                    </ng-template>
+                                </p-fileUpload> -->
+                                <p-fileUpload #form customUpload="true" multiple="multiple"
+                                    (uploadHandler)="onUpload($event, form)">
                                 </p-fileUpload>
                             </div>
                         </div>
@@ -263,7 +280,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pr-md-1">
+                        <!-- <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
                                     [showUploadButton]="true" [auto]="true" #uploadedImage_edit1 [auto]="true"
@@ -289,7 +306,8 @@
                                     chooseLabel="Upload Contract (Image)">
                                 </p-fileUpload>
                             </div>
-                        </div>
+                        </div> -->
+
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">

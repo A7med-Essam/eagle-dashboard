@@ -63,22 +63,22 @@ export class CarOwnersComponent implements OnInit {
     this.displayDetails();
   }
 
-  @ViewChild("uploadedImage1") uploadedImage1: any;
-  @ViewChild("uploadedImage2") uploadedImage2: any;
-  @ViewChild("uploadedImage3") uploadedImage3: any;
-  @ViewChild("uploadedImage_edit1") uploadedImage_edit1: any;
-  @ViewChild("uploadedImage_edit2") uploadedImage_edit2: any;
-  @ViewChild("uploadedImage_edit3") uploadedImage_edit3: any;
+  // @ViewChild("uploadedImage1") uploadedImage1: any;
+  // @ViewChild("uploadedImage2") uploadedImage2: any;
+  // @ViewChild("uploadedImage3") uploadedImage3: any;
+  // @ViewChild("uploadedImage_edit1") uploadedImage_edit1: any;
+  // @ViewChild("uploadedImage_edit2") uploadedImage_edit2: any;
+  // @ViewChild("uploadedImage_edit3") uploadedImage_edit3: any;
 
   createRow(form: any) {
-    this._CarOwnerService.createOwners(this.getFormData(form)).subscribe({
+    this._CarOwnerService.createOwners(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getCars();
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInCarsTable();
-          this.resetUploadedFiles();
+          // this.resetUploadedFiles();
         }
       },
       error: (err) => {
@@ -99,50 +99,50 @@ export class CarOwnersComponent implements OnInit {
     return formData;
   }
 
-  resetUploadedFiles() {
-    this.uploadedImage1._files = [];
-    this.uploadedImage2._files = [];
-    this.uploadedImage3._files = [];
-    this.uploadedImage_edit1._files = [];
-    this.uploadedImage_edit2._files = [];
-    this.uploadedImage_edit3._files = [];
+  // resetUploadedFiles() {
+  //   this.uploadedImage1._files = [];
+  //   this.uploadedImage2._files = [];
+  //   this.uploadedImage3._files = [];
+  //   this.uploadedImage_edit1._files = [];
+  //   this.uploadedImage_edit2._files = [];
+  //   this.uploadedImage_edit3._files = [];
 
-    this.uploadedImage1.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
-    this.uploadedImage2.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
-    this.uploadedImage3.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
+  //   this.uploadedImage1.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
+  //   this.uploadedImage2.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
+  //   this.uploadedImage3.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
 
-    this.uploadedImage_edit1.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
-    this.uploadedImage_edit2.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
-    this.uploadedImage_edit3.el.nativeElement?.children[0].classList.remove(
-      "active"
-    );
-  }
+  //   this.uploadedImage_edit1.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
+  //   this.uploadedImage_edit2.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
+  //   this.uploadedImage_edit3.el.nativeElement?.children[0].classList.remove(
+  //     "active"
+  //   );
+  // }
 
   editRow(form: any) {
     this.carsForm.addControl(
       "cid",
       new FormControl(this.currentEditRow.id, Validators.required)
     );
-    const formData: FormData = new FormData();
-    formData.append("address", form.value.address);
-    formData.append("meta_image", form.value.meta_image);
-    formData.append("mobile", form.value.mobile);
-    formData.append("name", form.value.name);
-    formData.append("national_back_image", form.value.national_back_image);
-    formData.append("national_front_image", form.value.national_front_image);
-    formData.append("nid", form.value.nid);
-    formData.append("cid", this.currentEditRow.id);
-    this._CarOwnerService.updateOwners(formData).subscribe({
+    // const formData: FormData = new FormData();
+    // formData.append("address", form.value.address);
+    // formData.append("meta_image", form.value.meta_image);
+    // formData.append("mobile", form.value.mobile);
+    // formData.append("name", form.value.name);
+    // formData.append("national_back_image", form.value.national_back_image);
+    // formData.append("national_front_image", form.value.national_front_image);
+    // formData.append("nid", form.value.nid);
+    // formData.append("cid", this.currentEditRow.id);
+    this._CarOwnerService.updateOwners(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getCars();
@@ -209,13 +209,13 @@ export class CarOwnersComponent implements OnInit {
   backCreateBtn() {
     this._SharedService.fadeOut(this.CreateForm.nativeElement);
     this.fadeInCarsTable();
-    this.resetUploadedFiles();
+    // this.resetUploadedFiles();
   }
 
   backEditBtn() {
     this._SharedService.fadeOut(this.EditForm.nativeElement);
     this.fadeInCarsTable();
-    this.resetUploadedFiles();
+    // this.resetUploadedFiles();
   }
 
   fadeInCarsTable() {
@@ -285,34 +285,49 @@ export class CarOwnersComponent implements OnInit {
     });
   }
 
-  uploadImage(event, element, status: string = "contract") {
-    element.el.nativeElement?.children[0].classList.add("active");
-    let uploadedFile;
-    for (let file of event?.files) {
-      // uploadedFile = file.objectURL.changingThisBreaksApplicationSecurity;
-      uploadedFile = file;
+  // uploadImage(event, element, status: string = "contract") {
+  //   element.el.nativeElement?.children[0].classList.add("active");
+  //   let uploadedFile;
+  //   for (let file of event?.files) {
+  //     // uploadedFile = file.objectURL.changingThisBreaksApplicationSecurity;
+  //     uploadedFile = file;
+  //   }
+
+  //   // delete uploadedFile.objectURL;
+  //   // console.log(uploadedFile);
+
+  //   // const formData: FormData = new FormData();
+
+  //   if (status == "front") {
+  //     // formData.append("national_front_image", uploadedFile, uploadedFile.name);
+  //     this.carsForm.patchValue({
+  //       national_front_image: uploadedFile,
+  //     });
+  //   } else if (status == "back") {
+  //     // formData.append("national_back_image", uploadedFile, uploadedFile.name);
+  //     this.carsForm.patchValue({
+  //       national_back_image: uploadedFile,
+  //     });
+  //   } else {
+  //     // formData.append("meta_image", uploadedFile, uploadedFile.name);
+  //     this.carsForm.patchValue({
+  //       meta_image: uploadedFile,
+  //     });
+  //   }
+  // }
+
+  uploadedFiles: any[] = [];
+  onUpload(event, e) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
     }
-
-    // delete uploadedFile.objectURL;
-    // console.log(uploadedFile);
-
-    // const formData: FormData = new FormData();
-
-    if (status == "front") {
-      // formData.append("national_front_image", uploadedFile, uploadedFile.name);
-      this.carsForm.patchValue({
-        national_front_image: uploadedFile,
-      });
-    } else if (status == "back") {
-      // formData.append("national_back_image", uploadedFile, uploadedFile.name);
-      this.carsForm.patchValue({
-        national_back_image: uploadedFile,
-      });
-    } else {
-      // formData.append("meta_image", uploadedFile, uploadedFile.name);
-      this.carsForm.patchValue({
-        meta_image: uploadedFile,
-      });
-    }
+    this._ToastrService.setToaster(
+      this.uploadedFiles.length + " Files Uploaded Successfully",
+      "info",
+      "info"
+    );
+    setTimeout(() => {
+      e.clear();
+    }, 800);
   }
 }

@@ -16,6 +16,7 @@ import { CustomersComponent } from "app/pages/customers/customers.component";
 import { PermissionGuard } from "app/core/guards/permission.guard";
 import { SalesReportComponent } from "app/pages/sales-report/sales-report.component";
 import { CarPriceComponent } from "app/pages/car-price/car-price.component";
+import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -94,6 +95,11 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "car-price",
     component: CarPriceComponent,
+    canActivate: [SuperAdminGuard],
+  },
+  {
+    path: "car-maintenance",
+    component: CarMaintenanceComponent,
     canActivate: [SuperAdminGuard],
   },
 ];
