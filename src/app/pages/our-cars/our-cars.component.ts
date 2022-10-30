@@ -99,7 +99,26 @@ export class OurCarsComponent implements OnInit {
   }
 
   createRow(form: any) {
-    this._OurCarService.createOurCars(form.value).subscribe({
+    const formData: FormData = new FormData();
+    formData.append("name", form.value.name);
+    formData.append("model", form.value.model);
+    formData.append("grade", form.value.grade);
+    formData.append("color", form.value.color);
+    formData.append("plate_no", form.value.plate_no);
+    formData.append("motor_no", form.value.motor_no);
+    formData.append("chassis_no", form.value.chassis_no);
+    formData.append("license_end", form.value.license_end);
+    formData.append("owner_id", form.value.owner_id);
+    formData.append("kilometer", form.value.kilometer);
+    // formData.append("car_images", form.value.car_images);
+    // formData.append("car_files", form.value.car_files);
+    form.value.car_images.forEach((e) => {
+      formData.append("car_images", e);
+    });
+    form.value.car_files.forEach((e) => {
+      formData.append("car_files", e);
+    });
+    this._OurCarService.createOurCars(formData).subscribe({
       next: (res) => {
         if (res.status == 1) {
           this.getOurCars();
@@ -170,7 +189,8 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
       kilometer: new FormControl(car?.kilometer, [Validators.required]),
-      // customer_id: new FormControl(car?.customer_id, [Validators.required]),
+      car_images: new FormControl(null),
+      car_files: new FormControl(null),
     });
   }
 
@@ -513,5 +533,39 @@ export class OurCarsComponent implements OnInit {
     setTimeout(() => {
       this._SharedService.fadeIn(this.Show2.nativeElement);
     }, 800);
+  }
+
+  // Upload
+  uploadProccess(event, element, status: string) {
+    let uploadedFile: any[] = [];
+    for (let file of event?.files) {
+      uploadedFile.push(file);
+    }
+
+    // uploadedFile.forEach((e) => {
+    //   delete e.objectURL;
+    // });
+
+    if (status == "car_images") {
+      this.ourCarsForm.patchValue({
+        car_images: uploadedFile,
+      });
+    } else {
+      this.ourCarsForm.patchValue({
+        car_files: uploadedFile,
+      });
+    }
+
+    this._ToastrService.setToaster(
+      uploadedFile.length + " Files Uploaded Successfully",
+      "info",
+      "info"
+    );
+
+    setTimeout(() => {
+      element.clear();
+    }, 800);
+
+    // console.log(uploadedFile);
   }
 }
