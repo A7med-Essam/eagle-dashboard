@@ -9,6 +9,7 @@ import { CarOwnerService } from "app/shared/services/car-owner.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { ConfirmationService } from "primeng/api";
+import { FileUpload } from "primeng/fileupload";
 
 @Component({
   selector: "app-car-owners",
@@ -63,12 +64,8 @@ export class CarOwnersComponent implements OnInit {
     this.displayDetails();
   }
 
-  // @ViewChild("uploadedImage1") uploadedImage1: any;
-  // @ViewChild("uploadedImage2") uploadedImage2: any;
-  // @ViewChild("uploadedImage3") uploadedImage3: any;
-  // @ViewChild("uploadedImage_edit1") uploadedImage_edit1: any;
-  // @ViewChild("uploadedImage_edit2") uploadedImage_edit2: any;
-  // @ViewChild("uploadedImage_edit3") uploadedImage_edit3: any;
+  @ViewChild("uploadedImage1") uploadedImage1: any;
+  @ViewChild("uploadedImage2") uploadedImage2: any;
 
   createRow(form: any) {
     this._CarOwnerService.createOwners(form.value).subscribe({
@@ -78,7 +75,7 @@ export class CarOwnersComponent implements OnInit {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInCarsTable();
-          // this.resetUploadedFiles();
+          this.resetUploadedFiles();
         }
       },
       error: (err) => {
@@ -87,61 +84,16 @@ export class CarOwnersComponent implements OnInit {
     });
   }
 
-  getFormData(form) {
-    const formData: FormData = new FormData();
-    formData.append("address", form.value.address);
-    formData.append("meta_image", form.value.meta_image);
-    formData.append("mobile", form.value.mobile);
-    formData.append("name", form.value.name);
-    formData.append("national_back_image", form.value.national_back_image);
-    formData.append("national_front_image", form.value.national_front_image);
-    formData.append("nid", form.value.nid);
-    return formData;
+  resetUploadedFiles() {
+    this.uploadedImage1.clear();
+    this.uploadedImage2.clear();
   }
-
-  // resetUploadedFiles() {
-  //   this.uploadedImage1._files = [];
-  //   this.uploadedImage2._files = [];
-  //   this.uploadedImage3._files = [];
-  //   this.uploadedImage_edit1._files = [];
-  //   this.uploadedImage_edit2._files = [];
-  //   this.uploadedImage_edit3._files = [];
-
-  //   this.uploadedImage1.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-  //   this.uploadedImage2.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-  //   this.uploadedImage3.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-
-  //   this.uploadedImage_edit1.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-  //   this.uploadedImage_edit2.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-  //   this.uploadedImage_edit3.el.nativeElement?.children[0].classList.remove(
-  //     "active"
-  //   );
-  // }
 
   editRow(form: any) {
     this.carsForm.addControl(
       "cid",
       new FormControl(this.currentEditRow.id, Validators.required)
     );
-    // const formData: FormData = new FormData();
-    // formData.append("address", form.value.address);
-    // formData.append("meta_image", form.value.meta_image);
-    // formData.append("mobile", form.value.mobile);
-    // formData.append("name", form.value.name);
-    // formData.append("national_back_image", form.value.national_back_image);
-    // formData.append("national_front_image", form.value.national_front_image);
-    // formData.append("nid", form.value.nid);
-    // formData.append("cid", this.currentEditRow.id);
     this._CarOwnerService.updateOwners(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
@@ -187,7 +139,6 @@ export class CarOwnersComponent implements OnInit {
       nid: new FormControl(car?.nid, [Validators.required]),
       national_front_image: new FormControl(null),
       national_back_image: new FormControl(null),
-      meta_image: new FormControl(null),
     });
   }
 
@@ -285,49 +236,69 @@ export class CarOwnersComponent implements OnInit {
     });
   }
 
-  // uploadImage(event, element, status: string = "contract") {
-  //   element.el.nativeElement?.children[0].classList.add("active");
-  //   let uploadedFile;
-  //   for (let file of event?.files) {
-  //     // uploadedFile = file.objectURL.changingThisBreaksApplicationSecurity;
-  //     uploadedFile = file;
-  //   }
-
-  //   // delete uploadedFile.objectURL;
-  //   // console.log(uploadedFile);
-
-  //   // const formData: FormData = new FormData();
-
-  //   if (status == "front") {
-  //     // formData.append("national_front_image", uploadedFile, uploadedFile.name);
-  //     this.carsForm.patchValue({
-  //       national_front_image: uploadedFile,
-  //     });
-  //   } else if (status == "back") {
-  //     // formData.append("national_back_image", uploadedFile, uploadedFile.name);
-  //     this.carsForm.patchValue({
-  //       national_back_image: uploadedFile,
-  //     });
-  //   } else {
-  //     // formData.append("meta_image", uploadedFile, uploadedFile.name);
-  //     this.carsForm.patchValue({
-  //       meta_image: uploadedFile,
-  //     });
-  //   }
-  // }
-
+  uploadImage(event: any, status: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(event.files[0]);
+    reader.onload = () => {
+      if (status == "front") {
+        this.carsForm.patchValue({
+          national_front_image: reader.result,
+        });
+      } else if (status == "back") {
+        this.carsForm.patchValue({
+          national_back_image: reader.result,
+        });
+      }
+      this._ToastrService.setToaster(
+        " File Uploaded Successfully",
+        "info",
+        "info"
+      );
+    };
+  }
   uploadedFiles: any[] = [];
-  onUpload(event, e) {
-    for (let file of event.files) {
-      this.uploadedFiles.push(file);
+
+  removeImage(status: string) {
+    if (status == "front") {
+      this.carsForm.patchValue({
+        national_front_image: null,
+      });
+    } else if (status == "back") {
+      this.carsForm.patchValue({
+        national_back_image: null,
+      });
     }
-    this._ToastrService.setToaster(
-      this.uploadedFiles.length + " Files Uploaded Successfully",
-      "info",
-      "info"
-    );
-    setTimeout(() => {
-      e.clear();
-    }, 800);
+  }
+
+  uploadModal1: boolean = false;
+  uploadModal2: boolean = false;
+
+  uploadFrontID(e: FileUpload) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      this.selectedRow.national_front_image = reader.result;
+      this._CarOwnerService.createOwners(this.selectedRow).subscribe({
+        next: (res) => {
+          this.uploadModal1 = false;
+          this.selectedRow = res.data;
+          e._files = null;
+        },
+      });
+    };
+  }
+
+  uploadBackID(e: HTMLInputElement) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e.files[0]);
+    reader.onload = () => {
+      this.selectedRow.national_back_image = reader.result;
+      this._CarOwnerService.createOwners(this.selectedRow).subscribe({
+        next: (res) => {
+          this.uploadModal2 = false;
+          this.selectedRow = res.data;
+        },
+      });
+    };
   }
 }

@@ -192,8 +192,8 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
       kilometer: new FormControl(car?.kilometer, [Validators.required]),
-      // car_images: new FormControl(null),
-      // car_files: new FormControl(null),
+      car_images: new FormControl(null),
+      car_files: new FormControl(null),
       car_subtype_id: new FormControl(car?.sub_car?.id, [Validators.required]),
     });
   }
@@ -590,5 +590,42 @@ export class OurCarsComponent implements OnInit {
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
+  }
+
+  // ******************************************************
+  uploadImage(event: any, status: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(event.files[0]);
+    reader.onload = () => {
+      let images = [];
+      images.push(reader.result);
+      if (status == "car_images") {
+        this.ourCarsForm.patchValue({
+          car_images: images,
+        });
+      } else if (status == "car_files") {
+        this.ourCarsForm.patchValue({
+          car_files: images,
+        });
+      }
+      this._ToastrService.setToaster(
+        " File Uploaded Successfully",
+        "info",
+        "info"
+      );
+    };
+  }
+  uploadedFiles: any[] = [];
+
+  removeImage(status: string) {
+    if (status == "car_images") {
+      this.ourCarsForm.patchValue({
+        car_images: null,
+      });
+    } else if (status == "car_files") {
+      this.ourCarsForm.patchValue({
+        car_files: null,
+      });
+    }
   }
 }

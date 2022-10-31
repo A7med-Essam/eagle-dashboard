@@ -88,6 +88,36 @@
                                             <td>Owner National Id</td>
                                             <td>{{selectedRow?.nid}}</td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <div>Owner National Id Front Image</div>
+                                                <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
+                                                    (click)="uploadModal1 = true">
+                                                    <small><b>Update</b> <i
+                                                            class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <img *ngIf="selectedRow?.national_front_image"
+                                                    [src]="selectedRow?.national_front_image" alt=""
+                                                    style="width: 50px;height: 50px">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>Owner National Id Back Image</div>
+                                                <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
+                                                    (click)="uploadModal2 = true">
+                                                    <small><b>Update</b> <i
+                                                            class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <img *ngIf="selectedRow?.national_back_image"
+                                                    [src]="selectedRow?.national_back_image" alt=""
+                                                    style="width: 50px;height: 50px">
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -161,47 +191,33 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6 pr-md-1">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage1 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage1,'front')"
-                                    chooseLabel="Upload National ID Front (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage2 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage2,'back')"
-                                    chooseLabel="Upload National ID Back (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage3 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage3,'contract')"
-                                    chooseLabel="Upload Contract (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div> -->
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Upload National Id (Front & Back) - Upload Contract</label>
-                                <!-- <p-fileUpload (onUpload)="onUpload($event)" multiple="multiple" accept="image/*"
-                                    customUpload="true" maxFileSize="1000000">
+                                <label>Upload National Id (Front)</label>
+                                <p-fileUpload (uploadHandler)="uploadImage($event,'front')" accept="image/*"
+                                    [showCancelButton]="false" [showUploadButton]='false' [auto]="true" #uploadedImage1
+                                    customUpload="true" maxFileSize="1000000" (onRemove)="removeImage('front')">
                                     <ng-template pTemplate="content">
                                         <ul *ngIf="uploadedFiles.length">
                                             <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
                                             </li>
                                         </ul>
                                     </ng-template>
-                                </p-fileUpload> -->
-                                <p-fileUpload #form customUpload="true" multiple="multiple"
-                                    (uploadHandler)="onUpload($event, form)">
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Upload National Id (Back)</label>
+                                <p-fileUpload (uploadHandler)="uploadImage($event,'back')" accept="image/*"
+                                    [showCancelButton]="false" [showUploadButton]='false' [auto]="true" #uploadedImage2
+                                    customUpload="true" maxFileSize="1000000" (onRemove)="removeImage('back')">
+                                    <ng-template pTemplate="content">
+                                        <ul *ngIf="uploadedFiles.length">
+                                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
+                                            </li>
+                                        </ul>
+                                    </ng-template>
                                 </p-fileUpload>
                             </div>
                         </div>
@@ -280,34 +296,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit1 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage_edit1,'front')"
-                                    chooseLabel="Upload National ID Front (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit2 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage_edit2,'back')"
-                                    chooseLabel="Upload National ID Back (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pr-md-1">
-                            <div class="form-group">
-                                <p-fileUpload mode="basic" accept="image/*" maxFileSize="1000000" [customUpload]="true"
-                                    [showUploadButton]="true" [auto]="true" #uploadedImage_edit3 [auto]="true"
-                                    (uploadHandler)="uploadImage($event,uploadedImage_edit3,'contract')"
-                                    chooseLabel="Upload Contract (Image)">
-                                </p-fileUpload>
-                            </div>
-                        </div> -->
-
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
@@ -358,6 +346,28 @@
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" form="filterForm">Apply</button>
         <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Upload National Id (Front)" [(visible)]="uploadModal1" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="form-group">
+        <p-fileUpload #uploadFrontImage mode="basic" accept="image/*" maxFileSize="1000000"
+            chooseLabel="Upload National Id (Front)"></p-fileUpload>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="uploadFrontID(uploadFrontImage)">Upload</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Upload National Id (Back)" [(visible)]="uploadModal2" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="form-group">
+        <p-fileUpload #uploadBackImage mode="basic" accept="image/*" maxFileSize="1000000"
+            chooseLabel="Upload National Id (Back)"></p-fileUpload>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="uploadBackID(uploadBackImage)">Upload</button>
     </ng-template>
 </p-dialog>
 
