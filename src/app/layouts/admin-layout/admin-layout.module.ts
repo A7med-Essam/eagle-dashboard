@@ -27,6 +27,7 @@ import { EmployeesComponent } from "app/pages/employees/employees.component";
 import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 import { FileUploadModule } from "primeng/fileupload";
 import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
+import { ImageModule } from "primeng/image";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenan
     ConfirmDialogModule,
     InputSwitchModule,
     FileUploadModule,
+    ImageModule,
   ],
   declarations: [
     DashboardComponent,
@@ -56,7 +58,7 @@ import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenan
     CarOwnersComponent,
     OurCarsComponent,
     CarPriceComponent,
-    CarMaintenanceComponent
+    CarMaintenanceComponent,
   ],
 })
 export class AdminLayoutModule {}

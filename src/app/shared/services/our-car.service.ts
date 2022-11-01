@@ -47,4 +47,18 @@ export class OurCarService {
   getOurCarsWithoutPagination(): Observable<any> {
     return this._ApiService.postReq(`ourCars`, { withoutPagination: "true" });
   }
+
+  updateImage(image): Observable<any> {
+    return this._ApiService.postReq(`ourCars/files/update`, image);
+  }
+
+  deleteImage(file_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/files/delete`, {
+      file_id: file_id,
+    });
+  }
+
+  uploadImage(image): Observable<any> {
+    return this._ApiService.postReq(`ourCars/files/upload`, image);
+  }
 }

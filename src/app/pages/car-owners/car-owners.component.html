@@ -98,9 +98,9 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <img *ngIf="selectedRow?.national_front_image"
-                                                    [src]="selectedRow?.national_front_image" alt=""
-                                                    style="width: 50px;height: 50px">
+                                                <p-image *ngIf="selectedRow?.national_front_image"
+                                                    [src]="selectedRow?.national_front_image" alt=" National Id"
+                                                    width="50" height="50" [preview]="true"></p-image>
                                             </td>
                                         </tr>
                                         <tr>
@@ -113,9 +113,9 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <img *ngIf="selectedRow?.national_back_image"
-                                                    [src]="selectedRow?.national_back_image" alt=""
-                                                    style="width: 50px;height: 50px">
+                                                <p-image *ngIf="selectedRow?.national_back_image"
+                                                    [src]="selectedRow?.national_back_image" alt=" National Id"
+                                                    width="50" height="50" [preview]="true"></p-image>
                                             </td>
                                         </tr>
                                     </tbody>

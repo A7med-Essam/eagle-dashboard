@@ -548,16 +548,21 @@ export class OurCarsComponent implements OnInit {
     }, 800);
   }
 
+  carSub: any[] = [];
+  getCarSub(car) {
+    this._CarService.getCarSub(car).subscribe({
+      next: (res) => (this.carSub = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
   // Upload
   uploadProccess(event, element, status: string) {
     let uploadedFile: any[] = [];
     for (let file of event?.files) {
       uploadedFile.push(file);
     }
-
-    // uploadedFile.forEach((e) => {
-    //   delete e.objectURL;
-    // });
 
     if (status == "car_images") {
       this.ourCarsForm.patchValue({
@@ -579,53 +584,148 @@ export class OurCarsComponent implements OnInit {
     setTimeout(() => {
       element.clear();
     }, 800);
-
-    console.log(uploadedFile);
   }
 
-  carSub: any[] = [];
-  getCarSub(car) {
-    this._CarService.getCarSub(car).subscribe({
-      next: (res) => (this.carSub = res.data),
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  uploadedFiles: any[] = [];
+  uploadModal1: boolean = false;
+  uploadModal2: boolean = false;
+
+  uploadImage(event: any, status: string) {
+    let images = [];
+    event.files.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        if (status == "car_images") {
+          this.ourCarsForm.patchValue({
+            car_images: images,
+          });
+        } else if (status == "car_files") {
+          this.ourCarsForm.patchValue({
+            car_files: images,
+          });
+        }
+      };
+    });
+    this._ToastrService.setToaster(
+      "File Uploaded Successfully",
+      "info",
+      "info"
+    );
+  }
+
+  removeImage(removedImage, event, status: string) {
+    let remainImages: any[] = [];
+    event.files.forEach((e) => {
+      if (e.name != removedImage.file.name) {
+        remainImages.push(e);
+      }
+    });
+
+    let images = [];
+    remainImages.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        if (status == "car_images") {
+          this.ourCarsForm.patchValue({
+            car_images: images,
+          });
+        } else if (status == "car_files") {
+          this.ourCarsForm.patchValue({
+            car_files: images,
+          });
+        }
+      };
     });
   }
 
-  // ******************************************************
-  uploadImage(event: any, status: string) {
-    let reader = new FileReader();
-    reader.readAsDataURL(event.files[0]);
-    reader.onload = () => {
-      let images = [];
-      images.push(reader.result);
-      if (status == "car_images") {
-        this.ourCarsForm.patchValue({
-          car_images: images,
-        });
-      } else if (status == "car_files") {
-        this.ourCarsForm.patchValue({
-          car_files: images,
-        });
-      }
-      this._ToastrService.setToaster(
-        " File Uploaded Successfully",
-        "info",
-        "info"
-      );
-    };
-  }
-  uploadedFiles: any[] = [];
+  // ==========================================================================
 
-  removeImage(status: string) {
-    if (status == "car_images") {
-      this.ourCarsForm.patchValue({
-        car_images: null,
-      });
-    } else if (status == "car_files") {
-      this.ourCarsForm.patchValue({
-        car_files: null,
-      });
-    }
+  updateImage(imageId) {
+    let input: HTMLInputElement = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    let base64: any = null;
+    input.onchange = () => {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          if (e.target) {
+            base64 = e.target;
+          }
+        };
+        reader.readAsDataURL(input.files[0]);
+        setTimeout(() => {
+          this._OurCarService
+            .updateImage({ image: base64.result, file_id: imageId })
+            .subscribe({
+              next: (res) => {
+                this.uploadModal1 = false;
+                this.uploadModal2 = false;
+                this.selectedRow.files.map((e) => {
+                  if (e.id == res.data.id) e.image = res.data.image;
+                });
+              },
+            });
+        }, 1);
+      }
+    };
+    input.click();
+  }
+
+  addNewImage(type: string) {
+    let input: HTMLInputElement = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    let base64: any[] = [];
+    input.onchange = () => {
+      if (input.files && input.files[0]) {
+        for (let i = 0; i < input.files.length; i++) {
+          var reader = new FileReader();
+          reader.onload = (e) => {
+            if (e.target) {
+              base64.push(e.target.result);
+            }
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+        setTimeout(() => {
+          let img;
+          if (type == "document") {
+            img = { car_files: base64, car_id: this.selectedRow.id };
+          } else {
+            img = { car_images: base64, car_id: this.selectedRow.id };
+          }
+          this._OurCarService.uploadImage(img).subscribe({
+            next: (res) => {
+              this.uploadModal1 = false;
+              this.uploadModal2 = false;
+            },
+          });
+        }, 1);
+      }
+    };
+
+    input.click();
+  }
+
+  deleteImage(id) {
+    this._OurCarService.deleteImage(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.selectedRow.files.map((img) => {
+          if (img.id == id) {
+            const index = this.selectedRow.files.indexOf(img);
+            this.selectedRow.files.splice(index, 1);
+          }
+        });
+        this.uploadModal1 = false;
+        this.uploadModal2 = false;
+      },
+    });
   }
 }
