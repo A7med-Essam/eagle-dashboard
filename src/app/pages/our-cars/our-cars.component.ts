@@ -128,6 +128,8 @@ export class OurCarsComponent implements OnInit {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInOurCarsTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
         }
       },
       error: (err) => {
@@ -159,7 +161,8 @@ export class OurCarsComponent implements OnInit {
   deleteRow(id: any) {
     this._OurCarService.deleteOurCars(id).subscribe({
       next: (res) => {
-        this.getOurCars();
+        // this.getOurCars();
+        this.ourCars = this.ourCars.filter((car) => car.id != id);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) => {
@@ -676,42 +679,122 @@ export class OurCarsComponent implements OnInit {
     input.click();
   }
 
+  // addNewImage(type: string) {
+  //   let input: HTMLInputElement = document.createElement("input");
+  //   input.type = "file";
+  //   input.accept = "image/*";
+  //   input.multiple = true;
+  //   let base64: any[] = [];
+  //   input.onchange = async () => {
+  //     if (input.files && input.files[0]) {
+  //       for (let i = 0; i < input.files.length; i++) {
+  //         var reader = new FileReader();
+  //         reader.onload = (e) => {
+  //           // if (e.target) base64.push(e.target.result);
+  //         };
+  //         reader.readAsDataURL(input.files[i]);
+  //       }
+  // setTimeout(() => {
+  //   if (base64.length != 0) {
+  //     let img;
+  //     if (type == "document") {
+  //       img = { car_files: base64, car_id: this.selectedRow.id };
+  //     } else {
+  //       img = { car_images: base64, car_id: this.selectedRow.id };
+  //     }
+  //     this._OurCarService.uploadImage(img).subscribe({
+  //       next: (res) => {
+  //         this.uploadModal1 = false;
+  //         this.uploadModal2 = false;
+  //         this._ToastrService.setToaster(
+  //           "Files Uploaded Successfully",
+  //           "info",
+  //           "info"
+  //         );
+  //       },
+  //     });
+  //   } else {
+  //     this._ToastrService.setToaster(
+  //       "Error Occurred While Uploading",
+  //       "warning",
+  //       "warning"
+  //     );
+  //   }
+  // }, 1);
+  //     }
+  //   };
+
+  //   input.click();
+  // }
+
   addNewImage(type: string) {
     let input: HTMLInputElement = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
     input.multiple = true;
-    let base64: any[] = [];
+    input.click();
     input.onchange = () => {
       if (input.files && input.files[0]) {
-        for (let i = 0; i < input.files.length; i++) {
-          var reader = new FileReader();
-          reader.onload = (e) => {
-            if (e.target) {
-              base64.push(e.target.result);
-            }
-          };
-          reader.readAsDataURL(input.files[0]);
-        }
-        setTimeout(() => {
-          let img;
-          if (type == "document") {
-            img = { car_files: base64, car_id: this.selectedRow.id };
-          } else {
-            img = { car_images: base64, car_id: this.selectedRow.id };
-          }
-          this._OurCarService.uploadImage(img).subscribe({
-            next: (res) => {
-              this.uploadModal1 = false;
-              this.uploadModal2 = false;
-            },
-          });
-        }, 1);
+        this.uploadDocuments(type, input.files);
       }
     };
-
-    input.click();
   }
+
+  uploadDocuments = async (type, files: FileList) => {
+    let base64: any[] = [];
+    const FILES = Array.from(files);
+    const filePromises = FILES.map((file) => {
+      // Return a promise per file
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+            const response = await base64.push(e.target.result);
+            resolve(response);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        reader.onerror = (error) => {
+          reject(error);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    const fileInfos = await Promise.all(filePromises);
+    console.log(fileInfos);
+
+    setTimeout(() => {
+      if (base64.length != 0) {
+        let img;
+        if (type == "document") {
+          img = { car_files: base64, car_id: this.selectedRow.id };
+        } else {
+          img = { car_images: base64, car_id: this.selectedRow.id };
+        }
+        this._OurCarService.uploadImage(img).subscribe({
+          next: (res) => {
+            this.uploadModal1 = false;
+            this.uploadModal2 = false;
+            this._ToastrService.setToaster(
+              "Files Uploaded Successfully",
+              "info",
+              "info"
+            );
+          },
+        });
+      } else {
+        this._ToastrService.setToaster(
+          "Error Occurred While Uploading",
+          "warning",
+          "warning"
+        );
+      }
+    }, 1);
+
+    // return base64;
+  };
 
   deleteImage(id) {
     this._OurCarService.deleteImage(id).subscribe({

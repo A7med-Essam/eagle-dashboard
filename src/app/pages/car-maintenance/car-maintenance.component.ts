@@ -66,7 +66,9 @@ export class CarMaintenanceComponent implements OnInit {
   deleteMaintenance(id: number) {
     this._CarMaintenanceService.deleteMaintenances(id).subscribe({
       next: (res) => {
-        this.getMaintenance();
+        // this.getMaintenance();
+        this.maintenances = this.maintenances.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>

@@ -82,7 +82,8 @@ export class CarPriceComponent implements OnInit {
   deleteCarPrice(id: number) {
     this._CarPriceService.deleteCarPrice(id).subscribe({
       next: (res) => {
-        this.getCarPrice();
+        // this.getCarPrice();
+        this.carPrice = this.carPrice.filter((data) => data.id != id);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -109,11 +110,15 @@ export class CarPriceComponent implements OnInit {
   addCarPrice(car) {
     this._CarPriceService.addCarPrice(car.value).subscribe({
       next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this.addModal = false;
-        this.getCarPrice();
-        this.setCarPriceForm();
-        this.carPriceForm.reset();
+        if (res.status == 1) {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.addModal = false;
+          this.getCarPrice();
+          this.setCarPriceForm();
+          this.carPriceForm.reset();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
@@ -206,6 +211,13 @@ export class CarPriceComponent implements OnInit {
       next: (res) => (this.carSub = res.data),
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  refreshCarPrice() {
+    this._CarPriceService.refreshCarPrice().subscribe({
+      next: (res) =>
+        this._ToastrService.setToaster(res.message, "success", "success"),
     });
   }
 }

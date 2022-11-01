@@ -76,6 +76,8 @@ export class CarOwnersComponent implements OnInit {
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInCarsTable();
           this.resetUploadedFiles();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
         }
       },
       error: (err) => {
@@ -112,7 +114,8 @@ export class CarOwnersComponent implements OnInit {
   deleteRow(id: any) {
     this._CarOwnerService.deleteOwners(id).subscribe({
       next: (res) => {
-        this.getCars();
+        // this.getCars();
+        this.cars = this.cars.filter((data) => data.id != id);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) => {

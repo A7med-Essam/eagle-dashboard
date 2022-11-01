@@ -94,7 +94,8 @@ export class CarsComponent implements OnInit {
   deleteCarName(id: number) {
     this._CarService.deleteCarName(id).subscribe({
       next: (res) => {
-        this.getCarName();
+        // this.getCarName();
+        this.carName = this.carName.filter((data) => data.id != id);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -116,7 +117,9 @@ export class CarsComponent implements OnInit {
   deleteCarColor(id: number) {
     this._CarService.deleteCarColor(id).subscribe({
       next: (res) => {
-        this.getCarColor();
+        // this.getCarColor();
+        this.carColor = this.carColor.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -127,7 +130,9 @@ export class CarsComponent implements OnInit {
   deleteCarType(id: number) {
     this._CarService.deleteCarType(id).subscribe({
       next: (res) => {
-        this.getCarType();
+        // this.getCarType();
+        this.carType = this.carType.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -138,7 +143,9 @@ export class CarsComponent implements OnInit {
   deleteGrade(id: number) {
     this._CarService.deleteGrade(id).subscribe({
       next: (res) => {
-        this.getGrade();
+        // this.getGrade();
+        this.carGrade = this.carGrade.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -149,7 +156,9 @@ export class CarsComponent implements OnInit {
   deleteInsurance(id: number) {
     this._CarService.deleteInsurance(id).subscribe({
       next: (res) => {
-        this.getInsurance();
+        // this.getInsurance();
+        this.Insurances = this.Insurances.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>

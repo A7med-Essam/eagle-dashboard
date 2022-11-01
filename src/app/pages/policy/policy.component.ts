@@ -53,7 +53,9 @@ export class PolicyComponent implements OnInit {
   deletePolicy(id: number) {
     this._InsuranceAndPolicyService.deletePolicy(id).subscribe({
       next: (res) => {
-        this.getPolicies();
+        // this.getPolicies();
+        this.policies = this.policies.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -80,9 +82,13 @@ export class PolicyComponent implements OnInit {
   addPolicy(policy) {
     this._InsuranceAndPolicyService.addPolicy(policy.value).subscribe({
       next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this.addPolicyModal = false;
-        this.getPolicies();
+        if (res.status == 1) {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.addPolicyModal = false;
+          this.getPolicies();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
+        }
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");

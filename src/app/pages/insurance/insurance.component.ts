@@ -138,9 +138,13 @@ export class InsuranceComponent {
       .addInsuranceCompanies(insuranceCompany.value)
       .subscribe({
         next: (res) => {
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this.addInsuranceModal = false;
-          this.getInsuranceCompanies();
+          if (res.status == 1) {
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this.addInsuranceModal = false;
+            this.getInsuranceCompanies();
+          } else {
+            this._ToastrService.setToaster(res.message, "error", "danger");
+          }
         },
         error: (err) => {
           this._ToastrService.setToaster(err.error.message, "error", "danger");

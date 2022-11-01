@@ -71,6 +71,8 @@ export class CustomersComponent implements OnInit {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInCustomerTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
         }
       },
       error: (err) => {
@@ -102,7 +104,8 @@ export class CustomersComponent implements OnInit {
   deleteRow(id: any) {
     this._CustomerService.deleteCustomers(id).subscribe({
       next: (res) => {
-        this.getCustomers();
+        // this.getCustomers();
+        this.customers = this.customers.filter((data) => data.id != id);
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) => {

@@ -153,7 +153,9 @@ export class LeadsComponent implements OnInit {
   deleteLead(id: any) {
     this._LeadsService.deleteLeads(id).subscribe({
       next: (res) => {
-        this.getAllLeads();
+        // this.getAllLeads();
+        this.leads = this.leads.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) => {
@@ -182,6 +184,8 @@ export class LeadsComponent implements OnInit {
           this.currentClientInsurancePolicy = null;
           // Assign clear form
           this.AssignForm.reset(this.AssignForm.value);
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
         }
       },
       error: (err) => {

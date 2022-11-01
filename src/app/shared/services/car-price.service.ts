@@ -29,4 +29,8 @@ export class CarPriceService {
   filterCarPrice(car): Observable<any> {
     return this._ApiService.postReq(`lead/carExpectedPrices`, car);
   }
+
+  refreshCarPrice(): Observable<any> {
+    return this._ApiService.postReq(`ourCars/addPriceToNewCarAdded`, "");
+  }
 }

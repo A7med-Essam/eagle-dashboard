@@ -100,6 +100,8 @@ export class EmployeesComponent implements OnInit {
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInEmployeesTable();
+        } else {
+          this._ToastrService.setToaster(res.message, "error", "danger");
         }
       },
       error: (err) => {
@@ -131,7 +133,9 @@ export class EmployeesComponent implements OnInit {
   deleteRow(id: any) {
     this._EmployeeService.deleteEmployees(id).subscribe({
       next: (res) => {
-        this.getEmployees();
+        // this.getEmployees();
+        this.employees = this.employees.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) => {
@@ -376,7 +380,11 @@ export class EmployeesComponent implements OnInit {
   deleteContracts(id: number) {
     this._EmployeeService.deleteContracts(id).subscribe({
       next: (res) => {
-        this.getContracts();
+        // this.getContracts();
+        this.contractStatus = this.contractStatus.filter(
+          (data) => data.id != id
+        );
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -387,7 +395,9 @@ export class EmployeesComponent implements OnInit {
   deleteJobTitles(id: number) {
     this._EmployeeService.deletejobTitles(id).subscribe({
       next: (res) => {
-        this.getJobTitles();
+        // this.getJobTitles();
+        this.jobTitles = this.jobTitles.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -398,7 +408,9 @@ export class EmployeesComponent implements OnInit {
   deleteMaritals(id: number) {
     this._EmployeeService.deleteMaritals(id).subscribe({
       next: (res) => {
-        this.getMaritals();
+        // this.getMaritals();
+        this.maritalStatus = this.maritalStatus.filter((data) => data.id != id);
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -409,7 +421,11 @@ export class EmployeesComponent implements OnInit {
   deleteMilitaries(id: number) {
     this._EmployeeService.deleteMilitaries(id).subscribe({
       next: (res) => {
-        this.getMilitaries();
+        // this.getMilitaries();
+        this.militaryStatus = this.militaryStatus.filter(
+          (data) => data.id != id
+        );
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -420,7 +436,11 @@ export class EmployeesComponent implements OnInit {
   deleteNationalities(id: number) {
     this._EmployeeService.deleteNationalities(id).subscribe({
       next: (res) => {
-        this.getNationalities();
+        // this.getNationalities();
+        this.nationalityStatus = this.nationalityStatus.filter(
+          (data) => data.id != id
+        );
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
@@ -431,7 +451,11 @@ export class EmployeesComponent implements OnInit {
   deleteReligions(id: number) {
     this._EmployeeService.deleteReligions(id).subscribe({
       next: (res) => {
-        this.getReligions();
+        // this.getReligions();
+        this.religionStatus = this.religionStatus.filter(
+          (data) => data.id != id
+        );
+
         this._ToastrService.setToaster(res.message, "success", "success");
       },
       error: (err) =>
