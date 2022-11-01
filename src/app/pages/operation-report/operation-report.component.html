@@ -1,0 +1,178 @@
+<div class="row animated" #Main>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="card-title">Sales Report Table</h4>
+                <div class="text-center">
+                    <!-- <button class="btn btn-primary m-1" (click)="filterModal = true">
+                        <i class="fa-solid fa-filter"></i>
+                        Filter
+                    </button> -->
+                    <button class="btn btn-primary m-1" (click)="export()">
+                        <i class="fa-regular fa-file-excel"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Issue Date</th>
+                            <th>Agent</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let report of reports; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{report.created_at | date}}</td>
+                                <td>{{report.user.name}}</td>
+                                <td>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getById(report.id);"><i
+                                            class="fa-regular fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Sales Report Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Issue Date</td>
+                                            <td>{{selectedRow?.created_at | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin Name</td>
+                                            <td>{{selectedRow?.user.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin email</td>
+                                            <td>{{selectedRow?.user.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin Role</td>
+                                            <td>{{selectedRow?.user.my_role}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operation Log - latitude</td>
+                                            <td>{{selectedRow?.lat}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operation Log - longitude</td>
+                                            <td>{{selectedRow?.lang}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operation Log - kilometer in</td>
+                                            <td>{{selectedRow?.kilometer_in}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operation Log - kilometer out</td>
+                                            <td>{{selectedRow?.kilometer_out}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Operation Log - area</td>
+                                            <td>{{selectedRow?.area}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - status</td>
+                                            <td>{{selectedRow?.contract?.status}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - fromDate</td>
+                                            <td>{{selectedRow?.contract?.fromDate | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - toDate</td>
+                                            <td>{{selectedRow?.contract?.toDate | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - created at</td>
+                                            <td>{{selectedRow?.contract?.created_at | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - customer name</td>
+                                            <td>{{selectedRow?.contract?.customer.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - customer mobile</td>
+                                            <td>{{selectedRow?.contract?.customer.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - customer national id</td>
+                                            <td>{{selectedRow?.contract?.customer.nid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract - customer address</td>
+                                            <td>{{selectedRow?.contract?.customer.address}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <p-dialog header="Filter Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Agent</label>
+                    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='admin_id'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date From</label>
+                    <br>
+                    <p-calendar formControlName="from" appendTo="body" placeholder="Select Issue Date"
+                        [style]="{'width':'100%'}"></p-calendar>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date To</label>
+                    <br>
+                    <p-calendar formControlName="to" appendTo="body" placeholder="Select Issue Date"
+                        [style]="{'width':'100%'}"></p-calendar>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="filterForm">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
+    </ng-template>
+</p-dialog> -->

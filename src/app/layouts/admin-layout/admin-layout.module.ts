@@ -28,6 +28,8 @@ import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 import { FileUploadModule } from "primeng/fileupload";
 import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
 import { ImageModule } from "primeng/image";
+import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
+import { AccountingComponent } from "app/pages/accounting/accounting.component";
 
 @NgModule({
   imports: [
@@ -59,6 +61,8 @@ import { ImageModule } from "primeng/image";
     OurCarsComponent,
     CarPriceComponent,
     CarMaintenanceComponent,
+    OperationReportComponent,
+    AccountingComponent,
   ],
 })
 export class AdminLayoutModule {}

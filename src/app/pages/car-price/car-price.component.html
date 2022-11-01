@@ -20,9 +20,10 @@
                         <th>#</th>
                         <th>Issue Date</th>
                         <th>Car Name</th>
+                        <!-- <th>Car SubType</th> -->
                         <th>Car Model</th>
                         <th>Car Grade</th>
-                        <th>Car Gear</th>
+                        <!-- <th>Car Gear</th> -->
                         <th>Less than 50k</th>
                         <th>Less than 100k</th>
                         <th>More than 100k</th>
@@ -35,7 +36,7 @@
                             <td>{{car.car_name}}</td>
                             <td>{{car.car_model}}</td>
                             <td>{{car.car_grade}}</td>
-                            <td>{{car.car_gear}}</td>
+                            <!-- <td>{{car.car_gear}}</td> -->
                             <td>{{car.zero_min}}</td>
                             <td>{{car.bad_min}}</td>
                             <td>{{car.good_min}}</td>
@@ -62,13 +63,25 @@
                 <div class="form-group">
                     <label>Car Name</label>
                     <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" placeholder="Select Car Name"
-                        formControlName='car_name' filter="true" appendTo="body" optionValue="value">
+                        #SelectedCar1 (onChange)="getCarSub(SelectedCar1.selectedOption.id)" formControlName='car_name'
+                        filter="true" appendTo="body" optionValue="value">
                     </p-dropdown>
                     <div class="text-left mb-2">
                         <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_name')?.touched &&
                                     carPriceForm.get('car_name')?.hasError('required')">This field is
                             required!</small>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label>Car SubType</label>
+                    </div>
+                    <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                        formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">
@@ -165,13 +178,25 @@
                 <div class="form-group">
                     <label>Car Name</label>
                     <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" placeholder="Select Car Name"
-                        formControlName='car_name' filter="true" appendTo="body" optionValue="value">
+                        #SelectedCar2 (onChange)="getCarSub(SelectedCar2.selectedOption.id)" formControlName='car_name'
+                        filter="true" appendTo="body" optionValue="value">
                     </p-dropdown>
                     <div class="text-left mb-2">
                         <small class="text-danger ms-1" *ngIf="carPriceForm.get('car_name')?.touched &&
                                     carPriceForm.get('car_name')?.hasError('required')">This field is
                             required!</small>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label>Car SubType</label>
+                    </div>
+                    <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                        formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-md-6 pr-md-1">

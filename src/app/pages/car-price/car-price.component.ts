@@ -65,7 +65,7 @@ export class CarPriceComponent implements OnInit {
   }
 
   setCarPriceForm(car?: any) {
-    let grade = car ? Number(car?.car_grade) : null;
+    let grade = car ? car?.car_grade : null;
     this.carPriceForm = this._FormBuilder.group({
       car_name: new FormControl(car?.car_name, [Validators.required]),
       car_model: new FormControl(car?.car_model, [Validators.required]),
@@ -74,6 +74,7 @@ export class CarPriceComponent implements OnInit {
       zero_min: new FormControl(car?.zero_min, [Validators.required]),
       bad_min: new FormControl(car?.bad_min, [Validators.required]),
       good_min: new FormControl(car?.good_min, [Validators.required]),
+      car_subtype_id: new FormControl(car?.car_subtype_id),
     });
   }
 
@@ -121,6 +122,7 @@ export class CarPriceComponent implements OnInit {
   }
 
   editCarPrice(car) {
+    this.getCarSub(car?.value?.car_subtype_id);
     this.carPriceForm.addControl(
       "car_expected_price_id",
       new FormControl(this.currentCarPrice.id, [Validators.required])
@@ -158,7 +160,7 @@ export class CarPriceComponent implements OnInit {
     this._CarService.getCarName().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.carName.push({ name: e.car_name, value: e.car_name });
+          this.carName.push({ name: e.car_name, value: e.car_name, id: e.id });
         });
       },
     });
@@ -196,5 +198,14 @@ export class CarPriceComponent implements OnInit {
   displayAddModal() {
     this.addModal = true;
     this.carPriceForm.reset();
+  }
+
+  carSub: any[] = [];
+  getCarSub(car) {
+    this._CarService.getCarSub(car).subscribe({
+      next: (res) => (this.carSub = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
   }
 }

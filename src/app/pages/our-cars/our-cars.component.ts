@@ -180,7 +180,7 @@ export class OurCarsComponent implements OnInit {
   // Set Reactive Forms
   setOurCarsForm(car?: any) {
     let date = car?.license_end ? new Date(car?.license_end) : null;
-    let grade = car?.grade ? Number(car?.grade) : null;
+    let grade = car?.grade ? car?.grade : null;
     this.ourCarsForm = this._FormBuilder.group({
       name: new FormControl(car?.name, [Validators.required]),
       model: new FormControl(car?.model, [Validators.required]),
