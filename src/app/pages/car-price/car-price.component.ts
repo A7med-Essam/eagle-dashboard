@@ -191,6 +191,7 @@ export class CarPriceComponent implements OnInit {
   setFilterForm() {
     this.filterForm = this._FormBuilder.group({
       car_name: new FormControl(null),
+      car_subtype_id: new FormControl(null),
       car_model: new FormControl(null),
       car_grade: new FormControl(null),
     });

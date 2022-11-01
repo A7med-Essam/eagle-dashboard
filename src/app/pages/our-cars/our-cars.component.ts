@@ -212,6 +212,7 @@ export class OurCarsComponent implements OnInit {
       chassis_no: new FormControl(null),
       license_end: new FormControl(null),
       kilometer: new FormControl(null),
+      car_subtype_id: new FormControl(null),
     });
   }
 

@@ -23,16 +23,18 @@
                     <table class="table">
                         <thead class="text-secondary text-center">
                             <th>#</th>
-                            <th>name</th>
-                            <th>model</th>
-                            <th>grade</th>
-                            <th>color</th>
+                            <th>Name</th>
+                            <th>SubType</th>
+                            <th>Model</th>
+                            <th>Grade</th>
+                            <th>Color</th>
                             <th>Action</th>
                         </thead>
                         <tbody class="text-center">
                             <tr *ngFor="let car of ourCars; let i = index">
                                 <td>{{i+1}}</td>
                                 <td>{{car.name}}</td>
+                                <td>{{car?.sub_car?.car_model}}</td>
                                 <td>{{car.model}}</td>
                                 <td>{{car.grade}}</td>
                                 <td>{{car.color}}</td>
@@ -628,7 +630,19 @@
                 <div class="form-group">
                     <label>Car Name</label>
                     <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='name'
+                        #SelectedCar_filter (onChange)="getCarSub(SelectedCar_filter.selectedOption.id)"
                         placeholder="Select Car Name" filter="true" appendTo="body" optionValue="value">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <label>Car SubType</label>
+                    </div>
+                    <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                        formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
+                        optionValue="id">
                     </p-dropdown>
                 </div>
             </div>
