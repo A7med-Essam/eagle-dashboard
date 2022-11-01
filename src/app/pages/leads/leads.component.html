@@ -448,7 +448,18 @@
         <div class="form-group">
           <label>Car Name</label>
           <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name' filter="true"
+            #SelectedCar_filter (onChange)="getCarSub(SelectedCar_filter.selectedOption.id)"
             placeholder="Select Car Name" appendTo="body" optionValue="value"></p-dropdown>
+        </div>
+      </div>
+      <div class="col-xl-4 pr-xl-1 col-lg-6">
+        <div class="form-group">
+          <div class="d-flex align-items-center justify-content-between">
+            <label>Car SubType</label>
+          </div>
+          <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100" formControlName='car_subtype_id'
+            placeholder="Select Car SubType" filter="true" optionValue="id">
+          </p-dropdown>
         </div>
       </div>
       <div class="col-xl-4 pr-xl-1 col-lg-6">

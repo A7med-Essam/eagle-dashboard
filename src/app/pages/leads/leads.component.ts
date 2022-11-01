@@ -255,6 +255,7 @@ export class LeadsComponent implements OnInit {
     if (!form.value.grade) delete form.value.grade;
     if (!form.value.kilometer) delete form.value.kilometer;
     if (!form.value.insurance) delete form.value.insurance;
+    if (!form.value.car_subtype_id) delete form.value.car_subtype_id;
 
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
@@ -419,6 +420,7 @@ export class LeadsComponent implements OnInit {
       kilometer: new FormControl(null),
       insurance: new FormControl(null),
       issue_date: new FormControl(null),
+      car_subtype_id: new FormControl(null),
     });
   }
 
