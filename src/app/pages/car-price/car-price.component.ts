@@ -136,7 +136,12 @@ export class CarPriceComponent implements OnInit {
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
         this.editModal = false;
-        this.getCarPrice();
+        // this.getCarPrice();
+        this.carPrice.map((e) => {
+          if (e.id == res.data.id) {
+            Object.assign(e, res.data);
+          }
+        });
         this.setCarPriceForm();
         this.carPriceForm.reset();
       },

@@ -146,7 +146,12 @@ export class OurCarsComponent implements OnInit {
     this._OurCarService.updateOurCars(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this.getOurCars();
+          // this.getOurCars();
+          this.ourCars.map((e) => {
+            if (e.id == res.data.id) {
+              Object.assign(e, res.data);
+            }
+          });
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.EditForm.nativeElement);
           this.fadeInOurCarsTable();

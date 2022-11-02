@@ -223,6 +223,12 @@ export class OperationsComponent implements OnInit {
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
         this.getOperationContracts();
+        // this.insuranceCompanies.map((e) => {
+        //   if (e.id == res.data.id) {
+        //     Object.assign(e, res.data);
+        //   }
+        // });
+        // TODO: FIX
         this.logModal = false;
       },
       error: (err) => {

@@ -163,7 +163,12 @@ export class InsuranceComponent {
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
           this.editInsuranceModal = false;
-          this.getInsuranceCompanies();
+          // this.getInsuranceCompanies();
+          this.insuranceCompanies.map((e) => {
+            if (e.id == res.data.id) {
+              Object.assign(e, res.data);
+            }
+          });
         },
         error: (err) => {
           this._ToastrService.setToaster(err.error.message, "error", "danger");

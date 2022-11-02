@@ -118,7 +118,12 @@ export class EmployeesComponent implements OnInit {
     this._EmployeeService.updateEmployees(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this.getEmployees();
+          // this.getEmployees();
+          this.employees.map((e) => {
+            if (e.id == res.data.id) {
+              Object.assign(e, res.data);
+            }
+          });
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.EditForm.nativeElement);
           this.fadeInEmployeesTable();

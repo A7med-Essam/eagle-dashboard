@@ -105,7 +105,12 @@ export class PolicyComponent implements OnInit {
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
         this.editPolicyModal = false;
-        this.getPolicies();
+        // this.getPolicies();
+        this.policies.map((e) => {
+          if (e.id == res.data.id) {
+            Object.assign(e, res.data);
+          }
+        });
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");

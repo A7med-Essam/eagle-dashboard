@@ -220,7 +220,11 @@ export class LeadsComponent implements OnInit {
     this._LeadsService.updateLeads(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this.getAllLeads();
+          this.leads.map((lead) => {
+            if (lead.id == res.data.id) {
+              Object.assign(lead, res.data);
+            }
+          });
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.EditForm.nativeElement);
           this.fadeInLeadsTable();

@@ -119,7 +119,12 @@ export class CarMaintenanceComponent implements OnInit {
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
         this.editModal = false;
-        this.getMaintenance();
+        // this.getMaintenance();
+        this.maintenances.map((e) => {
+          if (e.id == res.data.id) {
+            Object.assign(e, res.data);
+          }
+        });
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
