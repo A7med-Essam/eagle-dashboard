@@ -189,7 +189,9 @@ export class OperationsComponent implements OnInit {
   //   this.assignModal = true;
   // }
 
+  currentContractLogged;
   displayLogContract(contract) {
+    this.currentContractLogged = contract;
     if (contract?.logs.length) this.logForm.controls["kilometer_in"].disable();
     else this.logForm.controls["kilometer_in"].enable();
     this.setLogForm(contract.id, contract?.logs.at(-1)?.kilometer_out);
@@ -222,13 +224,8 @@ export class OperationsComponent implements OnInit {
     this._OperationService.logContract(contract.value).subscribe({
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
-        this.getOperationContracts();
-        // this.insuranceCompanies.map((e) => {
-        //   if (e.id == res.data.id) {
-        //     Object.assign(e, res.data);
-        //   }
-        // });
-        // TODO: FIX
+        // this.getOperationContracts();
+        this.currentContractLogged.logs.push(res.data);
         this.logModal = false;
       },
       error: (err) => {

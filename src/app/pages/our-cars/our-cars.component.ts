@@ -363,6 +363,7 @@ export class OurCarsComponent implements OnInit {
     const usersId =
       this.AssignUsersForm.nativeElement.querySelectorAll("input");
     const leadUsers = contract.assign;
+    console.log(contract);
     const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
     if (leadUsers) {
       this.assignModal = true;
@@ -397,7 +398,6 @@ export class OurCarsComponent implements OnInit {
 
           this.selectedRow.contracts.map((e) => {
             if (e.id == users.value.operation_contract_id) {
-              console.log(e);
               e.assign = res.data;
             }
           });
@@ -406,7 +406,6 @@ export class OurCarsComponent implements OnInit {
           // );
           // res.data.customer = CUSTOMER;
 
-          // BUG: fix On remove
           // users.value.user_ids.filter(Number).forEach((e) => {
           //   let AssignedUser = {
           //     created_at: new Date(),
@@ -546,7 +545,6 @@ export class OurCarsComponent implements OnInit {
           //     // };
           //     d.contracts.push(res.data);
           //     console.log(d.contracts);
-          //     // BUG: HERE
           //   }
           // });
           const [CUSTOMER] = this.customers.filter(
@@ -554,6 +552,8 @@ export class OurCarsComponent implements OnInit {
           );
 
           res.data.customer = CUSTOMER;
+          res.data.assign = [];
+          res.data.logs = [];
           this.selectedRow.contracts.push(res.data);
         }
       },

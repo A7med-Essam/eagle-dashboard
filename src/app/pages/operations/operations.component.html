@@ -202,14 +202,14 @@
                                     <tbody>
                                         <tr *ngFor="let log of selectedRow?.logs; let i = index">
                                             <td>{{i + 1}}</td>
-                                            <td>{{log.created_at | date}}</td>
+                                            <td>{{log?.created_at | date}}</td>
                                             <!-- <td>{{log.kilometer_in}}</td> -->
                                             <!-- <td>{{log.kilometer_out}}</td> -->
-                                            <td>{{log.kilometer_out - log.kilometer_in}} Km</td>
+                                            <td>{{log?.kilometer_out - log?.kilometer_in}} Km</td>
                                             <!-- <td>{{log.lang}}</td> -->
                                             <!-- <td>{{log.lat}}</td> -->
-                                            <td>{{log.area}}</td>
-                                            <td>{{log.user.name}}</td>
+                                            <td>{{log?.area}}</td>
+                                            <td>{{log?.user?.name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
