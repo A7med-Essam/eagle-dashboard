@@ -76,4 +76,69 @@ export class GuardService {
   hasLeadsPermission_SeeReplay() {
     return this.getPermissionStatus("seeReplay_leads");
   }
+
+  // Operation Permissions
+  hasOperationPermission_Read() {
+    return this.getPermissionStatus("read_operations");
+  }
+
+  // Employees Permissions
+  hasEmployeesPermission_Read() {
+    return this.getPermissionStatus("read_employees");
+  }
+
+  // customers Permissions
+  hasCustomersPermission_Read() {
+    return this.getPermissionStatus("read_customers");
+  }
+
+  // owners Permissions
+  hasOwnersPermission_Read() {
+    return this.getPermissionStatus("read_owners");
+  }
+
+  // OurCars Permissions
+  hasOurCarsPermission_Read() {
+    return this.getPermissionStatus("read_ourCars");
+  }
+
+  // CarPrice Permissions
+  hasCarPricePermission_Read() {
+    return this.getPermissionStatus("read_carPrices");
+  }
+
+  // CarSettings Permissions
+  hasCarSettingsPermission_Read() {
+    return this.getPermissionStatus("read_carSettings");
+  }
+
+  // Insurances Permissions
+  hasInsurancesPermission_Read() {
+    return this.getPermissionStatus("read_insurances");
+  }
+
+  // Policy Permissions
+  hasPolicyPermission_Read() {
+    return this.getPermissionStatus("read_policies");
+  }
+
+  // Sales report Permissions
+  hasSalesReportPermission_Read() {
+    return this.getPermissionStatus("read_salesReports");
+  }
+
+  // Operation Report Permissions
+  hasOperationReportPermission_Read() {
+    return this.getPermissionStatus("read_operationReports");
+  }
+
+  // car maintenance Permissions
+  hasCarMaintenancesPermission_Read() {
+    return this.getPermissionStatus("read_carMaintenances");
+  }
+
+  // Accounting Permissions
+  hasAccountingPermission_Read() {
+    return this.getPermissionStatus("read_accounting");
+  }
 }

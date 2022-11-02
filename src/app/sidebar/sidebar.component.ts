@@ -56,6 +56,19 @@ export class SidebarComponent implements OnInit {
   isSuperAdmin: boolean = false;
   hasLeadRead: boolean = false;
   hasUserRead: boolean = false;
+  hasOperationRead: boolean = false;
+  hasEmployeesRead: boolean = false;
+  hasCustomersRead: boolean = false;
+  hasOwnersRead: boolean = false;
+  hasOurCarsRead: boolean = false;
+  hasCarPriceRead: boolean = false;
+  hasCarSettingRead: boolean = false;
+  hasInsuranceRead: boolean = false;
+  hasPolicyRead: boolean = false;
+  hasSalesReportRead: boolean = false;
+  hasOperationReportRead: boolean = false;
+  hasCarMaintenanceRead: boolean = false;
+  hasAccountingRead: boolean = false;
   ngOnInit() {
     this.menuItems = ROUTES.filter((menuItem) => menuItem);
     this.isSuperAdmin = this._GuardService.isSuperAdmin();
@@ -65,6 +78,24 @@ export class SidebarComponent implements OnInit {
     // } else {
     this.hasLeadRead = this._GuardService.hasLeadsPermission_Read();
     this.hasUserRead = this._GuardService.hasUsersPermission_Read();
+
+    this.hasOperationRead = this._GuardService.hasOperationPermission_Read();
+    this.hasEmployeesRead = this._GuardService.hasEmployeesPermission_Read();
+    this.hasCustomersRead = this._GuardService.hasCustomersPermission_Read();
+    this.hasOwnersRead = this._GuardService.hasOwnersPermission_Read();
+    this.hasOurCarsRead = this._GuardService.hasOurCarsPermission_Read();
+    this.hasCarPriceRead = this._GuardService.hasCarPricePermission_Read();
+    this.hasCarSettingRead = this._GuardService.hasCarSettingsPermission_Read();
+    this.hasInsuranceRead = this._GuardService.hasInsurancesPermission_Read();
+    this.hasPolicyRead = this._GuardService.hasPolicyPermission_Read();
+    this.hasSalesReportRead =
+      this._GuardService.hasSalesReportPermission_Read();
+    this.hasOperationReportRead =
+      this._GuardService.hasOperationReportPermission_Read();
+    this.hasCarMaintenanceRead =
+      this._GuardService.hasCarMaintenancesPermission_Read();
+    this.hasAccountingRead = this._GuardService.hasAccountingPermission_Read();
+
     // }
 
     // this.items = [

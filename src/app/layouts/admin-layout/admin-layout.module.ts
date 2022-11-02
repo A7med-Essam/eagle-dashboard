@@ -30,6 +30,7 @@ import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenan
 import { ImageModule } from "primeng/image";
 import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
 import { AccountingComponent } from "app/pages/accounting/accounting.component";
+import { TabViewModule } from "primeng/tabview";
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { AccountingComponent } from "app/pages/accounting/accounting.component";
     InputSwitchModule,
     FileUploadModule,
     ImageModule,
+    TabViewModule,
   ],
   declarations: [
     DashboardComponent,

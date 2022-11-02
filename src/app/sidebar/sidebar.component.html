@@ -14,15 +14,19 @@
       <a [routerLink]="[menuItem.path]" *ngIf="
          menuItem.title == 'Users'? hasUserRead:true &&
          menuItem.title == 'leads'? hasLeadRead:true &&
-         menuItem.title == 'employees'? isSuperAdmin:true &&
-         menuItem.title == 'customers'? isSuperAdmin:true &&
-         menuItem.title == 'Accounting'? isSuperAdmin:true &&
-         menuItem.title == 'Operations'? isSuperAdmin:true &&
-         menuItem.title == 'our-cars'? isSuperAdmin:true &&
-         menuItem.title == 'sales-report'? isSuperAdmin:true &&
-         menuItem.title == 'car-price'? isSuperAdmin:true &&
-         menuItem.title == 'operation-report'? isSuperAdmin:true &&
-         menuItem.title == 'owners'? isSuperAdmin:true">
+         menuItem.title == 'employees'? hasEmployeesRead:true &&
+         menuItem.title == 'customers'? hasCustomersRead:true &&
+         menuItem.title == 'Operations'? hasOperationRead:true &&
+         menuItem.title == 'car settings'? hasCarSettingRead:true &&
+         menuItem.title == 'our-cars'? hasOurCarsRead:true &&
+         menuItem.title == 'car-price'? hasCarPriceRead:true &&
+         menuItem.title == 'Insurance'? hasInsuranceRead:true &&
+         menuItem.title == 'Policies'? hasPolicyRead:true &&
+         menuItem.title == 'sales-report'? hasSalesReportRead:true &&
+         menuItem.title == 'operation-report'? hasOperationReportRead:true &&
+         menuItem.title == 'car-maintenance'? hasCarMaintenanceRead:true &&
+         menuItem.title == 'Accounting'? hasAccountingRead:true &&
+         menuItem.title == 'owners'? hasOwnersRead:true">
 
         <i class=" {{menuItem.icon}}"></i>
         <p>{{menuItem.title}}</p>

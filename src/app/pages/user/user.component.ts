@@ -11,7 +11,7 @@ import { GuardService } from "app/shared/services/guard.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
-import { ConfirmationService } from "primeng/api";
+import { ConfirmationService, MenuItem } from "primeng/api";
 
 @Component({
   selector: "user-cmp",
@@ -45,6 +45,7 @@ export class UserComponent implements OnInit {
   ) {}
 
   // enableSuperAdmin: boolean = false;
+  items: MenuItem[];
 
   ngOnInit() {
     this.getAdmins();
@@ -53,6 +54,14 @@ export class UserComponent implements OnInit {
     this.setCreateForm();
     this.getPermissions();
     this.setPermissions();
+
+    this.items = [
+      { label: "Home", icon: "pi pi-fw pi-home" },
+      { label: "Calendar", icon: "pi pi-fw pi-calendar" },
+      { label: "Edit", icon: "pi pi-fw pi-pencil" },
+      { label: "Documentation", icon: "pi pi-fw pi-file" },
+      { label: "Settings", icon: "pi pi-fw pi-cog" },
+    ];
   }
 
   // Permissions
@@ -66,7 +75,7 @@ export class UserComponent implements OnInit {
     this.create = this._GuardService.hasUsersPermission_Create();
     this.update = this._GuardService.hasUsersPermission_Update();
     this.delete = this._GuardService.hasUsersPermission_Delete();
-    
+
     this.isSuperAdmin = this._GuardService.isSuperAdmin();
 
     // if (this._GuardService.isSuperAdmin()) {
@@ -105,33 +114,16 @@ export class UserComponent implements OnInit {
   }
 
   createAdmin(admin) {
-    // if (this.enableSuperAdmin) {
-    //   this._UsersService.createSuperAdmin(admin.value).subscribe({
-    //     next: (res) => {
-    //       if (res.status == 1) {
-    //         this.getAdmins();
-    //         this.getSuperAdmins();
-    //         this._ToastrService.setToaster(res.message, "success", "success");
-    //         this._SharedService.fadeOut(this.createForm.nativeElement);
-    //         this.fadeInUserTable();
-    //       }
-    //     },
-    //     error: (err) => {
-    //       this._ToastrService.setToaster(
-    //         "error",
-    //         "danger"
-    //       );
-    //     },
-    //   });
-    // } else {
     this._UsersService.createAdmin(admin.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          // this.getSuperAdmins();
           this.getAdmins();
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.createForm.nativeElement);
           this.fadeInUserTable();
+          this.setCreateForm();
+          // TODO: reset check form
+          this.createAdminForm.reset();
         } else {
           this._ToastrService.setToaster(res.message, "error", "danger");
         }
@@ -261,19 +253,29 @@ export class UserComponent implements OnInit {
 
   getPermissions() {
     this._UsersService.getPermissions().subscribe((res) => {
-      res.data.users.forEach((e) => {
-        this.permissions.push({
-          description: e,
-          value: `${e}_users`,
-          type: "users",
-        });
-      });
-      res.data.leads.forEach((e) => {
-        this.permissions.push({
-          description: e,
-          value: `${e}_leads`,
-          type: "leads",
-        });
+      this.setPermission(res.data.users, "users");
+      this.setPermission(res.data.leads, "leads");
+      this.setPermission(res.data.operations, "operations");
+      this.setPermission(res.data.employees, "employees");
+      this.setPermission(res.data.customers, "customers");
+      this.setPermission(res.data.owners, "owners");
+      this.setPermission(res.data.ourCars, "ourCars");
+      this.setPermission(res.data.carPrices, "carPrices");
+      this.setPermission(res.data.carSettings, "carSettings");
+      this.setPermission(res.data.insurances, "insurances");
+      this.setPermission(res.data.policies, "policies");
+      this.setPermission(res.data.salesReports, "salesReports");
+      this.setPermission(res.data.operationReports, "operationReports");
+      this.setPermission(res.data.carMaintenances, "carMaintenances");
+    });
+  }
+
+  setPermission(data, permission) {
+    data.forEach((e) => {
+      this.permissions.push({
+        description: e,
+        value: `${e}_${permission}`,
+        type: permission,
       });
     });
   }

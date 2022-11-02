@@ -43,64 +43,106 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "cars",
     component: CarsComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_carSettings"],
+    },
   },
   {
     path: "operations",
     component: OperationsComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_operations"],
+    },
   },
   {
     path: "policy",
     component: PolicyComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_policies"],
+    },
   },
   {
     path: "insurances",
     component: InsuranceComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_insurances"],
+    },
   },
   {
     path: "our-cars",
     component: OurCarsComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_ourCars"],
+    },
   },
   {
     path: "owners",
     component: CarOwnersComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_owners"],
+    },
   },
   {
     path: "employees",
     component: EmployeesComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_employees"],
+    },
   },
   {
     path: "customers",
     component: CustomersComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_customers"],
+    },
   },
   {
     path: "sales-report",
     component: SalesReportComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_salesReports"],
+    },
   },
 
   {
     path: "accounting",
     component: CommingSoonComponent,
-    canActivate: [SuperAdminGuard],
+    // canActivate: [PermissionGuard],
+    // data: {
+    //   permission: ["read_accounting"],
+    // },
   },
   {
     path: "operation-report",
     component: OperationReportComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_operationReports"],
+    },
   },
   {
     path: "car-price",
     component: CarPriceComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_carPrices"],
+    },
   },
   {
     path: "car-maintenance",
     component: CarMaintenanceComponent,
-    canActivate: [SuperAdminGuard],
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_carMaintenances"],
+    },
   },
 ];
