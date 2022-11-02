@@ -36,4 +36,11 @@ export class CarMaintenanceService {
       car
     );
   }
+
+  deleteBrandForMaintenanceCenter(car): Observable<any> {
+    return this._ApiService.postReq(
+      `maintenances/deleteBrandForMaintenanceCenter`,
+      car
+    );
+  }
 }

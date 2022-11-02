@@ -167,20 +167,13 @@ export class LeadsComponent implements OnInit {
   }
 
   createLead(form: any) {
-    // form.value.insuranceCompany != null
-    //   ? (form.value.insurance_in_out = "in")
-    //   : (form.value.insurance_in_out = "out");
-
     if (form.value.insuranceCompany) {
-      // form.value.insurance_in_out = "in";
       form.controls["insurance_in_out"].setValue("in");
     } else {
       form.controls["insurance_in_out"].setValue("out");
-      // form.value.insurance_in_out = "out";
     }
 
     if (this.currentClientInsuranceCompany) {
-      // form.value.company_policy_id = this.currentClientInsuranceCompany.id;
       form.controls["company_policy_id"].setValue(
         this.currentClientInsuranceCompany.id
       );
@@ -234,6 +227,24 @@ export class LeadsComponent implements OnInit {
       "lead_id",
       new FormControl(this.currentEditRow.id, Validators.required)
     );
+
+    if (form.value.insuranceCompany) {
+      form.controls["insurance_in_out"].setValue("in");
+    } else {
+      form.controls["insurance_in_out"].setValue("out");
+    }
+
+    if (this.currentClientInsuranceCompany) {
+      form.controls["company_policy_id"].setValue(
+        this.currentClientInsuranceCompany.id
+      );
+      form.addControl(
+        "company_policy_not_exists",
+        new FormControl(this.currentClientInsurancePolicy)
+      );
+    }
+    delete this.leadForm.value.insuranceCompany;
+
     this._LeadsService.updateLeads(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {

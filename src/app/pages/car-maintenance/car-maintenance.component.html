@@ -29,11 +29,15 @@
                             <td>
                                 <div *ngFor="let brand of maintenance.brands; let i = index">
                                     {{brand?.car?.car_name}}
+                                    <i class="fa-regular fa-trash-can ml-2 text-danger pointer"
+                                        (click)="deleteBrand(brand?.car?.id,maintenance.id)"></i>
                                 </div>
                             </td>
                             <td>
                                 <button class="btn btn-primary m-1" (click)="displayBrandModal(maintenance)">Add
                                     Brand</button>
+                                <!-- <button class="btn btn-danger m-1" (click)="deleteBrand(maintenance)">Delete
+                                    Brand</button> -->
                                 <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)">Edit</button>
                                 <button class="btn btn-danger m-1"
                                     (click)="deleteConfirm(maintenance.id)">Delete</button>
@@ -128,13 +132,21 @@
 <p-dialog header="Add Maintenance Brand" [(visible)]="addBrandModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <div class="row mx-0">
-        <div class="col-12">
+        <!-- <div class="col-12">
             <div class="form-group">
                 <label>Brands</label>
                 <p-dropdown [options]="cars" optionLabel="car_name" styleClass="w-100" optionValue="id" #brandsDropdown
                     placeholder="Select Brand" appendTo="body">
                 </p-dropdown>
             </div>
+        </div> -->
+        <div class="col-12">
+            <span class="p-float-label">
+                <p-multiSelect inputId="multiselect" [options]="cars" optionLabel="car_name" [filter]="true"
+                    appendTo="body" optionValue="id" #brandsDropdown styleClass="w-100">
+                </p-multiSelect>
+                <label for="multiselect">Select Brand</label>
+            </span>
         </div>
     </div>
     <ng-template pTemplate="footer">

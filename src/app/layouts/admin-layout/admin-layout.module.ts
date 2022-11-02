@@ -31,7 +31,7 @@ import { ImageModule } from "primeng/image";
 import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
 import { AccountingComponent } from "app/pages/accounting/accounting.component";
 import { TabViewModule } from "primeng/tabview";
-
+import { MultiSelectModule } from "primeng/multiselect";
 @NgModule({
   imports: [
     CommonModule,
@@ -47,6 +47,7 @@ import { TabViewModule } from "primeng/tabview";
     FileUploadModule,
     ImageModule,
     TabViewModule,
+    MultiSelectModule,
   ],
   declarations: [
     DashboardComponent,

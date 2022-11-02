@@ -149,7 +149,7 @@ export class CarMaintenanceComponent implements OnInit {
   addBrandForMaintenanceCenter(car) {
     const brand = {
       maintenance_center_id: this.currentRow.id,
-      car_name_id: car.value,
+      car_name_ids: car.value,
     };
     this._CarMaintenanceService.addBrandForMaintenanceCenter(brand).subscribe({
       next: (res) => {
@@ -161,5 +161,24 @@ export class CarMaintenanceComponent implements OnInit {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
+  }
+
+  deleteBrand(carId, maintenanceId) {
+    const brand = {
+      maintenance_center_id: maintenanceId,
+      car_name_ids: [carId],
+    };
+    this._CarMaintenanceService
+      .deleteBrandForMaintenanceCenter(brand)
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.getMaintenance();
+          this.addBrandModal = false;
+        },
+        error: (err) => {
+          this._ToastrService.setToaster(err.error.message, "error", "danger");
+        },
+      });
   }
 }
