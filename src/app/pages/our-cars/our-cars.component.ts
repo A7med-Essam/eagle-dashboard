@@ -350,17 +350,19 @@ export class OurCarsComponent implements OnInit {
   assignModal: boolean = false;
   @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
 
-  setAdminForm() {
+  setAdminForm(contractId?) {
     this.AssignForm = this._FormBuilder.group({
       user_ids: new FormArray([]),
+      operation_contract_id: new FormControl(contractId),
     });
   }
 
-  getAssignedUsers() {
+  getAssignedUsers(contract) {
     this.resetAssignForm();
+    this.setAdminForm(contract.id);
     const usersId =
       this.AssignUsersForm.nativeElement.querySelectorAll("input");
-    const leadUsers = this.selectedRow.contracts[0].assign;
+    const leadUsers = contract.assign;
     const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
     if (leadUsers) {
       this.assignModal = true;
@@ -380,18 +382,34 @@ export class OurCarsComponent implements OnInit {
   assignUsers(users: FormGroup) {
     this._OperationService
       .assignContract({
-        operation_contract_id: this.selectedRow?.contracts[0].id,
-        user_ids: users.value.user_ids,
+        operation_contract_id: users.value.operation_contract_id,
+        user_ids: users.value.user_ids.filter(Number),
       })
       .subscribe({
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
+          this.assignModal = false;
           this._OurCarService.getOurCars(1).subscribe((res) => {
-            this.assignModal = false;
             this.ourCars = res.data.data;
             this.pagination = res.data;
             this.getById(this.selectedRow.id);
           });
+
+          // const [CUSTOMER] = this.customers.filter(
+          //   (c) => c.id == res.data.customer_id
+          // );
+          // res.data.customer = CUSTOMER;
+
+          // BUG: fix On remove
+          // users.value.user_ids.filter(Number).forEach((e) => {
+          //   let AssignedUser = {
+          //     created_at: new Date(),
+          //     operation_contract_id: users.value.operation_contract_id,
+          //     updated_at: new Date(Date.now()),
+          //     user_id: e,
+          //   };
+          //   this.selectedRow.contracts[0].assign.push(AssignedUser);
+          // });
         },
         error: (err) =>
           this._ToastrService.setToaster(err.error.message, "error", "danger"),
@@ -504,14 +522,33 @@ export class OurCarsComponent implements OnInit {
           //   this.ourCars = res.data.data;
           //   this.pagination = res.data;
           // });
-          this.ourCars.map((d) => {
-            if (d.id == res.data.car_id) {
-              Object.assign(d.contracts, res.data);
-              // d.contracts.push(res.data);
-              console.log(d.contracts);
-              // BUG: HERE
-            }
-          });
+          // this.ourCars.map((d) => {
+          //   if (d.id == res.data.car_id) {
+          //     // const newContract = {
+          //     //   fromDate: res.data.fromDate,
+          //     //   car_id: res.data.car_id,
+          //     //   created_at: res.data.created_at,
+          //     //   customer_id: res.data.customer_id,
+          //     //   status: res.data.status,
+          //     //   id: res.data.id,
+          //     //   toDate: res.data.toDate,
+          //     //   updated_at: res.data.updated_at,
+          //     //   deleted_at: null,
+          //     //   customer: null,
+          //     //   assign: [],
+          //     //   logs: [],
+          //     // };
+          //     d.contracts.push(res.data);
+          //     console.log(d.contracts);
+          //     // BUG: HERE
+          //   }
+          // });
+          const [CUSTOMER] = this.customers.filter(
+            (c) => c.id == res.data.customer_id
+          );
+
+          res.data.customer = CUSTOMER;
+          this.selectedRow.contracts.push(res.data);
         }
       },
       error: (err) => {

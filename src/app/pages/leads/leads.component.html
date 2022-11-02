@@ -540,9 +540,15 @@
         <input type="text" class="form-control" placeholder="Enter Company Name" #CompanyName>
       </div>
     </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label>Policy Name</label>
+        <input type="text" class="form-control" placeholder="Enter Company Name" #policyName>
+      </div>
+    </div>
   </div>
   <ng-template pTemplate="footer">
-    <button class="btn btn-primary m-1" (click)="addClientInsuranceCompany(CompanyName)">Add</button>
+    <button class="btn btn-primary m-1" (click)="addClientInsuranceCompany(CompanyName,policyName)">Add</button>
   </ng-template>
 </p-dialog>
 

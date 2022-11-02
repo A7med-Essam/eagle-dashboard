@@ -122,8 +122,8 @@ export class UserComponent implements OnInit {
           this._SharedService.fadeOut(this.createForm.nativeElement);
           this.fadeInUserTable();
           this.setCreateForm();
-          // TODO: reset check form
           this.createAdminForm.reset();
+          this.resetPermissions();
         } else {
           this._ToastrService.setToaster(res.message, "error", "danger");
         }
@@ -132,7 +132,6 @@ export class UserComponent implements OnInit {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
-    // }
   }
 
   createSuperAdmin(admin) {
@@ -381,6 +380,16 @@ export class UserComponent implements OnInit {
           formArray.push(new FormControl(PermissionsList[j].value));
         }
       }
+    }
+  }
+
+  resetPermissions() {
+    const PermissionsList = this.createForm.nativeElement.querySelectorAll(
+      "input[type='checkbox']"
+    );
+
+    for (let j = 0; j < PermissionsList.length; j++) {
+      PermissionsList[j].checked = false;
     }
   }
 

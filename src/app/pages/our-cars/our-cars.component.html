@@ -136,13 +136,13 @@
                                             <td>Car Owner National Id</td>
                                             <td>{{selectedRow?.owner?.nid}}</td>
                                         </tr>
-                                        <tr *ngIf="selectedRow?.contracts.length != 0">
+                                        <!-- <tr *ngIf="selectedRow?.contracts.length != 0">
                                             <td>Assign</td>
                                             <td><button
                                                     class="btn btn-info d-flex justify-content-center align-items-center"
-                                                    (click)="getAssignedUsers();" style="width: 20px; height: 30px;"><i
+                                                    (click)="getAssignedUsers(1);" style="width: 20px; height: 30px;"><i
                                                         class="fa-solid fa-share"></i></button></td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td>Create Contract</td>
                                             <td>
@@ -225,6 +225,7 @@
                                         <th>End Date</th>
                                         <th>Customer name</th>
                                         <th>Customer mobile</th>
+                                        <th>Assign</th>
                                         <!-- <th>Customer nid</th> -->
                                         <!-- <th>Customer address</th> -->
                                     </thead>
@@ -235,8 +236,15 @@
                                             <td>{{contract?.status}}</td>
                                             <td>{{contract?.fromDate | date: 'dd/MM/yyyy hh:mm a'}}</td>
                                             <td>{{contract?.toDate | date: 'dd/MM/yyyy hh:mm a'}}</td>
-                                            <td>{{contract?.customer.name}}</td>
-                                            <td>{{contract?.customer.mobile}}</td>
+                                            <td>{{contract?.customer?.name}}</td>
+                                            <td>{{contract?.customer?.mobile}}</td>
+                                            <td>
+                                                <button
+                                                    class="btn btn-info d-flex justify-content-center align-items-center"
+                                                    (click)="getAssignedUsers(contract);"
+                                                    style="width: 20px; height: 30px;"><i
+                                                        class="fa-solid fa-share"></i></button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
