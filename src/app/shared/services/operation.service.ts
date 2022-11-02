@@ -44,4 +44,16 @@ export class OperationService {
   exportOperationReport(): Observable<any> {
     return this._ApiService.postReq(`operationReport/export`, "");
   }
+
+  filterOperationReport(filter): Observable<any> {
+    return this._ApiService.postReq(`operationReport`, filter);
+  }
+
+  exportWithFilter(filter): Observable<any> {
+    return this._ApiService.postReq("printOperationReport", filter);
+  }
+
+  getAreaWithoutPagination(): Observable<any> {
+    return this._ApiService.postReq(`areas`, { withoutPagination: 0 });
+  }
 }

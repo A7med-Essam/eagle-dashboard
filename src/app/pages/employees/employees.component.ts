@@ -288,6 +288,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   resetFilter() {
+    this.setFilterForm();
     this.getEmployees();
   }
 

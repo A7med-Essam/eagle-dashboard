@@ -292,6 +292,7 @@ export class OurCarsComponent implements OnInit {
   }
 
   resetFilter() {
+    this.setFilterForm();
     this.getOurCars();
   }
 
@@ -495,13 +496,23 @@ export class OurCarsComponent implements OnInit {
 
     this._OperationService.createContract(form.value).subscribe({
       next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this._OurCarService.getOurCars(1).subscribe((res) => {
+        if (res.status == 1) {
+          this._ToastrService.setToaster(res.message, "success", "success");
           this.createContractModal = false;
-          this.ourCars = res.data.data;
-          this.pagination = res.data;
-          this.getById(this.selectedRow.id);
-        });
+          // this.getById(this.selectedRow.id);
+          // this._OurCarService.getOurCars(1).subscribe((res) => {
+          //   this.ourCars = res.data.data;
+          //   this.pagination = res.data;
+          // });
+          this.ourCars.map((d) => {
+            if (d.id == res.data.car_id) {
+              Object.assign(d.contracts, res.data);
+              // d.contracts.push(res.data);
+              console.log(d.contracts);
+              // BUG: HERE
+            }
+          });
+        }
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");

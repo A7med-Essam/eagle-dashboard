@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { CarService } from "app/shared/services/car.service";
 import { OperationService } from "app/shared/services/operation.service";
+import { OurCarService } from "app/shared/services/our-car.service";
 import { SalesReportService } from "app/shared/services/sales-report.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
@@ -26,11 +27,12 @@ export class OperationReportComponent implements OnInit {
   constructor(
     private _OperationService: OperationService,
     private _SharedService: SharedService,
-    private _ToastrService: ToasterService
-  ) // private _UsersService: UsersService,
-  // private _CarService: CarService,
-  // private _FormBuilder: FormBuilder
-  {
+    private _ToastrService: ToasterService,
+    private _UsersService: UsersService,
+    // private _CarService: CarService,
+    private _OurCarService: OurCarService,
+    private _FormBuilder: FormBuilder
+  ) {
     // this.gearType = [
     //   { name: "Automatic", value: "AUTOMATIC" },
     //   { name: "Manual", value: "MANUAL" },
@@ -49,7 +51,9 @@ export class OperationReportComponent implements OnInit {
     // this.getCarType();
     // this.getGrade();
     // this.getInsurance();
-    // this.getAdmins();
+    this.getCars();
+    this.getAdmins();
+    this.getArea();
   }
 
   // Curd Settings
@@ -110,39 +114,61 @@ export class OperationReportComponent implements OnInit {
 
   // Filter
   setFilterForm() {
-    // this.filterForm = this._FormBuilder.group({
-    // customer_name: new FormControl(null),
-    // customer_mobile: new FormControl(null),
-    // car_name: new FormControl(null),
-    // car_color: new FormControl(null),
-    // car_type: new FormControl(null),
-    // gear_type: new FormControl(null),
-    // car_model: new FormControl(null),
-    // grade: new FormControl(null),
-    // kilometer: new FormControl(null),
-    // insurance: new FormControl(null),
-    // });
+    this.filterForm = this._FormBuilder.group({
+      admin_id: new FormControl(null),
+      // from: new FormControl(null),
+      // to: new FormControl(null),
+      car_id: new FormControl(null),
+      area: new FormControl(null),
+      plate_no: new FormControl(null),
+    });
   }
 
   resetFilter() {
     this.getReports();
+    this.setFilterForm();
+    this.filterStatus = false;
   }
+  filterStatus = false;
 
   filter(form: any) {
-    // if (!form.value.from) delete form.value.from;
-    // if (!form.value.to) delete form.value.to;
-    // if (!form.value.admin_id) delete form.value.admin_id;
+    if (!form.value.car_id) delete form.value.car_id;
+    if (!form.value.area) delete form.value.area;
+    if (!form.value.plate_no) delete form.value.plate_no;
+    if (!form.value.admin_id) delete form.value.admin_id;
     // console.log(form.value);
-    // this._OperationService.filterSalesReport(form.value).subscribe({
-    //   next: (res) => {
-    //     this.filterModal = false;
-    //     this.reports = res.data.data;
-    //     this.pagination = res.data;
-    //     this.setFilterForm();
-    //   },
-    //   error: (err) =>
-    //     this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    // });
+    form.value.withoutPagination = 0;
+    this._OperationService.filterOperationReport(form.value).subscribe({
+      next: (res) => {
+        this.filterModal = false;
+        // this.reports = res.data.data;
+        this.reports = res.data;
+        // this.pagination = res.data;
+        this.setFilterForm();
+        this.filterStatus = true;
+        this.pagination = null;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  exportLeadsWithFilter() {
+    let filteredRows = [];
+    this.reports.forEach((e) => {
+      filteredRows.push(e.id);
+    });
+    this._OperationService
+      .exportWithFilter({ operationIds: filteredRows })
+      .subscribe({
+        next: (res) => {
+          const link = document.createElement("a");
+          link.href = res.data;
+          link.click();
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
   }
 
   // gearType: any[] = [];
@@ -225,13 +251,45 @@ export class OperationReportComponent implements OnInit {
   //   });
   // }
 
-  // users: Array<any> = [];
+  users: Array<any> = [];
 
-  // getAdmins() {
-  //   this._UsersService.getAdmins().subscribe({
-  //     next: (res) => (this.users = res.data),
-  //     error: (err) =>
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
-  //   });
-  // }
+  getAdmins() {
+    this._UsersService.getAdmins().subscribe({
+      next: (res) => (this.users = res.data),
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
+
+  cars: any[] = [];
+  plate_no: any[] = [];
+  getCars() {
+    this._OurCarService.getOurCarsWithoutPagination().subscribe({
+      next: (res) => {
+        // this.cars = res.data;
+        res.data.forEach((e: any) => {
+          this.cars.push({
+            name: e.name,
+            id: e.id,
+          });
+
+          this.plate_no.push({
+            name: e.plate_no,
+            id: e.plate_no,
+          });
+        });
+      },
+    });
+  }
+
+  area: any[] = [];
+  getArea() {
+    this._OperationService.getAreaWithoutPagination().subscribe({
+      next: (res) => {
+        this.area = res.data;
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
+  }
 }

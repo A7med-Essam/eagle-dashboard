@@ -132,6 +132,7 @@ export class LeadsComponent implements OnInit {
   resetFilter() {
     this.getAllLeads();
     this.filterStatus = false;
+    this.setFilterForm();
   }
 
   getLeadById(id: any) {

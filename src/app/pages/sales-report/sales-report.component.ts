@@ -140,6 +140,7 @@ export class SalesReportComponent {
   }
 
   resetFilter() {
+    this.setFilterForm();
     this.getReports();
   }
 

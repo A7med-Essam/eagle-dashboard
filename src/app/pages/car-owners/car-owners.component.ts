@@ -224,6 +224,7 @@ export class CarOwnersComponent implements OnInit {
 
   resetFilter() {
     this.getCars();
+    this.setFilterForm();
   }
 
   // Pagination

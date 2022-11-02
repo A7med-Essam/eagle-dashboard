@@ -4,10 +4,16 @@
             <div class="card-header d-flex justify-content-between">
                 <h4 class="card-title">Sales Report Table</h4>
                 <div class="text-center">
-                    <!-- <button class="btn btn-primary m-1" (click)="filterModal = true">
+                    <button class="btn btn-primary m-1" *ngIf="filterStatus" (click)="exportLeadsWithFilter()">
+                        <i class="fa-regular fa-file-excel"></i>
+                        Export With Filteration
+                    </button>
+
+                    <button class="btn btn-primary m-1" (click)="filterModal = true">
                         <i class="fa-solid fa-filter"></i>
                         Filter
-                    </button> -->
+                    </button>
+
                     <button class="btn btn-primary m-1" (click)="export()">
                         <i class="fa-regular fa-file-excel"></i>
                         Export
@@ -141,11 +147,11 @@
     </div>
 </div>
 
-<!-- <p-dialog header="Filter Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+<p-dialog header="Filter Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
     [resizable]="false">
     <form [formGroup]='filterForm' (ngSubmit)='filter(filterForm)' id="filterForm">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>Agent</label>
                     <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='admin_id'
@@ -154,6 +160,30 @@
                 </div>
             </div>
             <div class="col-md-6">
+                <div class="form-group">
+                    <label>Cars</label>
+                    <p-dropdown [options]="cars" optionLabel="name" styleClass="w-100" formControlName='car_id'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Plate Number</label>
+                    <p-dropdown [options]="plate_no" optionLabel="name" styleClass="w-100" formControlName='plate_no'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Area</label>
+                    <p-dropdown [options]="area" optionLabel="name" styleClass="w-100" formControlName='area'
+                        placeholder="Select Agent" filter="true" appendTo="body" optionValue="name">
+                    </p-dropdown>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
                 <div class="form-group">
                     <label>Date From</label>
                     <br>
@@ -168,11 +198,11 @@
                     <p-calendar formControlName="to" appendTo="body" placeholder="Select Issue Date"
                         [style]="{'width':'100%'}"></p-calendar>
                 </div>
-            </div>
+            </div> -->
         </div>
     </form>
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" form="filterForm">Apply</button>
         <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
     </ng-template>
-</p-dialog> -->
+</p-dialog>

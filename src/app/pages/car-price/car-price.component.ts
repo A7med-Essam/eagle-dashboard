@@ -204,6 +204,7 @@ export class CarPriceComponent implements OnInit {
 
   resetFilter() {
     this.getCarPrice();
+    this.setFilterForm();
   }
 
   displayAddModal() {

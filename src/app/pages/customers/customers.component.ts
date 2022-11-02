@@ -209,6 +209,7 @@ export class CustomersComponent implements OnInit {
   }
 
   resetFilter() {
+    this.setFilterForm();
     this.getCustomers();
   }
 
