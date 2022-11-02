@@ -8,6 +8,10 @@
             <i class="fa-solid fa-filter"></i>
             Filter
           </button>
+          <button class="btn btn-primary m-1" *ngIf="filterStatus" (click)="exportLeadsWithFilter()">
+            <i class="fa-regular fa-file-excel"></i>
+            Export With Filteration
+          </button>
           <button class="btn btn-primary m-1" (click)="exportLeads()">
             <i class="fa-regular fa-file-excel"></i>
             Export

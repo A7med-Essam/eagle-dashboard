@@ -44,7 +44,11 @@ export class LeadsService {
     return this._ApiService.getReq("leads", filter);
   }
 
-  exportLeads() {
+  exportLeads(): Observable<any> {
     return this._ApiService.postReq("lead/exportLeads", "");
+  }
+
+  exportLeadsWithFilter(filter): Observable<any> {
+    return this._ApiService.postReq("lead/printLeads", filter);
   }
 }

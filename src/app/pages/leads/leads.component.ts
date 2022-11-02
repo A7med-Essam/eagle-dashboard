@@ -131,6 +131,7 @@ export class LeadsComponent implements OnInit {
 
   resetFilter() {
     this.getAllLeads();
+    this.filterStatus = false;
   }
 
   getLeadById(id: any) {
@@ -236,6 +237,7 @@ export class LeadsComponent implements OnInit {
     });
   }
 
+  filterStatus = false;
   filterLeads(form: any) {
     if (!form.value.issue_date) delete form.value.issue_date;
     else {
@@ -260,12 +262,16 @@ export class LeadsComponent implements OnInit {
     if (!form.value.kilometer) delete form.value.kilometer;
     if (!form.value.insurance) delete form.value.insurance;
     if (!form.value.car_subtype_id) delete form.value.car_subtype_id;
-
+    form.value.withoutPagination = 0;
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;
-        this.leads = res.data.data;
-        this.pagination = res.data;
+        // this.leads = res.data.data;
+        this.leads = res.data;
+        // this.pagination = res.data;
+        this.pagination = null;
+        // this.currentFilter = form.value;
+        this.filterStatus = true;
         this.setFilterForm();
       },
       error: (err) =>
@@ -283,6 +289,24 @@ export class LeadsComponent implements OnInit {
       error: (err) =>
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
+  }
+
+  exportLeadsWithFilter() {
+    let filteredRows = [];
+    this.leads.forEach((e) => {
+      filteredRows.push(e.id);
+    });
+    this._LeadsService
+      .exportLeadsWithFilter({ leadIds: filteredRows })
+      .subscribe({
+        next: (res) => {
+          const link = document.createElement("a");
+          link.href = res.data;
+          link.click();
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
   }
 
   getAllReplies(id: number) {
