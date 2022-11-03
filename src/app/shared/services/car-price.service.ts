@@ -35,8 +35,9 @@ export class CarPriceService {
   }
 
   export(): Observable<any> {
-    // TODO: need export end point
-    return this._ApiService.postReq("ourCars/printCarExpectedPrices", "");
+    return this._ApiService.postReq("ourCars/printCarExpectedPrices", {
+      all: "",
+    });
   }
 
   exportWithFilter(filter): Observable<any> {

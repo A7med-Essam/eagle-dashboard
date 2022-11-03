@@ -144,4 +144,14 @@ export class EmployeeService {
   uploadFiles(file): Observable<any> {
     return this._ApiService.postReq(`employees/uploadFiles`, file);
   }
+
+  deleteFiles(file_id): Observable<any> {
+    return this._ApiService.postReq(`employees/files/delete`, {
+      file_id: file_id,
+    });
+  }
+
+  updateFiles(file): Observable<any> {
+    return this._ApiService.postReq(`employees/files/update`, file);
+  }
 }

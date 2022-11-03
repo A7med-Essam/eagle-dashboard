@@ -652,11 +652,10 @@ export class OurCarsComponent implements OnInit {
   //   }, 800);
   // }
 
-  uploadModal1: boolean = false;
-  uploadModal2: boolean = false;
-
   // ==========================================================================
   // Upload while edit car
+  uploadModal1: boolean = false;
+  uploadModal2: boolean = false;
   updateImage(imageId) {
     let input: HTMLInputElement = document.createElement("input");
     input.type = "file";
@@ -742,7 +741,7 @@ export class OurCarsComponent implements OnInit {
           })
           .subscribe({
             next: (res) => {
-              // BUG: not uploaded && response img not files
+              this.selectedRow.files = res.data.files;
               this.uploadModal1 = false;
               this.uploadModal2 = false;
               this._ToastrService.setToaster(

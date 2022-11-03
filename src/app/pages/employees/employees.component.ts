@@ -64,6 +64,13 @@ export class EmployeesComponent implements OnInit {
       { name: "Active", value: "ACTIVE" },
       { name: "Deactive", value: "DEACTIVE" },
     ];
+
+    this.uploadTypes = [
+      { name: "Passport", value: "passport" },
+      { name: "Qualification", value: "qualification" },
+      { name: "Military Certification", value: "military" },
+      { name: "National Id", value: "national" },
+    ];
   }
 
   ngOnInit() {
@@ -96,7 +103,8 @@ export class EmployeesComponent implements OnInit {
     this._EmployeeService.createEmployees(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this.getEmployees();
+          // this.getEmployees();
+          this.employees.push(res.data);
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInEmployeesTable();
@@ -185,6 +193,8 @@ export class EmployeesComponent implements OnInit {
       no_kids: new FormControl(emp?.no_kids),
       salary: new FormControl(emp?.salary),
       qualification: new FormControl(emp?.qualification),
+      files: new FormControl(null),
+      type: new FormControl(null),
     });
   }
 
@@ -600,6 +610,198 @@ export class EmployeesComponent implements OnInit {
       accept: () => {
         this.deleteReligions(id);
       },
+    });
+  }
+
+  // UPLOAD FILES ************************************
+  // ==========================================================================
+  // Upload while edit car
+  uploadModal1: boolean = false;
+  uploadModal2: boolean = false;
+  uploadModal3: boolean = false;
+  uploadModal4: boolean = false;
+  updateImage(imageId, type) {
+    let input: HTMLInputElement = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    let base64: any = null;
+    input.onchange = () => {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          if (e.target) {
+            base64 = e.target;
+          }
+        };
+        reader.readAsDataURL(input.files[0]);
+        setTimeout(() => {
+          this._EmployeeService
+            .updateFiles({
+              image: base64?.result,
+              file_id: imageId,
+              type: type,
+            })
+            .subscribe({
+              next: (res) => {
+                if (res.status == 1) {
+                  this.uploadModal1 = false;
+                  this.uploadModal2 = false;
+                  this.selectedRow.files.map((e) => {
+                    if (e.id == res.data.id) e.image = res.data.image;
+                  });
+                }
+              },
+            });
+        }, 1);
+      }
+    };
+    input.click();
+  }
+
+  addNewImage(type: string) {
+    let input: HTMLInputElement = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    input.click();
+    input.onchange = () => {
+      if (input.files && input.files[0]) {
+        this.uploadDocuments(type, input.files);
+      }
+    };
+  }
+
+  uploadDocuments = async (type, files: FileList) => {
+    let base64: any[] = [];
+    const FILES = Array.from(files);
+    const filePromises = FILES.map((file) => {
+      // Return a promise per file
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+            const response = await base64.push(e.target.result);
+            resolve(response);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        reader.onerror = (error) => {
+          reject(error);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    const fileInfos = await Promise.all(filePromises);
+
+    setTimeout(() => {
+      if (base64.length != 0) {
+        // let img;
+        // if (type == "document") {
+        //   img = { car_files: base64, car_id: this.selectedRow.id };
+        // } else {
+        //   img = { car_images: base64, car_id: this.selectedRow.id };
+        // }
+        this._EmployeeService
+          .uploadFiles({
+            files: base64,
+            employee_id: this.selectedRow.id,
+            type: type,
+          })
+          .subscribe({
+            next: (res) => {
+              this.uploadModal1 = false;
+              this.uploadModal2 = false;
+              this.uploadModal3 = false;
+              this.uploadModal4 = false;
+              this.selectedRow.files = res.data.files;
+              this._ToastrService.setToaster(
+                "Files Uploaded Successfully",
+                "info",
+                "info"
+              );
+            },
+          });
+      } else {
+        this._ToastrService.setToaster(
+          "Error Occurred While Uploading",
+          "warning",
+          "warning"
+        );
+      }
+    }, 1);
+
+    // return base64;
+  };
+
+  deleteImage(id) {
+    this._EmployeeService.deleteFiles(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.selectedRow.files.map((img) => {
+          if (img.id == id) {
+            const index = this.selectedRow.files.indexOf(img);
+            this.selectedRow.files.splice(index, 1);
+          }
+        });
+        this.uploadModal1 = false;
+        this.uploadModal2 = false;
+      },
+    });
+  }
+
+  // ==========================================================================
+  // Upload while create car
+  uploadTypes;
+  uploadModal: boolean = false;
+  uploadedFiles: any[] = [];
+  currentUploadedType;
+  displayUpload(type) {
+    this.currentUploadedType = type;
+    this.uploadModal = true;
+  }
+
+  uploadImage(event: any, uploadedImage) {
+    let images = [];
+    event.files.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        this.employeesForm.patchValue({
+          files: images,
+          type: this.currentUploadedType,
+        });
+        this.uploadModal = false;
+        uploadedImage.files = [];
+      };
+    });
+    this._ToastrService.setToaster(
+      "File Uploaded Successfully",
+      "info",
+      "info"
+    );
+  }
+
+  removeImage(removedImage, event) {
+    let remainImages: any[] = [];
+    event.files.forEach((e) => {
+      if (e.name != removedImage.file.name) {
+        remainImages.push(e);
+      }
+    });
+
+    let images = [];
+    remainImages.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        this.employeesForm.patchValue({
+          files: null,
+        });
+      };
     });
   }
 }

@@ -232,8 +232,14 @@ export class CarPriceComponent implements OnInit {
   filterStatus: boolean = false;
   export() {
     this._CarPriceService.export().subscribe({
-      next: (res) =>
-        this._ToastrService.setToaster(res.message, "success", "success"),
+      next: (res) => {
+        const link = document.createElement("a");
+        link.href = res.data;
+        link.click();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
 
