@@ -9,6 +9,7 @@ import { CustomerService } from "app/shared/services/customer.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { ConfirmationService } from "primeng/api";
+import { FileUpload } from "primeng/fileupload";
 
 @Component({
   selector: "app-customers",
@@ -230,4 +231,51 @@ export class CustomersComponent implements OnInit {
         this._ToastrService.setToaster(err.error.message, "error", "danger"),
     });
   }
+
+  // ***************************************************************
+
+  // uploadedFiles: any[] = [];
+  uploadModal1: boolean = false;
+  uploadModal2: boolean = false;
+
+  uploadNationalID(e: FileUpload, type: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      const currentType = type == "front" ? "national_front" : "national_back";
+      const IMG = {
+        customer_id: this.selectedRow.id,
+        files: [reader.result],
+        type: currentType,
+      };
+      this._CustomerService.uploadFiles(IMG).subscribe({
+        next: (res) => {
+          this.uploadModal1 = false;
+          this.uploadModal2 = false;
+          this.selectedRow = res.data;
+          e._files = null;
+        },
+      });
+    };
+  }
+
+  // uploadBackID(e: HTMLInputElement) {
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(e.files[0]);
+  //   reader.onload = () => {
+  //     // this.selectedRow.national_back_image = reader.result;
+  //     // this.selectedRow.customer_id = this.selectedRow.id;
+  //     const IMG = {
+  //       customer_id: this.selectedRow.id,
+  //       files: [reader.result],
+  //       type: "national_back",
+  //     };
+  //     this._CustomerService.uploadFiles(IMG).subscribe({
+  //       next: (res) => {
+  //         this.uploadModal2 = false;
+  //         this.selectedRow = res.data;
+  //       },
+  //     });
+  //   };
+  // }
 }

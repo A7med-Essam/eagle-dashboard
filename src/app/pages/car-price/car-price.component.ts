@@ -185,6 +185,7 @@ export class CarPriceComponent implements OnInit {
         this.filterModal = false;
         this.carPrice = res.data.data;
         this.pagination = res.data;
+        this.filterStatus = true;
         this.setFilterForm();
       },
       error: (err) =>
@@ -226,5 +227,31 @@ export class CarPriceComponent implements OnInit {
       next: (res) =>
         this._ToastrService.setToaster(res.message, "success", "success"),
     });
+  }
+
+  filterStatus: boolean = false;
+  export() {
+    this._CarPriceService.export().subscribe({
+      next: (res) =>
+        this._ToastrService.setToaster(res.message, "success", "success"),
+    });
+  }
+
+  exportWithFilter() {
+    let filteredRows = [];
+    this.carPrice.forEach((e) => {
+      filteredRows.push(e.id);
+    });
+    this._CarPriceService
+      .exportWithFilter({ carPriceIds: filteredRows })
+      .subscribe({
+        next: (res) => {
+          const link = document.createElement("a");
+          link.href = res.data;
+          link.click();
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
   }
 }

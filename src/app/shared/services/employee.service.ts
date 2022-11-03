@@ -140,4 +140,8 @@ export class EmployeeService {
       religion_id: religion_id,
     });
   }
+
+  uploadFiles(file): Observable<any> {
+    return this._ApiService.postReq(`employees/uploadFiles`, file);
+  }
 }

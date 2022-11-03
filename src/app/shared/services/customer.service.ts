@@ -47,4 +47,8 @@ export class CustomerService {
   getCustomersWithoutPagination(): Observable<any> {
     return this._ApiService.postReq(`customers`, { withoutPagination: "true" });
   }
+
+  uploadFiles(file): Observable<any> {
+    return this._ApiService.postReq(`customers/uploadFiles`, file);
+  }
 }

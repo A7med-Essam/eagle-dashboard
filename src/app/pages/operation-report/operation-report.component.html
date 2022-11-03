@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h4 class="card-title">Sales Report Table</h4>
+                <h4 class="card-title">Operation Report Table</h4>
                 <div class="text-center">
                     <button class="btn btn-primary m-1" *ngIf="filterStatus" (click)="exportLeadsWithFilter()">
                         <i class="fa-regular fa-file-excel"></i>
@@ -27,6 +27,8 @@
                             <th>#</th>
                             <th>Issue Date</th>
                             <th>Agent</th>
+                            <th>Kilometer</th>
+                            <th>Area</th>
                             <th>Action</th>
                         </thead>
                         <tbody class="text-center">
@@ -34,6 +36,8 @@
                                 <td>{{i+1}}</td>
                                 <td>{{report.created_at | date}}</td>
                                 <td>{{report.user.name}}</td>
+                                <td>{{report.kilometer_out - report.kilometer_in}}</td>
+                                <td>{{report.area}}</td>
                                 <td>
                                     <button class="btn btn-primary m-1 px-3" (click)="getById(report.id);"><i
                                             class="fa-regular fa-eye"></i></button>
@@ -57,7 +61,7 @@
                 <div class="col-md-12">
                     <div class="card card-plain">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">Sales Report Info</h4>
+                            <h4 class="card-title">Operation Report Info</h4>
                             <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
                         </div>
                         <div class="card-body">
@@ -74,24 +78,24 @@
                                         </tr>
                                         <tr>
                                             <td>Admin Name</td>
-                                            <td>{{selectedRow?.user.name}}</td>
+                                            <td>{{selectedRow?.user?.name}}</td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td>Admin email</td>
                                             <td>{{selectedRow?.user.email}}</td>
                                         </tr>
                                         <tr>
                                             <td>Admin Role</td>
                                             <td>{{selectedRow?.user.my_role}}</td>
-                                        </tr>
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>Operation Log - latitude</td>
                                             <td>{{selectedRow?.lat}}</td>
                                         </tr>
                                         <tr>
                                             <td>Operation Log - longitude</td>
                                             <td>{{selectedRow?.lang}}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td>Operation Log - kilometer in</td>
                                             <td>{{selectedRow?.kilometer_in}}</td>
@@ -109,32 +113,73 @@
                                             <td>{{selectedRow?.contract?.status}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Contract - fromDate</td>
-                                            <td>{{selectedRow?.contract?.fromDate | date}}</td>
+                                            <td>Contract ( From - To )</td>
+                                            <td>{{selectedRow?.contract?.fromDate | date}} -
+                                                {{selectedRow?.contract?.toDate | date}}</td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td>Contract - toDate</td>
                                             <td>{{selectedRow?.contract?.toDate | date}}</td>
-                                        </tr>
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>Contract - created at</td>
                                             <td>{{selectedRow?.contract?.created_at | date}}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td>Contract - customer name</td>
-                                            <td>{{selectedRow?.contract?.customer.name}}</td>
+                                            <td>{{selectedRow?.contract?.customer?.name}}</td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td>Contract - customer mobile</td>
-                                            <td>{{selectedRow?.contract?.customer.mobile}}</td>
+                                            <td>{{selectedRow?.contract?.customer?.mobile}}</td>
                                         </tr>
                                         <tr>
                                             <td>Contract - customer national id</td>
-                                            <td>{{selectedRow?.contract?.customer.nid}}</td>
+                                            <td>{{selectedRow?.contract?.customer?.nid}}</td>
                                         </tr>
                                         <tr>
                                             <td>Contract - customer address</td>
-                                            <td>{{selectedRow?.contract?.customer.address}}</td>
+                                            <td>{{selectedRow?.contract?.customer?.address}}</td>
+                                        </tr> -->
+
+
+
+                                        <tr>
+                                            <td>Car Name</td>
+                                            <td>{{selectedRow?.contract?.car?.name}} -
+                                                {{selectedRow?.contract?.car?.sub_car?.car_model}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Color</td>
+                                            <td>{{selectedRow?.contract?.car?.color}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Grade</td>
+                                            <td>{{selectedRow?.contract?.car?.grade}}</td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td>Car Chassis number</td>
+                                            <td>{{selectedRow?.contract?.car?.chassis_no}}</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>Car Kilometer</td>
+                                            <td>{{selectedRow?.contract?.car?.kilometer}}</td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td>Car License end</td>
+                                            <td>{{selectedRow?.contract?.car?.license_end | date}}</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>Car Model</td>
+                                            <td>{{selectedRow?.contract?.car?.model}}</td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td>Car Motor number</td>
+                                            <td>{{selectedRow?.contract?.car?.motor_no}}</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>Car Plate Number</td>
+                                            <td>{{selectedRow?.contract?.car?.plate_no}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -206,3 +251,6 @@
         <button class="btn btn-danger m-1" (click)="resetFilter();filterModal=false">Reset Filter</button>
     </ng-template>
 </p-dialog>
+
+<!-- TODO: upload img in employee -->
+<!-- TODO: display car onwer in operation report -->

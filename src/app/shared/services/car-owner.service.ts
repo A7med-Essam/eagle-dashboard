@@ -47,4 +47,8 @@ export class CarOwnerService {
   getOwnersWithoutPagination(): Observable<any> {
     return this._ApiService.postReq(`owners`, { withoutPagination: "true" });
   }
+
+  uploadFiles(file): Observable<any> {
+    return this._ApiService.postReq(`owners/uploadFiles`, file);
+  }
 }

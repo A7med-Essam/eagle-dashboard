@@ -8,7 +8,14 @@
                     <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="filterModal = true">
                         <small><b>Filter</b></small>
                     </button>
+                    <button class="btn btn-primary m-1" style="padding: 6px 12px;" *ngIf="filterStatus"
+                        (click)="exportWithFilter()">
+                        <small><b>Export With Filteration</b></small>
+                    </button>
 
+                    <button class="btn btn-primary m-1" style="padding: 6px 12px;" (click)="export()">
+                        <small><b>Export</b></small>
+                    </button>
                     <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="displayAddModal();">
                         <small><b>Add</b></small>
                     </button>
@@ -310,7 +317,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <label>Car SubType</label>
                     </div>
-                    <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100"
+                    <p-dropdown [options]="carSub" optionLabel="car_model" styleClass="w-100" appendTo="body"
                         formControlName='car_subtype_id' placeholder="Select Car SubType" filter="true"
                         optionValue="id">
                     </p-dropdown>

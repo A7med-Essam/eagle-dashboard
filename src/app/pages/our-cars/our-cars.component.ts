@@ -64,6 +64,11 @@ export class OurCarsComponent implements OnInit {
       { name: "Completed", value: "completed" },
       { name: "In Garage", value: "inGarage" },
     ];
+
+    this.uploadTypes = [
+      { name: "cars", value: "cars" },
+      { name: "contract", value: "contract" },
+    ];
   }
 
   ngOnInit() {
@@ -124,7 +129,8 @@ export class OurCarsComponent implements OnInit {
     this._OurCarService.createOurCars(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {
-          this.getOurCars();
+          // this.getOurCars();
+          this.ourCars.unshift(res.data);
           this._ToastrService.setToaster(res.message, "success", "success");
           this._SharedService.fadeOut(this.CreateForm.nativeElement);
           this.fadeInOurCarsTable();
@@ -200,8 +206,10 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
       kilometer: new FormControl(car?.kilometer, [Validators.required]),
-      car_images: new FormControl(null),
-      car_files: new FormControl(null),
+      // car_images: new FormControl(null),
+      // car_files: new FormControl(null),
+      files: new FormControl(null),
+      type: new FormControl(null),
       car_subtype_id: new FormControl(car?.sub_car?.id, [Validators.required]),
     });
   }
@@ -260,7 +268,6 @@ export class OurCarsComponent implements OnInit {
     //   const [id] = this.carName.filter((c) => {
     //     c.name == car.name ? c.id : 0;
     //   });
-    //   console.log(id);
     // }
     this._SharedService.fadeOut(this.Main.nativeElement);
     setTimeout(() => {
@@ -363,7 +370,6 @@ export class OurCarsComponent implements OnInit {
     const usersId =
       this.AssignUsersForm.nativeElement.querySelectorAll("input");
     const leadUsers = contract.assign;
-    console.log(contract);
     const formArray: FormArray = this.AssignForm.get("user_ids") as FormArray;
     if (leadUsers) {
       this.assignModal = true;
@@ -544,7 +550,6 @@ export class OurCarsComponent implements OnInit {
           //     //   logs: [],
           //     // };
           //     d.contracts.push(res.data);
-          //     console.log(d.contracts);
           //   }
           // });
           const [CUSTOMER] = this.customers.filter(
@@ -567,7 +572,6 @@ export class OurCarsComponent implements OnInit {
     //     .toLocaleString("en-GB", { timeZone: "UTC" })
     //     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2"),
     // });
-    // console.log(form);
   }
 
   getOwners() {
@@ -620,93 +624,39 @@ export class OurCarsComponent implements OnInit {
     });
   }
 
-  // Upload
-  uploadProccess(event, element, status: string) {
-    let uploadedFile: any[] = [];
-    for (let file of event?.files) {
-      uploadedFile.push(file);
-    }
+  // uploadProccess(event, element, status: string) {
+  //   let uploadedFile: any[] = [];
+  //   for (let file of event?.files) {
+  //     uploadedFile.push(file);
+  //   }
 
-    if (status == "car_images") {
-      this.ourCarsForm.patchValue({
-        car_images: uploadedFile,
-      });
-      this.ourCarsForm.get("car_images").updateValueAndValidity();
-    } else {
-      this.ourCarsForm.patchValue({
-        car_files: uploadedFile,
-      });
-    }
+  //   if (status == "car_images") {
+  //     this.ourCarsForm.patchValue({
+  //       car_images: uploadedFile,
+  //     });
+  //     this.ourCarsForm.get("car_images").updateValueAndValidity();
+  //   } else {
+  //     this.ourCarsForm.patchValue({
+  //       car_files: uploadedFile,
+  //     });
+  //   }
 
-    this._ToastrService.setToaster(
-      uploadedFile.length + " Files Uploaded Successfully",
-      "info",
-      "info"
-    );
+  //   this._ToastrService.setToaster(
+  //     uploadedFile.length + " Files Uploaded Successfully",
+  //     "info",
+  //     "info"
+  //   );
 
-    setTimeout(() => {
-      element.clear();
-    }, 800);
-  }
+  //   setTimeout(() => {
+  //     element.clear();
+  //   }, 800);
+  // }
 
-  uploadedFiles: any[] = [];
   uploadModal1: boolean = false;
   uploadModal2: boolean = false;
 
-  uploadImage(event: any, status: string) {
-    let images = [];
-    event.files.forEach((e) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(e);
-      reader.onload = () => {
-        images.push(reader.result);
-        if (status == "car_images") {
-          this.ourCarsForm.patchValue({
-            car_images: images,
-          });
-        } else if (status == "car_files") {
-          this.ourCarsForm.patchValue({
-            car_files: images,
-          });
-        }
-      };
-    });
-    this._ToastrService.setToaster(
-      "File Uploaded Successfully",
-      "info",
-      "info"
-    );
-  }
-
-  removeImage(removedImage, event, status: string) {
-    let remainImages: any[] = [];
-    event.files.forEach((e) => {
-      if (e.name != removedImage.file.name) {
-        remainImages.push(e);
-      }
-    });
-
-    let images = [];
-    remainImages.forEach((e) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(e);
-      reader.onload = () => {
-        images.push(reader.result);
-        if (status == "car_images") {
-          this.ourCarsForm.patchValue({
-            car_images: images,
-          });
-        } else if (status == "car_files") {
-          this.ourCarsForm.patchValue({
-            car_files: images,
-          });
-        }
-      };
-    });
-  }
-
   // ==========================================================================
-
+  // Upload while edit car
   updateImage(imageId) {
     let input: HTMLInputElement = document.createElement("input");
     input.type = "file";
@@ -723,7 +673,7 @@ export class OurCarsComponent implements OnInit {
         reader.readAsDataURL(input.files[0]);
         setTimeout(() => {
           this._OurCarService
-            .updateImage({ image: base64.result, file_id: imageId })
+            .updateImage({ image: base64?.result, file_id: imageId })
             .subscribe({
               next: (res) => {
                 this.uploadModal1 = false;
@@ -738,54 +688,6 @@ export class OurCarsComponent implements OnInit {
     };
     input.click();
   }
-
-  // addNewImage(type: string) {
-  //   let input: HTMLInputElement = document.createElement("input");
-  //   input.type = "file";
-  //   input.accept = "image/*";
-  //   input.multiple = true;
-  //   let base64: any[] = [];
-  //   input.onchange = async () => {
-  //     if (input.files && input.files[0]) {
-  //       for (let i = 0; i < input.files.length; i++) {
-  //         var reader = new FileReader();
-  //         reader.onload = (e) => {
-  //           // if (e.target) base64.push(e.target.result);
-  //         };
-  //         reader.readAsDataURL(input.files[i]);
-  //       }
-  // setTimeout(() => {
-  //   if (base64.length != 0) {
-  //     let img;
-  //     if (type == "document") {
-  //       img = { car_files: base64, car_id: this.selectedRow.id };
-  //     } else {
-  //       img = { car_images: base64, car_id: this.selectedRow.id };
-  //     }
-  //     this._OurCarService.uploadImage(img).subscribe({
-  //       next: (res) => {
-  //         this.uploadModal1 = false;
-  //         this.uploadModal2 = false;
-  //         this._ToastrService.setToaster(
-  //           "Files Uploaded Successfully",
-  //           "info",
-  //           "info"
-  //         );
-  //       },
-  //     });
-  //   } else {
-  //     this._ToastrService.setToaster(
-  //       "Error Occurred While Uploading",
-  //       "warning",
-  //       "warning"
-  //     );
-  //   }
-  // }, 1);
-  //     }
-  //   };
-
-  //   input.click();
-  // }
 
   addNewImage(type: string) {
     let input: HTMLInputElement = document.createElement("input");
@@ -823,27 +725,33 @@ export class OurCarsComponent implements OnInit {
     });
 
     const fileInfos = await Promise.all(filePromises);
-    console.log(fileInfos);
 
     setTimeout(() => {
       if (base64.length != 0) {
-        let img;
-        if (type == "document") {
-          img = { car_files: base64, car_id: this.selectedRow.id };
-        } else {
-          img = { car_images: base64, car_id: this.selectedRow.id };
-        }
-        this._OurCarService.uploadImage(img).subscribe({
-          next: (res) => {
-            this.uploadModal1 = false;
-            this.uploadModal2 = false;
-            this._ToastrService.setToaster(
-              "Files Uploaded Successfully",
-              "info",
-              "info"
-            );
-          },
-        });
+        // let img;
+        // if (type == "document") {
+        //   img = { car_files: base64, car_id: this.selectedRow.id };
+        // } else {
+        //   img = { car_images: base64, car_id: this.selectedRow.id };
+        // }
+        this._OurCarService
+          .uploadImage({
+            files: base64,
+            car_id: this.selectedRow.id,
+            type: type,
+          })
+          .subscribe({
+            next: (res) => {
+              // BUG: not uploaded && response img not files
+              this.uploadModal1 = false;
+              this.uploadModal2 = false;
+              this._ToastrService.setToaster(
+                "Files Uploaded Successfully",
+                "info",
+                "info"
+              );
+            },
+          });
       } else {
         this._ToastrService.setToaster(
           "Error Occurred While Uploading",
@@ -869,6 +777,60 @@ export class OurCarsComponent implements OnInit {
         this.uploadModal1 = false;
         this.uploadModal2 = false;
       },
+    });
+  }
+
+  // ==========================================================================
+  // Upload while create car
+  uploadTypes;
+  uploadModal: boolean = false;
+  uploadedFiles: any[] = [];
+  currentUploadedType;
+  displayUpload(type) {
+    this.currentUploadedType = type;
+    this.uploadModal = true;
+  }
+
+  uploadImage(event: any, uploadedImage) {
+    let images = [];
+    event.files.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        this.ourCarsForm.patchValue({
+          files: images,
+          type: this.currentUploadedType,
+        });
+        this.uploadModal = false;
+        uploadedImage.files = [];
+      };
+    });
+    this._ToastrService.setToaster(
+      "File Uploaded Successfully",
+      "info",
+      "info"
+    );
+  }
+
+  removeImage(removedImage, event) {
+    let remainImages: any[] = [];
+    event.files.forEach((e) => {
+      if (e.name != removedImage.file.name) {
+        remainImages.push(e);
+      }
+    });
+
+    let images = [];
+    remainImages.forEach((e) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        images.push(reader.result);
+        this.ourCarsForm.patchValue({
+          files: null,
+        });
+      };
     });
   }
 }

@@ -88,6 +88,56 @@
                                             <td>Customer National Id</td>
                                             <td>{{selectedRow?.nid}}</td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <div>Owner National Id Front Image</div>
+                                                <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
+                                                    (click)="uploadModal1 = true">
+                                                    <small><b>Update</b> <i
+                                                            class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let file of selectedRow?.files;">
+                                                    <p-image *ngIf="file.type == 'national_front'" [src]="file?.image"
+                                                        alt=" National Id" width="50" height="50" [preview]="true">
+                                                    </p-image>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div>Owner National Id Back Image</div>
+                                                <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
+                                                    (click)="uploadModal2 = true">
+                                                    <small><b>Update</b> <i
+                                                            class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let file of selectedRow?.files;">
+                                                    <p-image *ngIf="file.type == 'national_back'" [src]="file?.image"
+                                                        alt=" National Id" width="50" height="50" [preview]="true">
+                                                    </p-image>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td>
+                                                <div>Owner National Id Back Image</div>
+                                                <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
+                                                    (click)="uploadModal2 = true">
+                                                    <small><b>Update</b> <i
+                                                            class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <p-image *ngIf="selectedRow?.national_back_image"
+                                                    [src]="selectedRow?.national_back_image" alt=" National Id"
+                                                    width="50" height="50" [preview]="true"></p-image>
+                                            </td>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -291,3 +341,32 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
+
+
+
+
+
+
+<!-- **************** -->
+
+<p-dialog header="Upload National Id (Front)" [(visible)]="uploadModal1" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="form-group">
+        <p-fileUpload #uploadFrontImage mode="basic" accept="image/*" maxFileSize="1000000"
+            chooseLabel="Upload National Id (Front)"></p-fileUpload>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadFrontImage,'front')">Upload</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Upload National Id (Back)" [(visible)]="uploadModal2" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="form-group">
+        <p-fileUpload #uploadBackImage mode="basic" accept="image/*" maxFileSize="1000000"
+            chooseLabel="Upload National Id (Back)"></p-fileUpload>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadBackImage,'back')">Upload</button>
+    </ng-template>
+</p-dialog>

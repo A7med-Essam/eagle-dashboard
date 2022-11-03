@@ -67,7 +67,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Our Cars Info</h4>
                             <div>
-                                <button class="btn btn-primary mx-1" *ngIf="selectedRow?.contracts.length != 0"
+                                <button class="btn btn-primary mx-1" *ngIf="selectedRow?.contracts?.length != 0"
                                     (click)="displayContractInfo()">Contract Info</button>
                                 <button class="btn btn-dark mx-1" (click)="backDetailsBtn()">Back</button>
                             </div>
@@ -156,7 +156,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <div>Car Files</div>
+                                                <div>Contract Images</div>
                                                 <button class="btn btn-info mx-1 mt-2" style="padding: 6px 12px;"
                                                     (click)="uploadModal1 = true">
                                                     <small><b>Update</b> <i
@@ -165,9 +165,10 @@
                                             </td>
                                             <td class="d-flex justify-content-start align-items-center flex-wrap">
                                                 <div *ngFor="let file of selectedRow?.files">
-                                                    <div *ngIf="file?.type == 'document'" class="mr-3">
-                                                        <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Files"
-                                                            width="50" height="50" [preview]="true"></p-image>
+                                                    <div *ngIf="file?.type == 'contract'" class="mr-3">
+                                                        <p-image *ngIf="file?.image" [src]="file?.image"
+                                                            alt="Car Contract" width="50" height="50" [preview]="true">
+                                                        </p-image>
                                                     </div>
                                                 </div>
                                             </td>
@@ -183,7 +184,7 @@
                                             </td>
                                             <td class="d-flex justify-content-start align-items-center flex-wrap">
                                                 <div *ngFor="let file of selectedRow?.files">
-                                                    <div *ngIf="file?.type == 'car'" class="mr-3">
+                                                    <div *ngIf="file?.type == 'cars'" class="mr-3">
                                                         <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Image"
                                                             width="50" height="50" [preview]="true"></p-image>
                                                     </div>
@@ -215,7 +216,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive overflow-auto" *ngIf="selectedRow?.contracts.length != 0">
+                            <div class="table-responsive overflow-auto" *ngIf="selectedRow?.contracts?.length != 0">
                                 <table class="table text-center">
                                     <thead class="text-muted">
                                         <th>#</th>
@@ -414,7 +415,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Car Images</label>
                                 <p-fileUpload (uploadHandler)="uploadImage($event,'car_images')" accept="image/*"
@@ -429,8 +430,16 @@
                                     </ng-template>
                                 </p-fileUpload>
                             </div>
+                        </div> -->
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Upload Type</label>
+                                <p-dropdown [options]="uploadTypes" optionLabel="name" styleClass="w-100" #SelectedType
+                                    (onChange)="displayUpload(SelectedType.selectedOption.value)"
+                                    placeholder="Select upload type" appendTo="body" optionValue="value"></p-dropdown>
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Car Files</label>
                                 <p-fileUpload (uploadHandler)="uploadImage($event,'car_files')" accept="image/*"
@@ -445,7 +454,7 @@
                                     </ng-template>
                                 </p-fileUpload>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="update ml-auto mr-auto">
@@ -809,10 +818,10 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Upload Car Files" [(visible)]="uploadModal1" [modal]="true" [style]="{width: '50vw'}"
+<p-dialog header="Upload Contract Files" [(visible)]="uploadModal1" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <div class="text-right">
-        <button class="btn btn-primary mx-1 mt-2" style="padding: 6px 12px;" (click)="addNewImage('document')">
+        <button class="btn btn-primary mx-1 mt-2" style="padding: 6px 12px;" (click)="addNewImage('contract')">
             <small><i class="fa-solid fa-plus mr-1"></i>Add New Image</small>
         </button>
     </div>
@@ -824,11 +833,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let file of selectedRow?.files">
-                    <td *ngIf="file?.type == 'document'" class="mr-3">
+                    <td *ngIf="file?.type == 'contract'" class="mr-3">
                         <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Files" width="50" height="50"
                             [preview]="true"></p-image>
                     </td>
-                    <td *ngIf="file?.type == 'document'" class="mr-3">
+                    <td *ngIf="file?.type == 'contract'" class="mr-3">
                         <button class="btn btn-info m-2" style="padding: 6px 12px;" (click)="updateImage(file?.id)">
                             <small><i class="fa-solid fa-cloud-arrow-up"></i></small>
                         </button>
@@ -846,7 +855,7 @@
 <p-dialog header="Upload Car Image" [(visible)]="uploadModal2" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <div class="text-right">
-        <button class="btn btn-primary mx-1 mt-2" style="padding: 6px 12px;" (click)="addNewImage('car_image')">
+        <button class="btn btn-primary mx-1 mt-2" style="padding: 6px 12px;" (click)="addNewImage('cars')">
             <small><i class="fa-solid fa-plus mr-1"></i>Add New Image</small>
         </button>
     </div>
@@ -858,11 +867,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let file of selectedRow?.files">
-                    <td *ngIf="file?.type == 'car'" class="mr-3">
+                    <td *ngIf="file?.type == 'cars'" class="mr-3">
                         <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Files" width="50" height="50"
                             [preview]="true"></p-image>
                     </td>
-                    <td *ngIf="file?.type == 'car'" class="mr-3">
+                    <td *ngIf="file?.type == 'cars'" class="mr-3">
                         <button class="btn btn-info m-2" style="padding: 6px 12px;" (click)="updateImage(file?.id)">
                             <small><i class="fa-solid fa-cloud-arrow-up"></i></small>
                         </button>
@@ -874,4 +883,18 @@
             </tbody>
         </table>
     </div>
+</p-dialog>
+
+<p-dialog header="Upload Files" [(visible)]="uploadModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <p-fileUpload (uploadHandler)="uploadImage($event,uploadedImage)" accept="image/*" [showCancelButton]="false"
+        [showUploadButton]='false' [auto]="true" #uploadedImage multiple="multiple" customUpload="true"
+        maxFileSize="1000000" (onRemove)="removeImage($event,uploadedImage)">
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles?.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
+                </li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
 </p-dialog>
