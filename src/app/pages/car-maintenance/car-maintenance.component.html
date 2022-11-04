@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row animated" #Main>
     <div class="col-12">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -14,9 +14,9 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Mobile</th>
-                        <th>Second Mobile</th>
-                        <th>Address</th>
-                        <th>Brands</th>
+                        <!-- <th>Second Mobile</th> -->
+                        <!-- <th>Address</th> -->
+                        <!-- <th>Brands</th> -->
                         <th>Action</th>
                     </thead>
                     <tbody class="text-center">
@@ -24,23 +24,26 @@
                             <td>{{i+1}}</td>
                             <td>{{maintenance.name}}</td>
                             <td>{{maintenance.mobile}}</td>
-                            <td>{{maintenance.phone}}</td>
-                            <td>{{maintenance.address}}</td>
-                            <td>
+                            <!-- <td>{{maintenance.phone}}</td> -->
+                            <!-- <td>{{maintenance.address}}</td> -->
+                            <!-- <td>
                                 <div *ngFor="let brand of maintenance.brands; let i = index">
                                     {{brand?.car?.car_name}}
                                     <i class="fa-regular fa-trash-can ml-2 text-danger pointer"
                                         (click)="deleteBrand(brand?.car?.id,maintenance.id)"></i>
                                 </div>
-                            </td>
+                            </td> -->
                             <td>
-                                <button class="btn btn-primary m-1" (click)="displayBrandModal(maintenance)">Add
-                                    Brand</button>
-                                <!-- <button class="btn btn-danger m-1" (click)="deleteBrand(maintenance)">Delete
-                                    Brand</button> -->
-                                <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)">Edit</button>
-                                <button class="btn btn-danger m-1"
-                                    (click)="deleteConfirm(maintenance.id)">Delete</button>
+                                <button class="btn btn-primary m-1" (click)="getById(maintenance.id)">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                                <button class="btn btn-info m-1" (click)="displayBrandModal(maintenance)">
+                                    Add Brand
+                                </button>
+                                <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn btn-danger m-1" (click)="deleteConfirm(maintenance.id)"><i
+                                        class="fa-regular fa-trash-can"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -48,6 +51,53 @@
                 <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
                     (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
                 </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Car Maintenances Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Second Mobile</td>
+                                            <td>{{selectedRow?.phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>{{selectedRow?.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brands</td>
+                                            <td>
+                                                <div *ngFor="let brand of selectedRow?.brands; let i = index">
+                                                    {{brand?.car?.car_name}}
+                                                    <i class="fa-regular fa-trash-can ml-2 text-danger pointer"
+                                                        (click)="deleteBrand(brand?.car?.id,maintenance.id)"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

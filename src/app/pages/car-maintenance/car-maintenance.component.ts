@@ -1,5 +1,5 @@
 import { CarMaintenanceService } from "app/shared/services/car-maintenance.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +9,7 @@ import {
 import { ToasterService } from "app/shared/services/toaster.service";
 import { ConfirmationService } from "primeng/api";
 import { CarService } from "app/shared/services/car.service";
+import { SharedService } from "app/shared/services/shared.service";
 
 @Component({
   selector: "app-car-maintenance",
@@ -29,6 +30,7 @@ export class CarMaintenanceComponent implements OnInit {
     private _CarMaintenanceService: CarMaintenanceService,
     private _ToastrService: ToasterService,
     private _FormBuilder: FormBuilder,
+    private _SharedService: SharedService,
     private _CarService: CarService,
     private _ConfirmationService: ConfirmationService
   ) {}
@@ -39,6 +41,9 @@ export class CarMaintenanceComponent implements OnInit {
     this.setMaintenanceForm();
   }
 
+  @ViewChild("Main") Main: any;
+  @ViewChild("Show") Show: any;
+
   getMaintenance(page = 1) {
     this._CarMaintenanceService.getMaintenances(page).subscribe({
       next: (res) => {
@@ -46,6 +51,30 @@ export class CarMaintenanceComponent implements OnInit {
         this.pagination = res.data;
       },
     });
+  }
+
+  backDetailsBtn() {
+    this._SharedService.fadeOut(this.Show.nativeElement);
+    this.fadeInTable();
+  }
+
+  fadeInTable() {
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Main.nativeElement);
+    }, 800);
+  }
+
+  selectedRow: any;
+  getById(id: any) {
+    [this.selectedRow] = this.maintenances.filter((c) => c.id == id);
+    this.displayDetails();
+  }
+
+  displayDetails() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
   }
 
   // Pagination
