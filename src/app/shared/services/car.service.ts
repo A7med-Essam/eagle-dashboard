@@ -88,7 +88,10 @@ export class CarService {
 
   // Sub Name
   getCarSub(car_name_id): Observable<any> {
-    return this._ApiService.postReq("carSubType", { car_name_id: car_name_id });
+    return this._ApiService.postReq("carSubType", {
+      car_name_id: car_name_id,
+      withoutPagination: "true",
+    });
   }
 
   createCarSub(car): Observable<any> {
