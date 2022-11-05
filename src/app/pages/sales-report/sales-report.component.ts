@@ -269,7 +269,6 @@ export class SalesReportComponent {
       }
     }
     if (!form.value.admin_id) delete form.value.admin_id;
-    console.log(form.value);
     this._SalesReportService.filterSalesReport(form.value).subscribe({
       next: (res) => {
         this.filterModal = false;

@@ -136,7 +136,6 @@ export class OperationReportComponent implements OnInit {
     if (!form.value.area) delete form.value.area;
     if (!form.value.plate_no) delete form.value.plate_no;
     if (!form.value.admin_id) delete form.value.admin_id;
-    // console.log(form.value);
     form.value.withoutPagination = 0;
     this._OperationService.filterOperationReport(form.value).subscribe({
       next: (res) => {

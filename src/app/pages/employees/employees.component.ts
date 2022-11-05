@@ -99,7 +99,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   createRow(form: any) {
-    console.log(form);
     this._EmployeeService.createEmployees(form.value).subscribe({
       next: (res) => {
         if (res.status == 1) {

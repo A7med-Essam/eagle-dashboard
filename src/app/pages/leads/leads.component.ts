@@ -116,11 +116,7 @@ export class LeadsComponent implements OnInit {
         this.pagination = res.data;
       },
       error: (err) => {
-        this._ToastrService.setToaster(
-          "You don't have permission to access this page",
-          "error",
-          "danger"
-        );
+        this._ToastrService.setToaster(err.error.message, "error", "danger");
       },
     });
   }
