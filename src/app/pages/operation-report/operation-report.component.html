@@ -80,22 +80,6 @@
                                             <td>Admin Name</td>
                                             <td>{{selectedRow?.user?.name}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Admin email</td>
-                                            <td>{{selectedRow?.user.email}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Admin Role</td>
-                                            <td>{{selectedRow?.user.my_role}}</td>
-                                        </tr> -->
-                                        <!-- <tr>
-                                            <td>Operation Log - latitude</td>
-                                            <td>{{selectedRow?.lat}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Operation Log - longitude</td>
-                                            <td>{{selectedRow?.lang}}</td>
-                                        </tr> -->
                                         <tr>
                                             <td>Operation Log - kilometer in</td>
                                             <td>{{selectedRow?.kilometer_in}}</td>
@@ -117,33 +101,10 @@
                                             <td>{{selectedRow?.contract?.fromDate | date}} -
                                                 {{selectedRow?.contract?.toDate | date}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Contract - toDate</td>
-                                            <td>{{selectedRow?.contract?.toDate | date}}</td>
-                                        </tr> -->
-                                        <!-- <tr>
-                                            <td>Contract - created at</td>
-                                            <td>{{selectedRow?.contract?.created_at | date}}</td>
-                                        </tr> -->
                                         <tr>
                                             <td>Contract - customer name</td>
                                             <td>{{selectedRow?.contract?.customer?.name}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Contract - customer mobile</td>
-                                            <td>{{selectedRow?.contract?.customer?.mobile}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Contract - customer national id</td>
-                                            <td>{{selectedRow?.contract?.customer?.nid}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Contract - customer address</td>
-                                            <td>{{selectedRow?.contract?.customer?.address}}</td>
-                                        </tr> -->
-
-
-
                                         <tr>
                                             <td>Car Name</td>
                                             <td>{{selectedRow?.contract?.car?.name}} -
@@ -157,26 +118,14 @@
                                             <td>Car Grade</td>
                                             <td>{{selectedRow?.contract?.car?.grade}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Car Chassis number</td>
-                                            <td>{{selectedRow?.contract?.car?.chassis_no}}</td>
-                                        </tr> -->
                                         <tr>
                                             <td>Car Kilometer</td>
                                             <td>{{selectedRow?.contract?.car?.kilometer}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Car License end</td>
-                                            <td>{{selectedRow?.contract?.car?.license_end | date}}</td>
-                                        </tr> -->
                                         <tr>
                                             <td>Car Model</td>
                                             <td>{{selectedRow?.contract?.car?.model}}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Car Motor number</td>
-                                            <td>{{selectedRow?.contract?.car?.motor_no}}</td>
-                                        </tr> -->
                                         <tr>
                                             <td>Car Plate Number</td>
                                             <td>{{selectedRow?.contract?.car?.plate_no}}</td>
@@ -228,22 +177,6 @@
                     </p-dropdown>
                 </div>
             </div>
-            <!-- <div class="col-md-6">
-                <div class="form-group">
-                    <label>Date From</label>
-                    <br>
-                    <p-calendar formControlName="from" appendTo="body" placeholder="Select Issue Date"
-                        [style]="{'width':'100%'}"></p-calendar>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Date To</label>
-                    <br>
-                    <p-calendar formControlName="to" appendTo="body" placeholder="Select Issue Date"
-                        [style]="{'width':'100%'}"></p-calendar>
-                </div>
-            </div> -->
         </div>
     </form>
     <ng-template pTemplate="footer">

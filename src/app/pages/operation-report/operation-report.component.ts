@@ -46,22 +46,17 @@ export class OperationReportComponent implements OnInit {
   ngOnInit() {
     this.getReports();
     this.setFilterForm();
-    // this.getCarName();
-    // this.getCarColor();
-    // this.getCarType();
-    // this.getGrade();
-    // this.getInsurance();
     this.getCars();
     this.getAdmins();
     this.getArea();
   }
 
   // Curd Settings
-  getReports() {
-    this._OperationService.getOperationReport().subscribe({
+  getReports(page = 1) {
+    this._OperationService.getOperationReport(page).subscribe({
       next: (res) => {
-        this.reports = res.data;
-        // this.pagination = res.data;
+        this.reports = res.data.data;
+        this.pagination = res.data;
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
@@ -95,9 +90,9 @@ export class OperationReportComponent implements OnInit {
   }
 
   // Pagination
-  // loadPage(page: number) {
-  //   this.getReports(page);
-  // }
+  loadPage(page: number) {
+    this.getReports(page);
+  }
 
   // Export
   export() {
@@ -265,8 +260,7 @@ export class OperationReportComponent implements OnInit {
   getCars() {
     this._OurCarService.getOurCarsWithoutPagination().subscribe({
       next: (res) => {
-        // this.cars = res.data;
-        res.data.forEach((e: any) => {
+        res.data.data.forEach((e: any) => {
           this.cars.push({
             name: e.name,
             id: e.id,

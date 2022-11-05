@@ -37,8 +37,8 @@ export class OperationService {
     return this._ApiService.postReq(`areas/delete`, { area_id: area_id });
   }
 
-  getOperationReport(): Observable<any> {
-    return this._ApiService.postReq(`operationReport`, "");
+  getOperationReport(page = 1): Observable<any> {
+    return this._ApiService.postReq(`operationReport?page=${page}`, "");
   }
 
   exportOperationReport(): Observable<any> {

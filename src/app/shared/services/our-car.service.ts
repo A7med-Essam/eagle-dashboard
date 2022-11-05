@@ -44,6 +44,7 @@ export class OurCarService {
     return this._ApiService.postReq("ourCars/trashed", "");
   }
 
+  // BUG: withoutPagination not working
   getOurCarsWithoutPagination(): Observable<any> {
     return this._ApiService.postReq(`ourCarsV2`, { withoutPagination: "true" });
   }
