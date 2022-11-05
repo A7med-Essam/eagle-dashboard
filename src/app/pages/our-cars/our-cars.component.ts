@@ -396,31 +396,19 @@ export class OurCarsComponent implements OnInit {
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
           this.assignModal = false;
-          // this._OurCarService.getOurCars(1).subscribe((res) => {
-          //   this.ourCars = res.data.data;
-          //   this.pagination = res.data;
-          //   this.getById(this.selectedRow.id);
-          // });
 
-          this.selectedRow.contracts.map((e) => {
+          // this.selectedRow.contracts.map((e) => {
+          //   if (e.id == users.value.operation_contract_id) {
+          //     e.assign = res.data;
+          //   }
+          // });
+          // TODO: V2
+
+          this.contracts.map((e) => {
             if (e.id == users.value.operation_contract_id) {
               e.assign = res.data;
             }
           });
-          // const [CUSTOMER] = this.customers.filter(
-          //   (c) => c.id == res.data.customer_id
-          // );
-          // res.data.customer = CUSTOMER;
-
-          // users.value.user_ids.filter(Number).forEach((e) => {
-          //   let AssignedUser = {
-          //     created_at: new Date(),
-          //     operation_contract_id: users.value.operation_contract_id,
-          //     updated_at: new Date(Date.now()),
-          //     user_id: e,
-          //   };
-          //   this.selectedRow.contracts[0].assign.push(AssignedUser);
-          // });
         },
         error: (err) =>
           this._ToastrService.setToaster(err.error.message, "error", "danger"),
@@ -559,7 +547,9 @@ export class OurCarsComponent implements OnInit {
           res.data.customer = CUSTOMER;
           res.data.assign = [];
           res.data.logs = [];
-          this.selectedRow.contracts.push(res.data);
+          // this.selectedRow.contracts.push(res.data);
+          // TODO: V2
+          this.contracts.push(res.data);
         }
       },
       error: (err) => {
@@ -609,6 +599,7 @@ export class OurCarsComponent implements OnInit {
   }
 
   displayContractInfo() {
+    this.getContracts(this.selectedRow.id);
     this._SharedService.fadeOut(this.Show.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.Show2.nativeElement);
@@ -830,6 +821,16 @@ export class OurCarsComponent implements OnInit {
           files: null,
         });
       };
+    });
+  }
+  // ==========================================================================
+
+  contracts;
+  getContracts(id) {
+    this._OurCarService.getContracts(id).subscribe({
+      next: (res) => {
+        this.contracts = res.data;
+      },
     });
   }
 }

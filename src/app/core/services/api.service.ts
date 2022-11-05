@@ -39,7 +39,6 @@ export class ApiService {
       tap({
         next: () => {},
         error: (err) => {
-          console.log(err);
           if (err.status == 500) {
             this._Router.navigate(["./dashboard"]);
           }
@@ -61,7 +60,6 @@ export class ApiService {
         tap({
           next: () => {},
           error: (err) => {
-            console.log(err);
             if (err.status == 500) {
               this._Router.navigate(["./dashboard"]);
             }
@@ -83,7 +81,6 @@ export class ApiService {
         tap({
           next: () => {},
           error: (err) => {
-            console.log(err);
             if (err.status == 500) {
               this._Router.navigate(["./dashboard"]);
             }

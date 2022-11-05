@@ -9,7 +9,7 @@ export class OurCarService {
   constructor(private _ApiService: ApiService) {}
 
   getOurCars(page = 1): Observable<any> {
-    return this._ApiService.postReq(`ourCars?page=${page}`, "");
+    return this._ApiService.postReq(`ourCarsV2?page=${page}`, "");
   }
 
   createOurCars(car): Observable<any> {
@@ -45,7 +45,7 @@ export class OurCarService {
   }
 
   getOurCarsWithoutPagination(): Observable<any> {
-    return this._ApiService.postReq(`ourCars`, { withoutPagination: "true" });
+    return this._ApiService.postReq(`ourCarsV2`, { withoutPagination: "true" });
   }
 
   updateImage(image): Observable<any> {
@@ -60,5 +60,11 @@ export class OurCarService {
 
   uploadImage(image): Observable<any> {
     return this._ApiService.postReq(`ourCars/files/upload`, image);
+  }
+
+  getContracts(car_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/getContractByCarId`, {
+      car_id,
+    });
   }
 }
