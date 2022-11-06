@@ -1,0 +1,11 @@
+:host {
+    ::ng-deep {
+        .p-button.p-fileupload-choose {
+            margin: 0;
+        }
+
+        .p-progressbar .p-progressbar-value {
+            background-color: #2BA9CD;
+        }
+    }
+}

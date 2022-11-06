@@ -33,11 +33,11 @@
                         <tbody class="text-center">
                             <tr *ngFor="let car of ourCars; let i = index">
                                 <td>{{i+1}}</td>
-                                <td>{{car.name}}</td>
+                                <td>{{car?.name}}</td>
                                 <td>{{car?.sub_car?.car_model}}</td>
-                                <td>{{car.model}}</td>
-                                <td>{{car.grade}}</td>
-                                <td>{{car.color}}</td>
+                                <td>{{car?.model}}</td>
+                                <td>{{car?.grade}}</td>
+                                <td>{{car?.color}}</td>
                                 <td>
                                     <button class="btn btn-primary m-1 px-3" (click)="getById(car.id);"><i
                                             class="fa-regular fa-eye"></i></button>
@@ -191,6 +191,43 @@
                                                         <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Image"
                                                             width="50" height="50" [preview]="true"></p-image>
                                                     </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    Car Video
+                                                </div>
+                                                <div class="my-2 d-flex align-items-center">
+                                                    <button class="btn btn-info mx-1 my-2" style="padding: 6px 12px;"
+                                                        (click)="uploadFile(selectedRow?.id)">
+                                                        <small><b>Upload Video</b> <i
+                                                                class="ml-2 fa-regular fa-pen-to-square"></i></small>
+                                                    </button>
+                                                    <button class="btn btn-primary mx-1 my-2" style="padding: 6px 12px;"
+                                                        (click)="getCarVideos(selectedRow?.id)">
+                                                        <small>
+                                                            <b>Get Car Videos</b>
+                                                            <i class="ml-2 fa-solid fa-video"></i>
+                                                        </small>
+                                                    </button>
+                                                </div>
+                                                <p-progressBar *ngIf="progress" [value]="progress"></p-progressBar>
+                                                <p-progressBar *ngIf="videoInProgress" mode="indeterminate"
+                                                    [style]="{'height': '6px'}"></p-progressBar>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                                    <video *ngIf="uploadedVideo" width="150" height="100" controls
+                                                        class="m-1">
+                                                        <source [src]="uploadedVideo">
+                                                    </video>
+
+                                                    <video *ngFor="let video of carVideos" width="150" height="100"
+                                                        class="m-1" controls>
+                                                        <source [src]="video.video">
+                                                    </video>
                                                 </div>
                                             </td>
                                         </tr>

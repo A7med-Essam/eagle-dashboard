@@ -1,3 +1,4 @@
+import { HttpEvent } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "app/core/services/api.service";
 import { Observable } from "rxjs";
@@ -25,7 +26,7 @@ export class OurCarService {
   }
 
   filterOurCars(filter): Observable<any> {
-    return this._ApiService.postReq("ourCars", filter);
+    return this._ApiService.postReq("ourCarsV2", filter);
   }
 
   exportOurCars(): Observable<any> {
@@ -67,5 +68,20 @@ export class OurCarService {
     return this._ApiService.postReq(`ourCars/getContractByCarId`, {
       car_id,
     });
+  }
+
+  uploadVideo(video: any, car_id): Observable<HttpEvent<any>> {
+    var formData: any = new FormData();
+    formData.append("car_id", car_id);
+    formData.append("videos[]", video);
+    return this._ApiService.postVideos(`ourCars/uploadVideo`, formData);
+  }
+
+  getVideosByCarId(car_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/getVideosByCarId`, { car_id });
+  }
+
+  getFilesByCarId(car_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/getFilesByCarId`, { car_id });
   }
 }

@@ -9,7 +9,7 @@ export class OperationService {
   constructor(private _ApiService: ApiService) {}
 
   getOperationContracts(page = 1): Observable<any> {
-    return this._ApiService.postReq(`allOperationContracts?page=${page}`, "");
+    return this._ApiService.postReq(`allOperationContractsV2?page=${page}`, "");
   }
 
   createContract(contract): Observable<any> {

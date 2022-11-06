@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
-import { retry, tap } from "rxjs/operators";
+import { map, retry, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 // import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
@@ -91,6 +91,48 @@ export class ApiService {
           },
         })
       );
+  }
+
+  postVideos(url: string, body: any): Observable<any> {
+    // return this.http
+    //   .post(environment.BaseUrl + url, body, { reportProgress: true })
+    //   .pipe(
+    //     tap((event) => {
+    //       console.log(event);
+    //       // if (event.type == HttpEventType.UploadProgress) {
+    //       //   // update the progress bar
+    //       //   console.log("FROM API SERVICE");
+    //       //   console.log(event);
+    //       //   console.log(HttpEventType);
+    //       // }
+    //     })
+    //   );
+    return this.http
+      .post(environment.BaseUrl + url, body, {
+        reportProgress: true,
+        observe: "events",
+      })
+      .pipe(
+        tap({
+          next: () => {},
+          error: (err) => {
+          },
+        })
+      );
+
+    //     if (event.type == HttpEventType.UploadProgress) {
+    //       this.progress = Math.round((100 / event.total) * event.loaded);
+    //     } else if (event.type == HttpEventType.Response) {
+    //       this.progress = null;
+    //     }
+    //   }),
+    //   catchError((err: any) => {
+    //     this.progress = null;
+    //     alert(err.message);
+    //     return throwError(err.message);
+    //   })
+    // )
+    // .toPromise();
   }
 
   // postReq(url:string,body:any, params?:HttpParams):Observable<any>{

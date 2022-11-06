@@ -260,7 +260,7 @@ export class OperationReportComponent implements OnInit {
   getCars() {
     this._OurCarService.getOurCarsWithoutPagination().subscribe({
       next: (res) => {
-        res.data.data.forEach((e: any) => {
+        res.data.forEach((e: any) => {
           this.cars.push({
             name: e.name,
             id: e.id,

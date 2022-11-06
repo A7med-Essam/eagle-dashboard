@@ -1,3 +1,4 @@
+import { HttpEvent, HttpEventType } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   FormArray,
@@ -83,6 +84,7 @@ export class OurCarsComponent implements OnInit {
     this.getAdmins();
     this.setAdminForm();
     this.setCreateContractForm();
+    // this.setVideoForm();
   }
 
   // Curd Settings
@@ -233,6 +235,8 @@ export class OurCarsComponent implements OnInit {
   backDetailsBtn() {
     this._SharedService.fadeOut(this.Show.nativeElement);
     this.fadeInOurCarsTable();
+    this.carVideos = null;
+    this.uploadedVideo = null;
   }
 
   backCreateBtn() {
@@ -830,6 +834,69 @@ export class OurCarsComponent implements OnInit {
     this._OurCarService.getContracts(id).subscribe({
       next: (res) => {
         this.contracts = res.data;
+      },
+    });
+  }
+  // ==========================================================================
+  // UPLOAD VIDEO
+
+  uploadFile(car_id) {
+    let input: HTMLInputElement = document.createElement("input");
+    input.type = "file";
+    input.accept = "video/*";
+    input.multiple = true;
+    input.click();
+    input.onchange = (e) => {
+      if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(input.files[0]);
+        reader.onload = (event) => {
+          // this.submitVideo(input.files[0], car_id);
+          this.submitVideo((<FileReader>event.target).result, car_id);
+        };
+      }
+    };
+  }
+
+  progress;
+  videoInProgress: boolean = false;
+  uploadedVideo;
+  submitVideo(video, car_id) {
+    this._OurCarService.uploadVideo(video, car_id).subscribe({
+      next: (event: HttpEvent<any>) => {
+        if (event.type == 1) {
+          this.progress = Math.round((event.loaded / event.total) * 100);
+        } else if (event.type == 3) {
+          this.videoInProgress = true;
+          this.progress = 0;
+        } else if (event.type == 4) {
+          this.videoInProgress = false;
+          this._ToastrService.setToaster(
+            event.body.message,
+            "success",
+            "success"
+          );
+          this.uploadedVideo = event.body.data;
+        }
+      },
+      error: (err) => {
+        this.videoInProgress = false;
+        this.progress = 0;
+        this._ToastrService.setToaster(
+          "Couldn't upload video please check your internet connection and try again",
+          "error",
+          "danger"
+        );
+      },
+    });
+  }
+
+  // ==========================================================================
+  carVideos: any[] = [];
+  getCarVideos(carId) {
+    this._OurCarService.getVideosByCarId(carId).subscribe({
+      next: (res) => {
+        this.carVideos = res.data;
       },
     });
   }
