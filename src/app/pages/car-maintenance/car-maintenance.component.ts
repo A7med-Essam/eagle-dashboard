@@ -183,7 +183,8 @@ export class CarMaintenanceComponent implements OnInit {
     this._CarMaintenanceService.addBrandForMaintenanceCenter(brand).subscribe({
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
-        this.getMaintenance();
+        // this.selectedRow.brands.push(res.data);
+        this.selectedRow.brands = res.data.brands;
         this.addBrandModal = false;
       },
       error: (err) => {
@@ -202,7 +203,21 @@ export class CarMaintenanceComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this._ToastrService.setToaster(res.message, "success", "success");
-          this.getMaintenance();
+          // this.selectedRow.brands = this.selectedRow.brands.filter((data) => {
+          //   data.car.id == carId;
+          // });
+
+          let brandsAfterDelete = [];
+          this.selectedRow.brands.forEach((e) => {
+            if (e.car.id != carId) {
+              brandsAfterDelete.push(e);
+            }
+          });
+          console.log(brandsAfterDelete);
+          this.selectedRow.brands = brandsAfterDelete;
+
+          console.log(this.selectedRow.brands);
+
           this.addBrandModal = false;
         },
         error: (err) => {

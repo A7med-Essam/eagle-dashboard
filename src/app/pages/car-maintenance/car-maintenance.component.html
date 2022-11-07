@@ -88,7 +88,7 @@
                                                 <div *ngFor="let brand of selectedRow?.brands; let i = index">
                                                     {{brand?.car?.car_name}}
                                                     <i class="fa-regular fa-trash-can ml-2 text-danger pointer"
-                                                        (click)="deleteBrand(brand?.car?.id,maintenance.id)"></i>
+                                                        (click)="deleteBrand(brand?.car?.id,selectedRow?.id)"></i>
                                                 </div>
                                             </td>
                                         </tr>
