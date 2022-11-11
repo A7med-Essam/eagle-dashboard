@@ -25,6 +25,8 @@ export class CarMaintenanceComponent implements OnInit {
   addBrandModal: boolean = false;
   maintenanceForm: FormGroup = new FormGroup({});
   pagination: any;
+  selectedRow: any;
+  cars: any[] = [];
 
   constructor(
     private _CarMaintenanceService: CarMaintenanceService,
@@ -39,10 +41,15 @@ export class CarMaintenanceComponent implements OnInit {
     this.getMaintenance();
     this.getCar();
     this.setMaintenanceForm();
+    this.getMaintenanceKilometer();
+    this.getMaintenanceType();
   }
 
   @ViewChild("Main") Main: any;
   @ViewChild("Show") Show: any;
+  @ViewChild("Show2") Show2: any;
+  @ViewChild("Show3") Show3: any;
+  @ViewChild("Show4") Show4: any;
 
   getMaintenance(page = 1) {
     this._CarMaintenanceService.getMaintenances(page).subscribe({
@@ -58,13 +65,29 @@ export class CarMaintenanceComponent implements OnInit {
     this.fadeInTable();
   }
 
+  backDetailsBtn2() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
+    this.fadeInTable();
+  }
+
+  backDetailsBtn3() {
+    this._SharedService.fadeOut(this.Show3.nativeElement);
+    this.fadeInTable();
+  }
+
+  backDetailsBtn4() {
+    this._SharedService.fadeOut(this.Show4.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show2.nativeElement);
+    }, 800);
+  }
+
   fadeInTable() {
     setTimeout(() => {
       this._SharedService.fadeIn(this.Main.nativeElement);
     }, 800);
   }
 
-  selectedRow: any;
   getById(id: any) {
     [this.selectedRow] = this.maintenances.filter((c) => c.id == id);
     this.displayDetails();
@@ -74,6 +97,27 @@ export class CarMaintenanceComponent implements OnInit {
     this._SharedService.fadeOut(this.Main.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
+  }
+
+  displayBrands() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show2.nativeElement);
+    }, 800);
+  }
+
+  displaySettings() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show3.nativeElement);
+    }, 800);
+  }
+
+  displayBrandCarMaintenance() {
+    this._SharedService.fadeOut(this.Show2.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show4.nativeElement);
     }, 800);
   }
 
@@ -166,7 +210,6 @@ export class CarMaintenanceComponent implements OnInit {
     this.addBrandModal = true;
   }
 
-  cars: any[] = [];
   getCar() {
     this._CarService.getCarName().subscribe({
       next: (res) => (this.cars = res.data),
@@ -213,16 +256,145 @@ export class CarMaintenanceComponent implements OnInit {
               brandsAfterDelete.push(e);
             }
           });
-          console.log(brandsAfterDelete);
           this.selectedRow.brands = brandsAfterDelete;
-
-          console.log(this.selectedRow.brands);
-
           this.addBrandModal = false;
         },
         error: (err) => {
           this._ToastrService.setToaster(err.error.message, "error", "danger");
         },
       });
+  }
+
+  // *******************************************************
+  // kilometer maintenance
+
+  maintenanceKilometer: any[] = [];
+  getMaintenanceKilometer() {
+    this._CarMaintenanceService.getMaintenanceKilometer().subscribe({
+      next: (res) => {
+        this.maintenanceKilometer = res.data;
+      },
+    });
+  }
+
+  createMaintenanceKilometer(kilometer) {
+    this._CarMaintenanceService
+      .createMaintenanceKilometer(kilometer)
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.maintenanceKilometer.push(res.data);
+          this.createKilometerModal = false;
+        },
+      });
+  }
+
+  deleteMaintenanceKilometer(id) {
+    this._CarMaintenanceService.deleteMaintenanceKilometer(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.maintenanceKilometer = this.maintenanceKilometer.filter(
+          (data) => data.id != id
+        );
+      },
+    });
+  }
+  // *******************************************************
+  // maintenance type
+  maintenanceType: any[] = [];
+  getMaintenanceType() {
+    this._CarMaintenanceService.getMaintenanceType().subscribe({
+      next: (res) => {
+        this.maintenanceType = res.data;
+      },
+    });
+  }
+
+  createMaintenanceType(type) {
+    this._CarMaintenanceService
+      .createMaintenanceType({ type_ar: type, type: type })
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.maintenanceType.push(res.data);
+          this.createTypeModal = false;
+        },
+      });
+  }
+
+  deleteMaintenanceType(id) {
+    this._CarMaintenanceService.deleteMaintenanceType(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.maintenanceType = this.maintenanceType.filter(
+          (data) => data.id != id
+        );
+      },
+    });
+  }
+  // *******************************************************
+  createKilometerModal: boolean = false;
+  createTypeModal: boolean = false;
+  createCarMaintenanceModal: boolean = false;
+  updateCarMaintenanceModal: boolean = false;
+  // *******************************************************
+  CarMaintenance: any[] = [];
+  getCarMaintenance(carId) {
+    this._CarMaintenanceService.getCarMaintenance(carId).subscribe({
+      next: (res) => {
+        this.CarMaintenance = res.data;
+        this.setPropertiesToCarMaintenance();
+      },
+    });
+  }
+
+  setPropertiesToCarMaintenance() {
+    this.CarMaintenance.map((c) => {
+      [c.kilometer] = this.maintenanceKilometer.filter(
+        (meter) => meter.id == c.maintenance_kilometer_id
+      );
+      [c.type] = this.maintenanceType.filter(
+        (type) => type.id == c.maintenance_type_id
+      );
+      [c.car] = this.cars.filter((car) => car.id == c.car_name_id);
+    });
+  }
+
+  createCarMaintenance(type, kilometer) {
+    const CAR_MAINTENANCE = {
+      car_name_id: this.CarMaintenance[0].car_name_id,
+      maintenance_type_id: type,
+      maintenance_kilometer_id: kilometer,
+    };
+    this._CarMaintenanceService
+      .createCarMaintenance(CAR_MAINTENANCE)
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.CarMaintenance.push(res.data);
+          this.setPropertiesToCarMaintenance();
+          this.createCarMaintenanceModal = false;
+        },
+      });
+  }
+
+  updateCarMaintenance(car) {
+    this._CarMaintenanceService.updateCarMaintenance(car).subscribe({
+      next: (res) => {
+        console.log(res);
+        // TODO: update
+      },
+    });
+  }
+
+  deleteCarMaintenance(id) {
+    this._CarMaintenanceService.deleteCarMaintenance(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.CarMaintenance = this.CarMaintenance.filter(
+          (data) => data.id != id
+        );
+      },
+    });
   }
 }

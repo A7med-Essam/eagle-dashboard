@@ -43,4 +43,64 @@ export class CarMaintenanceService {
       car
     );
   }
+
+  // **********************************************
+
+  getMaintenanceKilometer(): Observable<any> {
+    return this._ApiService.postReq(`maintenances/allMaintenanceKilometer`, "");
+  }
+
+  createMaintenanceKilometer(kilometer): Observable<any> {
+    return this._ApiService.postReq(
+      `maintenances/createCarMaintenanceKilometer`,
+      { kilometer }
+    );
+  }
+
+  deleteMaintenanceKilometer(maintenance_kilometer_id): Observable<any> {
+    return this._ApiService.postReq(`maintenances/deleteMaintenanceKilometer`, {
+      maintenance_kilometer_id,
+    });
+  }
+
+  // **********************************************
+
+  getMaintenanceType(): Observable<any> {
+    return this._ApiService.postReq(`maintenances/allMaintenanceType`, "");
+  }
+
+  createMaintenanceType(type): Observable<any> {
+    return this._ApiService.postReq(
+      `maintenances/createCarMaintenanceType`,
+      type
+    );
+  }
+
+  deleteMaintenanceType(maintenance_type_id): Observable<any> {
+    return this._ApiService.postReq(`maintenances/deleteMaintenanceType`, {
+      maintenance_type_id,
+    });
+  }
+
+  // **********************************************
+
+  getCarMaintenance(car_name_id): Observable<any> {
+    return this._ApiService.postReq(`maintenances/getCarMaintenance`, {
+      car_name_id,
+    });
+  }
+
+  createCarMaintenance(car): Observable<any> {
+    return this._ApiService.postReq(`maintenances/createCarMaintenance`, car);
+  }
+
+  updateCarMaintenance(car): Observable<any> {
+    return this._ApiService.postReq(`maintenances/updateCarMaintenance`, car);
+  }
+
+  deleteCarMaintenance(car_name_maintenance_id): Observable<any> {
+    return this._ApiService.postReq(`maintenances/deleteCarMaintenance`, {
+      car_name_maintenance_id,
+    });
+  }
 }

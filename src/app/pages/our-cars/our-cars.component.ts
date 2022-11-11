@@ -406,7 +406,6 @@ export class OurCarsComponent implements OnInit {
           //     e.assign = res.data;
           //   }
           // });
-          // TODO: V2
 
           this.contracts.map((e) => {
             if (e.id == users.value.operation_contract_id) {
@@ -552,7 +551,6 @@ export class OurCarsComponent implements OnInit {
           res.data.assign = [];
           res.data.logs = [];
           // this.selectedRow.contracts.push(res.data);
-          // TODO: V2
           this.contracts.push(res.data);
         }
       },

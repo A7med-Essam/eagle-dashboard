@@ -4,9 +4,17 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Car Maintenances Table</span>
 
-                <button class="btn btn-primary" style="padding: 6px 12px;" (click)="displayAddModal();">
-                    <small><b>Add</b></small>
-                </button>
+                <div class="d-flex justify-content-end flex-wrap">
+                    <button class="btn btn-info m-1" style="padding: 6px 12px;" (click)="displaySettings();">
+                        <small><b><i class="fa-solid fa-gear mr-2"></i>Settings</b></small>
+                    </button>
+                    <button class="btn btn-info m-1" style="padding: 6px 12px;" (click)="displayBrands();">
+                        <small><b>Brands</b></small>
+                    </button>
+                    <button class="btn btn-primary m-1" style="padding: 6px 12px;" (click)="displayAddModal();">
+                        <small><b>Add Maintenance Center</b></small>
+                    </button>
+                </div>
             </div>
             <div class="card-body ">
                 <table class="table">
@@ -14,9 +22,6 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Mobile</th>
-                        <!-- <th>Second Mobile</th> -->
-                        <!-- <th>Address</th> -->
-                        <!-- <th>Brands</th> -->
                         <th>Action</th>
                     </thead>
                     <tbody class="text-center">
@@ -24,21 +29,12 @@
                             <td>{{i+1}}</td>
                             <td>{{maintenance.name}}</td>
                             <td>{{maintenance.mobile}}</td>
-                            <!-- <td>{{maintenance.phone}}</td> -->
-                            <!-- <td>{{maintenance.address}}</td> -->
-                            <!-- <td>
-                                <div *ngFor="let brand of maintenance.brands; let i = index">
-                                    {{brand?.car?.car_name}}
-                                    <i class="fa-regular fa-trash-can ml-2 text-danger pointer"
-                                        (click)="deleteBrand(brand?.car?.id,maintenance.id)"></i>
-                                </div>
-                            </td> -->
                             <td>
                                 <button class="btn btn-primary m-1" (click)="getById(maintenance.id)">
                                     <i class="fa-regular fa-eye"></i>
                                 </button>
                                 <button class="btn btn-info m-1" (click)="displayBrandModal(maintenance)">
-                                    Add Brand
+                                    <i class="fa-solid fa-plus"></i>
                                 </button>
                                 <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)"><i
                                         class="fa-regular fa-pen-to-square"></i></button>
@@ -95,6 +91,168 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show2>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Brands Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn2()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead class="text-secondary text-center">
+                                    <th>#</th>
+                                    <th>Brand Name</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr *ngFor="let car of cars; let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{car.car_name}}</td>
+                                        <td>
+                                            <button class="btn btn-primary m-1"
+                                                (click)="getCarMaintenance(car.id);displayBrandCarMaintenance()">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Maintenance Settings</h4>
+                            <div class="d-flex justify-content-end flex-wrap">
+                                <button class="btn btn-info m-1" style="padding: 6px 12px;"
+                                    (click)="createKilometerModal = true">
+                                    <small><b>Add Kilometer</b></small>
+                                </button>
+                                <button class="btn btn-info m-1" style="padding: 6px 12px;"
+                                    (click)="createTypeModal = true">
+                                    <small><b>Add Type</b></small>
+                                </button>
+                                <button class="btn btn-dark m-1" style="padding: 6px 12px;"
+                                    (click)="backDetailsBtn3();">
+                                    <small><b>Back</b></small>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mx-0">
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead class="text-secondary text-center">
+                                            <th>#</th>
+                                            <th>Kilometer</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr *ngFor="let kilometer of maintenanceKilometer; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{kilometer.kilometer}}</td>
+                                                <td>
+                                                    <button class="btn btn-danger m-1"
+                                                        (click)="deleteMaintenanceKilometer(kilometer.id)">
+                                                        <i class="fa-regular fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead class="text-secondary text-center">
+                                            <th>#</th>
+                                            <th>Type</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr *ngFor="let type of maintenanceType; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{type.type_ar}}</td>
+                                                <td>
+                                                    <button class="btn btn-danger m-1"
+                                                        (click)="deleteMaintenanceType(type.id)">
+                                                        <i class="fa-regular fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show4>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Car Maintenance Info</h4>
+                            <div class="d-flex flex-wrap justify-content-end">
+                                <button class="btn btn-primary m-1"
+                                    (click)="createCarMaintenanceModal = true">Add</button>
+                                <button class="btn btn-dark m-1" (click)="backDetailsBtn4()">Back</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead class="text-secondary text-center">
+                                    <th>#</th>
+                                    <th>Car</th>
+                                    <th>Type</th>
+                                    <th>Kilometer</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr *ngFor="let car of CarMaintenance; let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{car?.car?.car_name}}</td>
+                                        <td>{{car?.type?.type_ar}}</td>
+                                        <td>{{car?.kilometer?.kilometer}}</td>
+                                        <td>
+                                            <button class="btn btn-info m-1" (click)="updateCarMaintenance(car)">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </button>
+                                            <button class="btn btn-danger m-1" (click)="deleteCarMaintenance(car.id)">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -201,6 +359,64 @@
     </div>
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" (click)="addBrandForMaintenanceCenter(brandsDropdown)">Add Brand</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Add Maintenance Kilometer" [(visible)]="createKilometerModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row mx-0">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Maintenance Kilometer</label>
+                <input type="text"
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                    #KilometerInput maxLength="14" class="form-control" placeholder="Enter Kilometer">
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="createMaintenanceKilometer(KilometerInput.value)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Add Maintenance Type" [(visible)]="createTypeModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="row mx-0">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Maintenance Type</label>
+                <input type="text" class="form-control" placeholder="Enter Type" #TypeInput>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="createMaintenanceType(TypeInput.value)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Create Car Maintenance" [(visible)]="createCarMaintenanceModal" [modal]="true"
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <div class="row mx-0">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Type</label>
+                <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100" optionValue="id"
+                    #TypeDropDown placeholder="Select Type" appendTo="body">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label>Kilometer</label>
+                <p-dropdown [options]="maintenanceKilometer" optionLabel="kilometer" styleClass="w-100" optionValue="id"
+                    #KilometerDropDown placeholder="Select Kilometer" appendTo="body">
+                </p-dropdown>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1"
+            (click)="createCarMaintenance(TypeDropDown.selectedOption.id,KilometerDropDown.selectedOption.id)">Add</button>
     </ng-template>
 </p-dialog>
 
