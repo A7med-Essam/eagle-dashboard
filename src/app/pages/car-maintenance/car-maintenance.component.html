@@ -243,7 +243,8 @@
                                         <td>{{car?.type?.type_ar}}</td>
                                         <td>{{car?.kilometer?.kilometer}}</td>
                                         <td>
-                                            <button class="btn btn-info m-1" (click)="updateCarMaintenance(car)">
+                                            <button class="btn btn-info m-1"
+                                                (click)="displayUpdateCarMaintenanceModal(car)">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>
                                             <button class="btn btn-danger m-1" (click)="deleteCarMaintenance(car.id)">
@@ -417,6 +418,34 @@
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1"
             (click)="createCarMaintenance(TypeDropDown.selectedOption.id,KilometerDropDown.selectedOption.id)">Add</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Update Car Maintenance" [(visible)]="updateCarMaintenanceModal" [modal]="true"
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <div class="row mx-0">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Type</label>
+                <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100" optionValue="id"
+                    [(ngModel)]="updateMaintenance_type_id" #TypeDropDown_edit placeholder="Select Type"
+                    appendTo="body">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label>Kilometer</label>
+                <p-dropdown [options]="maintenanceKilometer" optionLabel="kilometer" styleClass="w-100" optionValue="id"
+                    [(ngModel)]="updateMaintenance_kilometer_id" #KilometerDropDown_edit placeholder="Select Kilometer"
+                    appendTo="body">
+                </p-dropdown>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1"
+            (click)="updateCarMaintenance(TypeDropDown_edit.selectedOption.id,KilometerDropDown_edit.selectedOption.id)">Update</button>
     </ng-template>
 </p-dialog>
 

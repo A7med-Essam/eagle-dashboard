@@ -378,13 +378,26 @@ export class CarMaintenanceComponent implements OnInit {
       });
   }
 
-  updateCarMaintenance(car) {
-    this._CarMaintenanceService.updateCarMaintenance(car).subscribe({
-      next: (res) => {
-        console.log(res);
-        // TODO: update
-      },
-    });
+  updateCarMaintenance(type, kilometer) {
+    const CAR_MAINTENANCE = {
+      car_name_maintenance_id: this.updateCar_name_maintenance_id,
+      maintenance_type_id: type,
+      maintenance_kilometer_id: kilometer,
+    };
+    this._CarMaintenanceService
+      .updateCarMaintenance(CAR_MAINTENANCE)
+      .subscribe({
+        next: (res) => {
+          this.CarMaintenance.map((e) => {
+            if (e.id == res.data.id) {
+              Object.assign(e, res.data);
+            }
+          });
+          this.setPropertiesToCarMaintenance();
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.updateCarMaintenanceModal = false;
+        },
+      });
   }
 
   deleteCarMaintenance(id) {
@@ -396,5 +409,15 @@ export class CarMaintenanceComponent implements OnInit {
         );
       },
     });
+  }
+
+  updateMaintenance_type_id = 0;
+  updateMaintenance_kilometer_id = 0;
+  updateCar_name_maintenance_id = 0;
+  displayUpdateCarMaintenanceModal(car) {
+    this.updateCarMaintenanceModal = true;
+    this.updateMaintenance_type_id = car.maintenance_type_id;
+    this.updateMaintenance_kilometer_id = car.maintenance_kilometer_id;
+    this.updateCar_name_maintenance_id = car.id;
   }
 }
