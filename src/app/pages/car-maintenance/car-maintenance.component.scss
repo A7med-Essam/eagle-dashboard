@@ -1,0 +1,8 @@
+.checked {
+    cursor: pointer;
+    transition: all .8s;
+
+    &:hover {
+        background-color: rgb(244, 244, 244);
+    }
+}

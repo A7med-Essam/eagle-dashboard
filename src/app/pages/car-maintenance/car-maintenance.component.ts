@@ -338,86 +338,123 @@ export class CarMaintenanceComponent implements OnInit {
   createCarMaintenanceModal: boolean = false;
   updateCarMaintenanceModal: boolean = false;
   // *******************************************************
-  CarMaintenance: any[] = [];
+  carMaintenance: any[] = [];
   getCarMaintenance(carId) {
     this._CarMaintenanceService.getCarMaintenance(carId).subscribe({
       next: (res) => {
-        this.CarMaintenance = res.data;
-        this.setPropertiesToCarMaintenance();
+        this.carMaintenance = res.data;
       },
     });
   }
 
-  setPropertiesToCarMaintenance() {
-    this.CarMaintenance.map((c) => {
-      [c.kilometer] = this.maintenanceKilometer.filter(
-        (meter) => meter.id == c.maintenance_kilometer_id
-      );
-      [c.type] = this.maintenanceType.filter(
-        (type) => type.id == c.maintenance_type_id
-      );
-      [c.car] = this.cars.filter((car) => car.id == c.car_name_id);
-    });
-  }
-
   createCarMaintenance(type, kilometer) {
-    const CAR_MAINTENANCE = {
-      car_name_id: this.CarMaintenance[0].car_name_id,
-      maintenance_type_id: type,
-      maintenance_kilometer_id: kilometer,
-    };
-    this._CarMaintenanceService
-      .createCarMaintenance(CAR_MAINTENANCE)
-      .subscribe({
-        next: (res) => {
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this.CarMaintenance.push(res.data);
-          this.setPropertiesToCarMaintenance();
-          this.createCarMaintenanceModal = false;
-        },
-      });
-  }
-
-  updateCarMaintenance(type, kilometer) {
-    const CAR_MAINTENANCE = {
-      car_name_maintenance_id: this.updateCar_name_maintenance_id,
-      maintenance_type_id: type,
-      maintenance_kilometer_id: kilometer,
-    };
-    this._CarMaintenanceService
-      .updateCarMaintenance(CAR_MAINTENANCE)
-      .subscribe({
-        next: (res) => {
-          this.CarMaintenance.map((e) => {
-            if (e.id == res.data.id) {
-              Object.assign(e, res.data);
-            }
-          });
-          this.setPropertiesToCarMaintenance();
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this.updateCarMaintenanceModal = false;
-        },
-      });
+    let createStatus: boolean = true;
+    this.carMaintenance.forEach((car) => {
+      if (
+        car.maintenance_type_id == type &&
+        car.maintenance_kilometer_id == kilometer
+      ) {
+        createStatus = false;
+      }
+    });
+    if (createStatus) {
+      const CAR_MAINTENANCE = {
+        car_name_id: this.carMaintenance[0].car_name_id,
+        maintenance_type_id: type,
+        maintenance_kilometer_id: kilometer,
+      };
+      this._CarMaintenanceService
+        .createCarMaintenance(CAR_MAINTENANCE)
+        .subscribe({
+          next: (res) => {
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this.carMaintenance.push(res.data);
+          },
+        });
+    }
   }
 
   deleteCarMaintenance(id) {
     this._CarMaintenanceService.deleteCarMaintenance(id).subscribe({
       next: (res) => {
         this._ToastrService.setToaster(res.message, "success", "success");
-        this.CarMaintenance = this.CarMaintenance.filter(
+        this.carMaintenance = this.carMaintenance.filter(
           (data) => data.id != id
         );
       },
     });
   }
 
-  updateMaintenance_type_id = 0;
-  updateMaintenance_kilometer_id = 0;
-  updateCar_name_maintenance_id = 0;
-  displayUpdateCarMaintenanceModal(car) {
-    this.updateCarMaintenanceModal = true;
-    this.updateMaintenance_type_id = car.maintenance_type_id;
-    this.updateMaintenance_kilometer_id = car.maintenance_kilometer_id;
-    this.updateCar_name_maintenance_id = car.id;
-  }
+  // setPropertiesToCarMaintenance() {
+  //   this.CarMaintenance.map((c) => {
+  //     [c.kilometer] = this.maintenanceKilometer.filter(
+  //       (meter) => meter.id == c.maintenance_kilometer_id
+  //     );
+  //     [c.type] = this.maintenanceType.filter(
+  //       (type) => type.id == c.maintenance_type_id
+  //     );
+  //     [c.car] = this.cars.filter((car) => car.id == c.car_name_id);
+  //   });
+  // }
+
+  // createCarMaintenance(type, kilometer) {
+  //   const CAR_MAINTENANCE = {
+  //     car_name_id: this.CarMaintenance[0].car_name_id,
+  //     maintenance_type_id: type,
+  //     maintenance_kilometer_id: kilometer,
+  //   };
+  //   this._CarMaintenanceService
+  //     .createCarMaintenance(CAR_MAINTENANCE)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this._ToastrService.setToaster(res.message, "success", "success");
+  //         this.CarMaintenance.push(res.data);
+  //         this.setPropertiesToCarMaintenance();
+  //         this.createCarMaintenanceModal = false;
+  //       },
+  //     });
+  // }
+
+  // updateCarMaintenance(type, kilometer) {
+  //   const CAR_MAINTENANCE = {
+  //     car_name_maintenance_id: this.updateCar_name_maintenance_id,
+  //     maintenance_type_id: type,
+  //     maintenance_kilometer_id: kilometer,
+  //   };
+  //   this._CarMaintenanceService
+  //     .updateCarMaintenance(CAR_MAINTENANCE)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.CarMaintenance.map((e) => {
+  //           if (e.id == res.data.id) {
+  //             Object.assign(e, res.data);
+  //           }
+  //         });
+  //         this.setPropertiesToCarMaintenance();
+  //         this._ToastrService.setToaster(res.message, "success", "success");
+  //         this.updateCarMaintenanceModal = false;
+  //       },
+  //     });
+  // }
+
+  // deleteCarMaintenance(id) {
+  //   this._CarMaintenanceService.deleteCarMaintenance(id).subscribe({
+  //     next: (res) => {
+  //       this._ToastrService.setToaster(res.message, "success", "success");
+  //       this.CarMaintenance = this.CarMaintenance.filter(
+  //         (data) => data.id != id
+  //       );
+  //     },
+  //   });
+  // }
+
+  // updateMaintenance_type_id = 0;
+  // updateMaintenance_kilometer_id = 0;
+  // updateCar_name_maintenance_id = 0;
+  // displayUpdateCarMaintenanceModal(car) {
+  //   this.updateCarMaintenanceModal = true;
+  //   this.updateMaintenance_type_id = car.maintenance_type_id;
+  //   this.updateMaintenance_kilometer_id = car.maintenance_kilometer_id;
+  //   this.updateCar_name_maintenance_id = car.id;
+  // }
 }

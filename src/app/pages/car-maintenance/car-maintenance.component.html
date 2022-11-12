@@ -213,7 +213,8 @@
     </div>
 </div>
 
-<div class="row animated d-none" #Show4>
+<!-- TODO: comment this section -->
+<!-- <div class="row animated d-none" #Show4>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -251,6 +252,51 @@
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>
                                         </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row animated d-none" #Show4>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Car Maintenance Info</h4>
+                            <div class="d-flex flex-wrap justify-content-end">
+                                <!-- <button class="btn btn-primary m-1"
+                                    (click)="createCarMaintenanceModal = true">Add</button> -->
+                                <button class="btn btn-dark m-1" (click)="backDetailsBtn4()">Back</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead class="text-secondary text-center">
+                                    <th *ngFor="let type of maintenanceType">
+                                        {{type.type_ar}}
+                                    </th>
+                                    <th>Maintenances</th>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr *ngFor="let meter of maintenanceKilometer;">
+                                        <td *ngFor="let type of maintenanceType" class="checked"
+                                            (click)="createCarMaintenance(type.id,meter.id)">
+                                            <div *ngFor="let car of carMaintenance;">
+                                                <div *ngIf="car.maintenance_type_id == type.id && car.maintenance_kilometer_id == meter.id"
+                                                    (click)="deleteCarMaintenance(car.id)">
+                                                    <i class="fa-solid fa-check text-success"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{meter.kilometer}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -395,7 +441,8 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Create Car Maintenance" [(visible)]="createCarMaintenanceModal" [modal]="true"
+<!-- TODO: comment this modal -->
+<!-- <p-dialog header="Create Car Maintenance" [(visible)]="createCarMaintenanceModal" [modal]="true"
     [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
     <div class="row mx-0">
         <div class="col-12">
@@ -419,9 +466,10 @@
         <button class="btn btn-primary m-1"
             (click)="createCarMaintenance(TypeDropDown.selectedOption.id,KilometerDropDown.selectedOption.id)">Add</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
-<p-dialog header="Update Car Maintenance" [(visible)]="updateCarMaintenanceModal" [modal]="true"
+<!-- TODO: comment this modal -->
+<!-- <p-dialog header="Update Car Maintenance" [(visible)]="updateCarMaintenanceModal" [modal]="true"
     [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
     <div class="row mx-0">
         <div class="col-12">
@@ -447,7 +495,7 @@
         <button class="btn btn-primary m-1"
             (click)="updateCarMaintenance(TypeDropDown_edit.selectedOption.id,KilometerDropDown_edit.selectedOption.id)">Update</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
