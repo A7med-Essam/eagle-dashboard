@@ -53,7 +53,7 @@
               </tr>
             </tbody>
           </table>
-          <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+          <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="4"
             (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
           </ngb-pagination>
         </div>
@@ -99,7 +99,7 @@
                     </tr>
                     <tr>
                       <td>Car Sub Type</td>
-                      <td>{{currentLead?.car_with_type_name}}</td>
+                      <td>{{currentLead?.car_with_type_name.split("-")[1]}}</td>
                     </tr>
                     <tr>
                       <td>Car Color</td>
