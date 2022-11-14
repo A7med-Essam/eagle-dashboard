@@ -97,10 +97,17 @@
                                                             class="ml-2 fa-regular fa-pen-to-square"></i></small>
                                                 </button>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 <p-image *ngIf="selectedRow?.national_front_image"
                                                     [src]="selectedRow?.national_front_image" alt=" National Id"
                                                     width="50" height="50" [preview]="true"></p-image>
+                                            </td> -->
+                                            <td>
+                                                <div *ngFor="let file of selectedRow?.files;">
+                                                    <p-image *ngIf="file.type == 'national_front'" [src]="file?.image"
+                                                        alt=" National Id" width="50" height="50" [preview]="true">
+                                                    </p-image>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -112,10 +119,17 @@
                                                             class="ml-2 fa-regular fa-pen-to-square"></i></small>
                                                 </button>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 <p-image *ngIf="selectedRow?.national_back_image"
                                                     [src]="selectedRow?.national_back_image" alt=" National Id"
                                                     width="50" height="50" [preview]="true"></p-image>
+                                            </td> -->
+                                            <td>
+                                                <div *ngFor="let file of selectedRow?.files;">
+                                                    <p-image *ngIf="file.type == 'national_back'" [src]="file?.image"
+                                                        alt=" National Id" width="50" height="50" [preview]="true">
+                                                    </p-image>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -356,7 +370,7 @@
             chooseLabel="Upload National Id (Front)"></p-fileUpload>
     </div>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" (click)="uploadFrontID(uploadFrontImage)">Upload</button>
+        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadFrontImage,'front')">Upload</button>
     </ng-template>
 </p-dialog>
 
@@ -367,7 +381,7 @@
             chooseLabel="Upload National Id (Back)"></p-fileUpload>
     </div>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" (click)="uploadBackID(uploadBackImage)">Upload</button>
+        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadBackImage,'back')">Upload</button>
     </ng-template>
 </p-dialog>
 

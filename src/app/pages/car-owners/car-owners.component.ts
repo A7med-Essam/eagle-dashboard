@@ -282,30 +282,52 @@ export class CarOwnersComponent implements OnInit {
   uploadModal1: boolean = false;
   uploadModal2: boolean = false;
 
-  uploadFrontID(e: FileUpload) {
+  // uploadFrontID(e: FileUpload) {
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(e._files[0]);
+  //   reader.onload = () => {
+  //     this.selectedRow.national_front_image = reader.result;
+  //     this._CarOwnerService.createOwners(this.selectedRow).subscribe({
+  //       next: (res) => {
+  //         this.uploadModal1 = false;
+  //         this.selectedRow = res.data;
+  //         e._files = null;
+  //       },
+  //     });
+  //   };
+  // }
+
+  // uploadBackID(e: FileUpload) {
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(e._files[0]);
+  //   reader.onload = () => {
+  //     this.selectedRow.national_back_image = reader.result;
+  //     this._CarOwnerService.createOwners(this.selectedRow).subscribe({
+  //       next: (res) => {
+  //         this.uploadModal2 = false;
+  //         this.selectedRow = res.data;
+  //         e._files = null;
+  //       },
+  //     });
+  //   };
+  // }
+
+  uploadNationalID(e: FileUpload, type: string) {
     let reader = new FileReader();
     reader.readAsDataURL(e._files[0]);
     reader.onload = () => {
-      this.selectedRow.national_front_image = reader.result;
-      this._CarOwnerService.createOwners(this.selectedRow).subscribe({
+      const currentType = type == "front" ? "national_front" : "national_back";
+      const IMG = {
+        owner_id: this.selectedRow.id,
+        files: [reader.result],
+        type: currentType,
+      };
+      this._CarOwnerService.uploadFiles(IMG).subscribe({
         next: (res) => {
           this.uploadModal1 = false;
-          this.selectedRow = res.data;
-          e._files = null;
-        },
-      });
-    };
-  }
-
-  uploadBackID(e: HTMLInputElement) {
-    let reader = new FileReader();
-    reader.readAsDataURL(e.files[0]);
-    reader.onload = () => {
-      this.selectedRow.national_back_image = reader.result;
-      this._CarOwnerService.createOwners(this.selectedRow).subscribe({
-        next: (res) => {
           this.uploadModal2 = false;
           this.selectedRow = res.data;
+          e._files = null;
         },
       });
     };

@@ -40,7 +40,7 @@
                 <td>{{lead.issue_date}}</td>
                 <td>{{lead.customer_name}}</td>
                 <td>{{lead.customer_mobile}}</td>
-                <td>{{lead.car_with_type_name}}</td>
+                <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
                 <td>{{lead.car_model}}</td>
                 <td>
                   <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
@@ -94,11 +94,11 @@
                       <td>{{currentLead?.issue_date}}</td>
                     </tr>
                     <tr>
-                      <td>Car Name (OLD)</td>
+                      <td>Car Name</td>
                       <td>{{currentLead?.car_name}}</td>
                     </tr>
                     <tr>
-                      <td>Car Name (NEW)</td>
+                      <td>Car Sub Type</td>
                       <td>{{currentLead?.car_with_type_name}}</td>
                     </tr>
                     <tr>
