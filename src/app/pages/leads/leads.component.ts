@@ -209,9 +209,9 @@ export class LeadsComponent implements OnInit {
   }
 
   editLead(lead: any) {
-    // TODO: uncomment below
-    // this.getCarSub(lead?.car_id);
-    this.getCarSub(lead?.car_type_details?.car_name_id);
+    let [car] = this.carName.filter((c) => c.value == lead.car_name);
+    this.getCarSub(car?.id);
+    // this.getCarSub(lead?.car_type_details?.car_name_id);
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.EditForm.nativeElement);
