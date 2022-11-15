@@ -20,8 +20,8 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive overflow-auto">
-                    <table class="table">
-                        <thead class="text-secondary text-center">
+                    <table class="table text-center">
+                        <thead class="text-secondary">
                             <th>#</th>
                             <th>Name</th>
                             <th>SubType</th>
@@ -30,7 +30,7 @@
                             <th>Color</th>
                             <th>Action</th>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody>
                             <tr *ngFor="let car of ourCars; let i = index">
                                 <td>{{i+1}}</td>
                                 <td>{{car?.name}}</td>
@@ -39,6 +39,10 @@
                                 <td>{{car?.grade}}</td>
                                 <td>{{car?.color}}</td>
                                 <td>
+                                    <button class="btn btn-dark m-1 px-3"
+                                        (click)="displayCarMaintenance(car.id);getMaintenanceType()">
+                                        <i class="fa-solid fa-wrench"></i>
+                                    </button>
                                     <button class="btn btn-primary m-1 px-3" (click)="getById(car.id);"><i
                                             class="fa-regular fa-eye"></i></button>
                                     <button class="btn btn-info m-1 px-3" (click)="displayEditForm(car)"><i
@@ -284,6 +288,59 @@
                                                     (click)="getAssignedUsers(contract);"
                                                     style="width: 20px; height: 30px;"><i
                                                         class="fa-solid fa-share"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Car Maintenance</h4>
+                            <div>
+                                <button class="btn btn-primary mx-1"
+                                    (click)="maintenanceModal = true;this.setMaintenanceForm();">Add
+                                    Maintenance</button>
+                                <button class="btn btn-dark mx-1" (click)="backDetailsBtn3()">Back</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table text-center">
+                                    <thead class="text-muted">
+                                        <th>Counter last time</th>
+                                        <th>Kilometer change every</th>
+                                        <th>Car kilometer</th>
+                                        <th>Maintenance type</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let car of carMaintenance; let i = index">
+                                            <td>{{car?.counter_last_time}}</td>
+                                            <td>{{car?.kilometer_change_every}}</td>
+                                            <td>{{car?.car_kilometer_out}}</td>
+                                            <td>{{car?.maintenance_type?.type_ar}}</td>
+                                            <td>
+                                                <button class="btn btn-info m-1 px-3"
+                                                    (click)="editMaintenanceForm(car)">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </button>
+                                                <button class="btn btn-danger m-1 px-3"
+                                                    (click)="deleteCarMaintenance(car.id)"><i
+                                                        class="fa-solid fa-trash-can"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -936,4 +993,98 @@
             </ul>
         </ng-template>
     </p-fileUpload>
+</p-dialog>
+
+<p-dialog header="Add Car Maintenance" [(visible)]="maintenanceModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='maintenanceForm' (ngSubmit)='addCarMaintenance(maintenanceForm)' id="createForm">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>maintenance type</label>
+                    <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100"
+                        placeholder="Select Type" formControlName="maintenance_type_id" appendTo="body"
+                        optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Counter last time</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='counter_last_time'
+                        placeholder="Enter counter number">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Kilometer change every</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='kilometer_change_every'
+                        placeholder="Enter Kilometer">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Car kilometer</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='car_kilometer_out'
+                        placeholder="Enter Car Kilometer">
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm.invalid">Apply</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Update Car Maintenance" [(visible)]="editMaintenanceModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <form [formGroup]='maintenanceForm' (ngSubmit)='editCarMaintenance(maintenanceForm)' id="createForm">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>maintenance type</label>
+                    <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100"
+                        placeholder="Select Type" formControlName="maintenance_type_id" appendTo="body"
+                        optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Counter last time</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='counter_last_time'
+                        placeholder="Enter counter number">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Kilometer change every</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='kilometer_change_every'
+                        placeholder="Enter Kilometer">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Car kilometer</label>
+                    <input type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxLength="8" class="form-control" formControlName='car_kilometer_out'
+                        placeholder="Enter Car Kilometer">
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm.invalid">Apply</button>
+    </ng-template>
 </p-dialog>

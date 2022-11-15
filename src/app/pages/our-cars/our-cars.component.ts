@@ -7,6 +7,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { CarMaintenanceService } from "app/shared/services/car-maintenance.service";
 import { CarOwnerService } from "app/shared/services/car-owner.service";
 import { CarService } from "app/shared/services/car.service";
 import { CustomerService } from "app/shared/services/customer.service";
@@ -38,11 +39,13 @@ export class OurCarsComponent implements OnInit {
   @ViewChild("Main") Main: any;
   @ViewChild("Show") Show: any;
   @ViewChild("Show2") Show2: any;
+  @ViewChild("Show3") Show3: any;
   @ViewChild("CreateForm") CreateForm: any;
   @ViewChild("EditForm") EditForm: any;
 
   ourCarsForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
+  maintenanceForm: FormGroup = new FormGroup({});
 
   constructor(
     private _OurCarService: OurCarService,
@@ -54,6 +57,7 @@ export class OurCarsComponent implements OnInit {
     private _CustomerService: CustomerService,
     private _CarOwnerService: CarOwnerService,
     private _UsersService: UsersService,
+    private _CarMaintenanceService: CarMaintenanceService,
     private _FormBuilder: FormBuilder
   ) {
     const currentYear = new Date().getFullYear() + 1;
@@ -85,6 +89,7 @@ export class OurCarsComponent implements OnInit {
     this.setAdminForm();
     this.setCreateContractForm();
     // this.setVideoForm();
+    this.setMaintenanceForm();
   }
 
   // Curd Settings
@@ -228,6 +233,24 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(null),
       kilometer: new FormControl(null),
       car_subtype_id: new FormControl(null),
+    });
+  }
+
+  setMaintenanceForm(car?: any) {
+    this.maintenanceForm = this._FormBuilder.group({
+      car_id: new FormControl(this.currentMaintenanceCarId),
+      maintenance_type_id: new FormControl(car?.maintenance_type_id, [
+        Validators.required,
+      ]),
+      counter_last_time: new FormControl(car?.counter_last_time, [
+        Validators.required,
+      ]),
+      kilometer_change_every: new FormControl(car?.kilometer_change_every, [
+        Validators.required,
+      ]),
+      car_kilometer_out: new FormControl(car?.car_kilometer_out, [
+        Validators.required,
+      ]),
     });
   }
 
@@ -600,6 +623,11 @@ export class OurCarsComponent implements OnInit {
     this.fadeInOurCarsTable();
   }
 
+  backDetailsBtn3() {
+    this._SharedService.fadeOut(this.Show3.nativeElement);
+    this.fadeInOurCarsTable();
+  }
+
   displayContractInfo() {
     this.getContracts(this.selectedRow.id);
     this._SharedService.fadeOut(this.Show.nativeElement);
@@ -897,5 +925,81 @@ export class OurCarsComponent implements OnInit {
         this.carVideos = res.data;
       },
     });
+  }
+  // ==========================================================================
+  displayCarMaintenance(id) {
+    this.getCarMaintenanceById(id);
+    this.setMaintenanceForm();
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show3.nativeElement);
+    }, 800);
+  }
+
+  carMaintenance: any[] = [];
+  currentMaintenanceCarId;
+  getCarMaintenanceById(car_id) {
+    this.currentMaintenanceCarId = car_id;
+    this._OurCarService.getCarMaintenanceById(car_id).subscribe({
+      next: (res) => {
+        this.carMaintenance = res.data;
+      },
+    });
+  }
+
+  deleteCarMaintenance(id) {
+    this._OurCarService.deleteCarMaintenance(id).subscribe({
+      next: (res) => {
+        this.carMaintenance = this.carMaintenance.filter((car) => car.id != id);
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+    });
+  }
+
+  maintenanceModal: boolean = false;
+  editMaintenanceModal: boolean = false;
+  maintenanceType: any[] = [];
+
+  getMaintenanceType() {
+    this._CarMaintenanceService.getMaintenanceType().subscribe({
+      next: (res) => {
+        this.maintenanceType = res.data;
+      },
+    });
+  }
+
+  addCarMaintenance(form) {
+    this._OurCarService.addUpdateCarMaintenance(form.value).subscribe({
+      next: (res) => {
+        // const [maintenance_type] = this.maintenanceType.filter((c) => {
+        //   c.id == res.data.maintenance_type_id;
+        // });
+        // res.data.maintenance_type = maintenance_type;
+        // console.log(maintenance_type);
+        // console.log(res.data);
+        // this.carMaintenance.push(res.data);
+        this.getCarMaintenanceById(this.currentMaintenanceCarId);
+        this.maintenanceModal = false;
+      },
+    });
+  }
+
+  editCarMaintenance(form) {
+    this._OurCarService.addUpdateCarMaintenance(form.value).subscribe({
+      next: (res) => {
+        this.carMaintenance.map((e) => {
+          if (e.id == res.data.id) {
+            Object.assign(e, res.data);
+          }
+        });
+        this.editMaintenanceModal = false;
+      },
+    });
+  }
+
+  editMaintenanceForm(car) {
+    // this.getMaintenanceType();
+    this.setMaintenanceForm(car);
+    this.editMaintenanceModal = true;
   }
 }

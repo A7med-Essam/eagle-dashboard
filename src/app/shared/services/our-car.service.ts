@@ -83,4 +83,21 @@ export class OurCarService {
   getFilesByCarId(car_id): Observable<any> {
     return this._ApiService.postReq(`ourCars/getFilesByCarId`, { car_id });
   }
+
+  getCarMaintenanceById(car_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/carMaintenanceById`, { car_id });
+  }
+
+  addUpdateCarMaintenance(maintenance): Observable<any> {
+    return this._ApiService.postReq(
+      `ourCars/addUpdateCarMaintenance`,
+      maintenance
+    );
+  }
+
+  deleteCarMaintenance(car_maintenance_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/deleteCarMaintenance`, {
+      car_maintenance_id,
+    });
+  }
 }
