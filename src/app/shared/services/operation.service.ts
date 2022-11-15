@@ -56,4 +56,10 @@ export class OperationService {
   getAreaWithoutPagination(): Observable<any> {
     return this._ApiService.postReq(`areas`, { withoutPagination: 0 });
   }
+
+  validateCarMaintenance(car_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/validateCarMaintenance`, {
+      car_id,
+    });
+  }
 }

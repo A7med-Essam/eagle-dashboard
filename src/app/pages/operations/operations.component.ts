@@ -179,7 +179,7 @@ export class OperationsComponent implements OnInit {
   //       this.assignModal = false;
   //     },
   //     error: (err) => {
-  //       this._ToastrService.setToaster(err.error.message, "error", "danger");
+  // this._ToastrService.setToaster(err.error.message, "error", "danger");
   //     },
   //   });
   // }
@@ -191,11 +191,29 @@ export class OperationsComponent implements OnInit {
 
   currentContractLogged;
   displayLogContract(contract) {
-    this.currentContractLogged = contract;
-    if (contract?.logs.length) this.logForm.controls["kilometer_in"].disable();
-    else this.logForm.controls["kilometer_in"].enable();
-    this.setLogForm(contract.id, contract?.logs.at(-1)?.kilometer_out);
-    this.logModal = true;
+    if (contract.car) {
+      this._OperationService.validateCarMaintenance(contract.car.id).subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res.status == 0) {
+            this._ToastrService.setToaster(res.message, "error", "danger");
+          } else {
+            this.currentContractLogged = contract;
+            if (contract?.logs.length)
+              this.logForm.controls["kilometer_in"].disable();
+            else this.logForm.controls["kilometer_in"].enable();
+            this.setLogForm(contract.id, contract?.logs.at(-1)?.kilometer_out);
+            this.logModal = true;
+          }
+        },
+      });
+    } else {
+      this._ToastrService.setToaster(
+        "This row doesn't have a car",
+        "error",
+        "danger"
+      );
+    }
   }
 
   // getAdmins() {
@@ -354,4 +372,8 @@ export class OperationsComponent implements OnInit {
       this._SharedService.fadeIn(this.Show2.nativeElement);
     }, 800);
   }
+
+  // validateCarMaintenance(id) {
+
+  // }
 }
