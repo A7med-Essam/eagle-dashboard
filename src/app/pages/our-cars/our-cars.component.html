@@ -310,8 +310,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Car Maintenance</h4>
                             <div>
-                                <button class="btn btn-primary mx-1"
-                                    (click)="maintenanceModal = true;this.setMaintenanceForm();">Add
+                                <button class="btn btn-primary mx-1" (click)="displayAddMaintenance()">Add
                                     Maintenance</button>
                                 <button class="btn btn-dark mx-1" (click)="backDetailsBtn3()">Back</button>
                             </div>
@@ -997,11 +996,11 @@
 
 <p-dialog header="Add Car Maintenance" [(visible)]="maintenanceModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
-    <form [formGroup]='maintenanceForm' (ngSubmit)='addCarMaintenance(maintenanceForm)' id="createForm">
+    <form [formGroup]='maintenanceForm2' (ngSubmit)='addCarMaintenance(maintenanceForm2)' id="createForm">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label>maintenance type</label>
+                    <label>Maintenance type</label>
                     <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100"
                         placeholder="Select Type" formControlName="maintenance_type_id" appendTo="body"
                         optionValue="id">
@@ -1038,7 +1037,7 @@
         </div>
     </form>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm.invalid">Apply</button>
+        <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm2.invalid">Apply</button>
     </ng-template>
 </p-dialog>
 
@@ -1048,8 +1047,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label>maintenance type</label>
-                    <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100"
+                    <label>Maintenance type</label>
+                    <p-dropdown [options]="maintenanceType" optionLabel="type_ar" styleClass="w-100" [disabled]="true"
                         placeholder="Select Type" formControlName="maintenance_type_id" appendTo="body"
                         optionValue="id">
                     </p-dropdown>
