@@ -380,6 +380,7 @@ export class LeadsComponent implements OnInit {
         next: (res) => {
           this.addReplayModal = false;
           this._ToastrService.setToaster(res.message, "success", "success");
+          replay.value = "";
         },
         error: (err) =>
           this._ToastrService.setToaster(err.error.message, "error", "danger"),
