@@ -613,7 +613,8 @@ export class OurCarsComponent implements OnInit {
   getOwners() {
     this._CarOwnerService.getOwnersWithoutPagination().subscribe({
       next: (res) => {
-        this.owners = res.data;
+        // this.owners = res.data;
+        this.owners = res.data.sort((a, b) => a.name.localeCompare(b.name));
       },
       error: (err) => {
         this._ToastrService.setToaster(err.error.message, "error", "danger");
