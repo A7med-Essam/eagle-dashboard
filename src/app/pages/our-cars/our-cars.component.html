@@ -142,6 +142,16 @@
                                             <td>Car Owner National Id</td>
                                             <td>{{selectedRow?.owner?.nid}}</td>
                                         </tr>
+                                        <tr *ngIf="isSuperAdmin">
+                                            <td>Assign</td>
+                                            <td><button
+                                                    class="btn btn-success d-flex justify-content-center align-items-center"
+                                                    (click)="getAssignedUsers2(selectedRow);"
+                                                    style="width: 20px; height: 30px;">
+                                                    <i class="fa-solid fa-share"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                         <!-- <tr *ngIf="selectedRow?.contracts.length != 0">
                                             <td>Assign</td>
                                             <td><button
@@ -1085,5 +1095,35 @@
     </form>
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm.invalid">Apply</button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Assign Users" [(visible)]="assignModal2" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]='AssignForm2' #AssignUsersForm2 (ngSubmit)='assignUsers2(AssignForm2)'
+                id="AssignUsersForm2">
+                <div *ngFor="let user of users; let i = index;">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <img src="../../../assets/img/default-avatar.png" class="rounded-circle"
+                                style="width: 40px;height: 40px;" alt="user image">
+                            <div class="px-2 py-1 my-3 mx-2 rounded-lg" style="background-color: rgb(238, 238, 238);">
+                                <small>{{user.name}}</small>
+                            </div>
+                        </div>
+                        <!-- <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)"> -->
+                        <input [id]="'ckkb_'+i" class="ckb ckb-primary" type="checkbox" [value]="user.id"
+                            (change)="onCheckChange2($event)" />
+                        <label class="hidden" [for]="'ckkb_'+i"></label>
+                    </div>
+                    <hr>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" form="AssignUsersForm2">Confirm</button>
     </ng-template>
 </p-dialog>

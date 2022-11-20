@@ -11,6 +11,7 @@ import { CarMaintenanceService } from "app/shared/services/car-maintenance.servi
 import { CarOwnerService } from "app/shared/services/car-owner.service";
 import { CarService } from "app/shared/services/car.service";
 import { CustomerService } from "app/shared/services/customer.service";
+import { GuardService } from "app/shared/services/guard.service";
 import { OperationService } from "app/shared/services/operation.service";
 import { OurCarService } from "app/shared/services/our-car.service";
 import { SharedService } from "app/shared/services/shared.service";
@@ -58,6 +59,7 @@ export class OurCarsComponent implements OnInit {
     private _CustomerService: CustomerService,
     private _CarOwnerService: CarOwnerService,
     private _UsersService: UsersService,
+    private _GuardService: GuardService,
     private _CarMaintenanceService: CarMaintenanceService,
     private _FormBuilder: FormBuilder
   ) {
@@ -88,10 +90,17 @@ export class OurCarsComponent implements OnInit {
     this.getCustomers();
     this.getAdmins();
     this.setAdminForm();
+    this.setAdminForm2();
     this.setCreateContractForm();
     // this.setVideoForm();
     this.setMaintenanceForm();
     this.setMaintenanceForm2();
+    this.setPermissions();
+  }
+
+  isSuperAdmin: boolean = false;
+  setPermissions() {
+    this.isSuperAdmin = this._GuardService.isSuperAdmin();
   }
 
   // Curd Settings
@@ -1010,5 +1019,102 @@ export class OurCarsComponent implements OnInit {
     this.maintenanceForm.controls.maintenance_type_id.disable();
     this.setMaintenanceForm(car);
     this.editMaintenanceModal = true;
+  }
+
+  // ***************************************************************************
+
+  AssignForm2: FormGroup = new FormGroup({});
+  assignModal2: boolean = false;
+  @ViewChild("AssignUsersForm2") AssignUsersForm2: HTMLFormElement;
+
+  setAdminForm2(id?) {
+    this.AssignForm2 = this._FormBuilder.group({
+      user_ids: new FormArray([]),
+      car_id: new FormControl(id),
+    });
+  }
+
+  getAssignedUsers2(car) {
+    this.resetAssignForm2();
+    this.setAdminForm2(car.id);
+    const usersId =
+      this.AssignUsersForm2.nativeElement.querySelectorAll("input");
+    const leadUsers = car.assign_user_ids;
+    const formArray: FormArray = this.AssignForm2.get("user_ids") as FormArray;
+    if (leadUsers) {
+      this.assignModal2 = true;
+      for (let i = 0; i < usersId.length; i++) {
+        for (let j = 0; j < leadUsers.length; j++) {
+          if (Number(usersId[i].value) == Number(leadUsers[j])) {
+            if (!formArray.value.includes(leadUsers[j].toString())) {
+              usersId[i].checked = true;
+              formArray.push(new FormControl(usersId[i].value));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  assignUsers2(users: FormGroup) {
+    this._OurCarService
+      .assignUsers({
+        car_id: users.value.car_id,
+        user_ids: users.value.user_ids.filter(Number),
+      })
+      .subscribe({
+        next: (res) => {
+          if (res.status == 1) {
+            this._ToastrService.setToaster(res.message, "success", "success");
+            this.assignModal2 = false;
+            this.ourCars.map((e) => {
+              if (e.id == this.selectedRow.id) {
+                e.assign_user_ids = users.value.user_ids.filter(Number);
+              }
+            });
+          } else {
+            this._ToastrService.setToaster(
+              "Please select at least one user",
+              "error",
+              "danger"
+            );
+          }
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  // users: Array<any> = [];
+
+  // getAdmins() {
+  //   this._UsersService.getAdmins().subscribe({
+  //     next: (res) => (this.users = res.data),
+  //     error: (err) =>
+  //       this._ToastrService.setToaster(err.error.message, "error", "danger"),
+  //   });
+  // }
+
+  onCheckChange2(event) {
+    const formArray: FormArray = this.AssignForm2.get("user_ids") as FormArray;
+    if (event.target.checked) {
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      let i: number = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  resetAssignForm2() {
+    this.AssignForm2.reset();
+    this.AssignUsersForm2.nativeElement
+      .querySelectorAll("input")
+      .forEach((u) => (u.checked = false));
   }
 }

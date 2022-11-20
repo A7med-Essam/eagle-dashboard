@@ -100,4 +100,10 @@ export class OurCarService {
       car_maintenance_id,
     });
   }
+
+  // ============================================
+
+  assignUsers(assign): Observable<any> {
+    return this._ApiService.postReq(`ourCars/assign`, assign);
+  }
 }

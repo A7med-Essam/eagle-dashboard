@@ -39,11 +39,11 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
-                  <button *ngIf="isSuperAdmin" class="btn btn-success mx-2"
+                  <button *ngIf="isSuperAdmin" class="btn btn-success m-1"
                     (click)="upgradeToSuperAdmin(user)">Promote</button>
-                  <button *ngIf="update" class="btn btn-info mx-2"
+                  <button *ngIf="update" class="btn btn-info m-1"
                     (click)="editAdmin(user);getAssignedPermisstions()">Edit</button>
-                  <button *ngIf="delete" class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
+                  <button *ngIf="delete" class="btn btn-danger m-1" (click)="deleteConfirm(user)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -90,11 +90,11 @@
                 <td><img src="../../../assets/img/default-avatar.png" class="img-fluid rounded-circle"
                     style="width: 50px;height: 50px;" alt=""></td>
                 <td>
-                  <button *ngIf="update" class="btn btn-warning mx-2"
+                  <button *ngIf="update" class="btn btn-warning m-1"
                     (click)="downgradeSuperAdmin(user)">unPromote</button>
-                  <button *ngIf="update" class="btn btn-info mx-2"
+                  <button *ngIf="update" class="btn btn-info m-1"
                     (click)="displayEditSuperAdmin(user);getAssignedPermisstions()">Edit</button>
-                  <button *ngIf="delete" class="btn btn-danger mx-2" (click)="deleteConfirm(user)">Delete</button>
+                  <button *ngIf="delete" class="btn btn-danger m-1" (click)="deleteConfirm(user)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -183,7 +183,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'users'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_1_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_1_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -198,7 +198,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'leads'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_2_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_2_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -212,7 +212,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'operations'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_3_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_3_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -226,7 +226,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'employees'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_4_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_4_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -240,7 +240,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'customers'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_5_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_5_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -254,7 +254,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'owners'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_6_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_6_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -268,7 +268,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'ourcars'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_7_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_7_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -282,7 +282,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'carprices'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_8_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_8_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -296,7 +296,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'carsettings'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_9_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_9_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -310,7 +310,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'insurances'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_10_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_10_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -324,7 +324,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'policies'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_11_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_11_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -338,7 +338,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'salesreports'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_12_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_12_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -352,7 +352,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'operationreports'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_13_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_13_'+i">{{permission.description}}</label>
                         </div>
                       </div>
@@ -366,7 +366,7 @@
                         <div *ngIf="permission.type.toLowerCase() == 'carmaintenances'"
                           class="m-3 d-flex justify-content-center align-items-center">
                           <input [id]="'ckb_14_'+i" class="ckb ckb-primary" type="checkbox" [value]="permission.value"
-                            (change)="onCheckChange($event,'create')" />
+                            (change)="onCheckChange($event,'edit')" />
                           <label [for]="'ckb_14_'+i">{{permission.description}}</label>
                         </div>
                       </div>
