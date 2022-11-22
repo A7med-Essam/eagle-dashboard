@@ -311,7 +311,7 @@
     </div>
 </div>
 
-<div class="row animated d-none" #Show3>
+<!-- <div class="row animated d-none" #Show3>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -355,6 +355,69 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row animated d-none" #Show3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Car Maintenance Info</h4>
+                            <div class="d-flex flex-wrap justify-content-end">
+                                <button class="btn btn-info m-1" #updateBtn
+                                    (click)="updateCarMaintenance(updateBtn,ConfirmUpdate)">Enable
+                                    Update</button>
+                                <button class="btn btn-info m-1 d-none" #ConfirmUpdate
+                                    (click)="confirmUpdate(updateBtn,ConfirmUpdate)">Update</button>
+                                <button class="btn btn-dark m-1" (click)="backDetailsBtn3()">Back</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead class="text-secondary text-center">
+                                    <th *ngFor="let type of maintenanceType">
+                                        {{type.type_ar}}
+                                    </th>
+                                    <th>Maintenance Type</th>
+                                </thead>
+                                <tbody class="text-center" #carMaintenanceTableBody>
+                                    <tr>
+                                        <td *ngFor="let type of maintenanceType">
+                                            <input type="text" [attr.Maintenancetype]="type.id"
+                                                [attr.valueType]="'counter_last_time'"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                maxLength="7" class="form-control" disabled>
+                                        </td>
+                                        <td>Counter last time</td>
+                                    </tr>
+                                    <tr>
+                                        <td *ngFor="let type of maintenanceType">
+                                            <input type="text" [attr.Maintenancetype]="type.id"
+                                                [attr.valueType]="'kilometer_change_every'"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                maxLength="7" class="form-control" disabled>
+                                        </td>
+                                        <td>Kilometer change every</td>
+                                    </tr>
+                                    <tr>
+                                        <td *ngFor="let type of maintenanceType">
+                                            <input type="text" [attr.Maintenancetype]="type.id"
+                                                [attr.valueType]="'car_kilometer_out'"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                maxLength="7" class="form-control" disabled>
+                                        </td>
+                                        <td>Car Kilometer out</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1004,7 +1067,7 @@
     </p-fileUpload>
 </p-dialog>
 
-<p-dialog header="Add Car Maintenance" [(visible)]="maintenanceModal" [modal]="true" [style]="{width: '50vw'}"
+<!-- <p-dialog header="Add Car Maintenance" [(visible)]="maintenanceModal" [modal]="true" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false">
     <form [formGroup]='maintenanceForm2' (ngSubmit)='addCarMaintenance(maintenanceForm2)' id="createForm">
         <div class="row">
@@ -1096,7 +1159,7 @@
     <ng-template pTemplate="footer">
         <button class="btn btn-primary m-1" form="createForm" [disabled]="maintenanceForm.invalid">Apply</button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog header="Assign Users" [(visible)]="assignModal2" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
     [resizable]="false">
