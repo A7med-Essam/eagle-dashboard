@@ -986,7 +986,7 @@ export class OurCarsComponent implements OnInit {
         this.clearInputValues(inputs);
         setTimeout(() => {
           this.setInputValues(inputs);
-        }, 1);
+        }, 500);
       },
     });
   }
