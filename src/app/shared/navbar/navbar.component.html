@@ -10,12 +10,12 @@
       </div>
       <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
     </div>
-    <!-- <button class="navbar-toggler" type="button" (click)="collapse()"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
-    </button> -->
+    </button>
     <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="isCollapsed">
       <form>
         <div class="input-group no-border">
@@ -45,6 +45,7 @@
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
             <a ngbDropdownItem href="javascript:void(0)" routerLink="./auth/login" *ngIf="!isLoggedin">Login</a>
             <!-- <a ngbDropdownItem href="javascript:void(0)" routerLink="./auth/register">Register</a> -->
+            <a ngbDropdownItem href="javascript:void(0)" *ngIf="isLoggedin">Profile</a>
             <a ngbDropdownItem href="javascript:void(0)" (click)="logout()" *ngIf="isLoggedin">Logout</a>
           </div>
         </li>
