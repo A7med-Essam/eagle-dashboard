@@ -18,6 +18,7 @@ import { SalesReportComponent } from "app/pages/sales-report/sales-report.compon
 import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
 import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
+import { ReminderComponent } from "app/pages/reminder/reminder.component";
 
 export const AdminLayoutRoutes: Routes = [
   {
@@ -143,6 +144,14 @@ export const AdminLayoutRoutes: Routes = [
     canActivate: [PermissionGuard],
     data: {
       permission: ["read_carMaintenances"],
+    },
+  },
+  {
+    path: "reminder",
+    component: ReminderComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_leads"],
     },
   },
 ];

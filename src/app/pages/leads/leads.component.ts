@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -15,6 +15,7 @@ import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
 import { ConfirmationService } from "primeng/api";
+import { Calendar } from "primeng/calendar";
 
 @Component({
   selector: "leads-cmp",
@@ -720,5 +721,40 @@ export class LeadsComponent implements OnInit {
         },
       });
     }
+  }
+
+  addReminder: boolean = false;
+  minimumDate = new Date();
+
+  addReminderLead(calendar: Calendar) {
+    setTimeout(() => {
+      if (calendar.inputFieldValue != "") {
+        const lead = {
+          lead_id: this.currentLead.id,
+          remind_date: new Date(calendar.inputFieldValue)
+            .toISOString()
+            .slice(0, 10),
+          reminded: 1,
+        };
+        this._LeadsService.addReminderLead(lead).subscribe({
+          next: (res) => {
+            if (res.status == 1) {
+              this._SharedService;
+              this._ToastrService.setToaster(res.message, "success", "success");
+              this.addReminder = false;
+              calendar.clear();
+            } else {
+              this._ToastrService.setToaster(res.message, "error", "danger");
+            }
+          },
+        });
+      } else {
+        this._ToastrService.setToaster(
+          "Error Occurred. Please try again",
+          "error",
+          "danger"
+        );
+      }
+    }, 1);
   }
 }

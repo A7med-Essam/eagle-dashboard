@@ -230,8 +230,10 @@
                                             <td class="d-flex justify-content-start align-items-center flex-wrap">
                                                 <div *ngFor="let file of selectedRow?.files">
                                                     <div *ngIf="file?.type == 'national'" class="mr-3">
-                                                        <p-image *ngIf="file?.image" [src]="file?.image" alt="national"
-                                                            width="50" height="50" [preview]="true"></p-image>
+                                                        <p-image *ngIf="file?.image"
+                                                            src="http://api.eagles-limo.com/{{file?.image}}"
+                                                            alt="national" width="50" height="50" [preview]="true">
+                                                        </p-image>
                                                     </div>
                                                 </div>
                                             </td>

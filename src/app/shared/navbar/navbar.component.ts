@@ -9,6 +9,7 @@ import { ROUTES } from "../../sidebar/sidebar.component";
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { AuthService } from "../services/auth.service";
+import { LeadsService } from "../services/leads.service";
 
 @Component({
   moduleId: module.id,
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
     private renderer: Renderer2,
     private element: ElementRef,
     private router: Router,
+    private _LeadsService: LeadsService,
     private _AuthService: AuthService
   ) {
     this.location = location;
@@ -46,6 +48,10 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.sidebarClose();
     });
+    this.getNotifications();
+    setInterval(() => {
+      this.getNotifications();
+    }, 1000 * 60 * 60);
   }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
@@ -109,5 +115,18 @@ export class NavbarComponent implements OnInit {
   }
   logout() {
     this._AuthService.logOut();
+  }
+
+  @ViewChild("Notification") Notification: ElementRef<HTMLElement>;
+
+  getNotifications() {
+    this._LeadsService.checkDailyLeads().subscribe({
+      next: (res) => {
+        this.Notification.nativeElement.setAttribute(
+          "data-content",
+          res.data.data.length
+        );
+      },
+    });
   }
 }

@@ -53,7 +53,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page"
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="6"
                         (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
                     </ngb-pagination>
                 </div>

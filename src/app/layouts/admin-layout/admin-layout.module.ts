@@ -32,6 +32,8 @@ import { OperationReportComponent } from "app/pages/operation-report/operation-r
 import { AccountingComponent } from "app/pages/accounting/accounting.component";
 import { TabViewModule } from "primeng/tabview";
 import { MultiSelectModule } from "primeng/multiselect";
+import { ReminderComponent } from "app/pages/reminder/reminder.component";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -66,6 +68,7 @@ import { MultiSelectModule } from "primeng/multiselect";
     CarMaintenanceComponent,
     OperationReportComponent,
     AccountingComponent,
+    ReminderComponent,
   ],
 })
 export class AdminLayoutModule {}

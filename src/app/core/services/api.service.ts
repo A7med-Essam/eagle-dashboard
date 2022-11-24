@@ -1,7 +1,7 @@
 import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
+import { interval, Observable } from "rxjs";
 import { map, retry, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 // import { ToastrService } from 'ngx-toastr';
@@ -40,7 +40,7 @@ export class ApiService {
         next: () => {},
         error: (err) => {
           if (err.status == 500) {
-            this._Router.navigate(["./dashboard"]);
+            this._Router.navigate(["./error"]);
           }
           this.ngxService.stop();
         },
@@ -61,7 +61,7 @@ export class ApiService {
           next: () => {},
           error: (err) => {
             if (err.status == 500) {
-              this._Router.navigate(["./dashboard"]);
+              this._Router.navigate(["./error"]);
             }
             this.ngxService.stop();
           },
@@ -70,6 +70,16 @@ export class ApiService {
           },
         })
       );
+  }
+
+  postReqWithoutLoader(
+    url: string,
+    body: any,
+    params?: HttpParams
+  ): Observable<any> {
+    return this.http
+      .post(environment.BaseUrl + url, body, { params: params })
+      .pipe(retry(5));
   }
 
   postReqWithHeader(url: string, body: any, headers): Observable<any> {
@@ -82,7 +92,7 @@ export class ApiService {
           next: () => {},
           error: (err) => {
             if (err.status == 500) {
-              this._Router.navigate(["./dashboard"]);
+              this._Router.navigate(["./error"]);
             }
             this.ngxService.stop();
           },
@@ -115,8 +125,7 @@ export class ApiService {
       .pipe(
         tap({
           next: () => {},
-          error: (err) => {
-          },
+          error: (err) => {},
         })
       );
 

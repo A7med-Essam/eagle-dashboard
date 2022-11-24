@@ -51,4 +51,16 @@ export class LeadsService {
   exportLeadsWithFilter(filter): Observable<any> {
     return this._ApiService.postReq("lead/printLeads", filter);
   }
+
+  allReminderLeads(page = 1): Observable<any> {
+    return this._ApiService.postReq(`leads/allReminderLeads?page=${page}`, "");
+  }
+
+  addReminderLead(reminder): Observable<any> {
+    return this._ApiService.postReq("leads/addReminderLead", reminder);
+  }
+
+  checkDailyLeads(): Observable<any> {
+    return this._ApiService.postReqWithoutLoader("leads/checkDailyLeads", "");
+  }
 }

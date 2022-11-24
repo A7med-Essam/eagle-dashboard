@@ -362,7 +362,9 @@ export class OurCarsComponent implements OnInit {
 
   // Pagination
   loadPage(page: number) {
-    this.getOurCars(page);
+    setTimeout(() => {
+      this.getOurCars(page);
+    }, 1000);
   }
 
   // Export

@@ -147,3 +147,24 @@ a {
 .p-tabview .p-tabview-nav .p-tabview-ink-bar {
     background-color: #34B5B8;
 }
+
+.leadsNotifications {
+    position: relative;
+}
+
+.leadsNotifications::after {
+    position: absolute;
+    content: attr(data-content);
+    color: #fff;
+    right: -10px;
+    bottom: -10px;
+    font-size: 10px;
+    border-radius: 50%;
+    background-color: #ef8157;
+    padding: 5px;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
