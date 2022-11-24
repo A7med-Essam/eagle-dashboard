@@ -1,3 +1,4 @@
+import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "app/core/services/api.service";
 import { Observable } from "rxjs";
@@ -11,6 +12,11 @@ export class LeadsService {
   getLeads(page = 1): Observable<any> {
     return this._ApiService.getReq(`leads?page=${page}`);
   }
+
+  // getLeadsWithoutPaginate(): Observable<any> {
+  //   let params = new HttpParams().set("withoutPagination", "true");
+  //   return this._ApiService.getReq(`leads`, params);
+  // }
 
   getLeadsById(lead_id): Observable<any> {
     return this._ApiService.postReq("leads/show", { lead_id: lead_id });

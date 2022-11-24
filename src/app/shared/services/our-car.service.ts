@@ -76,6 +76,12 @@ export class OurCarService {
     return this._ApiService.postVideos(`ourCars/uploadVideo`, formData);
   }
 
+  deleteVideo(file_id): Observable<any> {
+    return this._ApiService.postReq(`ourCars/deleteVideo`, {
+      file_id,
+    });
+  }
+
   getVideosByCarId(car_id): Observable<any> {
     return this._ApiService.postReq(`ourCars/getVideosByCarId`, { car_id });
   }

@@ -53,7 +53,7 @@
               </tr>
             </tbody>
           </table>
-          <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="6"
+          <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
             (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
           </ngb-pagination>
         </div>
@@ -521,6 +521,22 @@
           <br>
           <p-calendar formControlName="issue_date" appendTo="body" placeholder="Select Issue Date"
             [style]="{'width':'100%'}"></p-calendar>
+        </div>
+      </div>
+      <div class="col-xl-4 pr-xl-1 col-lg-6" *ngIf="isSuperAdmin">
+        <div class="form-group">
+          <label>Lead Created By?</label>
+          <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='created_id'
+            placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-xl-4 pr-xl-1 col-lg-6" *ngIf="isSuperAdmin">
+        <div class="form-group">
+          <label>Assigned Agent</label>
+          <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" formControlName='assigned_id'
+            placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+          </p-dropdown>
         </div>
       </div>
     </div>

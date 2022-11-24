@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { LeadsService } from "app/shared/services/leads.service";
+import { SharedService } from "app/shared/services/shared.service";
 
 @Component({
   selector: "app-reminder",
@@ -7,11 +8,14 @@ import { LeadsService } from "app/shared/services/leads.service";
   styleUrls: ["./reminder.component.scss"],
 })
 export class ReminderComponent implements OnInit {
-  constructor(private _LeadsService: LeadsService) {}
+  constructor(
+    private _LeadsService: LeadsService,
+    private _SharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
     this.getAllReminderLeads();
-    // this.checkDailyLeads();
+    // this.getAllLeads();
   }
 
   pagination: any;
@@ -49,5 +53,45 @@ export class ReminderComponent implements OnInit {
         },
       });
     }
+  }
+
+  // leads;
+
+  // getAllLeads() {
+  //   this._LeadsService.getLeadsWithoutPaginate().subscribe({
+  //     next: (res) => {
+  //       this.leads = res.data;
+  //       console.log(this.leads);
+  //     },
+  //   });
+  // }
+  currentLead;
+  getLeadById(id: any) {
+    this.displayLeadDetails();
+    this._LeadsService.getLeadsById(id).subscribe({
+      next: (res) => {
+        this.currentLead = res.data;
+        console.log(this.currentLead);
+      },
+    });
+  }
+
+  backDetailsBtn() {
+    this._SharedService.fadeOut(this.Show.nativeElement);
+    this.fadeInLeadsTable();
+  }
+
+  @ViewChild("Main") Main: any;
+  @ViewChild("Show") Show: any;
+  fadeInLeadsTable() {
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Main.nativeElement);
+    }, 800);
+  }
+  displayLeadDetails() {
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Show.nativeElement);
+    }, 800);
   }
 }

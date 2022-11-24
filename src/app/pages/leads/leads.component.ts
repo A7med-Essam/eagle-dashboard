@@ -288,6 +288,8 @@ export class LeadsComponent implements OnInit {
     if (!form.value.kilometer) delete form.value.kilometer;
     if (!form.value.insurance) delete form.value.insurance;
     if (!form.value.car_subtype_id) delete form.value.car_subtype_id;
+    if (!form.value.created_id) delete form.value.created_id;
+    if (!form.value.assigned_id) delete form.value.assigned_id;
     form.value.withoutPagination = 0;
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
@@ -476,6 +478,8 @@ export class LeadsComponent implements OnInit {
       insurance: new FormControl(null),
       issue_date: new FormControl(null),
       car_subtype_id: new FormControl(null),
+      created_id: new FormControl(null),
+      assigned_id: new FormControl(null),
     });
   }
 
@@ -673,6 +677,7 @@ export class LeadsComponent implements OnInit {
   delete: boolean = false;
   makeReplay: boolean = false;
   seeReplay: boolean = false;
+  isSuperAdmin: boolean = false;
   setPermissions() {
     this.read = this._GuardService.hasLeadsPermission_Read();
     this.create = this._GuardService.hasLeadsPermission_Create();
@@ -680,6 +685,9 @@ export class LeadsComponent implements OnInit {
     this.delete = this._GuardService.hasLeadsPermission_Delete();
     this.makeReplay = this._GuardService.hasLeadsPermission_MakeReplay();
     this.seeReplay = this._GuardService.hasLeadsPermission_SeeReplay();
+    // TODO: Uncomment line below
+    // this.isSuperAdmin = this._GuardService.isSuperAdmin();
+
     // if (this._GuardService.isSuperAdmin()) {
     //   this.read = true;
     //   this.create = true;

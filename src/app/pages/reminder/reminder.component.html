@@ -1,4 +1,4 @@
-<div class="row my-3">
+<div class="row my-3 animated" #Main>
     <div class="col-12">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -10,7 +10,7 @@
                         <th>#</th>
                         <th>Remind Date</th>
                         <th>Remind Status</th>
-                        <th>Lead Id</th>
+                        <th>Action</th>
                     </thead>
                     <tbody class="text-center">
                         <tr *ngFor="let remind of reminders; let i = index"
@@ -20,16 +20,96 @@
                             <td>
                                 <span class="text-white px-3 py-2 rounded-pill bg-info pointer"
                                     (click)="updateReminderLeads(remind)">
-                                    Notified
+                                    {{remind.reminded?"Notified":"Notify"}}
                                 </span>
                             </td>
-                            <td>{{remind.lead_id}}</td>
+                            <td>
+                                <button class="btn btn-primary m-1 px-3" (click)="getLeadById(remind.lead_id);"><i
+                                        class="fa-regular fa-eye"></i></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="6"
+                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
                     (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
                 </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Lead Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{{currentLead?.customer_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td>{{currentLead?.customer_mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue date</td>
+                                            <td>{{currentLead?.issue_date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Name</td>
+                                            <td>{{currentLead?.car_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Sub Type</td>
+                                            <td>{{currentLead?.car_with_type_name.split("-")[1]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Color</td>
+                                            <td>{{currentLead?.car_color}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Type</td>
+                                            <td>{{currentLead?.car_type}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Model</td>
+                                            <td>{{currentLead?.car_model}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gear Type</td>
+                                            <td>{{currentLead?.gear_type}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Grade</td>
+                                            <td>{{currentLead?.grade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insurance</td>
+                                            <td>{{currentLead?.insurance}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>kilometer</td>
+                                            <td>{{currentLead?.kilometer}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

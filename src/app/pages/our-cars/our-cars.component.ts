@@ -290,7 +290,7 @@ export class OurCarsComponent implements OnInit {
     this._SharedService.fadeOut(this.Show.nativeElement);
     this.fadeInOurCarsTable();
     // this.carVideos = null;
-    this.uploadedVideo = null;
+    // this.uploadedVideo = null;
   }
 
   backCreateBtn() {
@@ -920,7 +920,7 @@ export class OurCarsComponent implements OnInit {
 
   progress;
   videoInProgress: boolean = false;
-  uploadedVideo;
+  // uploadedVideo;
   submitVideo(video, car_id) {
     this._OurCarService.uploadVideo(video, car_id).subscribe({
       next: (event: HttpEvent<any>) => {
@@ -936,7 +936,9 @@ export class OurCarsComponent implements OnInit {
             "success",
             "success"
           );
-          this.uploadedVideo = event.body.data;
+          // this.uploadedVideo = event.body.data;
+          this.selectedRow.videos.push(event.body.data);
+          this.getCarVideos(event.body.data.at(-1).car_id);
         }
       },
       error: (err) => {
@@ -946,6 +948,17 @@ export class OurCarsComponent implements OnInit {
           "Couldn't upload video please check your internet connection and try again",
           "error",
           "danger"
+        );
+      },
+    });
+  }
+
+  deleteVideo(id) {
+    this._OurCarService.deleteVideo(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.selectedRow.videos = this.selectedRow.videos.filter(
+          (data) => data.id != id
         );
       },
     });

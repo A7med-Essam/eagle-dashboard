@@ -53,7 +53,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="6"
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
                         (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
                     </ngb-pagination>
                 </div>
@@ -235,16 +235,26 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center align-items-center flex-wrap">
-                                                    <video *ngIf="uploadedVideo" width="150" height="100" controls
+                                                    <!-- <video *ngIf="uploadedVideo" width="150" height="100" controls
                                                         class="m-1">
                                                         <source [src]="uploadedVideo">
-                                                    </video>
-
-                                                    <video *ngFor="let video of selectedRow?.videos" width="150"
-                                                        height="100" class="m-1" controls>
-                                                        <source src="http://api.eagles-limo.com/{{video?.video}}">
-                                                        <!-- [src]="video.video" -->
-                                                    </video>
+                                                    </video> -->
+                                                    <div *ngFor="let video of selectedRow?.videos" class="mx-2">
+                                                        <div>
+                                                            <video width="150" height="100" class="m-1" controls>
+                                                                <source
+                                                                    src="http://api.eagles-limo.com/{{video?.video}}">
+                                                                <!-- [src]="video.video" -->
+                                                            </video>
+                                                        </div>
+                                                        <button class="btn btn-danger w-100" style="padding: 6px 12px;"
+                                                            (click)="deleteVideo(video.id)">
+                                                            <small>
+                                                                <b>Delete Video</b>
+                                                                <i class="ml-2 fa-solid fa-trash-can"></i>
+                                                            </small>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
