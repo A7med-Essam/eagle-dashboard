@@ -95,6 +95,18 @@ export class EmployeesComponent implements OnInit {
 
   getById(id: any) {
     [this.selectedRow] = this.employees.filter((emp) => emp.id == id);
+    // this.selectedRow.files = [];
+    // console.log(this.selectedRow);
+    let files;
+    this._EmployeeService.getFilesById(id).subscribe({
+      next(res) {
+        files = res.data;
+      },
+      complete: () => {
+        this.selectedRow.files = files;
+        // console.log(this.selectedRow);
+      },
+    });
     this.displayDetails();
   }
 

@@ -55,4 +55,10 @@ export class CarOwnerService {
   updateFiles(file): Observable<any> {
     return this._ApiService.postReq(`owners/files/update`, file);
   }
+
+  getFilesById(owner_id): Observable<any> {
+    return this._ApiService.postReq(`owners/getFilesByOwnerId`, {
+      owner_id,
+    });
+  }
 }

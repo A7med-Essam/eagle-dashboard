@@ -154,4 +154,10 @@ export class EmployeeService {
   updateFiles(file): Observable<any> {
     return this._ApiService.postReq(`employees/files/update`, file);
   }
+
+  getFilesById(employee_id): Observable<any> {
+    return this._ApiService.postReq(`employees/getFilesByEmployeeId`, {
+      employee_id,
+    });
+  }
 }

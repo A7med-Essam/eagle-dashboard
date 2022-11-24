@@ -61,6 +61,15 @@ export class CarOwnersComponent implements OnInit {
 
   getById(id: any) {
     [this.selectedRow] = this.cars.filter((car) => car.id == id);
+    let files;
+    this._CarOwnerService.getFilesById(id).subscribe({
+      next(res) {
+        files = res.data;
+      },
+      complete: () => {
+        this.selectedRow.files = files;
+      },
+    });
     this.displayDetails();
   }
 

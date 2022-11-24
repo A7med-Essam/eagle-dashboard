@@ -61,6 +61,15 @@ export class CustomersComponent implements OnInit {
 
   getById(id: any) {
     [this.selectedRow] = this.customers.filter((c) => c.id == id);
+    let files;
+    this._CustomerService.getFilesById(id).subscribe({
+      next(res) {
+        files = res.data;
+      },
+      complete: () => {
+        this.selectedRow.files = files;
+      },
+    });
     this.displayDetails();
   }
 

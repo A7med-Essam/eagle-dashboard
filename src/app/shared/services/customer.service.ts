@@ -55,4 +55,10 @@ export class CustomerService {
   updateFiles(file): Observable<any> {
     return this._ApiService.postReq(`customers/files/update`, file);
   }
+
+  getFilesById(customer_id): Observable<any> {
+    return this._ApiService.postReq(`customers/getFilesByCustomerId`, {
+      customer_id,
+    });
+  }
 }
