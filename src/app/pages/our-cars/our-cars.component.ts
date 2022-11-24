@@ -127,6 +127,7 @@ export class OurCarsComponent implements OnInit {
         this.selectedRow.files = files;
       },
     });
+    this.getCarVideos(id);
     this.displayDetails();
   }
 
@@ -288,7 +289,7 @@ export class OurCarsComponent implements OnInit {
   backDetailsBtn() {
     this._SharedService.fadeOut(this.Show.nativeElement);
     this.fadeInOurCarsTable();
-    this.carVideos = null;
+    // this.carVideos = null;
     this.uploadedVideo = null;
   }
 
@@ -951,11 +952,12 @@ export class OurCarsComponent implements OnInit {
   }
 
   // ==========================================================================
-  carVideos: any[] = [];
+  // carVideos: any[] = [];
   getCarVideos(carId) {
     this._OurCarService.getVideosByCarId(carId).subscribe({
       next: (res) => {
-        this.carVideos = res.data;
+        // this.carVideos = res.data;
+        this.selectedRow.videos = res.data;
       },
     });
   }
@@ -993,11 +995,14 @@ export class OurCarsComponent implements OnInit {
     this._OurCarService.getCarMaintenanceById(car_id).subscribe({
       next: (res) => {
         this.carMaintenance = res.data;
-        let inputs = this.getInputElements(this.carMaintenanceTableBody);
-        this.clearInputValues(inputs);
-        setTimeout(() => {
-          this.setInputValues(inputs);
-        }, 500);
+        let inputs = this.getInputElements();
+        if (this.maintenanceType.length) {
+          setTimeout(() => {
+            let inputs = this.getInputElements();
+            this.clearInputValues(inputs);
+            this.setInputValues(inputs);
+          }, 1000);
+        }
       },
     });
   }
@@ -1147,7 +1152,7 @@ export class OurCarsComponent implements OnInit {
   ) {
     updateBtn.classList.add("d-none");
     ConfirmUpdate.classList.remove("d-none");
-    let inputs = this.getInputElements(this.carMaintenanceTableBody);
+    let inputs = this.getInputElements();
     inputs.forEach((inp: any) => {
       inp.forEach((e: HTMLInputElement) => {
         e.disabled = false;
@@ -1162,7 +1167,7 @@ export class OurCarsComponent implements OnInit {
   ) {
     updateBtn.classList.remove("d-none");
     ConfirmUpdate.classList.add("d-none");
-    let inputs = this.getInputElements(this.carMaintenanceTableBody);
+    let inputs = this.getInputElements();
     let updatedMaintenances = [];
     inputs.forEach((inp: any) => {
       inp.forEach((e: HTMLInputElement) => {
@@ -1277,9 +1282,9 @@ export class OurCarsComponent implements OnInit {
     });
   }
 
-  getInputElements(element: ElementRef<HTMLElement>) {
+  getInputElements() {
     const LIST_OF_ROWS = Array.prototype.slice.call(
-      element.nativeElement.children,
+      this.carMaintenanceTableBody.nativeElement.children,
       0
     );
     let inputs: Node[] = [];

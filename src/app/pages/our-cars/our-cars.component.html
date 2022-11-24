@@ -182,7 +182,8 @@
                                             <td class="d-flex justify-content-start align-items-center flex-wrap">
                                                 <div *ngFor="let file of selectedRow?.files">
                                                     <div *ngIf="file?.type == 'contract'" class="mr-3">
-                                                        <p-image *ngIf="file?.image" [src]="file?.image"
+                                                        <p-image *ngIf="file?.image"
+                                                            src="http://api.eagles-limo.com/{{file?.image}}"
                                                             alt="Car Contract" width="50" height="50" [preview]="true">
                                                         </p-image>
                                                     </div>
@@ -201,8 +202,10 @@
                                             <td class="d-flex justify-content-start align-items-center flex-wrap">
                                                 <div *ngFor="let file of selectedRow?.files">
                                                     <div *ngIf="file?.type == 'cars'" class="mr-3">
-                                                        <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Image"
-                                                            width="50" height="50" [preview]="true"></p-image>
+                                                        <p-image *ngIf="file?.image"
+                                                            src="http://api.eagles-limo.com/{{file?.image}}"
+                                                            alt="Car Image" width="50" height="50" [preview]="true">
+                                                        </p-image>
                                                     </div>
                                                 </div>
                                             </td>
@@ -218,13 +221,13 @@
                                                         <small><b>Upload Video</b> <i
                                                                 class="ml-2 fa-regular fa-pen-to-square"></i></small>
                                                     </button>
-                                                    <button class="btn btn-primary mx-1 my-2" style="padding: 6px 12px;"
+                                                    <!-- <button class="btn btn-primary mx-1 my-2" style="padding: 6px 12px;"
                                                         (click)="getCarVideos(selectedRow?.id)">
                                                         <small>
                                                             <b>Get Car Videos</b>
                                                             <i class="ml-2 fa-solid fa-video"></i>
                                                         </small>
-                                                    </button>
+                                                    </button> -->
                                                 </div>
                                                 <p-progressBar *ngIf="progress" [value]="progress"></p-progressBar>
                                                 <p-progressBar *ngIf="videoInProgress" mode="indeterminate"
@@ -237,9 +240,10 @@
                                                         <source [src]="uploadedVideo">
                                                     </video>
 
-                                                    <video *ngFor="let video of carVideos" width="150" height="100"
-                                                        class="m-1" controls>
-                                                        <source [src]="video.video">
+                                                    <video *ngFor="let video of selectedRow?.videos" width="150"
+                                                        height="100" class="m-1" controls>
+                                                        <source src="http://api.eagles-limo.com/{{video?.video}}">
+                                                        <!-- [src]="video.video" -->
                                                     </video>
                                                 </div>
                                             </td>
@@ -417,14 +421,19 @@
                                         <td>Car Kilometer out</td>
                                     </tr>
                                 </tbody>
-                                <!-- <tbody class="text-center">
+                                <tbody class="text-center">
                                     <tr>
                                         <td *ngFor="let type of maintenanceType">
-                                            1000
+                                            <div *ngFor="let car of carMaintenance">
+                                                <span *ngIf="car.maintenance_type_id == type.id">
+                                                    {{(car.car_kilometer_out + car.kilometer_change_every) -
+                                                    car.counter_last_time}}
+                                                </span>
+                                            </div>
                                         </td>
                                         <td>Remaining Kilometer</td>
                                     </tr>
-                                </tbody> -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -1010,8 +1019,8 @@
             <tbody>
                 <tr *ngFor="let file of selectedRow?.files">
                     <td *ngIf="file?.type == 'contract'" class="mr-3">
-                        <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Files" width="50" height="50"
-                            [preview]="true"></p-image>
+                        <p-image *ngIf="file?.image" src="http://api.eagles-limo.com/{{file?.image}}" alt="Car Files"
+                            width="50" height="50" [preview]="true"></p-image>
                     </td>
                     <td *ngIf="file?.type == 'contract'" class="mr-3">
                         <button class="btn btn-info m-2" style="padding: 6px 12px;" (click)="updateImage(file?.id)">
@@ -1044,8 +1053,8 @@
             <tbody>
                 <tr *ngFor="let file of selectedRow?.files">
                     <td *ngIf="file?.type == 'cars'" class="mr-3">
-                        <p-image *ngIf="file?.image" [src]="file?.image" alt="Car Files" width="50" height="50"
-                            [preview]="true"></p-image>
+                        <p-image *ngIf="file?.image" src="http://api.eagles-limo.com/{{file?.image}}" alt="Car Files"
+                            width="50" height="50" [preview]="true"></p-image>
                     </td>
                     <td *ngIf="file?.type == 'cars'" class="mr-3">
                         <button class="btn btn-info m-2" style="padding: 6px 12px;" (click)="updateImage(file?.id)">

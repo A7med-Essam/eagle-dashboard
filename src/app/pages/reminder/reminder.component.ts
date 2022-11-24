@@ -11,6 +11,7 @@ export class ReminderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllReminderLeads();
+    // this.checkDailyLeads();
   }
 
   pagination: any;
@@ -19,6 +20,9 @@ export class ReminderComponent implements OnInit {
     this._LeadsService.allReminderLeads(page).subscribe({
       next: (res) => {
         this.reminders = res.data.data;
+        this.reminders.sort(function (x, y) {
+          return Number(x.reminded) - Number(y.reminded);
+        });
         this.pagination = res.data;
       },
     });
@@ -26,5 +30,24 @@ export class ReminderComponent implements OnInit {
 
   loadPage(page: number) {
     this.getAllReminderLeads(page);
+  }
+
+  // checkDailyLeads() {
+  //   this._LeadsService.checkDailyLeads().subscribe({
+  //     next(value) {
+  //       console.log(value);
+  //     },
+  //   });
+  // }
+
+  updateReminderLeads(reminder) {
+    if (!reminder.reminded) {
+      reminder.reminded = true;
+      this._LeadsService.addReminderLead(reminder).subscribe({
+        next(res) {
+          this._ToastrService.setToaster(res.message, "success", "success");
+        },
+      });
+    }
   }
 }

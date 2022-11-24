@@ -13,12 +13,15 @@
                         <th>Lead Id</th>
                     </thead>
                     <tbody class="text-center">
-                        <tr *ngFor="let remind of reminders; let i = index">
+                        <tr *ngFor="let remind of reminders; let i = index"
+                            [style.opacity]="remind.reminded ? '0.3' : '1'">
                             <td>{{i+1}}</td>
                             <td>{{remind.remind_date | date}}</td>
                             <td>
-                                <span [ngClass]="{'bg-success': remind.reminded, 'bg-danger' : !remind.reminded }"
-                                    class="text-white px-3 py-2 rounded-pill">{{remind.reminded?"Active":"Inactive"}}</span>
+                                <span class="text-white px-3 py-2 rounded-pill bg-info pointer"
+                                    (click)="updateReminderLeads(remind)">
+                                    Notified
+                                </span>
                             </td>
                             <td>{{remind.lead_id}}</td>
                         </tr>

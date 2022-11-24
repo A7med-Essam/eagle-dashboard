@@ -99,7 +99,8 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let file of selectedRow?.files;">
-                                                    <p-image *ngIf="file.type == 'national_front'" [src]="file?.image"
+                                                    <p-image *ngIf="file.type == 'national_front'"
+                                                        src="http://api.eagles-limo.com/{{file?.image}}"
                                                         alt=" National Id" width="50" height="50" [preview]="true">
                                                     </p-image>
                                                 </div>
@@ -117,7 +118,8 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let file of selectedRow?.files;">
-                                                    <p-image *ngIf="file.type == 'national_back'" [src]="file?.image"
+                                                    <p-image *ngIf="file.type == 'national_back'"
+                                                        src="http://api.eagles-limo.com/{{file?.image}}"
                                                         alt=" National Id" width="50" height="50" [preview]="true">
                                                     </p-image>
                                                 </div>

@@ -243,16 +243,23 @@ export class CustomersComponent implements OnInit {
     reader.readAsDataURL(e._files[0]);
     reader.onload = () => {
       const currentType = type == "front" ? "national_front" : "national_back";
+      let currentFile;
+      this.selectedRow.files.forEach((e) => {
+        if (e.type == currentType) {
+          currentFile = e;
+        }
+      });
       const IMG = {
-        customer_id: this.selectedRow.id,
-        files: [reader.result],
+        file_id: currentFile.id,
+        image: reader.result,
         type: currentType,
       };
-      this._CustomerService.uploadFiles(IMG).subscribe({
+      this._CustomerService.updateFiles(IMG).subscribe({
         next: (res) => {
           this.uploadModal1 = false;
           this.uploadModal2 = false;
-          this.selectedRow = res.data;
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.selectedRow.files = [res.data];
           e._files = null;
         },
       });

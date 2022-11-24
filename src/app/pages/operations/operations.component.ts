@@ -194,7 +194,6 @@ export class OperationsComponent implements OnInit {
     if (contract.car) {
       this._OperationService.validateCarMaintenance(contract.car.id).subscribe({
         next: (res) => {
-          console.log(res);
           if (res.status == 0) {
             this._ToastrService.setToaster(res.message, "error", "danger");
           } else {

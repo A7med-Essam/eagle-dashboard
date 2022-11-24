@@ -51,4 +51,8 @@ export class CustomerService {
   uploadFiles(file): Observable<any> {
     return this._ApiService.postReq(`customers/uploadFiles`, file);
   }
+
+  updateFiles(file): Observable<any> {
+    return this._ApiService.postReq(`customers/files/update`, file);
+  }
 }

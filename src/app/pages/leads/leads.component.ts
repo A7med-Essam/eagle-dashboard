@@ -731,10 +731,11 @@ export class LeadsComponent implements OnInit {
       if (calendar.inputFieldValue != "") {
         const lead = {
           lead_id: this.currentLead.id,
-          remind_date: new Date(calendar.inputFieldValue)
-            .toISOString()
-            .slice(0, 10),
-          reminded: 1,
+          remind_date: new Date(calendar.inputFieldValue).toLocaleDateString(
+            "en-CA"
+          ),
+          reminded: 0,
+          add: true,
         };
         this._LeadsService.addReminderLead(lead).subscribe({
           next: (res) => {

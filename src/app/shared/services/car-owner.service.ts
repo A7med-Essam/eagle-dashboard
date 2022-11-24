@@ -51,4 +51,8 @@ export class CarOwnerService {
   uploadFiles(file): Observable<any> {
     return this._ApiService.postReq(`owners/uploadFiles`, file);
   }
+
+  updateFiles(file): Observable<any> {
+    return this._ApiService.postReq(`owners/files/update`, file);
+  }
 }
