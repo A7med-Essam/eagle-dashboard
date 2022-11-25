@@ -685,8 +685,7 @@ export class LeadsComponent implements OnInit {
     this.delete = this._GuardService.hasLeadsPermission_Delete();
     this.makeReplay = this._GuardService.hasLeadsPermission_MakeReplay();
     this.seeReplay = this._GuardService.hasLeadsPermission_SeeReplay();
-    // TODO: Uncomment line below
-    // this.isSuperAdmin = this._GuardService.isSuperAdmin();
+    this.isSuperAdmin = this._GuardService.isSuperAdmin();
 
     // if (this._GuardService.isSuperAdmin()) {
     //   this.read = true;

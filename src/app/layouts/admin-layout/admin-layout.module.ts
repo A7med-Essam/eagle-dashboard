@@ -33,6 +33,7 @@ import { AccountingComponent } from "app/pages/accounting/accounting.component";
 import { TabViewModule } from "primeng/tabview";
 import { MultiSelectModule } from "primeng/multiselect";
 import { ReminderComponent } from "app/pages/reminder/reminder.component";
+import { ProfileComponent } from "app/pages/profile/profile.component";
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { ReminderComponent } from "app/pages/reminder/reminder.component";
     OperationReportComponent,
     AccountingComponent,
     ReminderComponent,
+    ProfileComponent,
   ],
 })
 export class AdminLayoutModule {}
