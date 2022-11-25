@@ -19,8 +19,10 @@ import { CarPriceComponent } from "app/pages/car-price/car-price.component";
 import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenance.component";
 import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
 import { ReminderComponent } from "app/pages/reminder/reminder.component";
+import { ProfileComponent } from "app/pages/profile/profile.component";
 
 export const AdminLayoutRoutes: Routes = [
+  { path: "profile", component: ProfileComponent },
   {
     path: "dashboard",
     component: DashboardComponent,

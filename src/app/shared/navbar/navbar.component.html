@@ -46,7 +46,7 @@
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
             <a ngbDropdownItem href="javascript:void(0)" routerLink="./auth/login" *ngIf="!isLoggedin">Login</a>
             <!-- <a ngbDropdownItem href="javascript:void(0)" routerLink="./auth/register">Register</a> -->
-            <a ngbDropdownItem href="javascript:void(0)" *ngIf="isLoggedin">Profile</a>
+            <a ngbDropdownItem href="javascript:void(0)" *ngIf="isLoggedin" routerLink="./profile">Profile</a>
             <a ngbDropdownItem href="javascript:void(0)" (click)="logout()" *ngIf="isLoggedin">Logout</a>
           </div>
         </li>
