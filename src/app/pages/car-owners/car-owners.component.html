@@ -372,7 +372,8 @@
             chooseLabel="Upload National Id (Front)"></p-fileUpload>
     </div>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadFrontImage,'front')">Upload</button>
+        <button class="btn btn-primary m-1"
+            (click)="updateOrUpload_IMG(uploadFrontImage,'national_front')">Upload</button>
     </ng-template>
 </p-dialog>
 
@@ -383,7 +384,8 @@
             chooseLabel="Upload National Id (Back)"></p-fileUpload>
     </div>
     <ng-template pTemplate="footer">
-        <button class="btn btn-primary m-1" (click)="uploadNationalID(uploadBackImage,'back')">Upload</button>
+        <button class="btn btn-primary m-1"
+            (click)="updateOrUpload_IMG(uploadBackImage,'national_back')">Upload</button>
     </ng-template>
 </p-dialog>
 

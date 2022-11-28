@@ -247,33 +247,33 @@ export class CustomersComponent implements OnInit {
   uploadModal1: boolean = false;
   uploadModal2: boolean = false;
 
-  uploadNationalID(e: FileUpload, type: string) {
-    let reader = new FileReader();
-    reader.readAsDataURL(e._files[0]);
-    reader.onload = () => {
-      const currentType = type == "front" ? "national_front" : "national_back";
-      let currentFile;
-      this.selectedRow.files.forEach((e) => {
-        if (e.type == currentType) {
-          currentFile = e;
-        }
-      });
-      const IMG = {
-        file_id: currentFile.id,
-        image: reader.result,
-        type: currentType,
-      };
-      this._CustomerService.updateFiles(IMG).subscribe({
-        next: (res) => {
-          this.uploadModal1 = false;
-          this.uploadModal2 = false;
-          this._ToastrService.setToaster(res.message, "success", "success");
-          this.selectedRow.files = [res.data];
-          e._files = null;
-        },
-      });
-    };
-  }
+  // uploadNationalID(e: FileUpload, type: string) {
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(e._files[0]);
+  //   reader.onload = () => {
+  //     const currentType = type == "front" ? "national_front" : "national_back";
+  //     let currentFile;
+  //     this.selectedRow.files.forEach((e) => {
+  //       if (e.type == currentType) {
+  //         currentFile = e;
+  //       }
+  //     });
+  //     const IMG = {
+  //       file_id: currentFile.id,
+  //       image: reader.result,
+  //       type: currentType,
+  //     };
+  //     this._CustomerService.updateFiles(IMG).subscribe({
+  //       next: (res) => {
+  //         this.uploadModal1 = false;
+  //         this.uploadModal2 = false;
+  //         this._ToastrService.setToaster(res.message, "success", "success");
+  //         this.selectedRow.files = [res.data];
+  //         e._files = null;
+  //       },
+  //     });
+  //   };
+  // }
 
   // uploadBackID(e: HTMLInputElement) {
   //   let reader = new FileReader();
@@ -294,4 +294,72 @@ export class CustomersComponent implements OnInit {
   //     });
   //   };
   // }
+
+  uploadNationalID(e: FileUpload, type: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      const currentType =
+        type == "national_front" ? "national_front" : "national_back";
+      const IMG = {
+        customer_id: this.selectedRow.id,
+        files: [reader.result],
+        type: currentType,
+      };
+      this._CustomerService.uploadFiles(IMG).subscribe({
+        next: (res) => {
+          this.uploadModal1 = false;
+          this.uploadModal2 = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+          // this.selectedRow.files = [res.data];
+          // TODO: res must return files and remove line below
+          this.getById(this.selectedRow.id);
+          e._files = null;
+        },
+      });
+    };
+  }
+
+  updateNationalID(e: FileUpload, type: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      const currentType =
+        type == "national_front" ? "national_front" : "national_back";
+      let currentFile;
+      this.selectedRow.files.forEach((e) => {
+        if (e.type == currentType) {
+          currentFile = e;
+        }
+      });
+      const IMG = {
+        file_id: currentFile.id,
+        image: reader.result,
+        type: currentType,
+      };
+      this._CustomerService.updateFiles(IMG).subscribe({
+        next: (res) => {
+          this.uploadModal1 = false;
+          this.uploadModal2 = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+          // this.selectedRow.files = [res.data];
+          // TODO: res must return files and remove line below
+          this.getById(this.selectedRow.id);
+          e._files = null;
+        },
+      });
+    };
+  }
+
+  updateOrUpload_IMG(e: FileUpload, type: string) {
+    if (this.selectedRow.files.length) {
+      if (this.selectedRow.files.some((e) => e.type === type)) {
+        this.updateNationalID(e, type);
+      } else {
+        this.uploadNationalID(e, type);
+      }
+    } else {
+      this.uploadNationalID(e, type);
+    }
+  }
 }

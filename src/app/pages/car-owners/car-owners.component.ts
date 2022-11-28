@@ -325,7 +325,33 @@ export class CarOwnersComponent implements OnInit {
     let reader = new FileReader();
     reader.readAsDataURL(e._files[0]);
     reader.onload = () => {
-      const currentType = type == "front" ? "national_front" : "national_back";
+      const currentType =
+        type == "national_front" ? "national_front" : "national_back";
+      const IMG = {
+        owner_id: this.selectedRow.id,
+        files: [reader.result],
+        type: currentType,
+      };
+      this._CarOwnerService.uploadFiles(IMG).subscribe({
+        next: (res) => {
+          this.uploadModal1 = false;
+          this.uploadModal2 = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+          // this.selectedRow.files = [res.data];
+          // TODO: res must return files and remove line below
+          this.getById(this.selectedRow.id);
+          e._files = null;
+        },
+      });
+    };
+  }
+
+  updateNationalID(e: FileUpload, type: string) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      const currentType =
+        type == "national_front" ? "national_front" : "national_back";
       let currentFile;
       this.selectedRow.files.forEach((e) => {
         if (e.type == currentType) {
@@ -342,10 +368,24 @@ export class CarOwnersComponent implements OnInit {
           this.uploadModal1 = false;
           this.uploadModal2 = false;
           this._ToastrService.setToaster(res.message, "success", "success");
-          this.selectedRow.files = [res.data];
+          // this.selectedRow.files = [res.data];
+          // TODO: res must return files and remove line below
+          this.getById(this.selectedRow.id);
           e._files = null;
         },
       });
     };
+  }
+
+  updateOrUpload_IMG(e: FileUpload, type: string) {
+    if (this.selectedRow.files.length) {
+      if (this.selectedRow.files.some((e) => e.type === type)) {
+        this.updateNationalID(e, type);
+      } else {
+        this.uploadNationalID(e, type);
+      }
+    } else {
+      this.uploadNationalID(e, type);
+    }
   }
 }
