@@ -337,9 +337,7 @@ export class CarOwnersComponent implements OnInit {
           this.uploadModal1 = false;
           this.uploadModal2 = false;
           this._ToastrService.setToaster(res.message, "success", "success");
-          // this.selectedRow.files = [res.data];
-          // TODO: res must return files and remove line below
-          this.getById(this.selectedRow.id);
+          this.selectedRow.files = res.data;
           e._files = null;
         },
       });
@@ -368,9 +366,7 @@ export class CarOwnersComponent implements OnInit {
           this.uploadModal1 = false;
           this.uploadModal2 = false;
           this._ToastrService.setToaster(res.message, "success", "success");
-          // this.selectedRow.files = [res.data];
-          // TODO: res must return files and remove line below
-          this.getById(this.selectedRow.id);
+          this.selectedRow.files = res.data;
           e._files = null;
         },
       });
