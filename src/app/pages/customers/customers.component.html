@@ -202,10 +202,12 @@
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label>National ID</label>
-                                <input type="text"
+                                <!-- <input type="text"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                     maxLength="14" class="form-control" formControlName='nid'
-                                    placeholder="Enter National ID">
+                                    placeholder="Enter National ID"> -->
+                                <input type="text" class="form-control" placeholder="Enter National ID"
+                                    formControlName='nid'>
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="customerForm.get('nid')?.touched &&
                                             customerForm.get('nid')?.hasError('required')">This field is
