@@ -436,8 +436,8 @@
                                         <td *ngFor="let type of maintenanceType">
                                             <div *ngFor="let car of carMaintenance">
                                                 <span *ngIf="car.maintenance_type_id == type.id">
-                                                    {{(car.car_kilometer_out + car.kilometer_change_every) -
-                                                    car.counter_last_time}}
+                                                    {{(car.counter_last_time + car.kilometer_change_every) -
+                                                    car.car_kilometer_out}}
                                                 </span>
                                             </div>
                                         </td>
