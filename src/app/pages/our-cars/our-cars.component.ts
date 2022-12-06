@@ -796,7 +796,7 @@ export class OurCarsComponent implements OnInit {
           })
           .subscribe({
             next: (res) => {
-              this.selectedRow.files = res.data.files;
+              this.selectedRow.files = res.data;
               this.uploadModal1 = false;
               this.uploadModal2 = false;
               this._ToastrService.setToaster(
