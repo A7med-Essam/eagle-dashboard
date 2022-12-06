@@ -20,8 +20,8 @@ export class CarOwnerService {
     return this._ApiService.postReq("owners/update", car);
   }
 
-  deleteOwners(cid): Observable<any> {
-    return this._ApiService.postReq("owners/delete", { cid: cid });
+  deleteOwners(owner_id): Observable<any> {
+    return this._ApiService.postReq("owners/delete", { owner_id });
   }
 
   filterOwners(filter): Observable<any> {
