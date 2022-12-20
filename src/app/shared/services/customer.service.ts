@@ -29,7 +29,7 @@ export class CustomerService {
   }
 
   exportCustomers(): Observable<any> {
-    return this._ApiService.postReq("customers/exportcustomers", "");
+    return this._ApiService.postReq("customers/export", "");
   }
 
   restoreCustomers(): Observable<any> {

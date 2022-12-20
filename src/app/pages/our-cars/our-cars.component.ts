@@ -606,8 +606,8 @@ export class OurCarsComponent implements OnInit {
           res.data.customer = CUSTOMER;
           res.data.assign = [];
           res.data.logs = [];
-          // this.selectedRow.contracts.push(res.data);
-          this.contracts.push(res.data);
+          this.selectedRow.contracts_count = 1;
+          // this.contracts.push(res.data);
         }
       },
       error: (err) => {

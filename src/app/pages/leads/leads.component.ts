@@ -626,20 +626,19 @@ export class LeadsComponent implements OnInit {
 
   // Insurance Company - Policy
   getInsuranceCompanies() {
-    this.insuranceCompanies = [
-      // { name: "Select Insurance Company", policies: "" },
-    ];
+    this.insuranceCompanies = [];
     this._InsuranceAndPolicyService.getInsuranceCompanies().subscribe({
       next: (res) => {
-        res.data.forEach((e: any) => {
-          this.insuranceCompanies.push(...res.data);
-        });
+        // res.data.forEach((e: any) => {
+        //   this.insuranceCompanies.push(...res.data);
+        // });
+        this.insuranceCompanies = res.data
       },
     });
   }
 
   onCompanyChange(e) {
-    // this.policies = [{ name: "Select Policy", value: null }];
+    this.policies = [];
     e.value.forEach((e: any) => {
       this.policies.push({ name: e.policy.type, value: e.id });
     });

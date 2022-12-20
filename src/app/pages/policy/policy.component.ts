@@ -117,4 +117,9 @@ export class PolicyComponent implements OnInit {
       },
     });
   }
+
+  displayPolicyModal(){
+    this.setPolicyForm();
+    this.addPolicyModal = true
+  }
 }

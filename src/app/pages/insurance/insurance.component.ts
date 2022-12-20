@@ -187,4 +187,16 @@ export class InsuranceComponent {
       },
     });
   }
+
+  displayInsuranceModal(){
+    // this.setInsuranceCompanyForm();
+    this.insuranceCompanyForm = this._FormBuilder.group({
+      name: new FormControl(null),
+      mobile: new FormControl(null),
+      responsible_name: new FormControl(null),
+      email: new FormControl(null),
+      details: new FormControl(null),
+    });
+    this.addInsuranceModal = true;
+  }
 }

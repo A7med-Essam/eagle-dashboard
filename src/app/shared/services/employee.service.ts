@@ -29,7 +29,7 @@ export class EmployeeService {
   }
 
   exportEmployees(): Observable<any> {
-    return this._ApiService.postReq("employees/exportEmployees", "");
+    return this._ApiService.postReq("employees/export", "");
   }
 
   restoreEmployees(): Observable<any> {

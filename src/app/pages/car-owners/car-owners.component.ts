@@ -102,7 +102,7 @@ export class CarOwnersComponent implements OnInit {
 
   editRow(form: any) {
     this.carsForm.addControl(
-      "cid",
+      "owner_id",
       new FormControl(this.currentEditRow.id, Validators.required)
     );
     this._CarOwnerService.updateOwners(form.value).subscribe({
@@ -154,8 +154,6 @@ export class CarOwnersComponent implements OnInit {
       mobile: new FormControl(car?.mobile, [Validators.required]),
       address: new FormControl(car?.address, [Validators.required]),
       nid: new FormControl(car?.nid, [Validators.required]),
-      national_front_image: new FormControl(null),
-      national_back_image: new FormControl(null),
     });
   }
 

@@ -657,9 +657,10 @@ export class EmployeesComponent implements OnInit {
                 if (res.status == 1) {
                   this.uploadModal1 = false;
                   this.uploadModal2 = false;
-                  this.selectedRow.files.map((e) => {
-                    if (e.id == res.data.id) e.image = res.data.image;
-                  });
+                  this.selectedRow.files = res.data;
+                  // this.selectedRow.files.map((e) => {
+                  //   if (e.id == res.data.id) e.image = res.data.image;
+                  // });
                 }
               },
             });
@@ -726,7 +727,7 @@ export class EmployeesComponent implements OnInit {
               this.uploadModal2 = false;
               this.uploadModal3 = false;
               this.uploadModal4 = false;
-              this.selectedRow.files = res.data.files;
+              this.selectedRow.files = res.data;
               this._ToastrService.setToaster(
                 "Files Uploaded Successfully",
                 "info",

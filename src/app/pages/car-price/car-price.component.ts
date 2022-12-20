@@ -160,7 +160,7 @@ export class CarPriceComponent implements OnInit {
     this._CarService.getGrade().subscribe({
       next: (res) => {
         res.data.forEach((e: any) => {
-          this.carGrade.push({ name: `Grade ${e.grade}`, value: e.id });
+          this.carGrade.push({ name: `Grade ${e.grade}`, value: e.grade });
         });
       },
     });
