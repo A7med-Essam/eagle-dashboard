@@ -69,4 +69,12 @@ export class LeadsService {
   checkDailyLeads(): Observable<any> {
     return this._ApiService.postReqWithoutLoader("leads/checkDailyLeads", "");
   }
+
+  importLeads(file): Observable<any> {
+    return this._ApiService.postReq("lead/importLeadsForEdit", file);
+  }
+
+  downloadSample(): Observable<any> {
+    return this._ApiService.postReq("lead/sampleLeadsForEdit", "");
+  }
 }

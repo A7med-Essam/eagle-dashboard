@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
 
           xAxes: [
             {
-              barPercentage: 1.6,
+              // barPercentage: 1.6,
               gridLines: {
                 drawBorder: false,
                 color: "rgba(255,255,255,0.1)",
@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit {
 
           xAxes: [
             {
-              barPercentage: 1.6,
+              // barPercentage: 1.6,
               gridLines: {
                 drawBorder: false,
                 color: "rgba(255,255,255,0.1)",
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit {
       },
     });
 
-    var speedCanvas = document.getElementById("speedChart");
+    var speedCanvas:any = document.getElementById("speedChart");
 
     var dataFirst = {
       data: [0, 19, 15, 20, 30, 40, 40, 50, 25, 30, 50, 70],

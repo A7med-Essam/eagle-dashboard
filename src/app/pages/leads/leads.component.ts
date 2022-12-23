@@ -16,6 +16,7 @@ import { ToasterService } from "app/shared/services/toaster.service";
 import { UsersService } from "app/shared/services/users.service";
 import { ConfirmationService } from "primeng/api";
 import { Calendar } from "primeng/calendar";
+import { FileUpload } from "primeng/fileupload";
 
 @Component({
   selector: "leads-cmp",
@@ -632,7 +633,7 @@ export class LeadsComponent implements OnInit {
         // res.data.forEach((e: any) => {
         //   this.insuranceCompanies.push(...res.data);
         // });
-        this.insuranceCompanies = res.data
+        this.insuranceCompanies = res.data;
       },
     });
   }
@@ -763,5 +764,39 @@ export class LeadsComponent implements OnInit {
         );
       }
     }, 1);
+  }
+
+  downloadSample() {
+    this._LeadsService.downloadSample().subscribe({
+      next: (res) => {
+        const link = document.createElement("a");
+        link.href = res.data;
+        link.click();
+      },
+    });
+  }
+
+  importModal: boolean = false;
+  displayImportLeadsModal() {
+    this.importModal = true;
+  }
+
+  importLeads(e: FileUpload) {
+    let reader = new FileReader();
+    reader.readAsDataURL(e._files[0]);
+    reader.onload = () => {
+      let formData = new FormData();
+      for (let i = 0; i < e._files.length; i++) {
+        formData.append("file", e._files[i], e._files[i]["name"]);
+      }
+      this._LeadsService.importLeads(formData).subscribe({
+        next: (res) => {
+          this.importModal = false;
+          this._ToastrService.setToaster(res.message, "success", "success");
+          e._files = null;
+          this.getAllLeads();
+        },
+      });
+    };
   }
 }

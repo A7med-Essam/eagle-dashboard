@@ -19,6 +19,10 @@
             <i class="fa-regular fa-file-excel"></i>
             Export
           </button>
+          <button class="btn btn-primary m-1" (click)="displayImportLeadsModal()">
+            <i class="fa-regular fa-file-excel"></i>
+            Import File
+          </button>
           <button class="btn btn-primary m-1" (click)="addLead()" *ngIf="create">
             <i class="fa-solid fa-plus"></i>
             Add
@@ -693,4 +697,16 @@
   <p-calendar appendTo="body" placeholder="Select Reminder Date" #reminderCalendar [minDate]="minimumDate"
     (onSelect)="addReminderLead(reminderCalendar)" [style]="{'width':'100%'}"></p-calendar>
   <!-- </ng-template> -->
+</p-dialog>
+<p-dialog header="Import Lead File" [(visible)]="importModal" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false">
+  <div class="form-group">
+    <p-fileUpload #uploadLeadFile mode="basic" chooseLabel="Upload Leads File"></p-fileUpload>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="d-flex justify-content-between align-items-center">
+      <button class="btn btn-dark m-1" (click)="downloadSample()">Download Sample</button>
+      <button class="btn btn-primary m-1" (click)="importLeads(uploadLeadFile)">Upload</button>
+    </div>
+  </ng-template>
 </p-dialog>
