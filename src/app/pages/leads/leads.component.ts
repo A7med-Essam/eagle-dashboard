@@ -26,10 +26,12 @@ import { FileUpload } from "primeng/fileupload";
 })
 export class LeadsComponent implements OnInit {
   pagination: any;
+  pagination2: any;
   leads: any[] = [];
   insurance: any[] = [];
   grade: any[] = [];
   gearType: any[] = [];
+  driverStatus: any[] = [];
   carModel: any[] = [];
   carType: any[] = [];
   carName: any[] = [];
@@ -56,6 +58,7 @@ export class LeadsComponent implements OnInit {
   assignModal: boolean = false;
 
   @ViewChild("LeadsTable") LeadsTable: any;
+  @ViewChild("Leads2") Leads2: any;
   @ViewChild("ShowLead") ShowLead: any;
   @ViewChild("CreateForm") CreateForm: any;
   @ViewChild("EditForm") EditForm: any;
@@ -79,6 +82,10 @@ export class LeadsComponent implements OnInit {
     private _CarPriceService: CarPriceService,
     private _FormBuilder: FormBuilder
   ) {
+    this.driverStatus = [
+      { name: "YES", value: "yes" },
+      { name: "NO", value: "no" },
+    ];
     this.gearType = [
       { name: "Automatic", value: "AUTOMATIC" },
       { name: "Manual", value: "MANUAL" },
@@ -457,6 +464,7 @@ export class LeadsComponent implements OnInit {
       car_model: new FormControl(lead?.car_model),
       grade: new FormControl(lead?.grade),
       kilometer: new FormControl(km),
+      driver: new FormControl(lead?.driver),
       insurance: new FormControl(lead?.insurance),
       car_subtype_id: new FormControl(lead?.car_type_details?.id),
       insurance_in_out: new FormControl(lead?.insurance_in_out),
@@ -609,6 +617,11 @@ export class LeadsComponent implements OnInit {
     this.fadeInLeadsTable();
   }
 
+  backDetailsBtn2() {
+    this._SharedService.fadeOut(this.Leads2.nativeElement);
+    this.fadeInLeadsTable();
+  }
+
   backCreateBtn() {
     this._SharedService.fadeOut(this.CreateForm.nativeElement);
     this.fadeInLeadsTable();
@@ -733,10 +746,17 @@ export class LeadsComponent implements OnInit {
   addReminder: boolean = false;
   minimumDate = new Date();
 
+  reminderNotice:string = ""
+  getReminderNotice(note){
+    this.reminderNotice = note.value;
+    note.value = ""
+  }
+
   addReminderLead(calendar: Calendar) {
     setTimeout(() => {
       if (calendar.inputFieldValue != "") {
         const lead = {
+          remind_data:this.reminderNotice,
           lead_id: this.currentLead.id,
           remind_date: new Date(calendar.inputFieldValue).toLocaleDateString(
             "en-CA"
@@ -798,5 +818,52 @@ export class LeadsComponent implements OnInit {
         },
       });
     };
+  }
+
+  optionsModal:boolean = false;
+  displayLeadsWithoutAssign(){
+    this.getLeadsWithoutAssign();
+    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Leads2.nativeElement);
+    }, 800);
+  }
+  
+  leadsWithoutAssign:any;
+  getLeadsWithoutAssign(page = 1){
+    this._LeadsService.getLeadsWithoutAssign(page).subscribe({
+      next:res=>{
+        this.leadsWithoutAssign = res.data.data;
+        this.pagination2 = res.data
+      }
+    })
+  }
+
+  loadPage2(page: number) {
+    this.selectedLeadsToAssign = [];
+    this.getLeadsWithoutAssign(page);
+  }
+
+  assignAllModal:boolean = false;
+
+  selectedLeadsToAssign:any[] = []
+  assignNewLeads(e){
+    const leadsIds = this.selectedLeadsToAssign.map((value) => {
+      return value.id;
+    });
+    this._LeadsService
+    .AssignLeads({
+      lead_ids: leadsIds,
+      user_id: e,
+    })
+    .subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.assignAllModal = false;
+        this.getLeadsWithoutAssign();
+      },
+      error: (err) =>
+        this._ToastrService.setToaster(err.error.message, "error", "danger"),
+    });
   }
 }

@@ -10,6 +10,7 @@
                         <th>#</th>
                         <th>Remind Date</th>
                         <th>Remind Status</th>
+                        <th>Note</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-center">
@@ -23,6 +24,7 @@
                                     {{remind.reminded?"Notified":"Notify"}}
                                 </span>
                             </td>
+                            <td>{{remind.remind_data}}</td>
                             <td>
                                 <button class="btn btn-primary m-1 px-3" (click)="getLeadById(remind.lead_id);"><i
                                         class="fa-regular fa-eye"></i></button>

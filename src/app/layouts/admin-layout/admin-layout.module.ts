@@ -34,6 +34,7 @@ import { TabViewModule } from "primeng/tabview";
 import { MultiSelectModule } from "primeng/multiselect";
 import { ReminderComponent } from "app/pages/reminder/reminder.component";
 import { ProfileComponent } from "app/pages/profile/profile.component";
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { ProfileComponent } from "app/pages/profile/profile.component";
     ImageModule,
     TabViewModule,
     MultiSelectModule,
+    TableModule
   ],
   declarations: [
     DashboardComponent,

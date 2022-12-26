@@ -7,25 +7,9 @@
           (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
         </ngb-pagination>
         <div class="text-center">
-          <button class="btn btn-primary m-1" (click)="filterModal = true">
-            <i class="fa-solid fa-filter"></i>
-            Filter
-          </button>
-          <button class="btn btn-primary m-1" *ngIf="filterStatus" (click)="exportLeadsWithFilter()">
-            <i class="fa-regular fa-file-excel"></i>
-            Export With Filteration
-          </button>
-          <button class="btn btn-primary m-1" (click)="exportLeads()">
-            <i class="fa-regular fa-file-excel"></i>
-            Export
-          </button>
-          <button class="btn btn-primary m-1" (click)="displayImportLeadsModal()">
-            <i class="fa-regular fa-file-excel"></i>
-            Import File
-          </button>
-          <button class="btn btn-primary m-1" (click)="addLead()" *ngIf="create">
-            <i class="fa-solid fa-plus"></i>
-            Add
+          <button class="btn btn-primary m-1" (click)="optionsModal = true;">
+            <i class="nc-icon nc-settings-gear-65"></i>
+            Options
           </button>
         </div>
       </div>
@@ -62,6 +46,82 @@
           </table>
           <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
             (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated d-none" #Leads2>
+  <div class="col-md-12" *ngIf="read">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title">Leads Without Assign Table</h4>
+        <div>
+          <button class="btn btn-primary mx-2" (click)="assignAllModal = true;">Assign</button>
+          <button class="btn btn-dark mx-2" (click)="backDetailsBtn2();">Back</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive overflow-auto">
+          <!-- <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Issue date</th>
+              <th>Customer name</th>
+              <th>Customer mobile</th>
+              <th>Car name</th>
+              <th>Car model</th>
+              <th>Assign</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let lead of leadsWithoutAssign; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{lead.issue_date}}</td>
+                <td>{{lead.customer_name}}</td>
+                <td>{{lead.customer_mobile}}</td>
+                <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
+                <td>{{lead.car_model}}</td>
+                  <td>
+                    <button class="btn btn-success d-flex justify-content-center align-items-center"
+                      (click)="getLeadToAssign(lead);" style="width: 20px; height: 30px;">
+                      <i class="fa-solid fa-share"></i>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table> -->
+
+          <p-table [value]="leadsWithoutAssign" [tableStyle]="{'margin-bottom': '20px'}" [selectionPageOnly]="true" [(selection)]="selectedLeadsToAssign">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Issue date</th>
+                    <th>Customer name</th>
+                    <th>Customer mobile</th>
+                    <th>Car name</th>
+                    <th>Car model</th>
+                    <th style="width: 4rem">
+                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-lead>
+                <tr>
+                    <td>{{lead.issue_date}}</td>
+                    <td>{{lead.customer_name}}</td>
+                    <td>{{lead.customer_mobile}}</td>
+                    <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
+                    <td>{{lead.car_model}}</td>
+                    <td>
+                      <p-tableCheckbox [value]="lead"></p-tableCheckbox>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-table>
+         
+          <ngb-pagination [collectionSize]="pagination2?.total" [page]="pagination2?.current_page" [maxSize]="8"
+            (pageChange)="loadPage2($event)" [pageSize]="pagination2?.per_page">
           </ngb-pagination>
         </div>
       </div>
@@ -190,7 +250,7 @@
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Name</label>
@@ -267,6 +327,13 @@
             </div>
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
+                <label>Driver</label>
+                <p-dropdown [options]="driverStatus" optionLabel="name" styleClass="w-100" formControlName='driver'
+                  placeholder="Select Driver Status" optionValue="value"></p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
                 <label>Insurance</label>
                 <p-dropdown [options]="insurance" optionLabel="name" styleClass="w-100" formControlName='insurance'
                   placeholder="Select Insurance" [(ngModel)]="selectedInsurance" optionValue="value"></p-dropdown>
@@ -330,7 +397,7 @@
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Name</label>
@@ -397,6 +464,13 @@
                 <label>Kilometer</label>
                 <input type="number" class="form-control" placeholder="Km" formControlName='kilometer'
                   maxlength="100000">
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <label>Driver</label>
+                <p-dropdown [options]="driverStatus" optionLabel="name" styleClass="w-100" formControlName='driver'
+                  placeholder="Select Driver Status" optionValue="value"></p-dropdown>
               </div>
             </div>
             <div class="col-md-3 pr-md-1">
@@ -648,12 +722,12 @@
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
-      <textarea #ReplayTextarea class="form-control textarea pl-2" style="height: 150px;max-height:none;"></textarea>
+      <textarea #ReplayTextarea class="form-control textarea pl-2" style="height: 150px;max-height:none;" #replayTextarea></textarea>
     </div>
   </div>
   <ng-template pTemplate="footer">
     <div class="d-flex justify-content-between align-items-center">
-      <button class="btn btn-info m-1" (click)="addReminder = true;">Add Reminder</button>
+      <button class="btn btn-info m-1" (click)="addReminder = true;getReminderNotice(replayTextarea)">Add Reminder</button>
       <button class="btn btn-primary m-1" (click)="addReplay(ReplayTextarea)">Replay</button>
     </div>
   </ng-template>
@@ -709,4 +783,45 @@
       <button class="btn btn-primary m-1" (click)="importLeads(uploadLeadFile)">Upload</button>
     </div>
   </ng-template>
+</p-dialog>
+
+<p-dialog header="Leads Options" [(visible)]="optionsModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+  [resizable]="false" position="top">
+  <button class="btn btn-primary m-1" (click)="filterModal = true;optionsModal = false">
+    <i class="fa-solid fa-filter"></i>
+    Filter
+  </button>
+  <button class="btn btn-primary m-1" *ngIf="filterStatus" (click)="exportLeadsWithFilter();optionsModal = false">
+    <i class="fa-regular fa-file-excel"></i>
+    Export With Filteration
+  </button>
+  <button class="btn btn-primary m-1" (click)="exportLeads();optionsModal = false">
+    <i class="fa-regular fa-file-excel"></i>
+    Export
+  </button>
+  <button class="btn btn-primary m-1" (click)="displayImportLeadsModal();optionsModal = false">
+    <i class="fa-regular fa-file-excel"></i>
+    Import
+  </button>
+  <button class="btn btn-primary m-1" (click)="optionsModal = false;displayLeadsWithoutAssign()">
+    <i class="nc-diamond nc-icon"></i>
+    Assign Leads
+  </button>
+  <button class="btn btn-primary m-1" (click)="addLead();optionsModal = false" *ngIf="create">
+    <i class="fa-solid fa-plus"></i>
+    Create Lead
+  </button>
+</p-dialog>
+
+<p-dialog header="Assign Leads" [(visible)]="assignAllModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+  [resizable]="false" position="center">
+    <div class="form-group">
+      <label>Assign Agent</label>
+      <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" #selectedAgent
+        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
+      </p-dropdown>
+    </div>
+    <ng-template pTemplate="footer">
+      <button class="btn btn-primary m-1" (click)="assignNewLeads(selectedAgent.value)">Assign</button>
+    </ng-template>
 </p-dialog>

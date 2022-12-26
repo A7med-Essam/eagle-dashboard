@@ -77,4 +77,12 @@ export class LeadsService {
   downloadSample(): Observable<any> {
     return this._ApiService.postReq("lead/sampleLeadsForEdit", "");
   }
+
+  getLeadsWithoutAssign(page = 1): Observable<any> {
+    return this._ApiService.getReq(`leadsWithoutAssign?page=${page}`);
+  }
+
+  AssignLeads(lead): Observable<any> {
+    return this._ApiService.postReq("leads/assignForAdmin", lead);
+  }
 }

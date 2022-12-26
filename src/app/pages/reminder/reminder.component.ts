@@ -39,7 +39,6 @@ export class ReminderComponent implements OnInit {
   // checkDailyLeads() {
   //   this._LeadsService.checkDailyLeads().subscribe({
   //     next(value) {
-  //       console.log(value);
   //     },
   //   });
   // }
@@ -61,7 +60,6 @@ export class ReminderComponent implements OnInit {
   //   this._LeadsService.getLeadsWithoutPaginate().subscribe({
   //     next: (res) => {
   //       this.leads = res.data;
-  //       console.log(this.leads);
   //     },
   //   });
   // }
@@ -71,7 +69,6 @@ export class ReminderComponent implements OnInit {
     this._LeadsService.getLeadsById(id).subscribe({
       next: (res) => {
         this.currentLead = res.data;
-        console.log(this.currentLead);
       },
     });
   }

@@ -108,12 +108,8 @@ export class ApiService {
     //   .post(environment.BaseUrl + url, body, { reportProgress: true })
     //   .pipe(
     //     tap((event) => {
-    //       console.log(event);
     //       // if (event.type == HttpEventType.UploadProgress) {
     //       //   // update the progress bar
-    //       //   console.log("FROM API SERVICE");
-    //       //   console.log(event);
-    //       //   console.log(HttpEventType);
     //       // }
     //     })
     //   );
