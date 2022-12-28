@@ -385,6 +385,24 @@ export class CarMaintenanceComponent implements OnInit {
     });
   }
 
+  filterModal: boolean = false;
+  filterBrands(brand: HTMLSelectElement) {
+    console.log(brand);
+    console.log(brand.value);
+    this._CarMaintenanceService.filterBrands(brand.value).subscribe({
+      next: (res) => {
+        this.maintenances = res.data.data;
+        this.pagination = res.data;
+        brand.value = "";
+        this.filterModal = false;
+      },
+    });
+  }
+
+  resetFilter(input: HTMLSelectElement) {
+    input.value = "";
+    this.getMaintenance();
+  }
   // setPropertiesToCarMaintenance() {
   //   this.CarMaintenance.map((c) => {
   //     [c.kilometer] = this.maintenanceKilometer.filter(

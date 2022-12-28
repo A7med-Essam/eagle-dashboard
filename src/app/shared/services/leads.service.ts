@@ -85,4 +85,14 @@ export class LeadsService {
   AssignLeads(lead): Observable<any> {
     return this._ApiService.postReq("leads/assignForAdmin", lead);
   }
+
+  getRecycle(): Observable<any> {
+    return this._ApiService.postReq("leads/trashed", "");
+  }
+  restore(lead_id): Observable<any> {
+    return this._ApiService.postReq("leads/restore", { lead_id });
+  }
+  forceDelete(lead_id): Observable<any> {
+    return this._ApiService.postReq("leads/forceDelete", { lead_id });
+  }
 }

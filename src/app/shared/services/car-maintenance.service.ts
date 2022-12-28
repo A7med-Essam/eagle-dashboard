@@ -103,4 +103,8 @@ export class CarMaintenanceService {
       car_name_maintenance_id,
     });
   }
+
+  filterBrands(car_name_id): Observable<any> {
+    return this._ApiService.postReq(`maintenances/index`, {car_name_id});
+  }
 }

@@ -130,6 +130,10 @@
                                             <td>{{selectedRow?.license_end | date}}</td>
                                         </tr>
                                         <tr>
+                                            <td>Car Contracted Date</td>
+                                            <td>{{selectedRow?.contracted_date | date}}</td>
+                                        </tr>
+                                        <tr>
                                             <td>Car Owner Name</td>
                                             <td>{{selectedRow?.owner?.name}}</td>
                                         </tr>
@@ -613,6 +617,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Contracted Date</label>
+                                <br>
+                                <p-calendar formControlName="contracted_date" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select Contracted Date">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('contracted_date')?.touched &&
+                                                ourCarsForm.get('contracted_date')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Car Images</label>
@@ -834,6 +852,20 @@
                                 <div class="text-left mb-2">
                                     <small class="text-danger ms-1" *ngIf="ourCarsForm.get('license_end')?.touched &&
                                                 ourCarsForm.get('license_end')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
+                                <label>Contracted Date</label>
+                                <br>
+                                <p-calendar formControlName="contracted_date" appendTo="body" [style]="{'width':'100%'}"
+                                    placeholder="Select Contracted Date">
+                                </p-calendar>
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('contracted_date')?.touched &&
+                                                ourCarsForm.get('contracted_date')?.hasError('required')">This field is
                                         required!</small>
                                 </div>
                             </div>

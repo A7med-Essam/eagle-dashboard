@@ -65,61 +65,34 @@
       </div>
       <div class="card-body">
         <div class="table-responsive overflow-auto">
-          <!-- <table class="table">
-            <thead class="text-secondary text-center">
-              <th>#</th>
-              <th>Issue date</th>
-              <th>Customer name</th>
-              <th>Customer mobile</th>
-              <th>Car name</th>
-              <th>Car model</th>
-              <th>Assign</th>
-            </thead>
-            <tbody class="text-center">
-              <tr *ngFor="let lead of leadsWithoutAssign; let i = index">
-                <td>{{i+1}}</td>
+          <p-table [value]="leadsWithoutAssign" [tableStyle]="{'margin-bottom': '20px'}" [selectionPageOnly]="true"
+            [(selection)]="selectedLeadsToAssign">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Issue date</th>
+                <th>Customer name</th>
+                <th>Customer mobile</th>
+                <th>Car name</th>
+                <th>Car model</th>
+                <th style="width: 4rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-lead>
+              <tr>
                 <td>{{lead.issue_date}}</td>
                 <td>{{lead.customer_name}}</td>
                 <td>{{lead.customer_mobile}}</td>
                 <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
                 <td>{{lead.car_model}}</td>
-                  <td>
-                    <button class="btn btn-success d-flex justify-content-center align-items-center"
-                      (click)="getLeadToAssign(lead);" style="width: 20px; height: 30px;">
-                      <i class="fa-solid fa-share"></i>
-                    </button>
-                  </td>
+                <td>
+                  <p-tableCheckbox [value]="lead"></p-tableCheckbox>
+                </td>
               </tr>
-            </tbody>
-          </table> -->
-
-          <p-table [value]="leadsWithoutAssign" [tableStyle]="{'margin-bottom': '20px'}" [selectionPageOnly]="true" [(selection)]="selectedLeadsToAssign">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Issue date</th>
-                    <th>Customer name</th>
-                    <th>Customer mobile</th>
-                    <th>Car name</th>
-                    <th>Car model</th>
-                    <th style="width: 4rem">
-                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-lead>
-                <tr>
-                    <td>{{lead.issue_date}}</td>
-                    <td>{{lead.customer_name}}</td>
-                    <td>{{lead.customer_mobile}}</td>
-                    <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
-                    <td>{{lead.car_model}}</td>
-                    <td>
-                      <p-tableCheckbox [value]="lead"></p-tableCheckbox>
-                  </td>
-                </tr>
             </ng-template>
           </p-table>
-         
+
           <ngb-pagination [collectionSize]="pagination2?.total" [page]="pagination2?.current_page" [maxSize]="8"
             (pageChange)="loadPage2($event)" [pageSize]="pagination2?.per_page">
           </ngb-pagination>
@@ -137,8 +110,10 @@
           <div class="card card-plain">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h4 class="card-title">Lead Info</h4>
-              <!-- <p class="card-category">Here is a subtitle for this table</p> -->
-              <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+
+              <div>
+                <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+              </div>
             </div>
             <div class="card-body">
               <div class="table-responsive overflow-auto">
@@ -195,6 +170,13 @@
                     <tr>
                       <td>kilometer</td>
                       <td>{{currentLead?.kilometer}}</td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td>
+                        <p-toggleButton [(ngModel)]="leadStatus" onLabel="Completed" offLabel="Pending" 
+                        (onChange)="changeLeadStatus($event)" [style]="{'width': '10em', 'fontSize':'10px'}"></p-toggleButton>
+                      </td>
                     </tr>
                     <tr *ngIf="seeReplay">
                       <td>Replies</td>
@@ -254,8 +236,6 @@
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
                   <label>Car Name</label>
-                  <!-- <small (click)="addCarNameModal = true"><i
-                      class="nc-icon nc-simple-add text-white bg-success p-1 pointer rounded-circle mb-1"></i></small> -->
                 </div>
                 <p-dropdown [options]="carName" optionLabel="name" styleClass="w-100" formControlName='car_name'
                   #SelectedCar (onChange)="onChange($event);getCarSub(SelectedCar.selectedOption.id)"
@@ -513,6 +493,49 @@
   </div>
 </div>
 
+<div class="row animated d-none" #Recycle>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title">Recycle Table</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive overflow-auto">
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <!-- <th>#</th>
+              <th>Issue date</th>
+              <th>Customer name</th>
+              <th>Customer mobile</th>
+              <th>Car name</th>
+              <th>Car model</th>
+              <th>Action</th> -->
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let lead of leads; let i = index">
+                <!-- <td>{{i+1}}</td>
+                <td>{{lead.issue_date}}</td>
+                <td>{{lead.customer_name}}</td>
+                <td>{{lead.customer_mobile}}</td>
+                <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
+                <td>{{lead.car_model}}</td>
+                <td>
+                  <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
+                      class="fa-regular fa-eye"></i></button>
+                  <button class="btn btn-info m-1 px-3" (click)="editLead(lead)" *ngIf="update"><i
+                      class="fa-regular fa-pen-to-square"></i></button>
+                  <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(lead.id)" *ngIf="delete"><i
+                      class="fa-solid fa-trash-can"></i></button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <p-dialog header="Lead Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
   [resizable]="false">
   <form [formGroup]='filterForm' (ngSubmit)='filterLeads(filterForm)' id="filterForm">
@@ -596,6 +619,13 @@
             placeholder="Select Insurance" appendTo="body" optionValue="value"></p-dropdown>
         </div>
       </div>
+      <!-- <div class="col-xl-4 pr-xl-1 col-lg-6">
+        <div class="form-group">
+          <label>Status</label>
+          <p-dropdown [options]="leadStatusOptions" optionLabel="name" styleClass="w-100" formControlName='status'
+            placeholder="Select Status" appendTo="body" optionValue="value"></p-dropdown>
+        </div>
+      </div> -->
       <div class="col-xl-4 pr-xl-1 col-lg-6">
         <div class="form-group">
           <label>Issue Date</label>
@@ -649,51 +679,6 @@
   </ng-template>
 </p-dialog>
 
-<!-- <p-dialog header="Car Setting" [(visible)]="addCarNameModal" [modal]="true" [style]="{width: '50vw'}"
-  [draggable]="false" [resizable]="false">
-  <div class="row">
-    <div class="col-12">
-      <div class="form-group">
-        <label>Car Name</label>
-        <input type="text" class="form-control" placeholder="Enter Car Name" #CarName>
-      </div>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button class="btn btn-primary m-1" (click)="addCarName(CarName)">Add</button>
-  </ng-template>
-</p-dialog> -->
-
-<!-- <p-dialog header="Car Setting" [(visible)]="addCarColorModal" [modal]="true" [style]="{width: '50vw'}"
-  [draggable]="false" [resizable]="false">
-  <div class="row">
-    <div class="col-12">
-      <div class="form-group">
-        <label>Car Color</label>
-        <input type="text" class="form-control" placeholder="Enter Car Color" #CarColor>
-      </div>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button class="btn btn-primary m-1" (click)="addCarColor(CarColor)">Add</button>
-  </ng-template>
-</p-dialog> -->
-
-<!-- <p-dialog header="Car Setting" [(visible)]="addCarTypeModal" [modal]="true" [style]="{width: '50vw'}"
-  [draggable]="false" [resizable]="false">
-  <div class="row">
-    <div class="col-12">
-      <div class="form-group">
-        <label>Car Type</label>
-        <input type="text" class="form-control" placeholder="Enter Car Type" #CarType>
-      </div>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button class="btn btn-primary m-1" (click)="addCarType(CarType)">Add</button>
-  </ng-template>
-</p-dialog> -->
-
 <p-dialog header="All Replies" [(visible)]="allRepliesModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="row">
@@ -722,12 +707,14 @@
   [draggable]="false" [resizable]="false">
   <div class="row">
     <div class="col-12">
-      <textarea #ReplayTextarea class="form-control textarea pl-2" style="height: 150px;max-height:none;" #replayTextarea></textarea>
+      <textarea #ReplayTextarea class="form-control textarea pl-2" style="height: 150px;max-height:none;"
+        #replayTextarea></textarea>
     </div>
   </div>
   <ng-template pTemplate="footer">
     <div class="d-flex justify-content-between align-items-center">
-      <button class="btn btn-info m-1" (click)="addReminder = true;getReminderNotice(replayTextarea)">Add Reminder</button>
+      <button class="btn btn-info m-1" (click)="addReminder = true;getReminderNotice(replayTextarea)">Add
+        Reminder</button>
       <button class="btn btn-primary m-1" (click)="addReplay(ReplayTextarea)">Replay</button>
     </div>
   </ng-template>
@@ -747,7 +734,6 @@
                 <small>{{user.name}}</small>
               </div>
             </div>
-            <!-- <input type="checkbox" [value]="user.id" (change)="onCheckChange($event)"> -->
             <input [id]="'ckb_'+i" class="ckb ckb-primary" type="checkbox" [value]="user.id"
               (change)="onCheckChange($event)" />
             <label class="hidden" [for]="'ckb_'+i"></label>
@@ -762,16 +748,12 @@
   </ng-template>
 </p-dialog>
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
-</p-confirmDialog>
-
 <p-dialog header="Add Reminder" [(visible)]="addReminder" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
   [resizable]="false" position="bottom">
-  <!-- <ng-template pTemplate="footer"> -->
   <p-calendar appendTo="body" placeholder="Select Reminder Date" #reminderCalendar [minDate]="minimumDate"
     (onSelect)="addReminderLead(reminderCalendar)" [style]="{'width':'100%'}"></p-calendar>
-  <!-- </ng-template> -->
 </p-dialog>
+
 <p-dialog header="Import Lead File" [(visible)]="importModal" [modal]="true" [style]="{width: '50vw'}"
   [draggable]="false" [resizable]="false">
   <div class="form-group">
@@ -813,15 +795,18 @@
   </button>
 </p-dialog>
 
-<p-dialog header="Assign Leads" [(visible)]="assignAllModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
-  [resizable]="false" position="center">
-    <div class="form-group">
-      <label>Assign Agent</label>
-      <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" #selectedAgent
-        placeholder="Select Agent" filter="true" appendTo="body" optionValue="id">
-      </p-dropdown>
-    </div>
-    <ng-template pTemplate="footer">
-      <button class="btn btn-primary m-1" (click)="assignNewLeads(selectedAgent.value)">Assign</button>
-    </ng-template>
+<p-dialog header="Assign Leads" [(visible)]="assignAllModal" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false" position="center">
+  <div class="form-group">
+    <label>Assign Agent</label>
+    <p-dropdown [options]="users" optionLabel="name" styleClass="w-100" #selectedAgent placeholder="Select Agent"
+      filter="true" appendTo="body" optionValue="id">
+    </p-dropdown>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="assignNewLeads(selectedAgent.value)">Assign</button>
+  </ng-template>
 </p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

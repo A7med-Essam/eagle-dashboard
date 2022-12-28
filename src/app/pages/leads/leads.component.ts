@@ -56,7 +56,7 @@ export class LeadsComponent implements OnInit {
   addReplayModal: boolean = false;
   clientInsuranceCompanyModal: boolean = false;
   assignModal: boolean = false;
-
+  leadStatusOptions:any[] = [];
   @ViewChild("LeadsTable") LeadsTable: any;
   @ViewChild("Leads2") Leads2: any;
   @ViewChild("ShowLead") ShowLead: any;
@@ -82,6 +82,10 @@ export class LeadsComponent implements OnInit {
     private _CarPriceService: CarPriceService,
     private _FormBuilder: FormBuilder
   ) {
+    this.leadStatusOptions = [
+      { name: "Pending", value: 0 },
+      { name: "Completed", value: 1 },
+    ];
     this.driverStatus = [
       { name: "YES", value: "yes" },
       { name: "NO", value: "no" },
@@ -146,6 +150,7 @@ export class LeadsComponent implements OnInit {
     this._LeadsService.getLeadsById(id).subscribe({
       next: (res) => {
         this.currentLead = res.data;
+        this.leadStatus = Boolean(Number(this.currentLead.status));
       },
     });
   }
@@ -298,6 +303,7 @@ export class LeadsComponent implements OnInit {
     if (!form.value.car_subtype_id) delete form.value.car_subtype_id;
     if (!form.value.created_id) delete form.value.created_id;
     if (!form.value.assigned_id) delete form.value.assigned_id;
+    if (!form.value.status) delete form.value.status;
     form.value.withoutPagination = 0;
     this._LeadsService.filterLeads(form.value).subscribe({
       next: (res) => {
@@ -489,6 +495,7 @@ export class LeadsComponent implements OnInit {
       car_subtype_id: new FormControl(null),
       created_id: new FormControl(null),
       assigned_id: new FormControl(null),
+      status: new FormControl(null),
     });
   }
 
@@ -746,17 +753,17 @@ export class LeadsComponent implements OnInit {
   addReminder: boolean = false;
   minimumDate = new Date();
 
-  reminderNotice:string = ""
-  getReminderNotice(note){
+  reminderNotice: string = "";
+  getReminderNotice(note) {
     this.reminderNotice = note.value;
-    note.value = ""
+    note.value = "";
   }
 
   addReminderLead(calendar: Calendar) {
     setTimeout(() => {
       if (calendar.inputFieldValue != "") {
         const lead = {
-          remind_data:this.reminderNotice,
+          remind_data: this.reminderNotice,
           lead_id: this.currentLead.id,
           remind_date: new Date(calendar.inputFieldValue).toLocaleDateString(
             "en-CA"
@@ -820,23 +827,23 @@ export class LeadsComponent implements OnInit {
     };
   }
 
-  optionsModal:boolean = false;
-  displayLeadsWithoutAssign(){
+  optionsModal: boolean = false;
+  displayLeadsWithoutAssign() {
     this.getLeadsWithoutAssign();
     this._SharedService.fadeOut(this.LeadsTable.nativeElement);
     setTimeout(() => {
       this._SharedService.fadeIn(this.Leads2.nativeElement);
     }, 800);
   }
-  
-  leadsWithoutAssign:any;
-  getLeadsWithoutAssign(page = 1){
+
+  leadsWithoutAssign: any;
+  getLeadsWithoutAssign(page = 1) {
     this._LeadsService.getLeadsWithoutAssign(page).subscribe({
-      next:res=>{
+      next: (res) => {
         this.leadsWithoutAssign = res.data.data;
-        this.pagination2 = res.data
-      }
-    })
+        this.pagination2 = res.data;
+      },
+    });
   }
 
   loadPage2(page: number) {
@@ -844,26 +851,38 @@ export class LeadsComponent implements OnInit {
     this.getLeadsWithoutAssign(page);
   }
 
-  assignAllModal:boolean = false;
+  assignAllModal: boolean = false;
 
-  selectedLeadsToAssign:any[] = []
-  assignNewLeads(e){
+  selectedLeadsToAssign: any[] = [];
+  assignNewLeads(e) {
     const leadsIds = this.selectedLeadsToAssign.map((value) => {
       return value.id;
     });
     this._LeadsService
-    .AssignLeads({
-      lead_ids: leadsIds,
-      user_id: e,
-    })
-    .subscribe({
-      next: (res) => {
-        this._ToastrService.setToaster(res.message, "success", "success");
-        this.assignAllModal = false;
-        this.getLeadsWithoutAssign();
-      },
-      error: (err) =>
-        this._ToastrService.setToaster(err.error.message, "error", "danger"),
-    });
+      .AssignLeads({
+        lead_ids: leadsIds,
+        user_id: e,
+      })
+      .subscribe({
+        next: (res) => {
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.assignAllModal = false;
+          this.getLeadsWithoutAssign();
+        },
+        error: (err) =>
+          this._ToastrService.setToaster(err.error.message, "error", "danger"),
+      });
+  }
+
+  getRecycle() {
+    // TODO: get trashed
+    // TODO: get forceDelete
+    // TODO: get restore
+  }
+
+  leadStatus: boolean = false;
+  changeLeadStatus(e) {
+    this._LeadsService.updateLeads({status:e.checked == true ? 1 : 0, customer_mobile:this.currentLead.customer_mobile,lead_id:this.currentLead.id,
+      car_subtype_id:this.currentLead.car_type_details.id}).subscribe();
   }
 }

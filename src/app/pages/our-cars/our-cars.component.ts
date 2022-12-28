@@ -222,6 +222,7 @@ export class OurCarsComponent implements OnInit {
   // Set Reactive Forms
   setOurCarsForm(car?: any) {
     let date = car?.license_end ? new Date(car?.license_end) : null;
+    let contracted_date = car?.contracted_date ? new Date(car?.contracted_date) : null;
     let grade = car?.grade ? car?.grade : null;
     this.ourCarsForm = this._FormBuilder.group({
       name: new FormControl(car?.name, [Validators.required]),
@@ -234,8 +235,7 @@ export class OurCarsComponent implements OnInit {
       license_end: new FormControl(date, [Validators.required]),
       owner_id: new FormControl(car?.owner_id, [Validators.required]),
       kilometer: new FormControl(car?.kilometer, [Validators.required]),
-      // car_images: new FormControl(null),
-      // car_files: new FormControl(null),
+      contracted_date: new FormControl(contracted_date, [Validators.required]),
       files: new FormControl(null),
       type: new FormControl(null),
       car_subtype_id: new FormControl(car?.sub_car?.id, [Validators.required]),

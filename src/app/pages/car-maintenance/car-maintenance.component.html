@@ -7,6 +7,9 @@
                     (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
                 </ngb-pagination>
                 <div class="d-flex justify-content-end flex-wrap">
+                    <button class="btn btn-info m-1" (click)="filterModal = true;">
+                        <small><b><i class="fa-solid fa-filter mr-2"></i>Filter</b></small>
+                    </button>
                     <button class="btn btn-info m-1" style="padding: 6px 12px;" (click)="displaySettings();">
                         <small><b><i class="fa-solid fa-gear mr-2"></i>Settings</b></small>
                     </button>
@@ -498,3 +501,18 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
+
+<p-dialog header="Brand Search" [(visible)]="filterModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+
+    <div class="form-group">
+        <label>Brand Name</label>
+        <p-dropdown [options]="cars" optionLabel="car_name" styleClass="w-100" filter="true" #SelectedBrand_filter
+            placeholder="Select Brand" appendTo="body" optionValue="id"></p-dropdown>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-primary m-1" (click)="filterBrands(SelectedBrand_filter)">Apply</button>
+        <button class="btn btn-danger m-1" (click)="resetFilter(SelectedBrand_filter);filterModal=false">Reset
+            Filter</button>
+    </ng-template>
+</p-dialog>
