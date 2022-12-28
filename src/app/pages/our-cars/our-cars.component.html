@@ -812,6 +812,20 @@
                         </div>
                         <div class="col-md-3 pr-md-1">
                             <div class="form-group">
+                                <label>Car Kilometer</label>
+                                <input type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    maxLength="20" class="form-control" formControlName='kilometer'
+                                    placeholder="Enter Car kilometer">
+                                <div class="text-left mb-2">
+                                    <small class="text-danger ms-1" *ngIf="ourCarsForm.get('kilometer')?.touched &&
+                                                    ourCarsForm.get('kilometer')?.hasError('required')">This field is
+                                        required!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pr-md-1">
+                            <div class="form-group">
                                 <label>License End</label>
                                 <br>
                                 <p-calendar formControlName="license_end" appendTo="body" [style]="{'width':'100%'}"
