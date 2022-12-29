@@ -56,11 +56,12 @@ export class LeadsComponent implements OnInit {
   addReplayModal: boolean = false;
   clientInsuranceCompanyModal: boolean = false;
   assignModal: boolean = false;
-  leadStatusOptions:any[] = [];
+  leadStatusOptions: any[] = [];
   @ViewChild("LeadsTable") LeadsTable: any;
   @ViewChild("Leads2") Leads2: any;
   @ViewChild("ShowLead") ShowLead: any;
   @ViewChild("CreateForm") CreateForm: any;
+  @ViewChild("Recycle") Recycle: any;
   @ViewChild("EditForm") EditForm: any;
   @ViewChild("AssignUsersForm") AssignUsersForm: HTMLFormElement;
 
@@ -874,15 +875,60 @@ export class LeadsComponent implements OnInit {
       });
   }
 
+  recycleBin: any[] = [];
+  // recyclePagination;
   getRecycle() {
-    // TODO: get trashed
-    // TODO: get forceDelete
-    // TODO: get restore
+    this._LeadsService.getRecycle().subscribe({
+      next: (res) => {
+        // console.log(res);
+        // this.recyclePagination = res.data
+        this.recycleBin = res.data;
+      },
+    });
+  }
+
+  displayRecycle() {
+    this.getRecycle();
+    this._SharedService.fadeOut(this.LeadsTable.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Recycle.nativeElement);
+    }, 800);
+  }
+
+  forceDelete(id) {
+    this._LeadsService.forceDelete(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        // this.getRecycle();
+        this.recycleBin = this.recycleBin.filter((data) => data.id != id);
+      },
+    });
+  }
+
+  restore(id) {
+    this._LeadsService.restore(id).subscribe({
+      next: (res) => {
+        this.getAllLeads();
+        this.getRecycle();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+    });
+  }
+
+  backRecycleBtn() {
+    this._SharedService.fadeOut(this.Recycle.nativeElement);
+    this.fadeInLeadsTable();
   }
 
   leadStatus: boolean = false;
   changeLeadStatus(e) {
-    this._LeadsService.updateLeads({status:e.checked == true ? 1 : 0, customer_mobile:this.currentLead.customer_mobile,lead_id:this.currentLead.id,
-      car_subtype_id:this.currentLead.car_type_details.id}).subscribe();
+    this._LeadsService
+      .updateLeads({
+        status: e.checked == true ? 1 : 0,
+        customer_mobile: this.currentLead.customer_mobile,
+        lead_id: this.currentLead.id,
+        car_subtype_id: this.currentLead.car_type_details.id,
+      })
+      .subscribe();
   }
 }

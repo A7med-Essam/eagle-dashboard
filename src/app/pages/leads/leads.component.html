@@ -498,35 +498,33 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="card-title">Recycle Table</h4>
+        <button class="btn btn-dark" (click)="backRecycleBtn()">Back</button>
       </div>
       <div class="card-body">
         <div class="table-responsive overflow-auto">
           <table class="table">
             <thead class="text-secondary text-center">
-              <!-- <th>#</th>
+              <th>#</th>
               <th>Issue date</th>
               <th>Customer name</th>
               <th>Customer mobile</th>
               <th>Car name</th>
               <th>Car model</th>
-              <th>Action</th> -->
+              <th>Action</th>
             </thead>
             <tbody class="text-center">
-              <tr *ngFor="let lead of leads; let i = index">
-                <!-- <td>{{i+1}}</td>
+              <tr *ngFor="let lead of recycleBin; let i = index">
+                <td>{{i+1}}</td>
                 <td>{{lead.issue_date}}</td>
                 <td>{{lead.customer_name}}</td>
                 <td>{{lead.customer_mobile}}</td>
                 <td>{{lead.car_with_type_name?lead.car_with_type_name:lead?.car_name}}</td>
                 <td>{{lead.car_model}}</td>
                 <td>
-                  <button class="btn btn-primary m-1 px-3" (click)="getLeadById(lead.id);"><i
-                      class="fa-regular fa-eye"></i></button>
-                  <button class="btn btn-info m-1 px-3" (click)="editLead(lead)" *ngIf="update"><i
-                      class="fa-regular fa-pen-to-square"></i></button>
-                  <button class="btn btn-danger m-1 px-3" (click)="deleteConfirm(lead.id)" *ngIf="delete"><i
+                  <button class="btn btn-info m-1 px-3" (click)="restore(lead.id)">Restore</button>
+                  <button class="btn btn-danger m-1 px-3" (click)="forceDelete(lead.id)" *ngIf="delete"><i
                       class="fa-solid fa-trash-can"></i></button>
-                </td> -->
+                </td>
               </tr>
             </tbody>
           </table>
@@ -779,11 +777,11 @@
   </button>
   <button class="btn btn-primary m-1" (click)="exportLeads();optionsModal = false">
     <i class="fa-regular fa-file-excel"></i>
-    Export
+    Export File
   </button>
   <button class="btn btn-primary m-1" (click)="displayImportLeadsModal();optionsModal = false">
     <i class="fa-regular fa-file-excel"></i>
-    Import
+    Import File
   </button>
   <button class="btn btn-primary m-1" (click)="optionsModal = false;displayLeadsWithoutAssign()">
     <i class="nc-diamond nc-icon"></i>
@@ -792,6 +790,10 @@
   <button class="btn btn-primary m-1" (click)="addLead();optionsModal = false" *ngIf="create">
     <i class="fa-solid fa-plus"></i>
     Create Lead
+  </button>
+  <button class="btn btn-primary m-1" (click)="displayRecycle();optionsModal = false">
+    <i class="fa-solid fa-recycle"></i>
+    Recycle
   </button>
 </p-dialog>
 

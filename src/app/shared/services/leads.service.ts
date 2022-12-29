@@ -87,12 +87,12 @@ export class LeadsService {
   }
 
   getRecycle(): Observable<any> {
-    return this._ApiService.postReq("leads/trashed", "");
+    return this._ApiService.postReq("lead/trashed", "");
   }
   restore(lead_id): Observable<any> {
-    return this._ApiService.postReq("leads/restore", { lead_id });
+    return this._ApiService.postReq("lead/restore", { lead_id });
   }
   forceDelete(lead_id): Observable<any> {
-    return this._ApiService.postReq("leads/forceDelete", { lead_id });
+    return this._ApiService.postReq("lead/forceDelete", { lead_id });
   }
 }
