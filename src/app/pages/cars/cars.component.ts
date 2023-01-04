@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { CarService } from "app/shared/services/car.service";
 import { SharedService } from "app/shared/services/shared.service";
 import { ToasterService } from "app/shared/services/toaster.service";
@@ -311,13 +311,20 @@ export class CarsComponent implements OnInit {
   @ViewChild("Grades") Grades: any;
   @ViewChild("Insurances") Insurances: any;
 
-  displayCars() {
-    this.getCarName();
+  fadeOutAll(){
     this._SharedService.fadeOut(this.Colors.nativeElement);
     this._SharedService.fadeOut(this.Types.nativeElement);
     this._SharedService.fadeOut(this.SubTypes.nativeElement);
     this._SharedService.fadeOut(this.Grades.nativeElement);
     this._SharedService.fadeOut(this.Insurances.nativeElement);
+    this._SharedService.fadeOut(this.Cars.nativeElement);
+    this._SharedService.fadeOut(this.SourceSubTypesPage.nativeElement);
+    this._SharedService.fadeOut(this.SourcePage.nativeElement);
+  }
+
+  displayCars() {
+    this.getCarName();
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.Cars.nativeElement);
     }, 800);
@@ -325,11 +332,7 @@ export class CarsComponent implements OnInit {
 
   displayColors() {
     this.getCarColor();
-    this._SharedService.fadeOut(this.Cars.nativeElement);
-    this._SharedService.fadeOut(this.Types.nativeElement);
-    this._SharedService.fadeOut(this.SubTypes.nativeElement);
-    this._SharedService.fadeOut(this.Grades.nativeElement);
-    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.Colors.nativeElement);
     }, 800);
@@ -339,11 +342,7 @@ export class CarsComponent implements OnInit {
   displaySubTypes(id) {
     this.currentSubType = id;
     this.getCarSub(id);
-    this._SharedService.fadeOut(this.Cars.nativeElement);
-    this._SharedService.fadeOut(this.Types.nativeElement);
-    this._SharedService.fadeOut(this.Colors.nativeElement);
-    this._SharedService.fadeOut(this.Grades.nativeElement);
-    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.SubTypes.nativeElement);
     }, 800);
@@ -351,11 +350,7 @@ export class CarsComponent implements OnInit {
 
   displayTypes() {
     this.getCarType();
-    this._SharedService.fadeOut(this.Cars.nativeElement);
-    this._SharedService.fadeOut(this.SubTypes.nativeElement);
-    this._SharedService.fadeOut(this.Colors.nativeElement);
-    this._SharedService.fadeOut(this.Grades.nativeElement);
-    this._SharedService.fadeOut(this.Insurances.nativeElement);
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.Types.nativeElement);
     }, 800);
@@ -363,11 +358,7 @@ export class CarsComponent implements OnInit {
 
   displayInsurances() {
     this.getInsurance();
-    this._SharedService.fadeOut(this.Cars.nativeElement);
-    this._SharedService.fadeOut(this.SubTypes.nativeElement);
-    this._SharedService.fadeOut(this.Colors.nativeElement);
-    this._SharedService.fadeOut(this.Grades.nativeElement);
-    this._SharedService.fadeOut(this.Types.nativeElement);
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.Insurances.nativeElement);
     }, 800);
@@ -375,13 +366,120 @@ export class CarsComponent implements OnInit {
 
   displayGrades() {
     this.getGrade();
-    this._SharedService.fadeOut(this.Cars.nativeElement);
-    this._SharedService.fadeOut(this.SubTypes.nativeElement);
-    this._SharedService.fadeOut(this.Colors.nativeElement);
-    this._SharedService.fadeOut(this.Insurances.nativeElement);
-    this._SharedService.fadeOut(this.Types.nativeElement);
+    this.fadeOutAll();
     setTimeout(() => {
       this._SharedService.fadeIn(this.Grades.nativeElement);
     }, 800);
   }
+
+  // *******************************************
+  @ViewChild("SourcePage") SourcePage: ElementRef<HTMLElement>;
+  @ViewChild("SourceSubTypesPage") SourceSubTypesPage: ElementRef<HTMLElement>;
+  currentSourceSubTypes: any;
+
+  sources: any[] = [];
+  sourceSubTypes: any[] = [];
+  sourceModal: boolean = false;
+  subSourceModal: boolean = false;
+
+  // Show
+  getAllSources() {
+    this._CarService.getAllSources().subscribe({
+      next: (res) => (this.sources = res.data),
+    });
+  }
+
+  getSourceSubTypes(id) {
+    this._CarService.getSourceSubTypes(id).subscribe({
+      next: (res) => (this.sourceSubTypes = res.data),
+    });
+  }
+
+  // Delete
+  deleteSources(id: number) {
+    this._CarService.deleteSource(id).subscribe({
+      next: (res) => {
+        this.sources = this.sources.filter((data) => data.id != id);
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+    });
+  }
+
+  deleteSubSource(id: number) {
+    this._CarService.deleteSubSource(id).subscribe({
+      next: (res) => {
+        this.sourceSubTypes = this.sourceSubTypes.filter(
+          (data) => data.id != id
+        );
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+    });
+  }
+
+
+  // Create
+  createSource(data: HTMLInputElement) {
+    this._CarService.createSource(data.value).subscribe({
+      next: (res) => {
+        this.getAllSources();
+        this._ToastrService.setToaster(res.message, "success", "success");
+        this.sourceModal = false;
+        data.value = "";
+      },
+    });
+  }
+
+  createSubSource(sub_source: HTMLInputElement) {
+    this._CarService
+      .createSubSource({
+        source_id: this.currentSourceSubTypes,
+        sub_source: sub_source.value,
+      })
+      .subscribe({
+        next: (res) => {
+          this.getSourceSubTypes(this.currentSourceSubTypes);
+          this._ToastrService.setToaster(res.message, "success", "success");
+          this.subSourceModal = false;
+          sub_source.value = "";
+        },
+      });
+  }
+
+  // Confirmation
+  deleteSourcesConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteSources(id);
+      },
+    });
+  }
+
+  deleteSubSourceConfirm(id: any) {
+    this._ConfirmationService.confirm({
+      message: "Are you sure that you want to perform this action?",
+      accept: () => {
+        this.deleteSubSource(id);
+      },
+    });
+  }
+
+  // Displays
+  displaySource() {
+    this.getAllSources();
+    this.fadeOutAll();
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.SourcePage.nativeElement);
+    }, 800);
+  }
+
+  displaySourceSubTypes(id) {
+    this.currentSourceSubTypes = id;
+    this.getSourceSubTypes(id);
+    this.fadeOutAll();
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.SourceSubTypesPage.nativeElement);
+    }, 800);
+  }
+
 }

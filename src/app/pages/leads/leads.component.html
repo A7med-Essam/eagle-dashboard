@@ -172,6 +172,14 @@
                       <td>{{currentLead?.kilometer}}</td>
                     </tr>
                     <tr>
+                      <td>Lead Source</td>
+                      <td>{{currentLead?.source}}</td>
+                    </tr>
+                    <tr>
+                      <td>Lead Sub Source</td>
+                      <td>{{currentLead?.sub_source}}</td>
+                    </tr>
+                    <tr>
                       <td>Status</td>
                       <td>
                         <p-toggleButton [(ngModel)]="leadStatus" onLabel="Completed" offLabel="Pending" 
@@ -217,14 +225,14 @@
       <div class="card-body">
         <form [formGroup]='leadForm' (ngSubmit)='createLead(leadForm)'>
           <div class="row">
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Customer Name</label>
                 <input type="text" class="form-control" placeholder="Enter Customer Name"
                   formControlName='customer_name'>
               </div>
             </div>
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
                 <input type="text"
@@ -232,6 +240,30 @@
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
+
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Lead Source</label>
+                </div>
+                <p-dropdown [options]="Sources" optionLabel="source" styleClass="w-100" formControlName='source'
+                  appendTo="body" #SelectedSource (onChange)="getSourceSubTypes(SelectedSource.selectedOption.id)"
+                  placeholder="Select Lead Source" filter="true" optionValue="source">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Lead Sub Source</label>
+                </div>
+                <p-dropdown [options]="subSources" optionLabel="sub_source" styleClass="w-100" appendTo="body"
+                  formControlName='sub_source' placeholder="Select Lead Sub Source" filter="true"
+                  optionValue="sub_source">
+                </p-dropdown>
+              </div>
+            </div>
+
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">
@@ -362,14 +394,14 @@
       <div class="card-body">
         <form [formGroup]='leadForm' (ngSubmit)='updateLead(leadForm)'>
           <div class="row">
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Customer Name</label>
                 <input type="text" class="form-control" placeholder="Enter Customer Name"
                   formControlName='customer_name'>
               </div>
             </div>
-            <div class="col-md-6 pr-md-1">
+            <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <label>Customer Mobile</label>
                 <input type="text"
@@ -377,6 +409,31 @@
                   class="form-control" formControlName='customer_mobile' placeholder="+02">
               </div>
             </div>
+
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Lead Source</label>
+                </div>
+                <p-dropdown [options]="Sources" optionLabel="source" styleClass="w-100" formControlName='source'
+                  appendTo="body" #SelectedSource_edit
+                  (onChange)="getSourceSubTypes(SelectedSource_edit.selectedOption.id)" placeholder="Select Lead Source"
+                  filter="true" optionValue="source">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Lead Sub Source</label>
+                </div>
+                <p-dropdown [options]="subSources" optionLabel="sub_source" styleClass="w-100" appendTo="body"
+                  formControlName='sub_source' placeholder="Select Lead Sub Source" filter="true"
+                  optionValue="sub_source">
+                </p-dropdown>
+              </div>
+            </div>
+
             <div class="col-md-3 pr-md-1">
               <div class="form-group">
                 <div class="d-flex align-items-center justify-content-between">

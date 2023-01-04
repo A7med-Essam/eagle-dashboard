@@ -120,6 +120,7 @@ export class LeadsComponent implements OnInit {
     this.setAdminForm();
     this.getInsuranceCompanies();
     this.setPermissions();
+    this.getleadSource();
   }
 
   // Leads Settings
@@ -477,6 +478,8 @@ export class LeadsComponent implements OnInit {
       insurance_in_out: new FormControl(lead?.insurance_in_out),
       company_policy_id: new FormControl(lead?.company_policy_id),
       insuranceCompany: new FormControl(lead?.insuranceCompany),
+      source: new FormControl(lead?.source),
+      sub_source: new FormControl(lead?.sub_source),
     });
   }
 
@@ -930,5 +933,20 @@ export class LeadsComponent implements OnInit {
         car_subtype_id: this.currentLead.car_type_details.id,
       })
       .subscribe();
+  }
+
+  // new
+  Sources: any[] = [];
+  subSources: any[] = [];
+  getleadSource() {
+    this._CarService
+      .getAllSources()
+      .subscribe((res) => (this.Sources = res.data));
+  }
+
+  getSourceSubTypes(source) {
+    this._CarService
+      .getSourceSubTypes(source)
+      .subscribe((res) => (this.subSources = res.data));
   }
 }

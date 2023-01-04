@@ -95,4 +95,5 @@ export class LeadsService {
   forceDelete(lead_id): Observable<any> {
     return this._ApiService.postReq("lead/forceDelete", { lead_id });
   }
+
 }

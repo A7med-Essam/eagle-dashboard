@@ -103,4 +103,29 @@ export class CarService {
       car_sub_id: car_sub_id,
     });
   }
+
+    // new 
+    getAllSources(): Observable<any> {
+      return this._ApiService.postReq("allSources", "");
+    }
+  
+    createSource(source): Observable<any> {
+      return this._ApiService.postReq("addSource", { source });
+    }
+  
+    deleteSource(source_id): Observable<any> {
+      return this._ApiService.postReq("deleteSource", { source_id });
+    }
+  
+    getSourceSubTypes(source_id): Observable<any> {
+      return this._ApiService.postReq("sourceSubTypes", { source_id });
+    }
+  
+    createSubSource(subSource): Observable<any> {
+      return this._ApiService.postReq("addSubSource", subSource);
+    }
+  
+    deleteSubSource(sub_source_id): Observable<any> {
+      return this._ApiService.postReq("deleteSubSource", { sub_source_id });
+    }
 }

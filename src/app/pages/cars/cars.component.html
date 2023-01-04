@@ -17,6 +17,9 @@
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
             <small><b>Insurances</b></small>
           </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
+          </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarNameModal = true">
             <small><b>Add</b></small>
           </button>
@@ -71,6 +74,9 @@
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
             <small><b>Insurances</b></small>
           </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
+          </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarSubModal = true">
             <small><b>Add</b></small>
           </button>
@@ -120,6 +126,9 @@
           </button>
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
             <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
           </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarColorModal = true">
             <small><b>Add</b></small>
@@ -171,6 +180,9 @@
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
             <small><b>Insurances</b></small>
           </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
+          </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="gradeModal = true">
             <small><b>Add</b></small>
           </button>
@@ -221,6 +233,9 @@
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
             <small><b>Insurances</b></small>
           </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
+          </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="addCarTypeModal = true">
             <small><b>Add</b></small>
           </button>
@@ -270,6 +285,9 @@
           </button>
           <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
             <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
           </button>
           <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="insuranceModal = true">
             <small><b>Add</b></small>
@@ -399,3 +417,139 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
 </p-confirmDialog>
+
+<div class="row mx-0 animated d-none" #SourcePage>
+  <div class="col-12">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Source</span>
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="sourceModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
+      </div>
+      <div class="card-body ">
+        <table class="table">
+          <thead class="text-secondary text-center">
+            <th>#</th>
+            <th>Name</th>
+            <th>Action</th>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let source of sources; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{source.source | uppercase}}</td>
+              <td>
+                <button class="btn btn-info mx-2" (click)="displaySourceSubTypes(source.id)">Sub Type</button>
+                <button class="btn btn-danger mx-2" (click)="deleteSourcesConfirm(source.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mx-0 animated d-none" #SourceSubTypesPage>
+  <div class="col-12">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Sub Source</span>
+
+        <div class="text-right">
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displaySource();">
+            <small><b>Source</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayColors();">
+            <small><b>Colors</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayGrades();">
+            <small><b>Grades</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayTypes();">
+            <small><b>Types</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayInsurances();">
+            <small><b>Insurances</b></small>
+          </button>
+          <button class="btn btn-dark mx-1" style="padding: 6px 12px;" (click)="displayCars();">
+            <small><b>Cars</b></small>
+          </button>
+          <button class="btn btn-primary mx-1" style="padding: 6px 12px;" (click)="subSourceModal = true">
+            <small><b>Add</b></small>
+          </button>
+        </div>
+      </div>
+      <div class="card-body ">
+        <table class="table">
+          <thead class="text-secondary text-center">
+            <th>#</th>
+            <th>Name</th>
+            <th>Action</th>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let sub of sourceSubTypes; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{sub.sub_source | uppercase}}</td>
+              <td>
+                <button class="btn btn-danger mx-2" (click)="deleteSubSourceConfirm(sub.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<p-dialog header="Lead Setting" [(visible)]="sourceModal" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+  [resizable]="false">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label>Source Name</label>
+        <input type="text" class="form-control" placeholder="Enter Source Name" #SourceName>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="createSource(SourceName)">Create</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Lead Setting" [(visible)]="subSourceModal" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false">
+  <div class="row">
+
+    <div class="col-12">
+      <div class="form-group">
+        <label>Source Sub Type</label>
+        <input type="text" class="form-control" placeholder="Enter Source Sub Type" #SourceSubType>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn btn-primary m-1" (click)="createSubSource(SourceSubType)">Add</button>
+  </ng-template>
+</p-dialog>
