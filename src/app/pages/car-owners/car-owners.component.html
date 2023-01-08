@@ -3,9 +3,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">Car Owner Table</h4>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+            
                 <div class="text-center">
                     <button class="btn btn-primary m-1" (click)="filterModal = true">
                         <i class="fa-solid fa-filter"></i>
@@ -19,6 +17,11 @@
                         <i class="fa-solid fa-plus"></i>
                         Add
                     </button>
+                </div>
+                <div class="table-responsive overflow-auto">
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
+                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                </ngb-pagination>
                 </div>
             </div>
             <div class="card-body">

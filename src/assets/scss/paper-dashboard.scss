@@ -169,14 +169,27 @@ a {
     align-items: center;
 }
 
-.p-togglebutton.p-button.p-highlight{
+.p-togglebutton.p-button.p-highlight {
     background: #6bd098;
     border-color: #6bd098;
 }
+
 .p-ripple.p-element.p-button.p-togglebutton.p-component:focus {
     box-shadow: 0 0 0 2px #fff, 0 0 0 4px #6bd098, 0 1px 2px #000;
 }
+
 .p-togglebutton.p-button.p-highlight:hover {
     background: #6bd098;
     border-color: #6bd098;
+}
+
+.card-header.d-flex {
+    flex-wrap: wrap;
+}
+
+
+@media all and (max-width: 450px) {
+    .p-dialog-mask .p-dialog {
+        width: 100vw !important;
+    }
 }

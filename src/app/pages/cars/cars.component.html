@@ -26,23 +26,26 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carName; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.car_name | uppercase}}</td>
-              <td>
-                <button class="btn btn-info mx-2" (click)="displaySubTypes(car.id)">Sub Type</button>
-                <button class="btn btn-danger mx-2" (click)="deleteCarNameConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carName; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.car_name | uppercase}}</td>
+                <td>
+                  <button class="btn btn-info mx-2" (click)="displaySubTypes(car.id)">Sub Type</button>
+                  <button class="btn btn-danger mx-2" (click)="deleteCarNameConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -83,22 +86,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carSub; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.car_model | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarSubConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carSub; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.car_model | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteCarSubConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -136,22 +142,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carColor; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.car_color | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarColorConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carColor; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.car_color | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteCarColorConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -189,22 +198,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carGrade; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.grade | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteGradeConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carGrade; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.grade | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteGradeConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -242,22 +254,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carType; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.car_type | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteCarTypeConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carType; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.car_type | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteCarTypeConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -295,22 +310,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let car of carInsurance; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{car.status | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteInsuranceConfirm(car.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let car of carInsurance; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{car.status | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteInsuranceConfirm(car.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -446,23 +464,26 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let source of sources; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{source.source | uppercase}}</td>
-              <td>
-                <button class="btn btn-info mx-2" (click)="displaySourceSubTypes(source.id)">Sub Type</button>
-                <button class="btn btn-danger mx-2" (click)="deleteSourcesConfirm(source.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let source of sources; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{source.source | uppercase}}</td>
+                <td>
+                  <button class="btn btn-info mx-2" (click)="displaySourceSubTypes(source.id)">Sub Type</button>
+                  <button class="btn btn-danger mx-2" (click)="deleteSourcesConfirm(source.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -499,22 +520,25 @@
         </div>
       </div>
       <div class="card-body ">
-        <table class="table">
-          <thead class="text-secondary text-center">
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let sub of sourceSubTypes; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{sub.sub_source | uppercase}}</td>
-              <td>
-                <button class="btn btn-danger mx-2" (click)="deleteSubSourceConfirm(sub.id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive overflow-auto">
+
+          <table class="table">
+            <thead class="text-secondary text-center">
+              <th>#</th>
+              <th>Name</th>
+              <th>Action</th>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor="let sub of sourceSubTypes; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{sub.sub_source | uppercase}}</td>
+                <td>
+                  <button class="btn btn-danger mx-2" (click)="deleteSubSourceConfirm(sub.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

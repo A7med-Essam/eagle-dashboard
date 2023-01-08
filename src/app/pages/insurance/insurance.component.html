@@ -9,34 +9,37 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Email</th>
-                        <th>Details</th>
-                        <th>Responsible Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let company of insuranceCompanies; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{company.name}}</td>
-                            <td>{{company.mobile}}</td>
-                            <td>{{company.email}}</td>
-                            <td>{{company.details}}</td>
-                            <td>{{company.responsible_name}}</td>
-                            <td>
-                                <button class="btn btn-info mx-2" (click)="openUpdatePolicyModal(company)">Edit</button>
-                                <!-- <button class="btn btn-danger mx-2"
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Details</th>
+                            <th>Responsible Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let company of insuranceCompanies; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{company.name}}</td>
+                                <td>{{company.mobile}}</td>
+                                <td>{{company.email}}</td>
+                                <td>{{company.details}}</td>
+                                <td>{{company.responsible_name}}</td>
+                                <td>
+                                    <button class="btn btn-info mx-2"
+                                        (click)="openUpdatePolicyModal(company)">Edit</button>
+                                    <!-- <button class="btn btn-danger mx-2"
                                     (click)="deleteInsuranceConfirm(company.id)">Delete</button> -->
-                                <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(company)">Add
-                                    Policy</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(company)">Add
+                                        Policy</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -50,18 +53,21 @@
 
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let company of clientInsuranceCompany; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{company.name}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let company of clientInsuranceCompany; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{company.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -5,36 +5,39 @@
                 <span>Leads Reminder</span>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Remind Date</th>
-                        <th>Remind Status</th>
-                        <th>Note</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let remind of reminders; let i = index"
-                            [style.opacity]="remind.reminded ? '0.3' : '1'">
-                            <td>{{i+1}}</td>
-                            <td>{{remind.remind_date | date}}</td>
-                            <td>
-                                <span class="text-white px-3 py-2 rounded-pill bg-info pointer"
-                                    (click)="updateReminderLeads(remind)">
-                                    {{remind.reminded?"Notified":"Notify"}}
-                                </span>
-                            </td>
-                            <td>{{remind.remind_data}}</td>
-                            <td>
-                                <button class="btn btn-primary m-1 px-3" (click)="getLeadById(remind.lead_id);"><i
-                                        class="fa-regular fa-eye"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Remind Date</th>
+                            <th>Remind Status</th>
+                            <th>Note</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let remind of reminders; let i = index"
+                                [style.opacity]="remind.reminded ? '0.3' : '1'">
+                                <td>{{i+1}}</td>
+                                <td>{{remind.remind_date | date}}</td>
+                                <td>
+                                    <span class="text-white px-3 py-2 rounded-pill bg-info pointer"
+                                        (click)="updateReminderLeads(remind)">
+                                        {{remind.reminded?"Notified":"Notify"}}
+                                    </span>
+                                </td>
+                                <td>{{remind.remind_data}}</td>
+                                <td>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getLeadById(remind.lead_id);"><i
+                                            class="fa-regular fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
+                </div>
             </div>
         </div>
     </div>

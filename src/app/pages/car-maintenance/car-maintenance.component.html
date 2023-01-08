@@ -3,9 +3,7 @@
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Car Maintenances Table</span>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+
                 <div class="d-flex justify-content-end flex-wrap">
                     <button class="btn btn-info m-1" (click)="filterModal = true;">
                         <small><b><i class="fa-solid fa-filter mr-2"></i>Filter</b></small>
@@ -20,38 +18,45 @@
                         <small><b>Add Maintenance Center</b></small>
                     </button>
                 </div>
+                <div class="table-responsive overflow-auto">
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
+                </div>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let maintenance of maintenances; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{maintenance.name}}</td>
-                            <td>{{maintenance.mobile}}</td>
-                            <td>
-                                <button class="btn btn-primary m-1" (click)="getById(maintenance.id)">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-                                <button class="btn btn-info m-1" (click)="displayBrandModal(maintenance)">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                                <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)"><i
-                                        class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn btn-danger m-1" (click)="deleteConfirm(maintenance.id)"><i
-                                        class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let maintenance of maintenances; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{maintenance.name}}</td>
+                                <td>{{maintenance.mobile}}</td>
+                                <td>
+                                    <button class="btn btn-primary m-1" (click)="getById(maintenance.id)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-info m-1" (click)="displayBrandModal(maintenance)">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-info m-1" (click)="displayUpdateModal(maintenance)"><i
+                                            class="fa-regular fa-pen-to-square"></i></button>
+                                    <button class="btn btn-danger m-1" (click)="deleteConfirm(maintenance.id)"><i
+                                            class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="8"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -115,25 +120,28 @@
                             <button class="btn btn-dark" (click)="backDetailsBtn2()">Back</button>
                         </div>
                         <div class="card-body">
-                            <table class="table">
-                                <thead class="text-secondary text-center">
-                                    <th>#</th>
-                                    <th>Brand Name</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody class="text-center">
-                                    <tr *ngFor="let car of cars; let i = index">
-                                        <td>{{i+1}}</td>
-                                        <td>{{car.car_name}}</td>
-                                        <td>
-                                            <button class="btn btn-primary m-1"
-                                                (click)="getCarMaintenance(car.id);displayBrandCarMaintenance()">
-                                                <i class="fa-regular fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive overflow-auto">
+
+                                <table class="table">
+                                    <thead class="text-secondary text-center">
+                                        <th>#</th>
+                                        <th>Brand Name</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr *ngFor="let car of cars; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{car.car_name}}</td>
+                                            <td>
+                                                <button class="btn btn-primary m-1"
+                                                    (click)="getCarMaintenance(car.id);displayBrandCarMaintenance()">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,46 +176,52 @@
                         <div class="card-body">
                             <div class="row mx-0">
                                 <div class="col-md-6">
-                                    <table class="table">
-                                        <thead class="text-secondary text-center">
-                                            <th>#</th>
-                                            <th>Kilometer</th>
-                                            <th>Action</th>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            <tr *ngFor="let kilometer of maintenanceKilometer; let i = index">
-                                                <td>{{i+1}}</td>
-                                                <td>{{kilometer.kilometer}}</td>
-                                                <td>
-                                                    <button class="btn btn-danger m-1"
-                                                        (click)="deleteMaintenanceKilometer(kilometer.id)">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive overflow-auto">
+
+                                        <table class="table">
+                                            <thead class="text-secondary text-center">
+                                                <th>#</th>
+                                                <th>Kilometer</th>
+                                                <th>Action</th>
+                                            </thead>
+                                            <tbody class="text-center">
+                                                <tr *ngFor="let kilometer of maintenanceKilometer; let i = index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{kilometer.kilometer}}</td>
+                                                    <td>
+                                                        <button class="btn btn-danger m-1"
+                                                            (click)="deleteMaintenanceKilometer(kilometer.id)">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <table class="table">
-                                        <thead class="text-secondary text-center">
-                                            <th>#</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            <tr *ngFor="let type of maintenanceType; let i = index">
-                                                <td>{{i+1}}</td>
-                                                <td>{{type.type_ar}}</td>
-                                                <td>
-                                                    <button class="btn btn-danger m-1"
-                                                        (click)="deleteMaintenanceType(type.id)">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive overflow-auto">
+
+                                        <table class="table">
+                                            <thead class="text-secondary text-center">
+                                                <th>#</th>
+                                                <th>Type</th>
+                                                <th>Action</th>
+                                            </thead>
+                                            <tbody class="text-center">
+                                                <tr *ngFor="let type of maintenanceType; let i = index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{type.type_ar}}</td>
+                                                    <td>
+                                                        <button class="btn btn-danger m-1"
+                                                            (click)="deleteMaintenanceType(type.id)">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -282,28 +296,31 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead class="text-secondary text-center">
-                                    <th *ngFor="let type of maintenanceType">
-                                        {{type.type_ar}}
-                                    </th>
-                                    <th>Maintenances</th>
-                                </thead>
-                                <tbody class="text-center">
-                                    <tr *ngFor="let meter of maintenanceKilometer;">
-                                        <td *ngFor="let type of maintenanceType" class="checked"
-                                            (click)="createCarMaintenance(type.id,meter.id)">
-                                            <div *ngFor="let car of carMaintenance;">
-                                                <div *ngIf="car.maintenance_type_id == type.id && car.maintenance_kilometer_id == meter.id"
-                                                    (click)="deleteCarMaintenance(car.id)">
-                                                    <i class="fa-solid fa-check text-success"></i>
+                            <div class="table-responsive overflow-auto">
+
+                                <table class="table table-bordered">
+                                    <thead class="text-secondary text-center">
+                                        <th *ngFor="let type of maintenanceType">
+                                            {{type.type_ar}}
+                                        </th>
+                                        <th>Maintenances</th>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr *ngFor="let meter of maintenanceKilometer;">
+                                            <td *ngFor="let type of maintenanceType" class="checked"
+                                                (click)="createCarMaintenance(type.id,meter.id)">
+                                                <div *ngFor="let car of carMaintenance;">
+                                                    <div *ngIf="car.maintenance_type_id == type.id && car.maintenance_kilometer_id == meter.id"
+                                                        (click)="deleteCarMaintenance(car.id)">
+                                                        <i class="fa-solid fa-check text-success"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>{{meter.kilometer}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                            <td>{{meter.kilometer}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

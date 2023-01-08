@@ -3,9 +3,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">Our Employees Table</h4>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+            
                 <div class="text-center">
                     <button class="btn btn-primary m-1" (click)="displaySettings()">
                         <i class="fa-solid fa-gear"></i>
@@ -23,6 +21,11 @@
                         <i class="fa-solid fa-plus"></i>
                         Add
                     </button>
+                </div>
+                <div class="table-responsive overflow-auto">
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
                 </div>
             </div>
             <div class="card-body">
@@ -1057,23 +1060,27 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of jobTitles; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.job_title | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteJobTitlesConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of jobTitles; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.job_title | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteJobTitlesConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1088,23 +1095,26 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of militaryStatus; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.military | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteMilitariesConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of militaryStatus; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.military | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteMilitariesConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1119,23 +1129,26 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of nationalityStatus; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.nationality | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteNationalitiesConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of nationalityStatus; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.nationality | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteNationalitiesConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1150,23 +1163,26 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of religionStatus; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.religion | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteReligionsConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of religionStatus; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.religion | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteReligionsConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1181,23 +1197,26 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of contractStatus; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.contract | uppercase }}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteContractsConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of contractStatus; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.contract | uppercase }}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteContractsConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1212,23 +1231,26 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of maritalStatus; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.marital | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteMaritalsConfirm(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of maritalStatus; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.marital | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteMaritalsConfirm(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

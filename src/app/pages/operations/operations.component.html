@@ -3,9 +3,8 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title">Operation Table</h4>
-                <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
-                    (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
-                </ngb-pagination>
+
+
                 <div class="text-center">
                     <!-- <button class="btn btn-primary m-1" (click)="filterModal = true">
                         <i class="fa-solid fa-filter"></i>
@@ -21,6 +20,11 @@
                         <i class="fa-solid fa-gear"></i>
                         Settings
                     </button>
+                </div>
+                <div class="table-responsive overflow-auto">
+                    <ngb-pagination [collectionSize]="pagination?.total" [page]="pagination?.current_page" [maxSize]="5"
+                        (pageChange)="loadPage($event)" [pageSize]="pagination?.per_page">
+                    </ngb-pagination>
                 </div>
             </div>
             <div class="card-body">
@@ -413,25 +417,28 @@
                 </div>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let data of area; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.name | uppercase}}</td>
-                            <td>
-                                <button class="btn btn-danger mx-2" (click)="deleteArea(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ngb-pagination [collectionSize]="pagination2?.total" [page]="pagination2?.current_page"
-                    (pageChange)="loadPage2($event)" [pageSize]="pagination2?.per_page">
-                </ngb-pagination>
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let data of area; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.name | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-danger mx-2" (click)="deleteArea(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ngb-pagination [collectionSize]="pagination2?.total" [page]="pagination2?.current_page"
+                        (pageChange)="loadPage2($event)" [pageSize]="pagination2?.per_page">
+                    </ngb-pagination>
+                </div>
             </div>
         </div>
     </div>

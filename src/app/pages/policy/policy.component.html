@@ -9,26 +9,30 @@
                 </button>
             </div>
             <div class="card-body ">
-                <table class="table">
-                    <thead class="text-secondary text-center">
-                        <th>#</th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr *ngFor="let policy of policies; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{policy.type}}</td>
-                            <td>
-                                <button class="btn btn-info mx-2" (click)="openUpdatePolicyModal(policy)">Edit</button>
-                                <button class="btn btn-danger mx-2"
-                                    (click)="deleteInsuranceConfirm(policy.id)">Delete</button>
-                                <!-- <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(policy)">Add
+                <div class="table-responsive overflow-auto">
+
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let policy of policies; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{policy.type}}</td>
+                                <td>
+                                    <button class="btn btn-info mx-2"
+                                        (click)="openUpdatePolicyModal(policy)">Edit</button>
+                                    <button class="btn btn-danger mx-2"
+                                        (click)="deleteInsuranceConfirm(policy.id)">Delete</button>
+                                    <!-- <button class="btn btn-secondary mx-2" (click)="openAddPolicyModal(policy)">Add
                                     Policy</button> -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
