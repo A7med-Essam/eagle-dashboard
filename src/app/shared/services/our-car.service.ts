@@ -33,15 +33,15 @@ export class OurCarService {
     return this._ApiService.postReq("ourCars/exportourCars", "");
   }
 
-  restoreOurCars(): Observable<any> {
-    return this._ApiService.postReq("ourCars/restore", "");
+  restore(cid): Observable<any> {
+    return this._ApiService.postReq("ourCars/restore", { cid });
   }
 
-  forceDeleteOurCars(): Observable<any> {
-    return this._ApiService.postReq("ourCars/forceDelete", "");
+  forceDelete(cid): Observable<any> {
+    return this._ApiService.postReq("ourCars/forceDelete", { cid });
   }
 
-  trashedOurCars(): Observable<any> {
+  getRecycle(): Observable<any> {
     return this._ApiService.postReq("ourCars/trashed", "");
   }
 

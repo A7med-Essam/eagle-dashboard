@@ -1,0 +1,155 @@
+<div class="row my-3 animated" #Main>
+    <div class="col-12">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Contracts Reminder</span>
+            </div>
+            <div class="card-body ">
+                <div class="table-responsive overflow-auto">
+                    <table class="table">
+                        <thead class="text-secondary text-center">
+                            <th>#</th>
+                            <th>Car Name</th>
+                            <th>Contract Start</th>
+                            <th>Contract End</th>
+                            <th>Contract Status</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let remind of reminders; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{remind?.car?.name}}</td>
+                                <td>{{remind?.fromDate | date}}</td>
+                                <td>{{remind?.toDate | date}}</td>
+                                <td>{{remind?.status}}</td>
+
+                                <td>
+                                    <button class="btn btn-primary m-1 px-3" (click)="getById(remind?.id);"><i
+                                            class="fa-regular fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated d-none" #Show>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Contract Info</h4>
+                            <button class="btn btn-dark" (click)="backDetailsBtn()">Back</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive overflow-auto">
+                                <table class="table">
+                                    <thead class="text-muted">
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Contract Status</td>
+                                            <td>{{currentContract?.status}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract Date Start</td>
+                                            <td>{{currentContract?.fromDate}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contract Date End</td>
+                                            <td>{{currentContract?.toDate}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Name</td>
+                                            <td>{{currentContract?.car?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Sub Type</td>
+                                            <td>{{currentContract?.car?.sub_car.car_model}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Color</td>
+                                            <td>{{currentContract?.car?.color}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Model</td>
+                                            <td>{{currentContract?.car?.model}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Car Grade</td>
+                                            <td>{{currentContract?.car?.grade}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Chassis number</td>
+                                            <td>{{currentContract?.car?.chassis_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Plate number</td>
+                                            <td>{{currentContract?.car?.plate_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car motor number</td>
+                                            <td>{{currentContract?.car?.motor_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car kilometer</td>
+                                            <td>{{currentContract?.car?.kilometer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car license end</td>
+                                            <td>{{currentContract?.car?.license_end | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car Contracted Date</td>
+                                            <td>{{currentContract?.car?.contracted_date | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car owner name</td>
+                                            <td>{{currentContract?.car?.owner.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car owner national id</td>
+                                            <td>{{currentContract?.car?.owner.nid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car owner mobile</td>
+                                            <td>{{currentContract?.car?.owner.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Car owner address</td>
+                                            <td>{{currentContract?.car?.owner.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer name</td>
+                                            <td>{{currentContract?.customer?.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer national id</td>
+                                            <td>{{currentContract?.customer?.nid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer mobile</td>
+                                            <td>{{currentContract?.customer?.mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer address</td>
+                                            <td>{{currentContract?.customer?.address}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

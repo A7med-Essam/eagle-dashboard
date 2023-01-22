@@ -34,8 +34,9 @@ import { TabViewModule } from "primeng/tabview";
 import { MultiSelectModule } from "primeng/multiselect";
 import { ReminderComponent } from "app/pages/reminder/reminder.component";
 import { ProfileComponent } from "app/pages/profile/profile.component";
-import {TableModule} from 'primeng/table';
-import {ToggleButtonModule} from 'primeng/togglebutton';
+import { TableModule } from "primeng/table";
+import { ToggleButtonModule } from "primeng/togglebutton";
+import { ContractReminderComponent } from "app/pages/contract-reminder/contract-reminder.component";
 
 @NgModule({
   imports: [
@@ -54,7 +55,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     TabViewModule,
     MultiSelectModule,
     TableModule,
-    ToggleButtonModule
+    ToggleButtonModule,
   ],
   declarations: [
     DashboardComponent,
@@ -75,6 +76,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     AccountingComponent,
     ReminderComponent,
     ProfileComponent,
+    ContractReminderComponent,
   ],
 })
 export class AdminLayoutModule {}

@@ -222,7 +222,9 @@ export class OurCarsComponent implements OnInit {
   // Set Reactive Forms
   setOurCarsForm(car?: any) {
     let date = car?.license_end ? new Date(car?.license_end) : null;
-    let contracted_date = car?.contracted_date ? new Date(car?.contracted_date) : null;
+    let contracted_date = car?.contracted_date
+      ? new Date(car?.contracted_date)
+      : null;
     let grade = car?.grade ? car?.grade : null;
     this.ourCarsForm = this._FormBuilder.group({
       name: new FormControl(car?.name, [Validators.required]),
@@ -1305,5 +1307,50 @@ export class OurCarsComponent implements OnInit {
       inputs.push(row.querySelectorAll("input"));
     });
     return inputs;
+  }
+
+  // ****************** recycle
+  @ViewChild("Recycle") Recycle: any;
+
+  displayRecycle() {
+    this.getRecycle();
+    this._SharedService.fadeOut(this.Main.nativeElement);
+    setTimeout(() => {
+      this._SharedService.fadeIn(this.Recycle.nativeElement);
+    }, 800);
+  }
+
+  recycleBin: any[] = [];
+  getRecycle() {
+    this._OurCarService.getRecycle().subscribe({
+      next: (res) => {
+        this.recycleBin = res.data;
+      },
+    });
+  }
+
+  forceDelete(id) {
+    this._OurCarService.forceDelete(id).subscribe({
+      next: (res) => {
+        this._ToastrService.setToaster(res.message, "success", "success");
+        // this.getRecycle();
+        this.recycleBin = this.recycleBin.filter((data) => data.id != id);
+      },
+    });
+  }
+
+  restore(id) {
+    this._OurCarService.restore(id).subscribe({
+      next: (res) => {
+        this.getOurCars();
+        this.getRecycle();
+        this._ToastrService.setToaster(res.message, "success", "success");
+      },
+    });
+  }
+
+  backRecycleBtn() {
+    this._SharedService.fadeOut(this.Recycle.nativeElement);
+    this.fadeInOurCarsTable();
   }
 }

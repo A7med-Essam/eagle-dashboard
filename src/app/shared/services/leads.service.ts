@@ -95,5 +95,10 @@ export class LeadsService {
   forceDelete(lead_id): Observable<any> {
     return this._ApiService.postReq("lead/forceDelete", { lead_id });
   }
-
+  checkDailyContracts(): Observable<any> {
+    return this._ApiService.postReqWithoutLoader("contractNotifications", "");
+  }
+  getContracts(): Observable<any> {
+    return this._ApiService.postReq("contractNotifications", "");
+  }
 }

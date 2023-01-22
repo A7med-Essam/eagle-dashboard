@@ -49,8 +49,10 @@ export class NavbarComponent implements OnInit {
       this.sidebarClose();
     });
     this.getNotifications();
+    this.getContractNotification();
     setInterval(() => {
       this.getNotifications();
+      this.getContractNotification();
     }, 1000 * 60 * 60);
   }
   getTitle() {
@@ -118,6 +120,8 @@ export class NavbarComponent implements OnInit {
   }
 
   @ViewChild("Notification") Notification: ElementRef<HTMLElement>;
+  @ViewChild("ContractNotification")
+  ContractNotification: ElementRef<HTMLElement>;
 
   getNotifications() {
     this._LeadsService.checkDailyLeads().subscribe({
@@ -125,6 +129,17 @@ export class NavbarComponent implements OnInit {
         this.Notification.nativeElement.setAttribute(
           "data-content",
           res.data.data.length
+        );
+      },
+    });
+  }
+
+  getContractNotification() {
+    this._LeadsService.checkDailyContracts().subscribe({
+      next: (res) => {
+        this.ContractNotification.nativeElement.setAttribute(
+          "data-content",
+          res.data.total_notification_counts
         );
       },
     });

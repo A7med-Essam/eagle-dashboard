@@ -20,6 +20,7 @@ import { CarMaintenanceComponent } from "app/pages/car-maintenance/car-maintenan
 import { OperationReportComponent } from "app/pages/operation-report/operation-report.component";
 import { ReminderComponent } from "app/pages/reminder/reminder.component";
 import { ProfileComponent } from "app/pages/profile/profile.component";
+import { ContractReminderComponent } from "app/pages/contract-reminder/contract-reminder.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "profile", component: ProfileComponent },
@@ -151,6 +152,14 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: "reminder",
     component: ReminderComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      permission: ["read_leads"],
+    },
+  },
+  {
+    path: "contract-reminder",
+    component: ContractReminderComponent,
     canActivate: [PermissionGuard],
     data: {
       permission: ["read_leads"],
