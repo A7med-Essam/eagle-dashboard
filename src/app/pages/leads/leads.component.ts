@@ -949,4 +949,14 @@ export class LeadsComponent implements OnInit {
       .getSourceSubTypes(source)
       .subscribe((res) => (this.subSources = res.data));
   }
+
+  exportLeadReplay(id: number) {
+    this._LeadsService.exportLeadReplay(id).subscribe({
+      next: (res) => {
+        const link = document.createElement("a");
+        link.href = res.data;
+        link.click();
+      },
+    });
+  }
 }

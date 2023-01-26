@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="card-title">Leads Table</h4>
-  
+
 
         <div class="text-center">
           <button class="btn btn-primary m-1" (click)="optionsModal = true;">
@@ -186,8 +186,9 @@
                     <tr>
                       <td>Status</td>
                       <td>
-                        <p-toggleButton [(ngModel)]="leadStatus" onLabel="Completed" offLabel="Pending" 
-                        (onChange)="changeLeadStatus($event)" [style]="{'width': '10em', 'fontSize':'10px'}"></p-toggleButton>
+                        <p-toggleButton [(ngModel)]="leadStatus" onLabel="Completed" offLabel="Pending"
+                          (onChange)="changeLeadStatus($event)" [style]="{'width': '10em', 'fontSize':'10px'}">
+                        </p-toggleButton>
                       </td>
                     </tr>
                     <tr *ngIf="seeReplay">
@@ -207,6 +208,15 @@
                       <td><button class="btn btn-info d-flex justify-content-center align-items-center"
                           (click)="addReplayModal = true" style="width: 20px; height: 30px;"><i
                             class="fa-solid fa-comment"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td>Export Lead Replay</td>
+                      <td>
+                        <button class="btn btn-info d-flex justify-content-center align-items-center"
+                          (click)="exportLeadReplay(currentLead?.id)" style="width: 20px; height: 30px;">
+                          <i class="fa-regular fa-file-excel"></i>
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

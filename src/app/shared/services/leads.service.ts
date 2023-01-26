@@ -101,4 +101,8 @@ export class LeadsService {
   getContracts(): Observable<any> {
     return this._ApiService.postReq("contractNotifications", "");
   }
+
+  exportLeadReplay(lead_id: number): Observable<any> {
+    return this._ApiService.postReq("lead/LeadReplies", { lead_id });
+  }
 }
