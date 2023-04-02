@@ -385,7 +385,12 @@
                   formControlName='company_policy_id' [(ngModel)]="selectedPolicy" optionValue="value"></p-dropdown>
               </div>
             </div>
-
+            <div class="col-md-3 pr-md-1">
+              <div class="form-group">
+                <p-calendar appendTo="body" placeholder="Select Created time" [minDate]="minimumDate"
+                  [style]="{'width':'100%'}" formControlName='created_at'></p-calendar>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">

@@ -480,6 +480,7 @@ export class LeadsComponent implements OnInit {
       insuranceCompany: new FormControl(lead?.insuranceCompany),
       source: new FormControl(lead?.source),
       sub_source: new FormControl(lead?.sub_source),
+      created_at: new FormControl(lead?.created_at),
     });
   }
 
